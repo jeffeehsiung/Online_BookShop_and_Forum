@@ -1,0 +1,119 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+header {
+    background-color: #232f3e;
+    color: #fff;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+#intro {
+    background-color: #f4f4f4;
+    padding: 50px 0;
+}
+
+#books h3 {
+    font-size: 24px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.book-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.book {
+    width: 30%;
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 10px rgba(0,0,0,.1);
+}
+
+.book img {
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+
+.book h4 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.book p {
+    margin-bottom: 20px;
+}
+
+.btn {
+    display: inline-block;
+    background-color: #3c8dbc;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.btn:hover {
+background-color: #3071
+}
+
+
+.book .btn {
+    background-color: #0072b1;
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    font-size: 16px;
+    padding: 10px;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: background-color 0.2s ease;
+}
+
+.book .btn:hover {
+    background-color: #005d8f;
+}
+
+@media screen and (max-width: 768px) {
+    .book {
+        flex-basis: calc(50% - 20px);
+    }
+}
