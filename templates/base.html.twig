@@ -1,19 +1,221 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta property="og:title" content="bookbinder" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="twitter:card" content="summary_large_image" />
+    <style data-tag="reset-style-sheet">
+        html {  line-height: 1.15;}body {  margin: 0;}* {  box-sizing: border-box;  border-width: 0;  border-style: solid;}p,li,ul,pre,div,h1,h2,h3,h4,h5,h6,figure,blockquote,figcaption {  margin: 0;  padding: 0;}button {  background-color: transparent;}button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}button,select {  text-transform: none;}button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}a {  color: inherit;  text-decoration: inherit;}input {  padding: 2px 4px;}img {  display: block;}html { scroll-behavior: smooth  }
+    </style>
+    <style data-tag="default-style-sheet">
+        html {
+         font-family: Inter;
+         font-size: 16px;
+       }
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+       body {
+         font-weight: 400;
+         font-style:normal;
+         text-decoration: none;
+         text-transform: none;
+         letter-spacing: normal;
+         line-height: 1.15;
+         color: var(--dl-color-gray-black);
+         background-color: var(--dl-color-gray-white);
+       }
+    </style>
+    <title>{% block title %}Book Binder{% endblock %}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    {% for stylesheet in stylesheets %}
+        <link href="{{ asset('css/' ~ stylesheet) }}" rel="stylesheet" type="text/css"/>
+    {% endfor %}
+    {% if javascripts is defined %}
+        {% for script in javascripts %}
+        <script src="{{ asset('js/' ~ script) }}" defer></script>
+        {% endfor %}
+    {% endif %}
+
+    {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+
+<body>
+  <script
+    type="text/javascript"
+    src="https://unpkg.com/dangerous-html@0.1.12/dist/default/lib.umd.js"
+  ></script>
+  <link href="{{ asset('css/home.css') }}" rel="stylesheet" type="text/css"/>
+
+  <header>
+  <nav class="navbar-navbar navbar-root-class-name">
+    <section>
+      <h1>BooKABLE</h1>
+    </section>
+    <div class="navbar-nav-content">
+      <div class="navbar-nav-links">
+        <span class="navbar-link nav-link">Features</span>
+        <span class="nav-link">About us</span>
+        <span class="nav-link">Browse a book</span>
+        <span class="nav-link">Community</span>
+        <span class="nav-link">Settings</span>
+      </div>
+      <div class="get-started navbar-get-started">
+        <span class="navbar-text">Get started</span>
+      </div>
+      <div id="open-mobile-menu" class="navbar-hamburger get-started">
+        <img
+          alt="image"
+          src="public/playground_assets/hamburger-200h.png"
+          class="navbar-image"
+        />
+      </div>
+    </div>
+    <div id="mobile-menu" class="navbar-mobile-menu">
+      <div class="navbar-branding">
+        <img
+          alt="image"
+          src="public/playground_assets/planical7012-ttpb.svg"
+          class="navbar-image1"
+        />
+        <div id="close-mobile-menu" class="navbar-container">
+          <svg viewBox="0 0 1024 1024" class="navbar-icon">
+            <path
+              d="M225.835 286.165l225.835 225.835-225.835 225.835c-16.683 16.683-16.683 43.691 0 60.331s43.691 16.683 60.331 0l225.835-225.835 225.835 225.835c16.683 16.683 43.691 16.683 60.331 0s16.683-43.691 0-60.331l-225.835-225.835 225.835-225.835c16.683-16.683 16.683-43.691 0-60.331s-43.691-16.683-60.331 0l-225.835 225.835-225.835-225.835c-16.683-16.683-43.691-16.683-60.331 0s-16.683 43.691 0 60.331z"
+            ></path>
+          </svg>
+        </div>
+      </div>
+      <div class="navbar-nav-links1">
+        <span class="nav-link">Features</span>
+        <span class="nav-link">About us</span>
+        <span class="nav-link">Browse a book</span>
+        <span class="nav-link">Community</span>
+        <span class="nav-link">Settings</span>
+      </div>
+      <div class="get-started">
+        <span class="navbar-text1">Get started</span>
+      </div>
+    </div>
+    <div>
+    </div>
+  </nav>
+  </header>
+
+  <main>
+      {% block content %}{% endblock %}
+  </main>
+
+
+  <footer class="home-footer">
+    <div class="home-content6">
+      <main class="home-main-content">
+        <div class="home-content7">
+          <header class="home-main4">
+            <div class="home-header14">
+            </div>
+            <div class="home-socials">
+              <a
+                href="https://example.com"
+                target="_blank"
+                rel="noreferrer noopener"
+                class="home-link"
+              >
+                <img
+                  alt="image"
+                  src="public/playground_assets/linkedin-200h.png"
+                  class="social"
+                />
+              </a>
+              <a
+                href="https://example.com"
+                target="_blank"
+                rel="noreferrer noopener"
+                class="home-link1"
+              >
+                <img
+                  alt="image"
+                  src="public/playground_assets/instagram-200h.png"
+                  class="social"
+                />
+              </a>
+              <a
+                href="https://example.com"
+                target="_blank"
+                rel="noreferrer noopener"
+                class="home-link2"
+              >
+                <img
+                  alt="image"
+                  src="public/playground_assets/twitter-200h.png"
+                  class="social"
+                />
+              </a>
+            </div>
+          </header>
+          <header class="home-categories">
+            <div class="home-category">
+              <div class="home-header15">
+                <span class="footer-header">Solutions</span>
+              </div>
+              <div class="home-links">
+                <span class="footer-link">Responsive Web Design</span>
+                <span class="footer-link">Responsive Prototypes</span>
+              </div>
+            </div>
+            <div class="home-category1">
+              <div class="home-header16">
+                <span class="footer-header">Company</span>
+              </div>
+              <div class="home-links1">
+                <span class="footer-link">About</span>
+                <span class="footer-link">Team</span>
+                <span class="footer-link">News</span>
+              </div>
+            </div>
+          </header>
+        </div>
+        <section class="home-copyright">
+          <span class="home-text56">
+            © 2022 latitude. All Rights Reserved.
+          </span>
+        </section>
+      </main>
+      <main class="home-subscribe">
+        <main class="home-main5">
+          <h1 class="home-heading18">Subscribe to our newsletter</h1>
+          <div class="home-input-field">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              class="home-textinput input"
+            />
+            <div class="home-buy3 button">
+              <span class="home-text57">-&gt;</span>
+              <span class="home-text58">
+                <span>Subscribe now</span>
+                <br />
+              </span>
+            </div>
+          </div>
+        </main>
+        <h1 class="home-notice">
+          By subscribing to our newsletter you agree with our Terms and
+          Conditions.
+        </h1>
+      </main>
+      <section class="home-copyright1">
+        <span class="home-text61">
+          © 2022 latitude. All Rights Reserved.
+        </span>
+      </section>
+    </div>
+  </footer>
+</body>
 </html>
