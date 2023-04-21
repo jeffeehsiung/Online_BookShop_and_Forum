@@ -1,3 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block stylesheets %}
+    {# <link href="{{ asset('css/Home.css') }}" rel="stylesheet"/> #}
+{% endblock %}
+
+{% block javascripts %}
+
+{% endblock %}
+
+{% block body %}
+    <h1>Welcome to Bookable</h1>
+    <head>
+        <meta name="welcome" content="width=device-width, initial-scale=1">
+        <title>Welcome</title>
+    <style> {# style should be through css, temporarely here because of example #}
+        #overlay {
+            position: fixed;
+            display: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        #text{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            font-size: 50px;
+            color: white;
+            transform: translate(-50%,-50%);
+            -ms-transform: translate(-50%,-50%);
+        }
+    </style>
+    </head>
+    <body>
+
+    <div id="overlay" onclick="off()">
+        <div id="text">Overlay Text</div>
+    </div>
+
+    <div style="padding:20px">
+        <h2>Overlay with Text</h2>
+        <button onclick="on()">Turn on overlay effect</button>
+    </div>
+
+    <script> {# putting code in html is not ideal, temporarely here because of example project #}
+        function on() {
+            document.getElementById("overlay").style.display = "block";
+        }
+
+        function off() {
+            document.getElementById("overlay").style.display = "none";
+        }
+    </script>
+
+    </body>
+{% endblock %}
+
+{#
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,3 +78,4 @@
 
 </body>
 </html>
+#}
