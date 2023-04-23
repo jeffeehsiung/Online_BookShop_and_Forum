@@ -5,15 +5,60 @@
 {% endblock %}
 
 {% block stylesheets %}
-
+    <link href="{{ asset('css/home.css') }}" rel="stylesheet"/>
 {% endblock %}
 
 {% block javascripts %}
 
 {% endblock %}
 
-{% block body %}
+{% block content %}
+    {#
+    In this code, each drop-down menu is enclosed in a <select> tag, which contains a list of <option> tags representing
+    the different options in the menu. The id attribute is used to uniquely identify each menu, while the name attribute
+    is used to group the selected option with the corresponding form data when the form is submitted. Finally, a submit
+    button is included to allow the user to submit the selected options.
+    #}
+    <h1>Four Drop-down Menus</h1>
+    <form>
+        <label for="privacy-menu">Privacy:</label>
+        <select id="privacy-menu" name="privacy">
+            <option value="public">Public</option>
+            <option value="private">Private</option>
+            <option value="friends">Friends Only</option>
+            <option value="custom">Custom</option>
+        </select>
+        <br><br>
 
+        <label for="info-menu">Information:</label>
+        <select id="info-menu" name="information">
+            <option value="contact">Contact Info</option>
+            <option value="history">Browsing History</option>
+            <option value="location">Location</option>
+            <option value="activity">Activity</option>
+        </select>
+        <br><br>
+
+        <label for="pref-menu">Preferences:</label>
+        <select id="pref-menu" name="preferences">
+            <option value="language">Language</option>
+            <option value="theme">Theme</option>
+            <option value="notifications">Notifications</option>
+            <option value="security">Security</option>
+        </select>
+        <br><br>
+
+        <label for="profile-menu">Profile:</label>
+        <select id="profile-menu" name="profile">
+            <option value="bio">Bio</option>
+            <option value="picture">Profile Picture</option>
+            <option value="status">Status</option>
+            <option value="activity">Activity</option>
+        </select>
+        <br><br>
+
+        <input type="submit" value="Submit">
+    </form>
 {% endblock %}
 {#
 <!DOCTYPE html>

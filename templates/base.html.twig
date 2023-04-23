@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>{%block title%}Book Binder{% endblock %}</title>
+    <title>{%block title%}Book Binder{% endblock %}</title> {# to prepend title in your own page: {% block title %}Title | {{ parent() }}{% endblock %} #}
     <meta charset="UTF-8">
     <meta property="og:title" content="bookbinder" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
