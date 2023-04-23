@@ -54,9 +54,12 @@ class BookableController extends AbstractController
         }
     }
 
-    #[Route("/Bookable/welcome", name: "welcome")]
+    #[Route("/welcome", name: "welcome")]
     public function Welcome(): Response {
-        return $this->render('welcome.html.twig',['title'=>'Welcome!']);
+        $stylesheets = ['welcome.css'];
+        return $this->render('welcome.html.twig',[
+            'title'=>'Welcome!',
+            'stylesheets' => $stylesheets]);
     }
 
 }

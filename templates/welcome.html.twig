@@ -1,66 +1,42 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-
+Welcome
 {% endblock %}
 
-{% block stylesheets %}
-    {# <link href="{{ asset('css/Home.css') }}" rel="stylesheet"/> #}
-{% endblock %}
-
-{% block javascripts %}
-
-{% endblock %}
-
-{% block body %}
+{% block content %}
     <h1>Welcome to Bookable</h1>
     <head>
         <meta name="welcome" content="width=device-width, initial-scale=1">
         <title>Welcome</title>
-    <style> {# style should be through css, temporarely here because of example #}
-        #overlay {
-            position: fixed;
-            display: none;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 2;
-            cursor: pointer;
-        }
 
-        #text{
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            font-size: 50px;
-            color: white;
-            transform: translate(-50%,-50%);
-            -ms-transform: translate(-50%,-50%);
-        }
-    </style>
     </head>
     <body>
 
-    <div id="overlay" onclick="off()">
-        <div id="text">Overlay Text</div>
+    <div id="Login" onclick="off()">
+        <div id="text">Log in to your account</div>
+        <form method="post">
+            <label for="Author">Author:</label>
+            <input type="text" id="Author" name="Author" onkeyup="isFilledIn()" required><br>
+            <label for="feedback">feedback:</label>
+            <input type="text" id="feedback" name="feedback" onkeyup="isFilledIn()" required><br>
+            <input type="submit" name="Submit" id="Submit" value="Submit"/>
+        </form>
+
     </div>
 
-    <div style="padding:20px">
-        <h2>Overlay with Text</h2>
-        <button onclick="on()">Turn on overlay effect</button>
+    <div>
+        <h2>please log in or sign up</h2>
+        <button onclick="on()">log in</button>
     </div>
 
     <script> {# putting code in html is not ideal, temporarely here because of example project #}
         function on() {
-            document.getElementById("overlay").style.display = "block";
+            document.getElementById("Login").style.display = "block";
         }
 
         function off() {
-            document.getElementById("overlay").style.display = "none";
+            document.getElementById("Login").style.display = "none";
         }
     </script>
 
