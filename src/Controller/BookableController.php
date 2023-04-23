@@ -8,17 +8,38 @@ use function Symfony\Component\String\u;
 
 class BookableController extends AbstractController
 {
-    private array $stylesheets;
-
-    public function __construct() {
-        $this->stylesheets[] = 'home.css';
-    }
     #[Route('/settings')]
     public function settings(): Response
     {
         // TODO: split twig templates into file format 'controllername/methodname.html.twig' -> example: 'bookable/settings.html.twig'
+        $stylesheets = ['settings.css'];
+        $javascripts = ['settings.js'];
+        $bookGenres = array(
+            "Fiction",
+            "Mystery",
+            "Romance",
+            "Science Fiction",
+            "Fantasy",
+            "Thriller",
+            "Biography",
+            "History",
+            "Self-help",
+            "Horror",
+            "Cooking",
+            "Travel",
+            "Art",
+            "Business",
+            "Religion",
+            "Humor",
+            "Children's",
+            "Young Adult"
+        );
+
         return $this->render('setting.html.twig',[
-            'username' => 'test_user'
+            'username' => 'test_user',
+            'stylesheets' => $stylesheets,
+            'javascripts' => $javascripts,
+            'bookgenres' => $bookGenres
         ]);
     }
 

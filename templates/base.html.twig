@@ -13,7 +13,7 @@
     </style>
     <style data-tag="default-style-sheet">
         html {
-         font-family: Inter;
+          font-family: Inter, serif; {# TODO: check if serif messed up style #}
          font-size: 16px;
        }
 
@@ -57,12 +57,12 @@
     <script type="text/javascript"
             src="https://unpkg.com/dangerous-html@0.1.12/dist/default/lib.umd.js"
     ></script>
-    <link href="css/home.css" rel="stylesheet" />
+    <link href="{{ asset('css/home.css') }}" rel="stylesheet" />
   <div class="home-container">
   <header>
-  <nav class="navbar-navbar navbar-root-class-name">
-    <section>
-      <h1>BooKABLE</h1>
+  <nav class="navbar-navbar navbar-root-class-name" id="navbar">
+    <section id="logo"> {# TODO: create proper logo #}
+      <h1>Bookable</h1>
     </section>
     <div class="navbar-nav-content">
       <div class="navbar-nav-links">
@@ -78,7 +78,7 @@
       <div id="open-mobile-menu" class="navbar-hamburger get-started">
         <img
           alt="image"
-          src="public/images/hamburger-200h.png"
+          src="{{ asset('images/hamburger-200h.png') }}"
           class="navbar-image"
         />
       </div>
@@ -87,7 +87,7 @@
       <div class="navbar-branding">
         <img
           alt="image"
-          src="public/images/planical7012-ttpb.svg"
+          src="{{ asset('images/planical7012-ttpb.svg') }}"
           class="navbar-image1"
         />
         <div id="close-mobile-menu" class="navbar-container">
@@ -131,7 +131,7 @@
               >
                 <img
                         alt="image"
-                        src="public/images/linkedin.png"
+                        src="{{ asset('images/linkedin.png') }}"
                         class="social"
                 />
               </a>
@@ -143,7 +143,7 @@
               >
                 <img
                         alt="image"
-                        src="public/images/instagram.png"
+                        src="{{ asset('images/instagram.png') }}"
                         class="social"
                 />
               </a>
@@ -155,7 +155,7 @@
               >
                 <img
                         alt="image"
-                        src="public/images/twitter-200h.png"
+                        src="{{ asset('images/twitter-200h.png') }}"
                         class="social"
                 />
               </a>
@@ -193,11 +193,13 @@
         <main class="home-main2">
           <h1 class="home-heading18">Subscribe to our newsletter</h1>
           <div class="home-input-field">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              class="home-textinput input"
-            />
+            <label>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                class="home-textinput input"
+              />
+            </label>
             <div class="home-buy3 button">
               <span class="home-text57">-&gt;</span>
               <span class="home-text58">
