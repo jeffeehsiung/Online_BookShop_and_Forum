@@ -18,7 +18,7 @@ class BookableController extends AbstractController
     {
         // TODO: split twig templates into file format 'controllername/methodname.html.twig' -> example: 'bookable/settings.html.twig'
         return $this->render('setting.html.twig',[
-            'username' => 'test_user', // TODO: edit once user login has been implemented
+            'username' => 'test_user',
             'stylesheets' => 'settings.css'
         ]);
     }

@@ -1,7 +1,8 @@
+{# TODO: integrate all javascript with encore #}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Book Binder - {%block title%}{% endblock %}</title>
+    <title>{%block title%}Book Binder{% endblock %}</title>
     <meta charset="UTF-8">
     <meta property="og:title" content="bookbinder" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -110,56 +111,6 @@
     </div>
   </nav>
   </header>
-  <section class="home-section">
-    <div class="home-hero">
-      <div class="home-content">
-        <main class="home-main">
-          <header class="home-header">
-            <h1 class="home-heading">
-              The fastest way to learn and share knowledge
-            </h1>
-          </header>
-          <div class="home-buttons">
-            <div class="home-get-started button">
-              <span class="home-text">Get started</span>
-            </div>
-            <div class="home-get-started1 button">
-              <span class="home-text01">View features</span>
-            </div>
-          </div>
-        </main>
-        <div class="home-highlight">
-          <div class="home-avatars">
-            <img
-              alt="image"
-              src="https://images.unsplash.com/photo-1552234994-66ba234fd567?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDN8fHBvdHJhaXR8ZW58MHx8fHwxNjY3MjQ0ODcx&amp;ixlib=rb-4.0.3&amp;w=200"
-              class="home-image avatar"
-            />
-            <img
-              alt="image"
-              src="https://images.unsplash.com/photo-1610276198568-eb6d0ff53e48?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDF8fHBvdHJhaXR8ZW58MHx8fHwxNjY3MjQ0ODcx&amp;ixlib=rb-4.0.3&amp;w=200"
-              class="home-image01 avatar"
-            />
-            <img
-              alt="image"
-              src="https://images.unsplash.com/photo-1618151313441-bc79b11e5090?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDEzfHxwb3RyYWl0fGVufDB8fHx8MTY2NzI0NDg3MQ&amp;ixlib=rb-4.0.3&amp;w=200"
-              class="home-image02 avatar"
-            />
-          </div>
-          <label class="home-caption1">
-            Loved by 10,000+ people like you.
-          </label>
-        </div>
-      </div>
-      <div class="home-image05">
-        <img
-          alt="image"
-          src="public/images/heroimage-1500h.png"
-          class="home-image06"
-        />
-      </div>
-    </div>
-  </section>
 
   <main>
       {% block content %}{% endblock %}
