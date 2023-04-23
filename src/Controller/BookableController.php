@@ -46,11 +46,17 @@ class BookableController extends AbstractController
     #[Route('/book/{bookTitle}')]
     public function book($bookTitle = null): Response
     {
+        $stylesheets = ['book.css'];
+        $javascripts = ['book.js'];
         if($bookTitle) {
             $bookTitle = u(str_replace('-', ' ', $bookTitle))->title(true);
-            return new Response("Book title: $bookTitle");
+            return $this->render('book.html.twig', [
+                'bookTitle' => $bookTitle,
+                'stylesheets' => $stylesheets,
+                'javascripts' => $javascripts
+            ]);
         } else {
-            return new Response('No book title passed');
+            return new Response('Error: no book title detected');
         }
     }
 
@@ -58,5 +64,4 @@ class BookableController extends AbstractController
     public function Welcome(): Response {
         return $this->render('welcome.html.twig',['title'=>'Welcome!']);
     }
-
 }

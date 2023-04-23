@@ -1,6 +1,7 @@
 let coll = document.getElementsByClassName("settings-submenu");
 let settings = document.getElementById("settings");
 
+// Limit width to width of header
 settings.style.width = document.getElementById("navbar").offsetWidth.toString() + "px";
 
 for (let i = 0; i < coll.length; i++) {
