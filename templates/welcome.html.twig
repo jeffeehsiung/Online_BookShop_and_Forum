@@ -5,7 +5,7 @@ Welcome
 {% endblock %}
 
 {% block content %}
-    <h1>Welcome to Bookable</h1>
+    <h1 class="welcome_text">Welcome to Bookable</h1>
     <head>
         <meta name="welcome" content="width=device-width, initial-scale=1">
         <title>Welcome</title>
@@ -14,8 +14,8 @@ Welcome
     <body>
 
     <div id="Login" onclick="off()">
-        <div id="text">Log in to your account</div>
-        <form method="post">
+        <p class="login_text">Log in to your account</p>
+        <form method="post" class="login_text">
             <label for="Author">Author:</label>
             <input type="text" id="Author" name="Author" onkeyup="isFilledIn()" required><br>
             <label for="feedback">feedback:</label>
@@ -25,9 +25,9 @@ Welcome
 
     </div>
 
-    <div>
-        <h2>please log in or sign up</h2>
-        <button onclick="on()">log in</button>
+    <div class="welcome_text">
+        <h2 class="welcome_text">please log in or sign up</h2>
+        <button onclick="on()" class="welcome_text">log in</button>
     </div>
 
     <script> {# putting code in html is not ideal, temporarely here because of example project #}
