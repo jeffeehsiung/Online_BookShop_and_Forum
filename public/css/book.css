@@ -1,0 +1,99 @@
+#book-page {
+    display: flex;
+    column-gap: 30px;
+}
+
+#book-information {
+    width: 100%;
+}
+
+#like-system {
+
+}
+
+
+
+h1 {
+    text-align: left;
+    font-family: Poppins, serif;
+    font-weight: 500;
+    font-stretch: normal;
+    text-decoration: none;
+    color: white;
+}
+
+h2 {
+    text-align: left;
+    font-family: Poppins, serif;
+    font-weight: 250;
+    font-stretch: normal;
+    text-decoration: none;
+    color: white;
+}
+
+p {
+    color: white;
+    font-family: Poppins, serif;
+}
+
+.ratingButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+
+}
+
+.btn-img {
+    display: block;
+    height: 30px;
+}
+.like {
+    color: #4CAF50;
+}
+
+.dislike {
+    color: #f44336;
+}
+
+/* TODO: copied from settings.css, refactor somehow */
+.button {
+    color: black;
+    background-color: #80FF44;
+    font-weight: 500;
+    width: fit-content;
+    height: fit-content;
+    padding: 15px;
+}
+
+.progress-container {
+    width: 50%;
+    background-color: black;
+    border-radius: 15px;
+    overflow: hidden;
+    display: inline-block;
+    padding: 5px;
+    margin: 30px auto 0;
+}
+
+.progress-bar {
+    width: 60%;
+    height: 5px;
+    background-color: #80FF44;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 30px;
+    color: white;
+}
+
+#book-options {
+    display: flex;
+    column-gap: 20px;
+    padding-bottom: 30px;
+}
+
+.about {
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
+}
