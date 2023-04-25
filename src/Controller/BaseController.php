@@ -12,7 +12,7 @@ class BaseController extends AbstractController
     private array $stylesheets;
 
     public function __construct() {
-        $this->stylesheets[] = 'home.css';
+        $this->stylesheets[] = 'base.css';
     }
 
     #[Route('/', name: 'home')]
