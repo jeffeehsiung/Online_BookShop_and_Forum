@@ -5,42 +5,39 @@ Welcome
 {% endblock %}
 
 {% block content %}
-    <h1 class="welcome_text">Welcome to Bookable</h1>
-    <head>
-        <meta name="welcome" content="width=device-width, initial-scale=1">
-        <title>Welcome</title>
 
-    </head>
-    <body>
-
-    <div id="Login" onclick="off()">
-        <p class="login_text">Log in to your account</p>
-        <form method="post" class="login_text">
-            <label for="Author">Author:</label>
-            <input type="text" id="Author" name="Author" onkeyup="isFilledIn()" required><br>
-            <label for="feedback">feedback:</label>
-            <input type="text" id="feedback" name="feedback" onkeyup="isFilledIn()" required><br>
-            <input type="submit" name="Submit" id="Submit" value="Submit"/>
-        </form>
-
-    </div>
-
-    <div class="welcome_text">
+    <section class="welcome_text">
+        <h1 class="welcome_text">Welcome to Bookable</h1>
         <h2 class="welcome_text">please log in or sign up</h2>
         <button onclick="on()" class="welcome_text">log in</button>
-    </div>
+    </section>
+
+    <section id="Login" onclick="off()">
+        <section>
+            <p class="login_text">Log in to your account</p>
+            <form method="post" class="login_text">
+                <label for="Author">Author:</label>
+                <input type="text" id="Author" name="Author" onkeyup="isFilledIn()" required><br>
+                <label for="feedback">feedback:</label>
+                <input type="text" id="feedback" name="feedback" onkeyup="isFilledIn()" required><br>
+                <input type="submit" name="Submit" id="Submit" value="Submit"/>
+            </form>
+        </section>
+    </section>
+
+
 
     <script> {# putting code in html is not ideal, temporarely here because of example project #}
+        let login = document.getElementById("Login");
+        login.style.width = document.getElementById("navbar").offsetWidth.toString() + "px";
         function on() {
-            document.getElementById("Login").style.display = "block";
+            document.getElementById("Login").style.display = "flex";
         }
 
         function off() {
             document.getElementById("Login").style.display = "none";
         }
     </script>
-
-    </body>
 {% endblock %}
 
 {#
