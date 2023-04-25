@@ -1,4 +1,6 @@
+main {
 
+}
 
 #Login {
     position:relative;
@@ -39,6 +41,7 @@
     margin-left: 10px;
     margin-right: 10px;
     font-size: 30px;
+    color: white;
 }
 
 #Submit {
@@ -63,8 +66,9 @@ form {
     color: white;
     font-size: 30px;
     display: flex;
-    justify-content: center;
     flex-direction: column;
+    align-items: center;
+
 }
 
 
