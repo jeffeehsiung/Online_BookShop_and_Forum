@@ -1,0 +1,97 @@
+h1 {
+    text-align: left;
+    font-family: Poppins, serif;
+    font-weight: 500;
+    font-stretch: normal;
+    text-decoration: none;
+    color: white;
+}
+
+h2 {
+    text-align: left;
+    font-family: Poppins, serif;
+    font-weight: 250;
+    font-stretch: normal;
+    text-decoration: none;
+    color: white;
+}
+
+h3 {
+    text-align: left;
+    font-family: Poppins, serif;
+    font-weight: 500;
+    font-stretch: normal;
+    text-decoration: none;
+    color: #2A2A2A;
+    background-color: #b7e8c5;
+    width: fit-content;
+    padding: 5px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
+}
+.book{
+    display: flex;
+    flex-direction: column;
+    position: center;
+    width: 200px;
+    gap: 25px;
+    color: #B3B3B3;
+}
+
+.book-list{
+    display: flex;
+    flex-direction: row;
+    position: center;
+    width: fit-content;
+    gap: 50px;
+    background-color: #1f1f1f;
+    border-radius: 10px;
+    padding-bottom: 30px;
+    margin-bottom: 20px;
+}
+
+
+.book-list p{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.book-list a{
+    background-color: #b7e8c5;
+    color: #2A2A2A;
+    padding: 10px;
+    border-radius: 20px;
+    align-self: center;
+    width: fit-content;
+}
+.book-list p{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#home-page{
+    display: flex;
+    flex-direction: column;
+    column-gap: 10px;
+
+}
+
+
+#intro{
+    color: #B3B3B3;
+    text-align: left;
+    font-family: Poppins, serif;
+    font-weight: 500;
+    font-stretch: normal;
+    text-decoration: none;
+    padding-bottom: 20px;
+}
+
+#books{
+    color: #B3B3B3;
+    text-align: left;
+    font-family: Poppins, serif;
+    font-weight: 500;
+    font-stretch: normal;
+    text-decoration: none;
+}

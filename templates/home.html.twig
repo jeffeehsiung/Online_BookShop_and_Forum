@@ -12,11 +12,65 @@
 
 {% endblock %}
 
-{% block body %}
+{% block content %}
+    <section id="home-page">
+        <section id="intro">
+            <div class="container">
+                <h2>Reccomended books for your categories</h2>
+                <p>Have a look at the trending fiction and non fiction books</p>
+            </div>
+        </section>
+        <section id="books">
+            <div class="container">
+                <h3>Fiction</h3>
+                <div class="book-list">
+                    <div class="book">
+                        <img src="{{ asset('images/book1.png') }}" alt="Cover 1" width="200" height="300">
+                        <h4>The Silent Patient</h4>
+                        <h4>Alex Michaelidis</h4>
+                        <a href="{{path("home")}}" class="btn">Buy Now</a>
+                    </div>
+                    <div class="book">
+                        <img src="{{ asset('images/book2.png') }}" alt="Cover 2" width="200" height="300">
+                        <h4>The Testaments</h4>
+                        <h4>Margaret Atwood</h4>
+                        <a href="{{path("home")}}" class="btn">Buy Now</a>
+                    </div>
+                    <div class="book">
+                        <img src="{{ asset('images/book3.jpg') }}" alt="Cover 3" width="200" height="300">
+                        <h4>The Dutch House</h4>
+                        <h4>Ann Patchett</h4>
+                        <a href="{{path("home")}}" class="btn">Buy Now</a>
+                    </div>
+                </div>
+                <h3>Non-Fiction</h3>
+                <div class="book-list">
+                    <div class="book">
+                        <img src="{{ asset('images/book4.jpg') }}" alt="Cover 4" width="200" height="300">
+                        <h4>Caste: The Origins of Our Discontents</h4>
+                        <h4>Isabel Wilkerson</h4>
+                        <a href="{{path("home")}}" class="btn">Buy Now</a>
+                    </div>
+                    <div class="book">
+                        <img src="{{ asset('images/book5.jpg') }}" alt="Cover 5" width="200" height="300">
+                        <h4>The Body Keeps the Score: Brain, Mind, and Body in the Healing of Trauma</h4>
+                        <h4>Bessel van der Kolk</h4>
+                        <a href="{{path("home")}}" class="btn">Buy Now</a>
+                    </div>
+                    <div class="book">
+                        <img src="{{ asset('images/book6.jpg') }}" alt="Cover 1" width="200" height="300">
+                        <h4>Empire of Pain: The Secret History of the Sackler Dynasty</h4>
+                        <h4>Patrick Radden Keefe</h4>
+                        <a href="{{path("home")}}" class="btn">Buy Now</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
 
 {% endblock %}
 
-
+{# TODO: add more things: reccomendations from followed author,books, people #}
 
 {#  this is a reference in regular html
 <!DOCTYPE html>
