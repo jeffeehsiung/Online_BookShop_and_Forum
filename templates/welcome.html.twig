@@ -12,15 +12,15 @@ Welcome
         <button onclick="on()" class="welcome_text">log in</button>
     </section>
 
-    <section id="Login" onclick="off()">
+    <section id="Login" >
         <section>
-            <p class="login_text">Log in to your account</p>
-            <form method="post" class="login_text">
-                <label for="Author">Author:</label>
-                <input type="text" id="Author" name="Author" onkeyup="isFilledIn()" required><br>
-                <label for="feedback">feedback:</label>
-                <input type="text" id="feedback" name="feedback" onkeyup="isFilledIn()" required><br>
-                <input type="submit" name="Submit" id="Submit" value="Submit"/>
+            <p class="login_text" id="login_title">Log in to your account</p>
+            <form method="post">
+                <label for="username" class="login_text">username:</label>
+                <input type="text" id="username" name="username" onkeyup="isFilledIn()" required><br>
+                <label for="password" class="login_text">password:</label>
+                <input type="text" id="password" name="password" onkeyup="isFilledIn()" required><br>
+                <input type="submit" name="Submit" id="Submit" value="Submit" onclick="off()"/>
             </form>
         </section>
     </section>
