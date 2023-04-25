@@ -67,4 +67,12 @@ class BookableController extends AbstractController
             'title'=>'Welcome!',
             'stylesheets' => $stylesheets]);
     }
+
+    #[Route("/home", name: "home")]
+    public function Home(): Response {
+        $stylesheets = ['homev2.css'];
+        return $this->render('home.html.twig',[
+            'title'=>'Home!',
+            'stylesheets' => $stylesheets]);
+    }
 }
