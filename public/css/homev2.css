@@ -23,7 +23,7 @@ h3 {
     font-stretch: normal;
     text-decoration: none;
     color: #2A2A2A;
-    background-color: #7FFD43;
+    background-color: #b7e8c5;
     width: fit-content;
     padding: 5px;
     border-top-left-radius: 10px;
@@ -45,7 +45,7 @@ h3 {
     position: center;
     width: fit-content;
     gap: 50px;
-    background-color: #171717;
+    background-color: #1f1f1f;
     border-radius: 10px;
     padding-bottom: 30px;
     margin-bottom: 20px;
@@ -57,7 +57,7 @@ h3 {
     padding-right: 5px;
 }
 .book-list a{
-    background-color: #7ffd43;
+    background-color: #b7e8c5;
     color: #2A2A2A;
     padding: 10px;
     border-radius: 20px;
@@ -73,6 +73,7 @@ h3 {
     display: flex;
     flex-direction: column;
     column-gap: 10px;
+
 }
 
 
