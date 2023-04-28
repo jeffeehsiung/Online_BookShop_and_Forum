@@ -51,10 +51,6 @@ code_quality:
   artifacts:
     reports:
       codequality: gl-code-quality-report.json
-  rules:
-  - if: '$CI_COMMIT_BRANCH == "main"'
-    when: always
-    fail_on_severity: major
 
 
 deploy-job:      # This job runs in the deploy stage.
