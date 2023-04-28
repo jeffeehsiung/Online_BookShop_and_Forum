@@ -6,9 +6,6 @@
 # Read more on when to use this template at
 # https://docs.gitlab.com/ee/ci/yaml/#workflowrules
 
-include:
-  template: Jobs/Code-Quality.gitlab-ci.yml
-
 
 workflow:
   rules:
@@ -19,6 +16,7 @@ workflow:
 stages:
   - build
   - test
+  - code_quality
   - review
   - deploy
   - production
@@ -43,6 +41,21 @@ lint-test-job:   # This job also runs in the test stage.
     - echo "Linting code... This will take about 10 seconds."
     - sleep 10
     - echo "No lint issues found."
+
+code_quality:
+  stage: code_quality
+  image: node:latest
+  script:
+    - npm install -g eslint
+    - eslint --ext .js,.vue src/
+  artifacts:
+    reports:
+      codequality: gl-code-quality-report.json
+  rules:
+  - if: '$CI_COMMIT_BRANCH == "main"'
+    when: always
+    fail_on_severity: major
+
 
 deploy-job:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
