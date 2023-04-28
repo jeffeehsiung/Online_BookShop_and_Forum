@@ -45,9 +45,14 @@ lint-test-job:   # This job also runs in the test stage.
 # code_quality:
 #   stage: code_quality
 #   image: node:latest
+    # include:
+    # - template: Code-Quality.gitlab-ci.yml
 #   script:
 #     - npm install -g eslint
 #     - eslint --ext .js,.vue src/
+      # - echo "official code quality tool: https://docs.codeclimate.com/docs/list-of-engines. "
+      # - echo "yaml code quality set up reference web: https://docs.gitlab.com/ee/ci/testing/code_quality.html"
+      # - echo "code quality demo youtube video: https://www.youtube.com/watch?v=B32LxtJKo9M"
 #   artifacts:
 #     reports:
 #       codequality: gl-code-quality-report.json
