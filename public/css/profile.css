@@ -4,10 +4,11 @@
 #profilebody{
     flex-direction: row;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     gap : 50px;
     color: white;
     font-family: Poppins, serif;
+    width: 1200px;
 
 }
 #left
@@ -17,6 +18,7 @@
     justify-content: flex-start;
     align-content: center;
     padding: 50px;
+
 
 }
 
@@ -56,6 +58,7 @@
     align-content: center;
     overflow: auto;
     color: white;
+
 }
 
 
@@ -69,8 +72,12 @@
 
     padding: 0 var(--_spacer) var(--_spacer);
 
-    overflow-x: auto;
+    overflow-x: hidden;
     overscroll-behavior-inline: contain;
+}
+.media-scroller:hover {
+    overflow-x:scroll;
+
 }
 
 .media-scroller--with-groups {
@@ -131,3 +138,21 @@
     font-family: Poppins, serif;
 }
 
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #199033;
+    border-radius: 20px;
+}
+
+/* Handle on hover */
