@@ -5,7 +5,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use function Symfony\Component\String\u;
-
 class BookableController extends AbstractController
 {
     #[Route('/settings')]
@@ -73,6 +72,14 @@ class BookableController extends AbstractController
         $stylesheets = ['homev2.css'];
         return $this->render('home.html.twig',[
             'title'=>'Home!',
+            'stylesheets' => $stylesheets]);
+    }
+
+    #[Route("/profile", name: "profile")]
+    public function Profile(): Response {
+        $stylesheets = ['profile.css'];
+        return $this->render('profile.html.twig',[
+            'title'=>'Profile',
             'stylesheets' => $stylesheets]);
     }
 }
