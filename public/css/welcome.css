@@ -72,3 +72,73 @@ form {
 }
 
 
+#welcomeBody{
+    background: #E7E7E7;
+    flex-direction: column;
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    align-items: center;
+}
+
+div
+{
+
+    align-items: center;
+    text-align: center;
+    margin-block-end: 10px;
+}
+#logo
+{
+
+    width: 208px;
+    padding-top: 50px;
+    height: 183px;
+
+}
+#welcome
+{
+
+    font-weight: 500;
+    font-size: 100px;
+    text-transform: uppercase;
+    color: #3E3E3E;
+}
+
+
+#login
+{
+    box-sizing: border-box;
+
+    /* Auto layout */
+    padding: 8px 16px;
+    gap: 8px;
+
+
+    width: 276px;
+    height: 94px;
+
+    font-size: 100%;
+    background: #3E3E3E;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    color : #E7E7E7;
+}
+#register
+{
+
+
+    padding: 8px 16px;
+    gap: 8px;
+
+
+    width: 150px;
+    height: 80px;
+    font-size: 100%;
+    background: #3E3E3E;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    color : #E7E7E7;
+
+}
+
