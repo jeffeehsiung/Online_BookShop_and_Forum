@@ -82,4 +82,12 @@ class BookableController extends AbstractController
             'title'=>'Profile',
             'stylesheets' => $stylesheets]);
     }
+
+    #[Route("/browsing", name: "browsing")]
+    public function browsing(): Response {
+        $stylesheets = ['browsing.css'];
+        return $this->render('browsing.html.twig',[
+            'title'=>'Browser',
+            'stylesheets' => $stylesheets]);
+    }
 }

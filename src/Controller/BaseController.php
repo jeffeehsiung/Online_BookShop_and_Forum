@@ -15,7 +15,7 @@ class BaseController extends AbstractController
         $this->stylesheets[] = 'base.css';
     }
 
-    #[Route('/', name: 'home')]
+    #[Route('/', name: 'base')]
     public function home(): Response
     {
         return $this->render('base.html.twig', [
