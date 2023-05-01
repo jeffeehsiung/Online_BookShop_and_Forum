@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+use App\Repository\BookRepository;
 use App\Repository\GenreRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,12 +25,13 @@ class BookableController extends AbstractController
         ]);
     }
 
-    #[Route('/book/{bookTitle}')]
-    public function book($bookTitle = null): Response
+    #[Route('/book/book_id={book_id}')]
+    public function book($book_id = null, BookRepository $bookRepository): Response
     {
         $stylesheets = ['book.css'];
         $javascripts = ['book.js'];
-        if($bookTitle) {
+        if($book_id) {
+            $bookTitle = $bookRepository->findOneBy(['id' => $book_id])->getTitle();
             $bookTitle = u(str_replace('-', ' ', $bookTitle))->title(true);
             return $this->render('book.html.twig', [
                 'bookTitle' => $bookTitle,

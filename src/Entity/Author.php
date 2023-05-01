@@ -2,27 +2,25 @@
 
 namespace App\Entity;
 
-use App\Repository\GenreRepository;
+use App\Repository\AuthorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: GenreRepository::class)]
-#[ORM\Table(name: 'a22web12.genres')]
-class Genre
+#[ORM\Entity(repositoryClass: AuthorRepository::class)]
+#[ORM\Table(name: 'a22web12.authors')]
+class Author
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 32, nullable: true)]
-    private ?string $genre = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $author_name = null;
 
-    #[ORM\OneToMany(mappedBy: 'genre', targetEntity: Book::class)]
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Book::class)]
     private Collection $books;
-
-
 
     public function __construct()
     {
@@ -34,14 +32,14 @@ class Genre
         return $this->id;
     }
 
-    public function getGenre(): ?string
+    public function getAuthorName(): ?string
     {
-        return $this->genre;
+        return $this->author_name;
     }
 
-    public function setGenre(?string $genre): self
+    public function setAuthorName(?string $authorName): self
     {
-        $this->genre = $genre;
+        $this->author_name = $authorName;
 
         return $this;
     }
@@ -58,7 +56,7 @@ class Genre
     {
         if (!$this->books->contains($book)) {
             $this->books->add($book);
-            $book->setGenre($this);
+            $book->setAuthor($this);
         }
 
         return $this;
@@ -68,8 +66,8 @@ class Genre
     {
         if ($this->books->removeElement($book)) {
             // set the owning side to null (unless already changed)
-            if ($book->getGenre() === $this) {
-                $book->setGenre(null);
+            if ($book->getAuthor() === $this) {
+                $book->setAuthor(null);
             }
         }
 
