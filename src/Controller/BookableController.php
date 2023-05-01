@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+use App\Repository\GenreRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -9,32 +10,12 @@ use function Symfony\Component\String\u;
 class BookableController extends AbstractController
 {
     #[Route('/settings')]
-    public function settings(): Response
+    public function settings(GenreRepository $genreRepository): Response
     {
+        $bookGenres = $genreRepository->findAll();
         // TODO: split twig templates into file format 'controllername/methodname.html.twig' -> example: 'bookable/settings.html.twig'
         $stylesheets = ['settings.css'];
         $javascripts = ['settings.js'];
-        $bookGenres = array(
-            "Fiction",
-            "Mystery",
-            "Romance",
-            "Science Fiction",
-            "Fantasy",
-            "Thriller",
-            "Biography",
-            "History",
-            "Self-help",
-            "Horror",
-            "Cooking",
-            "Travel",
-            "Art",
-            "Business",
-            "Religion",
-            "Humor",
-            "Children's",
-            "Young Adult"
-        );
-
         return $this->render('setting.html.twig',[
             'username' => 'test_user',
             'stylesheets' => $stylesheets,
