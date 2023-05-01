@@ -113,8 +113,8 @@ form {
     gap: 8px;
 
 
-    width: 250px;
-    height: 94px;
+    width: 220px;
+    height: 80px;
 
     font-size: 100%;
     background: #80FF44;
@@ -132,7 +132,7 @@ form {
 
 
     width: 150px;
-    height: 80px;
+    height: 70px;
     font-size: 100%;
     background: #80FF44;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -140,4 +140,9 @@ form {
     font-size: 20px;
     color : #000000;
 
+}
+#logo_png
+{
+    width: 100px;
+    height: 100px;
 }
