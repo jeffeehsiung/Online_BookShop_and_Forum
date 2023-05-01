@@ -31,6 +31,15 @@ h2 {
     color: white;
 }
 
+h3 {
+    text-align: left;
+    font-family: Poppins, serif;
+    font-weight: 250;
+    font-stretch: normal;
+    text-decoration: none;
+    color: white;
+    font-size: small;
+}
 p {
     color: white;
     font-family: Poppins, serif;

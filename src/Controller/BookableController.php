@@ -3,6 +3,7 @@
 namespace App\Controller;
 use App\Repository\BookRepository;
 use App\Repository\GenreRepository;
+use Safe\Exceptions\PcreException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,17 +27,20 @@ class BookableController extends AbstractController
     }
 
     #[Route('/book/book_id={book_id}')]
-    public function book($book_id = null, BookRepository $bookRepository): Response
+    public function book(BookRepository $bookRepository, $book_id = null): Response
     {
         $stylesheets = ['book.css'];
-        $javascripts = ['book.js'];
         if($book_id) {
-            $bookTitle = $bookRepository->findOneBy(['id' => $book_id])->getTitle();
-            $bookTitle = u(str_replace('-', ' ', $bookTitle))->title(true);
+            $book = $bookRepository->findOneBy(['id' => $book_id]);
+            try {
+                $bookTitle = u(preg_replace("/\([^)]+\)/", "", $book->getTitle()))->title(true);
+            } catch (PcreException $e) {
+                $bookTitle = $e;
+            }
             return $this->render('book.html.twig', [
                 'bookTitle' => $bookTitle,
                 'stylesheets' => $stylesheets,
-                'javascripts' => $javascripts
+                'book' => $book
             ]);
         } else {
             return new Response('Error: no book title detected');
