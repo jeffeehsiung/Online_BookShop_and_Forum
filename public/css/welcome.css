@@ -1,6 +1,24 @@
 main {
 
 }
+.welcomeBody{
+    flex-direction: column;
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    align-items: center;
+
+}
+.welcome
+{
+
+    font-weight: 500;
+    font-size: 100px;
+    text-transform: uppercase;
+    color:#3b82f6;
+}
+
+
 
 .overlay {
     position:relative;
@@ -62,51 +80,31 @@ form {
     flex-direction: column;
 }
 
+
 .welcome_text {
-    color: white;
-    font-size: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
-
-}
-
-
-#welcomeBody{
-    background: #E7E7E7;
-    flex-direction: column;
-    display: flex;
-    justify-content: space-around;
-    align-content: center;
-    align-items: center;
-}
-
-div
-{
-
-    align-items: center;
-    text-align: center;
-    margin-block-end: 10px;
-}
-#logo
-{
-
-    width: 208px;
-    padding-top: 50px;
-    height: 183px;
+    gap: 20px;
 
 }
 #welcome
 {
-
-    font-weight: 500;
-    font-size: 100px;
+    color:white;
+    font-size: 80px;
     text-transform: uppercase;
-    color: #3E3E3E;
+    padding-bottom: 20px;
+
+}
+.logintext
+{
+    color:white;
+    font-size: 30px;
+    padding-bottom: 20px;
 }
 
 
-#login
+.login_button
 {
     box-sizing: border-box;
 
@@ -115,16 +113,17 @@ div
     gap: 8px;
 
 
-    width: 276px;
+    width: 250px;
     height: 94px;
 
     font-size: 100%;
-    background: #3E3E3E;
+    background: #80FF44;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 50px;
-    color : #E7E7E7;
+    font-size: 30px;
+    color : #000000;
 }
-#register
+.register_button
 {
 
 
@@ -135,10 +134,10 @@ div
     width: 150px;
     height: 80px;
     font-size: 100%;
-    background: #3E3E3E;
+    background: #80FF44;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 50px;
-    color : #E7E7E7;
+    font-size: 20px;
+    color : #000000;
 
 }
-
