@@ -7,22 +7,13 @@ Welcome
 {% block content %}
 
     <section class="welcome_text">
-        <h1 class="welcome_text">Welcome to Bookable</h1>
+        <h1>Welcome to Bookable</h1>
         <h2 class="welcome_text">please log in or sign up</h2>
-        <button onclick="on()" class="welcome_text">log in</button>
+        <button onclick="loginOn()" class="welcome_text">log in</button>
+        <button onclick="registerOn()" class="welcome_text">register</button>
     </section>
 
-    <div>
-        <h1 id = "welcome"> Welcome</h1>
-    </div>
-    <div>
-        <button id = "login" type="button">Login</button>
-    </div>
-    <div>
-        <button id = "register" type="button">Register</button>
-    </div>
-
-    <section id="Login" >
+    <section id="Login" class="overlay">
         <section>
             <p class="login_text" id="login_title">Log in to your account</p>
             <form method="post">
@@ -30,7 +21,22 @@ Welcome
                 <input type="text" id="username" name="username" onkeyup="isFilledIn()" required><br>
                 <label for="password" class="login_text">password:</label>
                 <input type="text" id="password" name="password" onkeyup="isFilledIn()" required><br>
-                <input type="submit" name="Submit" id="Submit" value="Submit" onclick="off()"/>
+                <input type="submit" name="Submit" id="Submit" value="Submit" onclick="loginOff()"/>
+            </form>
+        </section>
+    </section>
+
+    <section id="Register" class="overlay">
+        <section>
+            <p class="login_text" id="login_title">register to create an account</p>
+            <form method="post">
+                <label for="email" class="login_text">email:</label>
+                <input type="text" id="email" name="email" onkeyup="isFilledIn()" required><br>
+                <label for="username" class="login_text">username:</label>
+                <input type="text" id="username" name="username" onkeyup="isFilledIn()" required><br>
+                <label for="password" class="login_text">password:</label>
+                <input type="text" id="password" name="password" onkeyup="isFilledIn()" required><br>
+                <input type="submit" name="Submit" id="Submit" value="Submit" onclick="loginOff()"/>
             </form>
         </section>
     </section>
@@ -40,12 +46,21 @@ Welcome
     <script> {# putting code in html is not ideal, temporarely here because of example project #}
         let login = document.getElementById("Login");
         login.style.width = document.getElementById("navbar").offsetWidth.toString() + "px";
-        function on() {
+        let register = document.getElementById("Register");
+        register.style.width = document.getElementById("navbar").offsetWidth.toString() + "px";
+        function loginOn() {
             document.getElementById("Login").style.display = "flex";
         }
 
-        function off() {
+        function loginOff() {
             document.getElementById("Login").style.display = "none";
+        }
+        function registerOn() {
+            document.getElementById("Register").style.display = "flex";
+        }
+
+        function registerOff() {
+            document.getElementById("Register").style.display = "none";
         }
     </script>
 {% endblock %}
