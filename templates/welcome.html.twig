@@ -18,11 +18,11 @@ Welcome
         <section>
             <p class="login_text" id="login_title">Log in to your account</p>
             <form method="post">
-                <label for="username" class="login_text">username:</label>
-                <input type="text" id="username" name="username" onkeyup="isFilledIn()" required><br>
-                <label for="password" class="login_text">password:</label>
-                <input type="text" id="password" name="password" onkeyup="isFilledIn()" required><br>
-                <input type="submit" name="Submit" id="Submit" value="Submit" onclick="loginOff()"/>
+                <label for="login_username" class="login_text">username:</label>
+                <input type="text" id="login_username" name="username" onkeyup="LoginFilledIn()" required><br>
+                <label for="login_password" class="login_text">password:</label>
+                <input type="text" id="login_password" name="password" onkeyup="LoginFilledIn()" required><br>
+                <input type="submit" name="Submit" id="login_submit" value="Submit" onclick="loginOff()"/>
             </form>
         </section>
     </section>
@@ -32,12 +32,12 @@ Welcome
             <p class="login_text" id="login_title">register to create an account</p>
             <form method="post">
                 <label for="email" class="login_text">email:</label>
-                <input type="text" id="email" name="email" onkeyup="isFilledIn()" required><br>
-                <label for="username" class="login_text">username:</label>
-                <input type="text" id="username" name="username" onkeyup="isFilledIn()" required><br>
-                <label for="password" class="login_text">password:</label>
-                <input type="text" id="password" name="password" onkeyup="isFilledIn()" required><br>
-                <input type="submit" name="Submit" id="Submit" value="Submit" onclick="registerOff()"/>
+                <input type="text" id="email" name="email" onkeyup="RegisterFilledIn()" required><br>
+                <label for="register_username" class="login_text">username:</label>
+                <input type="text" id="register_username" name="username" onkeyup="RegisterFilledIn()" required><br>
+                <label for="register_password" class="login_text">password:</label>
+                <input type="text" id="register_password" name="password" onkeyup="RegisterFilledIn()" required><br>
+                <input type="submit" name="Submit" id="register_submit" value="Submit" onclick="registerOff()"/>
             </form>
         </section>
     </section>

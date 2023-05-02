@@ -1,3 +1,32 @@
+document.getElementById("login_submit").disabled=true;
+document.getElementById("register_submit").disabled=true;
+
+
+function LoginFilledIn(){
+    if (document.getElementById("login_username").value!=="" && document.getElementById("login_password").value!==""){
+        document.getElementById("login_submit").disabled=false;
+        document.getElementById("login_submit").style.opacity="1";
+    }
+    else
+    {
+        document.getElementById("login_submit").disabled=true;
+        document.getElementById("login_submit").style.opacity="0.6";
+    }
+}
+
+function RegisterFilledIn(){
+    if (document.getElementById("register_username").value!=="" && document.getElementById("register_password").value!==""
+        && document.getElementById("email").value!==""){
+        document.getElementById("register_submit").disabled=false;
+        document.getElementById("register_submit").style.opacity="1";
+    }
+    else
+    {
+        document.getElementById("register_submit").disabled=true;
+        document.getElementById("register_submit").style.opacity="0.6";
+    }
+}
+
 function loginOn() {
     document.getElementById("Login").style.display = "flex";
 }

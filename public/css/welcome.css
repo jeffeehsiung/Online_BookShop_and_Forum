@@ -34,13 +34,13 @@ main {
 
     position: absolute;
     font-family: Poppins, serif;
-    left: 25%;
-    right: 25%;
+    left: 34%;
+    right: 34%;
     border: 1px solid #666; /*a nice looking border for the overlay*/
     background: #093545; /*black background so that you can't see the welcome text underneath*/
     border-radius:10px;
     color: #FFF;
-    width:50%;
+    width:32%;
 }
 
 .login_text {
@@ -54,7 +54,7 @@ main {
     margin-bottom: 10px;
 }
 
-#username, #password, #email {
+#login_username, #login_password, #register_username, #register_password, #email {
     background: #224957;
     border-radius: 10px;
     margin-bottom: 10px;
@@ -64,8 +64,9 @@ main {
     color: white;
 }
 
-#Submit {
+#login_submit, #register_submit {
     font-size: 30px;
+    opacity: 60%;
     color: white;
     background: #20DF7F;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
