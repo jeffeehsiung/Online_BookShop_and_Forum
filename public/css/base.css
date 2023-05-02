@@ -2357,7 +2357,7 @@
 }
 .home-green-button {
     display: flex;
-    padding: var(--dl-space-space-oneandhalfunits) var(--dl-space-space-twounits);
+    padding: var(--dl-space-space-unit) var(--dl-space-space-oneandhalfunits);
     background-color: #80FF44;
     transition: 0.3s;
     align-items: center;

@@ -77,4 +77,5 @@ class BookableController extends AbstractController
             'title'=>'Browser',
             'stylesheets' => $stylesheets]);
     }
+
 }
