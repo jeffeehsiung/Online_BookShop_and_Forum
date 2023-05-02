@@ -64,17 +64,17 @@
     <section id="logo"> {# TODO: create proper logo #}
       <img id = "logo png" src="https://www.linkpicture.com/q/Bookable-removebg-preview-2.png">
     </section>
-    <div class="navbar-nav-content">
-      <nav class="navbar-nav-links"> {# TODO: check if changing div to class messes up the css configuration #}
-        <span class="navbar-link nav-link">Features</span>
-        <span class="nav-link">About us</span>
-        <span class="nav-link">Browse a book</span>
-        <span class="nav-link">Community</span>
-        <span class="nav-link">Settings</span>
-      </nav>
-      <div class="get-started navbar-get-started">
+    <nav class="navbar-nav-content">
+      <ul class="navbar-nav-links"> {# TODO: check if changing div and span to class nav and li+a messes up the css configuration #}
+        <li><a class="navbar-link nav-link">Features</a></li>>
+        <li><a class="nav-link">About us</a></li>
+        <li><a class="nav-link">Browse a book</a></li>
+        <li><a class="nav-link">Community</a></li>
+        <li><a class="nav-link">Settings</a></li>
+      </ul>
+      <ul class="get-started navbar-get-started">
         <span class="navbar-text">Get started</span>
-      </div>
+      </ul>
       <div id="open-mobile-menu" class="navbar-hamburger get-started">
         <img
           alt="image"
@@ -82,8 +82,8 @@
           class="navbar-image"
         />
       </div>
-    </div>
-    <div id="mobile-menu" class="navbar-mobile-menu">
+    </nav>
+    <nav id="mobile-menu" class="navbar-mobile-menu">
       <div class="navbar-branding">
         <img
           alt="image"
@@ -98,17 +98,17 @@
           </svg>
         </div>
       </div>
-      <div class="navbar-nav-links1">
-        <span class="nav-link">Features</span>
-        <span class="nav-link">About us</span>
-        <span class="nav-link">Browse a book</span>
-        <span class="nav-link">Community</span>
-        <span class="nav-link">Settings</span>
-      </div>
-      <div class="get-started">
-        <span class="navbar-text1">Get started</span>
-      </div>
-    </div>
+      <ul class="navbar-nav-links1">
+        <li><a class="nav-link">Features</a></li>
+        <li><a class="nav-link">About us</a></li>
+        <li><a class="nav-link">Browse a book</a></li>
+        <li><a class="nav-link">Community</a></li>
+        <li><a class="nav-link">Settings</a></li>
+      </ul>
+      <ul class="get-started">
+        <span class="navbar-text">Get started</span>
+      </ul>
+    </nav>
   </nav>
   </header>
 
