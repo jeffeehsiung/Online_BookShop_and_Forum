@@ -31,6 +31,15 @@ h2 {
     color: white;
 }
 
+h3 {
+    text-align: left;
+    font-family: Poppins, serif;
+    font-weight: 250;
+    font-stretch: normal;
+    text-decoration: none;
+    color: white;
+    font-size: small;
+}
 p {
     color: white;
     font-family: Poppins, serif;
@@ -48,18 +57,11 @@ p {
     display: block;
     height: 30px;
 }
-.like {
-    color: #4CAF50;
-}
-
-.dislike {
-    color: #f44336;
-}
 
 /* TODO: copied from settings.css, refactor somehow */
 .button {
     color: black;
-    background-color: #80FF44;
+    background-color: #b7e8c5;
     font-weight: 500;
     width: fit-content;
     height: fit-content;
@@ -79,7 +81,7 @@ p {
 .progress-bar {
     width: 60%;
     height: 5px;
-    background-color: #80FF44;
+    background-color: #b7e8c5;
     border-radius: 5px;
     text-align: center;
     line-height: 30px;

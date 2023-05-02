@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{ asset('css/base.css') }}" rel="stylesheet"/>
+{% endblock %}
+
+{% block javascripts %}
+
+{% endblock %}
+
+{% block content %}
+    <!-- https://symfony.com/doc/current/components/browser_kit.html -->
+    <section id="browsing">
+        <h1>Book Browsing & Searching </h1>
+        <!-- define header search and flexbox section-->
+        <section class="browsing-search flex-column">
+            <!-- define search form-->
+            <form action="#" class="search-form align-center" method="get">
+                <select name="genre" class="genre-selector bg-white flex-grow pointer">
+                    <option value="all" class="genre-selector">All genre</option>
+                    <option value="non-fiction" class="genre-selector">Non Fiction</option>
+                    <option value="fiction" class="genre-selector" selected>Fiction</option>
+                    <option value="academic" class="genre-selector">Academic</option>
+                </select>
+                <input type="text" name="book-name" placeholder="Title" value="book name" class="flex-grow pointer">
+                <input type="text" name="keyword" placeholder="Keyword" value="keyword" class="flex-grow pointer">
+                <button type="submit" class="home-green-button button">Search</button>
+            </form>
+        </section>
+    </section>
+    <aside class="browsing-filter-container flex-grow">
+        <p class="footer-header">Type</p>
+        <form action="#" method="get">
+            <input id="genre-filter" type="checkbox" name="genre-filter" value="Science">
+            <label for="genre-filter" class="footer-link">Science</label><br>
+            <input id="genre-filter" type="checkbox" name="genre-filter" value="Science Fiction">
+            <label for="genre-filter" class="footer-link">Science Fiction</label><br>
+            <input id="genre-filter" type="checkbox" name="genre-filter" value="Fantasy">
+            <label for="genre-filter" class="footer-link">Fantasy</label><br>
+            <input id="genre-filter" type="checkbox" name="genre-filter" value="Mystery">
+            <label for="genre-filter" class="footer-link">Mystery</label><br>
+        </form>
+    </aside>
+    <!-- flex in vertical direction the book list-->
+    <section class="browsing-list flex-column">
+        <!-- define book list-->
+        <article class="browsing-list-item flex-row">
+            <img src="{{ asset('images/book3.jpg') }}" alt="book3" class="book-list-image" width="200" height="300">
+            <section class="book-list-description flex-column">
+                <h2 class="book-list-title">Book Title</h2>
+                <p class="book-list-author">Author</p>
+                <p class="book-list-genre">Genre</p>
+                <p class="book-list-description">Description</p>
+                <p class="book-list-price">Price</p>
+                <button class="home-green-button">Add to Cart</button>
+            </section>
+        </article>
+        <article class="browsing-list-item flex-row">
+            <img src="{{ asset('images/book4.jpg') }}" alt="book4" class="book-list-image" width="200" height="300">
+            <section class="book-list-description flex-column">
+                <h2 class="book-list-title">Book Title</h2>
+                <p class="book-list author">Author</p>
+                <p class="book-list-genre">Genre</p>
+                <p class="book-list-description">Description</p>
+                <p class="book-list-price">Price</p>
+                <button class="home-green-button">Add to Cart</button>
+            </section>
+        </article>
+    </section>
+
+{% endblock %}
+
