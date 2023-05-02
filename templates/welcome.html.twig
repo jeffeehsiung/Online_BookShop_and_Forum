@@ -5,42 +5,61 @@ Welcome
 {% endblock %}
 
 {% block content %}
-    <h1 class="welcome_text">Welcome to Bookable</h1>
-    <head>
-        <meta name="welcome" content="width=device-width, initial-scale=1">
-        <title>Welcome</title>
 
-    </head>
-    <body>
+    <section class="welcome_text">
+        <h1 id ="welcome">Welcome to Bookable</h1>
+        <img id = "logo_png" src="https://www.linkpicture.com/q/Bookable-removebg-preview-2.png" alt="the logo of the app">
+        <h2 class="logintext">please log in or sign up</h2>
+        <button onclick="loginOn()" class="login_button">Log in</button>
+        <button onclick="registerOn()" class="register_button">Register</button>
+    </section>
 
-    <div id="Login" onclick="off()">
-        <p class="login_text">Log in to your account</p>
-        <form method="post" class="login_text">
-            <label for="username">username:</label>
-            <input type="text" id="username" name="username" onkeyup="isFilledIn()" required><br>
-            <label for="password">password:</label>
-            <input type="text" id="password" name="password" onkeyup="isFilledIn()" required><br>
-            <input type="submit" name="Submit" id="Submit" value="Submit"/>
-        </form>
+    <section id="Login" class="overlay">
+        <section>
+            <p class="login_text" id="login_title">Log in to your account</p>
+            <form method="post">
+                <label for="login_username" class="login_text">username:</label>
+                <input type="text" id="login_username" name="username" onkeyup="LoginFilledIn()" required><br>
+                <label for="login_password" class="login_text">password:</label>
+                <input type="text" id="login_password" name="password" onkeyup="LoginFilledIn()" required><br>
+                <input type="submit" name="Submit" id="login_submit" value="Submit" onclick="loginOff()"/>
+            </form>
+        </section>
+    </section>
 
-    </div>
+    <section id="Register" class="overlay">
+        <section>
+            <p class="login_text" id="login_title">register to create an account</p>
+            <form method="post">
+                <label for="email" class="login_text">email:</label>
+                <input type="text" id="email" name="email" onkeyup="RegisterFilledIn()" required><br>
+                <label for="register_username" class="login_text">username:</label>
+                <input type="text" id="register_username" name="username" onkeyup="RegisterFilledIn()" required><br>
+                <label for="register_password" class="login_text">password:</label>
+                <input type="text" id="register_password" name="password" onkeyup="RegisterFilledIn()" required><br>
+                <input type="submit" name="Submit" id="register_submit" value="Submit" onclick="registerOff()"/>
+            </form>
+        </section>
+    </section>
 
-    <div class="welcome_text">
-        <h2 class="welcome_text">please log in or sign up</h2>
-        <button onclick="on()" class="welcome_text">log in</button>
-    </div>
+
 
     <script> {# putting code in html is not ideal, temporarely here because of example project #}
-        function on() {
-            document.getElementById("Login").style.display = "block";
+        /*function loginOn() {
+            document.getElementById("Login").style.display = "flex";
         }
 
-        function off() {
+        function loginOff() {
             document.getElementById("Login").style.display = "none";
         }
-    </script>
+        function registerOn() {
+            document.getElementById("Register").style.display = "flex";
+        }
 
-    </body>
+        function registerOff() {
+            document.getElementById("Register").style.display = "none";
+        }*/
+    </script>
 {% endblock %}
 
 {#
