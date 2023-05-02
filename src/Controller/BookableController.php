@@ -71,11 +71,21 @@ class BookableController extends AbstractController
     }
 
     #[Route("/browsing", name: "browsing")]
-    public function browsing(): Response {
+    public function browsing(GenreRepository $genreRepository, BookRepository $bookRepository): Response {
+        // genreRepository is used to get all genres from the database
+        $bookGenres = $genreRepository->findAll();
+        // declare bookRepository to be used to get all books from the database table books
+        $books = $bookRepository->findAll();
         $stylesheets = ['browsing.css'];
+        $javascripts = ['browsing.js'];
         return $this->render('browsing.html.twig',[
             'title'=>'Browser',
-            'stylesheets' => $stylesheets]);
+            'stylesheets' => $stylesheets,
+            'bookgenres' => $bookGenres,
+            'books' => $books,
+            'javascripts' => $javascripts
+
+        ]);
     }
 
 }
