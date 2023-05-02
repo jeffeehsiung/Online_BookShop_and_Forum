@@ -28,6 +28,7 @@
         "symfony/mime": "6.2.*",
         "symfony/monolog-bundle": "^3.8",
         "symfony/notifier": "6.2.*",
+        "symfony/panther": "^2.0",
         "symfony/process": "6.2.*",
         "symfony/property-access": "6.2.*",
         "symfony/property-info": "6.2.*",
@@ -42,6 +43,7 @@
         "symfony/webpack-encore-bundle": "^1.16",
         "symfony/yaml": "6.2.*",
         "twig/extra-bundle": "^2.12|^3.0",
+        "twig/string-extra": "^3.5",
         "twig/twig": "^2.12|^3.0"
     },
     "config": {
@@ -93,6 +95,7 @@
         }
     },
     "require-dev": {
+        "dbrekelmans/bdi": "^1.0",
         "phpunit/phpunit": "^9.5",
         "symfony/browser-kit": "6.2.*",
         "symfony/css-selector": "6.2.*",
