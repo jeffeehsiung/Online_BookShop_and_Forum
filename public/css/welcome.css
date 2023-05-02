@@ -65,6 +65,7 @@ main {
 }
 
 #login_submit, #register_submit {
+    cursor: not-allowed;
     font-size: 30px;
     opacity: 60%;
     color: white;
@@ -109,6 +110,7 @@ form {
 
 .login_button
 {
+    cursor: pointer;
     box-sizing: border-box;
 
     /* Auto layout */
@@ -128,7 +130,7 @@ form {
 }
 .register_button
 {
-
+    cursor: pointer;
 
     padding: 8px 16px;
     gap: 8px;
