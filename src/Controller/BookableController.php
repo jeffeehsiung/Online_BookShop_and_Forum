@@ -1,8 +1,11 @@
 <?php
 
 namespace App\Controller;
+use App\Repository\AvatarRepository;
 use App\Repository\BookRepository;
 use App\Repository\GenreRepository;
+use App\Repository\LibraryRepository;
+use App\Repository\UserRepository;
 use Safe\Exceptions\PcreException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,7 +14,7 @@ use function Symfony\Component\String\u;
 class BookableController extends AbstractController
 {
     #[Route('/settings')]
-    public function settings(GenreRepository $genreRepository): Response
+    public function settings(GenreRepository $genreRepository, UserRepository $userRepository): Response
     {
         $bookGenres = $genreRepository->findAll();
         // TODO: split twig templates into file format 'controllername/methodname.html.twig' -> example: 'bookable/settings.html.twig'
