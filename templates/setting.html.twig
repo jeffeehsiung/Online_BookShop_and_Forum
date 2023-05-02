@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <link href="{{ asset('css/home.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/base.css') }}" rel="stylesheet"/>
 {% endblock %}
 
 {% block javascripts %}
@@ -70,8 +70,8 @@
                 <div id="genres">
                     {% for genre in bookgenres %}
                         <div class="genre">
-                            <input type="checkbox" id="{{ genre }}" name="{{ genre }}" value="{{ genre|capitalize }}">
-                            <label for="{{ genre }}">{{ genre|capitalize }}</label>
+                            <input type="checkbox" id="{{ genre.getGenre() }}" name="{{ genre.getGenre() }}" value="{{ genre.getGenre()|capitalize }}">
+                            <label for="{{ genre.getGenre() }}">{{ genre.getGenre()|capitalize }}</label>
                         </div><br>
                     {% endfor %}
                 </div>

@@ -5,14 +5,158 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <link href="{{ asset('css/home.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/base.css') }}" rel="stylesheet"/>
 {% endblock %}
 
 {% block javascripts %}
 
 {% endblock %}
 
-{% block body %}
+{% block content %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<section id="profilebody">
+    <script src="https://kit.fontawesome.com/56afcbf775.js" crossorigin="anonymous"></script>
+    <section id = "left">
+        <img id = "profilepic"  src = "https://media.istockphoto.com/id/1386479313/photo/happy-millennial-afro-american-business-woman-posing-isolated-on-white.jpg?b=1&s=170667a&w=0&k=20&c=ahypUC_KTc95VOsBkzLFZiCQ0VJwewfrSV43BOrLETM=">
+        <h1 class = "profilename">Cassandra</h1>
+        <h1 class = "profilename">Mills</h1>
+
+
+        <div class = "contactIcons">
+            <i class='fab fa-facebook-square' style='font-size:40px'></i>
+            <i class='fab fa-whatsapp' style='font-size:40px'></i>
+            <i class='fab fa-instagram' style='font-size:40px'></i>
+        </div>
+    </section>
+
+    <section id = "right">
+        <h1 class = section-title> Recently Read Books</h1>
+        <div class = booklist>
+
+            <div class="media-scroller snaps-inline">
+                <div class="media-element">
+                    <img src="https://images.unsplash.com/photo-1641353989082-9b15fa661805?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODcyOA&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                    <p class="title">Short title</p>
+                </div>
+                <div class="media-element">
+                    <img src="https://images.unsplash.com/photo-1642190672487-22bde32965f7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODcyOA&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                    <p class="title">A longer title here</p>
+                </div>
+                <div class="media-element">
+                    <img src="https://images.unsplash.com/photo-1641841344411-49dbd02896f4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODcyOA&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                    <p class="title">An even longer title on this one</p>
+                </div>
+                <div class="media-element">
+                    <img src="https://images.unsplash.com/photo-1643223723262-7ce785730cf6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODcyOA&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                    <p class="title">A dog that's blinking?</p>
+                </div>
+                <div class="media-element">
+                    <img src="https://images.unsplash.com/photo-1640938776314-4d303f8a1380?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODc2Mw&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                    <p class="title">Chair</p>
+                </div>
+                <div class="media-element">
+                    <img src="https://images.unsplash.com/photo-1641259041823-e09935369105?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODc2Mw&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                    <p class="title">Ut enim ad minim veniam</p>
+                </div>
+                <div class="media-element">
+                    <img src="https://images.unsplash.com/photo-1642543492481-44e81e3914a7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODc2Mw&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                    <p class="title">Duis aute irure dolor</p>
+                </div>
+                <div class="media-element">
+                    <img src="https://images.unsplash.com/photo-1641118961077-440391095cdc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODc2Mw&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                    <p class="title">Cillum dolore eu</p>
+                </div>
+
+            </div>
+        </div>
+
+
+        <h1 class = section-title> Liked Books</h1>
+        <div class = booklist>
+
+
+
+            <div class="media-scroller snaps-inline">
+                <div class="media-element">
+                    <img src="https://images.unsplash.com/photo-1641353989082-9b15fa661805?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODcyOA&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                    <p class="title">Short title</p>
+                </div>
+                <div class="media-element">
+                    <img src="https://images.unsplash.com/photo-1642190672487-22bde32965f7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODcyOA&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                    <p class="title">A longer title here</p>
+                </div>
+                <div class="media-element">
+                    <img src="https://images.unsplash.com/photo-1641841344411-49dbd02896f4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODcyOA&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                    <p class="title">An even longer title on this one</p>
+                </div>
+                <div class="media-element">
+                    <img src="https://images.unsplash.com/photo-1643223723262-7ce785730cf6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODcyOA&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                    <p class="title">A dog that's blinking?</p>
+                </div>
+                <div class="media-element">
+                    <img src="https://images.unsplash.com/photo-1640938776314-4d303f8a1380?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODc2Mw&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                    <p class="title">Chair</p>
+                </div>
+                <div class="media-element">
+                    <img src="https://images.unsplash.com/photo-1641259041823-e09935369105?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODc2Mw&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                    <p class="title">Ut enim ad minim veniam</p>
+                </div>
+                <div class="media-element">
+                    <img src="https://images.unsplash.com/photo-1642543492481-44e81e3914a7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODc2Mw&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                    <p class="title">Duis aute irure dolor</p>
+                </div>
+                <div class="media-element">
+                    <img src="https://images.unsplash.com/photo-1641118961077-440391095cdc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODc2Mw&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                    <p class="title">Cillum dolore eu</p>
+                </div>
+
+            </div>
+        </div>
+
+
+        <h1 class = section-title> Reading List</h1>
+        <div class = booklist>
+
+            <div class="media-scroller snaps-inline">
+                <div class="media-element">
+                    <img src="https://images.unsplash.com/photo-1641353989082-9b15fa661805?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODcyOA&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                    <p class="title">Short title</p>
+                </div>
+                <div class="media-element">
+                    <img src="https://images.unsplash.com/photo-1642190672487-22bde32965f7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODcyOA&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                    <p class="title">A longer title here</p>
+                </div>
+                <div class="media-element">
+                    <img src="https://images.unsplash.com/photo-1641841344411-49dbd02896f4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODcyOA&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                    <p class="title">An even longer title on this one</p>
+                </div>
+                <div class="media-element">
+                    <img src="https://images.unsplash.com/photo-1643223723262-7ce785730cf6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODcyOA&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                    <p class="title">A dog that's blinking?</p>
+                </div>
+                <div class="media-element">
+                    <img src="https://images.unsplash.com/photo-1640938776314-4d303f8a1380?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODc2Mw&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                    <p class="title">Chair</p>
+                </div>
+                <div class="media-element">
+                    <img src="https://images.unsplash.com/photo-1641259041823-e09935369105?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODc2Mw&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                    <p class="title">Ut enim ad minim veniam</p>
+                </div>
+                <div class="media-element">
+                    <img src="https://images.unsplash.com/photo-1642543492481-44e81e3914a7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODc2Mw&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                    <p class="title">Duis aute irure dolor</p>
+                </div>
+                <div class="media-element">
+                    <img src="https://images.unsplash.com/photo-1641118961077-440391095cdc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTY0MzM5ODc2Mw&ixlib=rb-1.2.1&q=80&w=400" alt="">
+                    <p class="title">Cillum dolore eu</p>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+
+</section>
 
 {% endblock %}
 

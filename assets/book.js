@@ -1,4 +1,3 @@
-/*
 let bookPage = document.getElementById("book-page");
 let progressBar = document.getElementById("progress-bar");
 
@@ -28,4 +27,3 @@ function updateProgress() {
     //progressBar.innerHTML = likePercentage + "%";
     console.log(progressBar.style.width = likePercentage + "%");
 }
-*/

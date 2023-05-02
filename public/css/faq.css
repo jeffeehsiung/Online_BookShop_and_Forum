@@ -55,7 +55,7 @@
   flex-direction: column;
   justify-content: center;
 }
-.faq-text02 {
+.faq-text {
   color: rgb(255, 255, 255);
   width: 100%;
   font-size: 20px;
@@ -90,7 +90,7 @@
   flex-direction: column;
   justify-content: center;
 }
-.faq-text04 {
+.faq-text {
   color: rgb(255, 255, 255);
   width: 100%;
   font-size: 20px;
@@ -125,7 +125,7 @@
   flex-direction: column;
   justify-content: center;
 }
-.faq-text06 {
+.faq-text {
   color: rgb(255, 255, 255);
   width: 100%;
   font-size: 20px;
@@ -160,7 +160,7 @@
   flex-direction: column;
   justify-content: center;
 }
-.faq-text08 {
+.faq-text {
   color: rgb(255, 255, 255);
   width: 100%;
   font-size: 20px;
@@ -195,7 +195,7 @@
   flex-direction: column;
   justify-content: center;
 }
-.faq-text10 {
+.faq-text {
   color: rgb(255, 255, 255);
   width: 100%;
   font-size: 20px;
@@ -222,23 +222,23 @@
     font-size: 16px;
     line-height: 24px;
   }
-  .faq-text02 {
+  .faq-text {
     font-size: 16px;
     line-height: 24px;
   }
-  .faq-text04 {
+  .faq-text {
     font-size: 16px;
     line-height: 24px;
   }
-  .faq-text06 {
+  .faq-text {
     font-size: 16px;
     line-height: 24px;
   }
-  .faq-text08 {
+  .faq-text {
     font-size: 16px;
     line-height: 24px;
   }
-  .faq-text10 {
+  .faq-text {
     font-size: 16px;
     line-height: 24px;
   }

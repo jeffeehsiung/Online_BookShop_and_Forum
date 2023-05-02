@@ -1,40 +1,22 @@
 <?php
 
 namespace App\Controller;
+use App\Repository\BookRepository;
+use App\Repository\GenreRepository;
+use Safe\Exceptions\PcreException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use function Symfony\Component\String\u;
-
 class BookableController extends AbstractController
 {
     #[Route('/settings')]
-    public function settings(): Response
+    public function settings(GenreRepository $genreRepository): Response
     {
+        $bookGenres = $genreRepository->findAll();
         // TODO: split twig templates into file format 'controllername/methodname.html.twig' -> example: 'bookable/settings.html.twig'
         $stylesheets = ['settings.css'];
         $javascripts = ['settings.js'];
-        $bookGenres = array(
-            "Fiction",
-            "Mystery",
-            "Romance",
-            "Science Fiction",
-            "Fantasy",
-            "Thriller",
-            "Biography",
-            "History",
-            "Self-help",
-            "Horror",
-            "Cooking",
-            "Travel",
-            "Art",
-            "Business",
-            "Religion",
-            "Humor",
-            "Children's",
-            "Young Adult"
-        );
-
         return $this->render('setting.html.twig',[
             'username' => 'test_user',
             'stylesheets' => $stylesheets,
@@ -43,17 +25,21 @@ class BookableController extends AbstractController
         ]);
     }
 
-    #[Route('/book/{bookTitle}')]
-    public function book($bookTitle = null): Response
+    #[Route('/book/book_id={book_id}')]
+    public function book(BookRepository $bookRepository, $book_id = null): Response
     {
         $stylesheets = ['book.css'];
-        $javascripts = ['book.js'];
-        if($bookTitle) {
-            $bookTitle = u(str_replace('-', ' ', $bookTitle))->title(true);
+        if($book_id) {
+            $book = $bookRepository->findOneBy(['id' => $book_id]);
+            try {
+                $bookTitle = u(preg_replace("/\([^)]+\)/", "", $book->getTitle()))->title(true);
+            } catch (PcreException $e) {
+                $bookTitle = $e;
+            }
             return $this->render('book.html.twig', [
                 'bookTitle' => $bookTitle,
                 'stylesheets' => $stylesheets,
-                'javascripts' => $javascripts
+                'book' => $book
             ]);
         } else {
             return new Response('Error: no book title detected');
@@ -75,4 +61,21 @@ class BookableController extends AbstractController
             'title'=>'Home!',
             'stylesheets' => $stylesheets]);
     }
+
+    #[Route("/profile", name: "profile")]
+    public function Profile(): Response {
+        $stylesheets = ['profile.css'];
+        return $this->render('profile.html.twig',[
+            'title'=>'Profile',
+            'stylesheets' => $stylesheets]);
+    }
+
+    #[Route("/browsing", name: "browsing")]
+    public function browsing(): Response {
+        $stylesheets = ['browsing.css'];
+        return $this->render('browsing.html.twig',[
+            'title'=>'Browser',
+            'stylesheets' => $stylesheets]);
+    }
+
 }

@@ -9,19 +9,23 @@
 {% endblock %}
 
 {% block javascripts %}
-
+    {{ parent() }}
+    {{ encore_entry_script_tags('book') }}
 {% endblock %}
 
 {% block content%}
+
     <section id="book-page">
-        <img src="{{ asset('images/charlie_chocolate.jpg') }}" alt="Book Cover" width="300"> {# TODO: don't hardcode width #}
+        <img src="{{ book.imageUrl() }}" alt="Book Cover" width="50%">
         <section id="book-information">
             <h1>{{ bookTitle }}</h1>
-            <h2>Author Name, Year</h2>
-            <div id="like-system">
-                <div class="progress-container">
-                    <div class="progress-bar" id="progress-bar"></div>
+            <h2>{{ book.author().getAuthorName() }}, {{ book.originalPublicationYear() | u.slice(0,4) }}</h2>
+            <h3>Genre: {# book.genre().getGenre() #}</h3>
+            <div id="like-system" {{ stimulus_controller('book') }}>
+                <div class="progress-container" {# stimulus_action('book', 'setInitial(4)') #}>
+                    <div class="progress-bar" id="progress-bar" {# stimulus_target('book', 'progressBar') #}></div>
                 </div>
+                <script src="{{ asset('build/book.js') }}">initialize({{ book.averageRating() }})</script>
                 <button class="ratingButton like" onclick="addLike()">
                     <img class="btn-img" src="{{ asset('images/thumbs-up.png') }}" alt="Image Button">
                 </button>
@@ -40,7 +44,7 @@
                     <p>bla bla bla...</p>
                 </div>
                 <div id="about-author">
-                    <h2>About the authour</h2>
+                    <h2>About {{ book.author().getAuthorName() }}</h2>
                     <p>bla bla bla...</p>
                 </div>
             </section>

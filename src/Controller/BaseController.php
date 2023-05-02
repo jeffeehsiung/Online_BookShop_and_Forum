@@ -12,10 +12,10 @@ class BaseController extends AbstractController
     private array $stylesheets;
 
     public function __construct() {
-        $this->stylesheets[] = 'home.css';
+        $this->stylesheets[] = 'base.css';
     }
 
-    #[Route('/', name: 'home')]
+    #[Route('/', name: 'base')]
     public function home(): Response
     {
         return $this->render('base.html.twig', [
