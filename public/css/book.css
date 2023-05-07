@@ -79,7 +79,7 @@ p {
 }
 
 .progress-bar {
-    width: 60%;
+    width: 50%;
     height: 5px;
     background-color: #b7e8c5;
     border-radius: 5px;
