@@ -68,12 +68,23 @@ class BookableController extends AbstractController
             'stylesheets' => $stylesheets]);
     }
 
-    #[Route("/profile", name: "profile")]
-    public function Profile(): Response {
+    #[Route("/profile/user_id={userID}")]
+    public function Profile(AvatarRepository $avatarRepository,UserRepository $userRepository,$userID = null): Response {
         $stylesheets = ['profile.css'];
-        return $this->render('profile.html.twig',[
-            'title'=>'Profile',
-            'stylesheets' => $stylesheets]);
+
+        if($userID) {
+            $user = $userRepository->findOneBy(['id' => $userID]);
+            $avatar = $avatarRepository->find(['id'=> $user->getAvatar()]);
+            return $this->render('profile.html.twig', [
+                'user' => $user,
+                'avatar' => $avatar,
+                'stylesheets' => $stylesheets,
+
+            ]);
+        } else {
+            return new Response('Error: no book title detected');
+        }
+
     }
 
     #[Route("/browsing", name: "browsing")]
