@@ -82,7 +82,6 @@ class BookableController extends AbstractController
             'title'=>'Browser',
             'stylesheets' => $stylesheets,
             'bookgenres' => $bookGenres,
-            'bookRepository' => $bookRepository,
             'books' => $books,
             'javascripts' => $javascripts
 

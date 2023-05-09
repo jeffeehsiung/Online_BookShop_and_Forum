@@ -226,7 +226,6 @@ class Book
         return $this->author;
     }
 
-
     public function setAuthor(?Author $author): self
     {
         $this->author = $author;

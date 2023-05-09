@@ -9,7 +9,6 @@
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent()}}
 {% endblock %}
 
 {% block content %}
@@ -20,15 +19,15 @@
         <section class="browsing-search">
             <!-- define search form-->
             <form action="#" class="search-form align-center" method="get">
-                <select name="genre" class="genre-selectors">
+                <select name="genre" class="genre-selector bg-white flex-grow pointer">
                     {# TODO: dynamically load genres from database table genres #}
                     {% for genre in bookgenres %}
                         <option value="{{ genre.genre }}" class="genre-selector">{{ genre.genre }}</option>
                     {% endfor %}
                 </select>
-                <input type="text" name="book-name" placeholder="Title" value="book name" class="name-selector">
-                <input type="text" name="author" placeholder="Author" value="author" class="author-selector">
-                <button type="submit" class="search-button">Search</button>
+                <input type="text" name="book-name" placeholder="Title" value="book name" class="flex-grow pointer">
+                <input type="text" name="keyword" placeholder="Keyword" value="keyword" class="flex-grow pointer">
+                <button type="submit" class="home-green-button button">Search</button>
             </form>
         </section>
     </section>
@@ -44,7 +43,6 @@
     </aside>
     <!-- flex in vertical direction the book list-->
     <section class="browsing-list">
-        {# TODO: if search-button is clicked, get the javascript return string #}
         {# TODO: dynamically load all book items in database table books #}
         {% for book in books %}
             <article class="browsing-list-item">
@@ -54,13 +52,7 @@
                     {% if book.getAuthor() is not null %}
                         <p class="book-list-author">{{ book.getAuthor().getAuthorName() }}</p>
                     {% endif %}
-                    {% if book.getGenre() is not null %}
-                        <p class="book-list-genre">{{ book.getGenre().getGenre() }}</p>
-                    {% endif %}
-                    {% if book.getAverageRating() is not null %}
-                        <p class="book-list-rating">{{ book.getAverageRating() }} average rating</p>
-                    {% endif %}
-                    <button class="save-button">Save to List</button>
+                    <button class="home-green-button">Add to Cart</button>
                 </section>
             </article>
         {% endfor %}
