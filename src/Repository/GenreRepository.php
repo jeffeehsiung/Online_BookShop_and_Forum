@@ -39,6 +39,23 @@ class GenreRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return Genre[] Returns an array of Genre objects find by property genre
+     */
+    public function findAllByGenre($value): array
+    {
+        return $this->createQueryBuilder('g')
+            ->andWhere('g.genre = :val')
+            ->setParameter('val', $value)
+            ->orderBy('g.genre', 'ASC')
+            ->setMaxResults(50)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
+
 //    /**
 //     * @return Genre[] Returns an array of Genre objects
 //     */

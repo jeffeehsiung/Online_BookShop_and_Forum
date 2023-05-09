@@ -20,8 +20,7 @@
             <!-- define search form-->
             <form action="#" class="search-form align-center" method="get">
                 <select name="genre" class="genre-selector bg-white flex-grow pointer">
-                    {# TODO: dynamically load genres from database table genres #}
-                    {% for genre in bookgenres %}
+                    {% for genre in genres %}
                         <option value="{{ genre.genre }}" class="genre-selector">{{ genre.genre }}</option>
                     {% endfor %}
                 </select>
@@ -34,14 +33,13 @@
     <aside class="browsing-filter-container">
         <p class="footer-header">Type</p>
         <form action="#" method="get">
-            {# TODO: dynamically load all column genre from database table genres #}
-            {% for genre in bookgenres %}
+            {% for genre in genres %}
                 <input id="genre-filter" type="checkbox" name="genre-filter" value="{{ genre.genre }}">
                 <label for="genre-filter" class="footer-link">{{ genre.genre }}</label><br>
             {% endfor %}
         </form>
     </aside>
-    <!-- flex in vertical direction the book list-->
+
     <section class="browsing-list">
         {# TODO: dynamically load all book items in database table books #}
         {% for book in books %}
@@ -52,7 +50,7 @@
                     {% if book.getAuthor() is not null %}
                         <p class="book-list-author">{{ book.getAuthor().getAuthorName() }}</p>
                     {% endif %}
-                    <button class="home-green-button">Add to Cart</button>
+                    <button class="home-green-button">Read More</button>
                 </section>
             </article>
         {% endfor %}

@@ -106,7 +106,7 @@ class BookableController extends AbstractController
         return $this->render('browsing.html.twig',[
             'title'=>'Browser',
             'stylesheets' => $stylesheets,
-            'bookgenres' => $bookGenres,
+            'genres' => $bookGenres,
             'books' => $books,
             'javascripts' => $javascripts
 

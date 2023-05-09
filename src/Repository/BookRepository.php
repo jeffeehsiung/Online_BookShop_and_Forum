@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Book;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,8 +40,25 @@ class BookRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return Book[] Returns an array of Book objects and sort by genre_id and title
+     */
+    public function findAllByGenre($gen_id): array
+    {
+        return $this->createQueryBuilder('genbooks')
+            ->andWhere('genbooks.exampleField = :val')
+            ->setParameter('val', $gen_id)
+                ->orderBy('genbooks.genre_id', 'ASC')
+                ->orderBy('genbooks.title', 'ASC')
+                ->setMaxResults(50)
+                ->getQuery()
+                ->getResult()
+        ;
+    }
 
-//    /**
+
+
+    //    /**
 //     * @return Book[] Returns an array of Book objects
 //     */
 //    public function findByExampleField($value): array
