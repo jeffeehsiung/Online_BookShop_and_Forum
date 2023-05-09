@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\BookRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -44,11 +42,8 @@ class Book
     #[ORM\Column(length: 6, nullable: true)]
     private ?string $language_code = null;
 
-    #[ORM\Column(length: 5, nullable: true)]
-    private ?string $average_rating = null;
-
     #[ORM\Column(type: Types::BIGINT, nullable: true)]
-    private ?string $ratings_count = null;
+    private ?int $likes = null;
 
     #[ORM\Column(length: 512, nullable: true)]
     private ?string $image_url = null;
@@ -62,14 +57,8 @@ class Book
     #[ORM\ManyToOne(inversedBy: 'help')]
     private ?Genre $genre = null;
 
-    #[ORM\OneToMany(mappedBy: 'book', targetEntity: FollowedBook::class)]
-    private Collection $followedBooks;
-
-    public function __construct()
-    {
-        $this->users = new ArrayCollection();
-        $this->followedBooks = new ArrayCollection();
-    }
+    #[ORM\Column(type: Types::BIGINT, nullable: true)]
+    private ?string $dislikes = null;
 
     public function getId(): ?int
     {
@@ -184,26 +173,14 @@ class Book
         return $this;
     }
 
-    public function getAverageRating(): ?string
+    public function getLikes(): ?int
     {
-        return $this->average_rating;
+        return $this->likes;
     }
 
-    public function setAverageRating(?string $average_rating): self
+    public function setLikes(?int $likes): self
     {
-        $this->average_rating = $average_rating;
-
-        return $this;
-    }
-
-    public function getRatingsCount(): ?string
-    {
-        return $this->ratings_count;
-    }
-
-    public function setRatingsCount(?string $ratings_count): self
-    {
-        $this->ratings_count = $ratings_count;
+        $this->likes = $likes;
 
         return $this;
     }
@@ -256,32 +233,14 @@ class Book
         return $this;
     }
 
-    /**
-     * @return Collection<int, FollowedBook>
-     */
-    public function getFollowedBooks(): Collection
+    public function getDislikes(): ?string
     {
-        return $this->followedBooks;
+        return $this->dislikes;
     }
 
-    public function addFollowedBook(FollowedBook $followedBook): self
+    public function setDislikes(?string $dislikes): self
     {
-        if (!$this->followedBooks->contains($followedBook)) {
-            $this->followedBooks->add($followedBook);
-            $followedBook->setBook($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFollowedBook(FollowedBook $followedBook): self
-    {
-        if ($this->followedBooks->removeElement($followedBook)) {
-            // set the owning side to null (unless already changed)
-            if ($followedBook->getBook() === $this) {
-                $followedBook->setBook(null);
-            }
-        }
+        $this->dislikes = $dislikes;
 
         return $this;
     }
