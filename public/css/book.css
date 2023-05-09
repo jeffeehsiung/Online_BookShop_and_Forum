@@ -1,10 +1,11 @@
 #book-page {
     display: flex;
     column-gap: 30px;
+    justify-content: center;
 }
 
 #book-information {
-    width: 100%;
+    width: 100%;    /* TODO: change this parameter according to taste, after implementing about text content */
 }
 
 #like-system {
@@ -79,7 +80,7 @@ p {
 }
 
 .progress-bar {
-    width: 60%;
+    width: 50%;
     height: 5px;
     background-color: #b7e8c5;
     border-radius: 5px;
