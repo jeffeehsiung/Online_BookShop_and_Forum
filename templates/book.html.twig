@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block bodyAttributes %}
-    onload="initialize({{ book.averageRating() }})"
+    onload="initialize({{ book.likes }}, {{ book.dislikes }})"
 {% endblock %}
 
 {% block content%}
@@ -21,15 +21,15 @@
     <section id="book-information">
         <h1>{{ bookTitle }}</h1>
         <h2>{{ book.author().getAuthorName() }}, {{ book.originalPublicationYear() | u.slice(0,4) }}</h2>
-        <h3>Genre: {# book.genre().getGenre() #}</h3>
-        <div id="like-system" {# stimulus_controller('book') #}>
-            <div class="progress-container" {# stimulus_action('book', 'setInitial(4)') #}>
-                <div class="progress-bar" id="progress-bar"{# stimulus_target('book', 'progressBar') #}></div>
+        <h3>Genre: {{ book.genre().getGenre() }}</h3>
+        <div id="like-system">
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
             </div>
-            <button class="ratingButton like" onclick="addLike()">
-                <img class="btn-img" src="{{ asset('images/thumbs-up.png') }}" alt="Image Button">
+            <button id="btn-like" class="ratingButton like" onclick="like()">
+                <img id="btn-like" class="btn-img" src="{{ asset('images/thumbs-up.png') }}" alt="Image Button">
             </button>
-            <button class="ratingButton dislike" onclick="addDislike()">
+            <button id="btn-dislike" class="ratingButton dislike" onclick="dislike()">
                 <img class="btn-img" src="{{ asset('images/thumbs-down.png') }}" alt="Image Button">
             </button>
         </div>

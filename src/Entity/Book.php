@@ -42,11 +42,8 @@ class Book
     #[ORM\Column(length: 6, nullable: true)]
     private ?string $language_code = null;
 
-    #[ORM\Column(length: 5, nullable: true)]
-    private ?string $average_rating = null;
-
     #[ORM\Column(type: Types::BIGINT, nullable: true)]
-    private ?string $ratings_count = null;
+    private ?int $likes = null;
 
     #[ORM\Column(length: 512, nullable: true)]
     private ?string $image_url = null;
@@ -59,6 +56,9 @@ class Book
 
     #[ORM\ManyToOne(inversedBy: 'help')]
     private ?Genre $genre = null;
+
+    #[ORM\Column(type: Types::BIGINT, nullable: true)]
+    private ?string $dislikes = null;
 
     public function getId(): ?int
     {
@@ -173,26 +173,14 @@ class Book
         return $this;
     }
 
-    public function getAverageRating(): ?string
+    public function getLikes(): ?int
     {
-        return $this->average_rating;
+        return $this->likes;
     }
 
-    public function setAverageRating(?string $average_rating): self
+    public function setLikes(?int $likes): self
     {
-        $this->average_rating = $average_rating;
-
-        return $this;
-    }
-
-    public function getRatingsCount(): ?string
-    {
-        return $this->ratings_count;
-    }
-
-    public function setRatingsCount(?string $ratings_count): self
-    {
-        $this->ratings_count = $ratings_count;
+        $this->likes = $likes;
 
         return $this;
     }
@@ -241,6 +229,18 @@ class Book
     public function setGenre(?Genre $genre): self
     {
         $this->genre = $genre;
+
+        return $this;
+    }
+
+    public function getDislikes(): ?string
+    {
+        return $this->dislikes;
+    }
+
+    public function setDislikes(?string $dislikes): self
+    {
+        $this->dislikes = $dislikes;
 
         return $this;
     }
