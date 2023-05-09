@@ -30,11 +30,18 @@ h3 {
     border-top-right-radius: 10px;
 
 }
+h4{
+    height: 64px;
+}
+.book img{
+    width: 240px;
+    height:360px;
+}
 .book{
     display: flex;
     flex-direction: column;
     position: center;
-    width: 200px;
+    width: 240px;
     gap: 25px;
     color: #B3B3B3;
 }
@@ -43,15 +50,43 @@ h3 {
     display: flex;
     flex-direction: row;
     position: center;
-    width: fit-content;
+    width: content-box;
     gap: 50px;
-    background-color: #1f1f1f;
-    border-radius: 10px;
+    background-color: #171717;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+    overflow-x: auto;
     padding-bottom: 30px;
     margin-bottom: 20px;
 }
 
+/* width */
+.book-list::-webkit-scrollbar {
+    width: 10px;
+    margin: 10px;
+}
 
+/* Track */
+.book-list::-webkit-scrollbar-track {
+    background: #171717;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* Handle */
+.book-list::-webkit-scrollbar-thumb {
+    background: #b7e8c5;
+    border-radius: 10px;
+    margin: 10px;
+    scroll-padding: 20px;
+
+}
+
+/* Handle on hover */
+.book-list::-webkit-scrollbar-thumb:hover {
+    background: #698670;
+}
 .book-list p{
     padding-left: 5px;
     padding-right: 5px;
@@ -73,10 +108,31 @@ h3 {
     display: flex;
     flex-direction: column;
     column-gap: 10px;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    margin: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #171717;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #b7e8c5;
+    border-radius: 10px;
+    margin: 10px;
+    scroll-padding: 20px;
 
 }
 
-
+/* Handle on hover */
+.book-list::-webkit-scrollbar-thumb:hover {
+    background: #698670;
+}
 #intro{
     color: #B3B3B3;
     text-align: left;

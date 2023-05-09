@@ -9,45 +9,46 @@
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('book') }}
+{% endblock %}
+
+{% block bodyAttributes %}
+    onload="initialize({{ book.likes }}, {{ book.dislikes }})"
 {% endblock %}
 
 {% block content%}
-
-    <section id="book-page">
-        <img src="{{ book.imageUrl() }}" alt="Book Cover" width="50%">
-        <section id="book-information">
-            <h1>{{ bookTitle }}</h1>
-            <h2>{{ book.author().getAuthorName() }}, {{ book.originalPublicationYear() | u.slice(0,4) }}</h2>
-            <h3>Genre: {# book.genre().getGenre() #}</h3>
-            <div id="like-system" {{ stimulus_controller('book') }}>
-                <div class="progress-container" {# stimulus_action('book', 'setInitial(4)') #}>
-                    <div class="progress-bar" id="progress-bar" {# stimulus_target('book', 'progressBar') #}></div>
-                </div>
-                <script src="{{ asset('build/book.js') }}">initialize({{ book.averageRating() }})</script>
-                <button class="ratingButton like" onclick="addLike()">
-                    <img class="btn-img" src="{{ asset('images/thumbs-up.png') }}" alt="Image Button">
-                </button>
-                <button class="ratingButton dislike" onclick="addDislike()">
-                    <img class="btn-img" src="{{ asset('images/thumbs-down.png') }}" alt="Image Button">
-                </button>
+<section id="book-page">
+    <img src="{{ book.imageUrl() }}" alt="Book Cover" width="50%">
+    <section id="book-information">
+        <h1>{{ bookTitle }}</h1>
+        <h2>{{ book.author().getAuthorName() }}, {{ book.originalPublicationYear() | u.slice(0,4) }}</h2>
+        <h3>Genre: {{ book.genre().getGenre() }}</h3>
+        <div id="like-system">
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
             </div>
-            <br>
-            <div id="book-options">
-                <button type="button" class="button">Follow +</button>
-                <button type="button" class="button">Reserve</button>
+            <button id="btn-like" class="ratingButton like" onclick="like()">
+                <img id="btn-like" class="btn-img" src="{{ asset('images/thumbs-up.png') }}" alt="Image Button">
+            </button>
+            <button id="btn-dislike" class="ratingButton dislike" onclick="dislike()">
+                <img class="btn-img" src="{{ asset('images/thumbs-down.png') }}" alt="Image Button">
+            </button>
+        </div>
+        <br>
+        <div id="book-options">
+            <button type="button" class="button">Follow +</button>
+            <button type="button" class="button">Reserve</button>
+        </div>
+        <section class="about">
+            <div id="about-book">
+                <h2>About {{ bookTitle }}</h2>
+                <p>bla bla bla...</p>
             </div>
-            <section class="about">
-                <div id="about-book">
-                    <h2>About {{ bookTitle }}</h2>
-                    <p>bla bla bla...</p>
-                </div>
-                <div id="about-author">
-                    <h2>About {{ book.author().getAuthorName() }}</h2>
-                    <p>bla bla bla...</p>
-                </div>
-            </section>
+            <div id="about-author">
+                <h2>About {{ book.author().getAuthorName() }}</h2>
+                <p>bla bla bla...</p>
+            </div>
         </section>
     </section>
+</section>
+
 {% endblock %}
