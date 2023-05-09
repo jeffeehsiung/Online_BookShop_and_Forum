@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BookRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -59,6 +61,15 @@ class Book
 
     #[ORM\ManyToOne(inversedBy: 'help')]
     private ?Genre $genre = null;
+
+    #[ORM\OneToMany(mappedBy: 'book', targetEntity: FollowedBook::class)]
+    private Collection $followedBooks;
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+        $this->followedBooks = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -241,6 +252,36 @@ class Book
     public function setGenre(?Genre $genre): self
     {
         $this->genre = $genre;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FollowedBook>
+     */
+    public function getFollowedBooks(): Collection
+    {
+        return $this->followedBooks;
+    }
+
+    public function addFollowedBook(FollowedBook $followedBook): self
+    {
+        if (!$this->followedBooks->contains($followedBook)) {
+            $this->followedBooks->add($followedBook);
+            $followedBook->setBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFollowedBook(FollowedBook $followedBook): self
+    {
+        if ($this->followedBooks->removeElement($followedBook)) {
+            // set the owning side to null (unless already changed)
+            if ($followedBook->getBook() === $this) {
+                $followedBook->setBook(null);
+            }
+        }
 
         return $this;
     }

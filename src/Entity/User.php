@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -52,6 +54,15 @@ class User
 
     #[ORM\Column(length: 512, nullable: true)]
     private ?string $bio = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: FollowedBook::class)]
+    private Collection $followedBooks;
+
+    public function __construct()
+    {
+        $this->Book = new ArrayCollection();
+        $this->followedBooks = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -210,6 +221,36 @@ class User
     public function setBio(?string $bio): self
     {
         $this->bio = $bio;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FollowedBook>
+     */
+    public function getFollowedBooks(): Collection
+    {
+        return $this->followedBooks;
+    }
+
+    public function addFollowedBook(FollowedBook $followedBook): self
+    {
+        if (!$this->followedBooks->contains($followedBook)) {
+            $this->followedBooks->add($followedBook);
+            $followedBook->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFollowedBook(FollowedBook $followedBook): self
+    {
+        if ($this->followedBooks->removeElement($followedBook)) {
+            // set the owning side to null (unless already changed)
+            if ($followedBook->getUser() === $this) {
+                $followedBook->setUser(null);
+            }
+        }
 
         return $this;
     }
