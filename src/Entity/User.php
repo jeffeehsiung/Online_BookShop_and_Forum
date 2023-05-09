@@ -64,6 +64,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->Book = new ArrayCollection();
         $this->followedBooks = new ArrayCollection();
+        $this->likedAuthors = new ArrayCollection();
+        $this->likedGenres = new ArrayCollection();
     }
 
     /**
@@ -71,6 +73,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: LikedAuthor::class)]
+    private Collection $likedAuthors;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: LikedGenre::class)]
+    private Collection $likedGenres;
 
     public function getId(): ?int
     {
@@ -302,6 +310,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($followedBook->getUser() === $this) {
                 $followedBook->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LikedAuthor>
+     */
+    public function getLikedAuthors(): Collection
+    {
+        return $this->likedAuthors;
+    }
+
+    public function addLikedAuthor(LikedAuthor $likedAuthor): self
+    {
+        if (!$this->likedAuthors->contains($likedAuthor)) {
+            $this->likedAuthors->add($likedAuthor);
+            $likedAuthor->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLikedAuthor(LikedAuthor $likedAuthor): self
+    {
+        if ($this->likedAuthors->removeElement($likedAuthor)) {
+            // set the owning side to null (unless already changed)
+            if ($likedAuthor->getUser() === $this) {
+                $likedAuthor->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LikedGenre>
+     */
+    public function getLikedGenres(): Collection
+    {
+        return $this->likedGenres;
+    }
+
+    public function addLikedGenre(LikedGenre $likedGenre): self
+    {
+        if (!$this->likedGenres->contains($likedGenre)) {
+            $this->likedGenres->add($likedGenre);
+            $likedGenre->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLikedGenre(LikedGenre $likedGenre): self
+    {
+        if ($this->likedGenres->removeElement($likedGenre)) {
+            // set the owning side to null (unless already changed)
+            if ($likedGenre->getUser() === $this) {
+                $likedGenre->setUser(null);
             }
         }
 
