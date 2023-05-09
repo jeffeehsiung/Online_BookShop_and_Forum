@@ -28,7 +28,7 @@ class BookableController extends AbstractController
         ]);
     }
 
-    #[Route('/book/book_id={book_id}')]
+    #[Route('/book/{book_id}')]
     public function book(BookRepository $bookRepository, $book_id = null): Response
     {
         $stylesheets = ['book.css'];
@@ -68,7 +68,7 @@ class BookableController extends AbstractController
             'stylesheets' => $stylesheets]);
     }
 
-    #[Route("/profile/user_id={userID}")]
+    #[Route("/profile/{userID}")]
     public function Profile(AvatarRepository $avatarRepository,UserRepository $userRepository,$userID = null): Response {
         $stylesheets = ['profile.css'];
 
