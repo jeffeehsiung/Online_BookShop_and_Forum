@@ -33,11 +33,15 @@ h3 {
 h4{
     height: 64px;
 }
+.book img{
+    width: 240px;
+    height:360px;
+}
 .book{
     display: flex;
     flex-direction: column;
     position: center;
-    width: 200px;
+    width: 240px;
     gap: 25px;
     color: #B3B3B3;
 }
