@@ -71,7 +71,7 @@ class BookableController extends AbstractController
     }
 
     #[Route("/profile/{userID}")]
-    public function Profile(AvatarRepository $avatarRepository,UserRepository $userRepository,$userID = null): Response {
+    public function Profile(AvatarRepository $avatarRepository, UserRepository $userRepository, $userID = null): Response {
         $stylesheets = ['profile.css'];
 
         if($userID) {
