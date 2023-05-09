@@ -1,8 +1,11 @@
 <?php
 
 namespace App\Controller;
+use App\Repository\AvatarRepository;
 use App\Repository\BookRepository;
 use App\Repository\GenreRepository;
+use App\Repository\LibraryRepository;
+use App\Repository\UserRepository;
 use Safe\Exceptions\PcreException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,7 +14,7 @@ use function Symfony\Component\String\u;
 class BookableController extends AbstractController
 {
     #[Route('/settings')]
-    public function settings(GenreRepository $genreRepository): Response
+    public function settings(GenreRepository $genreRepository, UserRepository $userRepository): Response
     {
         $bookGenres = $genreRepository->findAll();
         // TODO: split twig templates into file format 'controllername/methodname.html.twig' -> example: 'bookable/settings.html.twig'
@@ -25,7 +28,7 @@ class BookableController extends AbstractController
         ]);
     }
 
-    #[Route('/book/book_id={book_id}')]
+    #[Route('/book/{book_id}')]
     public function book(BookRepository $bookRepository, $book_id = null): Response
     {
         $stylesheets = ['book.css'];
@@ -65,12 +68,23 @@ class BookableController extends AbstractController
             'stylesheets' => $stylesheets]);
     }
 
-    #[Route("/profile", name: "profile")]
-    public function Profile(): Response {
+    #[Route("/profile/{userID}")]
+    public function Profile(AvatarRepository $avatarRepository,UserRepository $userRepository,$userID = null): Response {
         $stylesheets = ['profile.css'];
-        return $this->render('profile.html.twig',[
-            'title'=>'Profile',
-            'stylesheets' => $stylesheets]);
+
+        if($userID) {
+            $user = $userRepository->findOneBy(['id' => $userID]);
+            $avatar = $avatarRepository->find(['id'=> $user->getAvatar()]);
+            return $this->render('profile.html.twig', [
+                'user' => $user,
+                'avatar' => $avatar,
+                'stylesheets' => $stylesheets,
+
+            ]);
+        } else {
+            return new Response('Error: no book title detected');
+        }
+
     }
 
     #[Route("/browsing", name: "browsing")]
