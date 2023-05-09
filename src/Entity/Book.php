@@ -44,7 +44,7 @@ class Book
 
     #[ORM\Column(type: Types::BIGINT, nullable: true)]
     private ?int $likes = null;
-
+    #blabababa
     #[ORM\Column(length: 512, nullable: true)]
     private ?string $image_url = null;
 
