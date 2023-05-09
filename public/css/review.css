@@ -1,15 +1,4 @@
-.review-card {
-  gap: var(--dl-space-space-threeunits);
-  flex: 1;
-  display: flex;
-  padding: var(--dl-space-space-threeunits);
-  position: relative;
-  align-items: flex-start;
-  border-radius: 20px;
-  flex-direction: column;
-  justify-content: flex-start;
-  background-color: #292929;
-}
+
 .review-stars {
   gap: 4px;
   display: flex;
@@ -21,22 +10,22 @@
   width: 16px;
   height: 16px;
 }
-.review-icon02 {
+.review-icon {
   fill: #FFDE6A;
   width: 16px;
   height: 16px;
 }
-.review-icon04 {
+.review-icon {
   fill: #FFDE6A;
   width: 16px;
   height: 16px;
 }
-.review-icon06 {
+.review-icon {
   fill: #FFDE6A;
   width: 16px;
   height: 16px;
 }
-.review-icon08 {
+.review-icon {
   fill: #FFDE6A;
   width: 16px;
   height: 16px;

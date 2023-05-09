@@ -39,12 +39,10 @@
   display: flex;
   transition: 0.3s;
   align-items: center;
-  padding-top: var(--dl-space-space-oneandhalfunits);
-  padding-left: var(--dl-space-space-twounits);
   border-radius: 58px;
-  padding-right: var(--dl-space-space-twounits);
+  padding: var(--dl-space-space-oneandhalfunits) var(--dl-space-space-twounits);
   flex-direction: column;
-  padding-bottom: var(--dl-space-space-oneandhalfunits);
+  background-color: #80FF44;
 }
 .button:hover {
   opacity: 0.5;
@@ -217,6 +215,17 @@
   font-size: 14px;
   font-family: Poppins;
   line-height: 21px;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+
+  text-align: left;
+  font-family: Poppins, serif;
+  font-weight: 250;
+  font-stretch: normal;
+  text-decoration: none;
 }
 .Heading {
   font-size: 32px;

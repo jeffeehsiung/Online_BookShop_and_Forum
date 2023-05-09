@@ -28,27 +28,39 @@
          background-color: var(--dl-color-gray-white);
        }
     </style>
+
     <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
-      data-tag="font"
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
+          data-tag="font"
     />
     <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
-      data-tag="font"
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+          data-tag="font"
     />
     <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css"/>
     {% if stylesheets is defined %}
-    {% for stylesheet in stylesheets %}
-      <link href="{{ asset('css/' ~ stylesheet) }}" rel="stylesheet" type="text/css"/>
-    {% endfor %}
-    {% endif %}
-    {% if javascripts is defined %}
-      {% for script in javascripts %}
-        <script src="{{ asset('js/' ~ script) }}" defer></script>
+      {% for stylesheet in stylesheets %}
+        <link href="{{ asset('css/' ~ stylesheet) }}" rel="stylesheet" type="text/css"/>
       {% endfor %}
     {% endif %}
+
+    {# TODO: refactor styling and javascript to work through encore #}
+    {% block stylesheets %}
+      {# 'app' must match the first argument to addEntry() in webpack.config.js #}
+      {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+
+  {% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+
+  {% endblock %}
+  {% if javascripts is defined %}
+    {% for script in javascripts %}
+      <script src="{{ asset('js/' ~ script) }}" defer></script>
+    {% endfor %}
+  {% endif %}
 
 </head>
 
@@ -57,24 +69,24 @@
     <script type="text/javascript"
             src="https://unpkg.com/dangerous-html@0.1.12/dist/default/lib.umd.js"
     ></script>
-    <link href="{{ asset('css/home.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/base.css') }}" rel="stylesheet" type="text/css"/>
   <div class="home-container">
   <header>
   <nav class="navbar-navbar navbar-root-class-name" id="navbar">
     <section id="logo"> {# TODO: create proper logo #}
-      <h1>Bookable</h1>
+      <img id = "logo png" src="https://www.linkpicture.com/q/Bookable-removebg-preview-2.png">
     </section>
-    <div class="navbar-nav-content">
-      <div class="navbar-nav-links">
-        <span class="navbar-link nav-link">Features</span>
-        <span class="nav-link">About us</span>
-        <span class="nav-link">Browse a book</span>
-        <span class="nav-link">Community</span>
-        <span class="nav-link">Settings</span>
-      </div>
-      <div class="get-started navbar-get-started">
+    <nav class="navbar-nav-content">
+      <ul class="navbar-nav-links"> {# TODO: check if changing div and span to class nav and li+a messes up the css configuration #}
+        <li><a class="navbar-link nav-link">Features</a></li>>
+        <li><a class="nav-link">About us</a></li>
+        <li><a class="nav-link">Browse a book</a></li>
+        <li><a class="nav-link">Community</a></li>
+        <li><a class="nav-link">Settings</a></li>
+      </ul>
+      <ul class="get-started navbar-get-started">
         <span class="navbar-text">Get started</span>
-      </div>
+      </ul>
       <div id="open-mobile-menu" class="navbar-hamburger get-started">
         <img
           alt="image"
@@ -82,8 +94,8 @@
           class="navbar-image"
         />
       </div>
-    </div>
-    <div id="mobile-menu" class="navbar-mobile-menu">
+    </nav>
+    <nav id="mobile-menu" class="navbar-mobile-menu">
       <div class="navbar-branding">
         <img
           alt="image"
@@ -98,17 +110,17 @@
           </svg>
         </div>
       </div>
-      <div class="navbar-nav-links1">
-        <span class="nav-link">Features</span>
-        <span class="nav-link">About us</span>
-        <span class="nav-link">Browse a book</span>
-        <span class="nav-link">Community</span>
-        <span class="nav-link">Settings</span>
-      </div>
-      <div class="get-started">
-        <span class="navbar-text1">Get started</span>
-      </div>
-    </div>
+      <ul class="navbar-nav-links1">
+        <li><a class="nav-link">Features</a></li>
+        <li><a class="nav-link">About us</a></li>
+        <li><a class="nav-link">Browse a book</a></li>
+        <li><a class="nav-link">Community</a></li>
+        <li><a class="nav-link">Settings</a></li>
+      </ul>
+      <ul class="get-started">
+        <span class="navbar-text">Get started</span>
+      </ul>
+    </nav>
   </nav>
   </header>
 
@@ -118,10 +130,10 @@
 
 
   <footer class="home-footer">
-    <div class="home-content1">
-      <main class="home-main-content">
-        <div class="home-content2">
-          <header class="home-main1">
+    <div class="home-footer-content">
+      <main class="home-footer-main">
+        <div class="home-footer-links">
+          <header class="home-footer-images">
             <div class="home-socials">
               <a
                       href="https://example.com"
@@ -163,19 +175,19 @@
           </header>
           <header class="home-categories">
             <div class="home-category">
-              <div class="home-header15">
+              <div class="home-footer-header">
                 <span class="footer-header">Solutions</span>
               </div>
-              <div class="home-links">
+              <div class="home-links-wide">
                 <span class="footer-link">Responsive Web Design</span>
                 <span class="footer-link">Responsive Prototypes</span>
               </div>
             </div>
             <div class="home-category1">
-              <div class="home-header16">
+              <div class="home-footer-header">
                 <span class="footer-header">Company</span>
               </div>
-              <div class="home-links1">
+              <div class="home-links-narrow">
                 <span class="footer-link">About</span>
                 <span class="footer-link">Team</span>
                 <span class="footer-link">News</span>
@@ -184,14 +196,14 @@
           </header>
         </div>
         <section class="home-copyright">
-          <span class="home-text56">
+          <span class="home-footer-copyright">
             © 2022 latitude. All Rights Reserved.
           </span>
         </section>
       </main>
       <main class="home-subscribe">
-        <main class="home-main2">
-          <h1 class="home-heading18">Subscribe to our newsletter</h1>
+        <main class="home-main-subscribe">
+          <h1 class="home-subscribe-heading">Subscribe to our newsletter</h1>
           <div class="home-input-field">
             <label>
               <input
@@ -200,11 +212,10 @@
                 class="home-textinput input"
               />
             </label>
-            <div class="home-buy3 button">
-              <span class="home-text57">-&gt;</span>
-              <span class="home-text58">
+            <div class="home-green-button button">
+              <span class="home-green-button">
                 <span>Subscribe now</span>
-                <br />
+                <br/>
               </span>
             </div>
           </div>
@@ -214,8 +225,8 @@
           Conditions.
         </h1>
       </main>
-      <section class="home-copyright1">
-        <span class="home-text61">
+      <section class="home-mobile-copyright">
+        <span class="home-footer-copyright">
           © 2022 latitude. All Rights Reserved.
         </span>
       </section>
