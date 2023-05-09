@@ -20,7 +20,6 @@ final class Version20230509102043 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        /*
         $this->addSql('CREATE TABLE messenger_messages (id BIGINT AUTO_INCREMENT NOT NULL, body LONGTEXT NOT NULL, headers LONGTEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at DATETIME NOT NULL, available_at DATETIME NOT NULL, delivered_at DATETIME DEFAULT NULL, INDEX IDX_75EA56E0FB7336F0 (queue_name), INDEX IDX_75EA56E0E3BD61CE (available_at), INDEX IDX_75EA56E016BA31DB (delivered_at), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE reading_list DROP FOREIGN KEY rl_book_key');
         $this->addSql('ALTER TABLE reading_list DROP FOREIGN KEY rl_user_key');
@@ -37,9 +36,7 @@ final class Version20230509102043 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX UNIQ_5480172BE7927C74 ON users (email)');
         $this->addSql('ALTER TABLE users RENAME INDEX avatar_key_idx TO IDX_5480172B86383B10');
         $this->addSql('ALTER TABLE users RENAME INDEX libraries_key_idx TO IDX_5480172BFE2541D7');
-        */
         $this->addSql('ALTER TABLE users ADD roles JSON NOT NULL, DROP visibility_posts, CHANGE password password VARCHAR(255) NOT NULL, CHANGE email email VARCHAR(180) NOT NULL');
-
     }
 
     public function down(Schema $schema): void
