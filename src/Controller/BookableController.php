@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use function Symfony\Component\String\u;
+
 class BookableController extends AbstractController
 {
     #[Route('/settings')]
@@ -20,6 +21,27 @@ class BookableController extends AbstractController
         // TODO: split twig templates into file format 'controllername/methodname.html.twig' -> example: 'bookable/settings.html.twig'
         $stylesheets = ['settings.css'];
         $javascripts = ['settings.js'];
+        $bookGenres = array(
+            "Fiction",
+            "Mystery",
+            "Romance",
+            "Science Fiction",
+            "Fantasy",
+            "Thriller",
+            "Biography",
+            "History",
+            "Self-help",
+            "Horror",
+            "Cooking",
+            "Travel",
+            "Art",
+            "Business",
+            "Religion",
+            "Humor",
+            "Children's",
+            "Young Adult"
+        );
+
         return $this->render('setting.html.twig',[
             'username' => 'test_user',
             'stylesheets' => $stylesheets,
@@ -52,7 +74,8 @@ class BookableController extends AbstractController
     }
 
     #[Route("/welcome", name: "welcome")]
-    public function Welcome(): Response {
+    public function Welcome(): Response
+    {
         $stylesheets = ['welcome.css'];
         $javascripts = ['welcome.js'];
         return $this->render('welcome.html.twig',[
@@ -65,9 +88,12 @@ class BookableController extends AbstractController
     #[Route("/home", name: "home")]
     public function Home(): Response {
         $stylesheets = ['homev2.css'];
+        $javascripts = ['home.js'];
         return $this->render('home.html.twig',[
             'title'=>'Home!',
-            'stylesheets' => $stylesheets]);
+            'stylesheets' => $stylesheets,
+            'javascripts' =>$javascripts]);
+
     }
 
     #[Route("/profile/{userID}")]
