@@ -5,6 +5,7 @@ use App\Repository\AvatarRepository;
 use App\Repository\BookRepository;
 use App\Repository\GenreRepository;
 use App\Repository\LibraryRepository;
+use App\Repository\LikedGenreRepository;
 use App\Repository\UserRepository;
 use Safe\Exceptions\PcreException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -65,16 +66,29 @@ class BookableController extends AbstractController
         ]);
     }
 
-    #[Route("/home", name: "home")]
-    public function Home(): Response {
+    #[Route("/home/{userID}", name: "home")]
+    public function Home(LikedGenreRepository $likedGenreRepository, UserRepository $userRepository, GenreRepository$genreRepository, $userID = null): Response
+    {
         $stylesheets = ['homev2.css'];
         $javascripts = ['home.js'];
-        return $this->render('home.html.twig',[
-            'title'=>'Home!',
-            'stylesheets' => $stylesheets,
-            'javascripts' =>$javascripts]);
+        if ($userID) {
+            $user = $userRepository->findOneBy(['id' => $userID]);
+            $genre_id = $likedGenreRepository->findBy(['user'=>$userID]);
+            $genres = $genreRepository->findBy(['id'=>$genre_id]);
 
+            return $this->render('home.html.twig', [
+                'title' => 'Home!',
+                'stylesheets' => $stylesheets,
+                'javascripts' => $javascripts,
+                'user' => $user,
+                'genres' => $genres
+            ]);
+        }
+        else{
+            return new Response('Error: no matches detected');
+        }
     }
+
 
     #[Route("/profile/{userID}")]
     public function Profile(AvatarRepository $avatarRepository, UserRepository $userRepository, $userID = null): Response {
