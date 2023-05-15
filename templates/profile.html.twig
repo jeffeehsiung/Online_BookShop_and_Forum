@@ -32,20 +32,35 @@
     <section id = "right">
         <h1 class = section-title> Liked Books</h1>
         <div class = booklist>
+
+                {% if followed_book == null%}
+                <div class="empty">
+                    <a > No liked books yet...</a>
+                </div>
+                {% else %}
             <div class="media-scroller snaps-inline">
                 {% for book in followed_book %}
+
                 <div class="media-element">
                     <img src = "{{ book.getImageUrl  }} "alt="">
                     <p class="title">{{ book.getTitle }}</p>
                 </div>
                 {% endfor %}
+            </div>
+                {% endif %}
 
 
             </div>
-        </div>
+
 
         <h1 class = section-title> To Read</h1>
         <div class = booklist>
+
+                {% if read_list == null%}
+                <div class="empty">
+                    <a > To read list is empty...</a>
+                </div>
+                {% else %}
             <div class="media-scroller snaps-inline">
                 {% for book in read_list %}
                     <div class="media-element">
@@ -53,10 +68,12 @@
                         <p class="title">{{ book.getTitle }}</p>
                     </div>
                 {% endfor %}
+            </div>
+                {% endif %}
 
 
             </div>
-        </div>
+
 
 
 

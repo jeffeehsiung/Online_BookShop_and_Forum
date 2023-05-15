@@ -99,6 +99,16 @@
     border-radius: 20px;
     box-shadow: #3E3E3E;
 }
+.empty {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: min-content;
+    gap: var(--_spacer);
+    padding: var(--_spacer);
+
+    border-radius: 20px;
+    box-shadow: #3E3E3E;
+}
 
 .media-element > img {
     inline-size: 90%;
