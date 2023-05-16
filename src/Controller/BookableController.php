@@ -1,9 +1,6 @@
 <?php
 
 namespace App\Controller;
-use App\Entity\User;
-use App\Entity\Author;
-use App\Repository\AuthorRepository;
 use App\Repository\AvatarRepository;
 use App\Repository\BookRepository;
 use App\Repository\FollowedBookRepository;
@@ -11,8 +8,8 @@ use App\Repository\GenreRepository;
 use App\Repository\LibraryRepository;
 use App\Repository\LikedGenreRepository;
 use App\Repository\UserRepository;
-use PhpParser\Builder\Class_;
 use Safe\Exceptions\PcreException;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,6 +56,24 @@ class BookableController extends AbstractController
         } else {
             return new Response('Error: no book title detected');
         }
+    }
+
+    #[Route('/book/{book_id}/vote', name: "book_vote", methods: ['POST'])]
+    public function vote(BookRepository $bookRepository, Request $request, EntityManagerInterface $entityManager, $book_id = null) : Response
+    {
+        // TODO: set and check liked books to enable/disable like system
+        $book = $bookRepository->findOneBy(['id' => $book_id]);
+        $direction = $request->request->get('direction', 'up');
+        if($direction === 'up') {
+            $book->setLikes($book->getLikes() + 1);
+        } else {
+            $book->setLikes($book->getLikes() - 1);
+        }
+
+        $entityManager->flush();
+        return $this->redirectToRoute("book", [
+            'book_id' => $book_id
+        ]);
     }
 
     #[Route("/welcome", name: "welcome")]
@@ -122,7 +137,6 @@ class BookableController extends AbstractController
             return new Response('Error: no matches detected');
         }
     }
-
 
     #[Route("/profile/{userID}")]
     public function Profile(AvatarRepository $avatarRepository, UserRepository $userRepository, $userID = null): Response {

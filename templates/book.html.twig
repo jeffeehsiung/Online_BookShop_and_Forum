@@ -22,18 +22,18 @@
         <h1>{{ bookTitle }}</h1>
         <h2>{{ book.author().getAuthorName() }}, {{ book.originalPublicationYear() | u.slice(0,4) }}</h2>
         <h3>Genre: {{ book.genre().getGenre() }}</h3>
-        <div id="like-system">
+        <form id="like-system" action="{{ path('book_vote', {book_id: book.id}) }}" method="POST">
             <div class="progress-container">
                 <div class="progress-bar" id="progress-bar"></div>
             </div>
-            <button id="btn-like" class="ratingButton like" onclick="like()">
+            <button id="btn-like" class="ratingButton like" type="submit" name="direction" value="up" onclick="like()">
                 <img id="btn-like" class="btn-img" src="{{ asset('images/thumbs-up.png') }}" alt="Image Button">
             </button>
-            <button id="btn-dislike" class="ratingButton dislike" onclick="dislike()">
+            <button id="btn-dislike" class="ratingButton dislike" type="submit" name="direction" value="down" onclick="dislike()">
                 <img class="btn-img" src="{{ asset('images/thumbs-down.png') }}" alt="Image Button">
             </button><br />
             <p1 id="like-counter">likes/dislikes: {{ book.likes }}/{{ book.dislikes }}</p1>
-        </div>
+        </form>
         <br>
         <div id="book-options">
             <button type="button" class="button">Follow +</button>
