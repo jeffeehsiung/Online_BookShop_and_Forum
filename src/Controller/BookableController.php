@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+use App\Repository\AuthorRepository;
 use App\Repository\AvatarRepository;
 use App\Repository\BookRepository;
 use App\Repository\GenreRepository;
@@ -67,21 +68,25 @@ class BookableController extends AbstractController
     }
 
     #[Route("/home/{userID}", name: "home")]
-    public function Home(LikedGenreRepository $likedGenreRepository, UserRepository $userRepository, GenreRepository$genreRepository, $userID = null): Response
+    public function Home(AuthorRepository $authorRepository, LikedGenreRepository $likedGenreRepository, UserRepository $userRepository, GenreRepository$genreRepository, BookRepository $bookRepository, $userID = null): Response
     {
         $stylesheets = ['homev2.css'];
         $javascripts = ['home.js'];
         if ($userID) {
             $user = $userRepository->findOneBy(['id' => $userID]);
             $genre_id = $likedGenreRepository->findBy(['user'=>$userID]);
-            $genres = $genreRepository->findBy(['id'=>$genre_id]);
-
+            $genres = $genreRepository->findBy(['id'=>$genre_id, ]);
+            $books =  $bookRepository->findBy(['genre'=>$genre_id] );
+            shuffle($books);
+            $authors = $authorRepository->findAll();
             return $this->render('home.html.twig', [
                 'title' => 'Home!',
                 'stylesheets' => $stylesheets,
                 'javascripts' => $javascripts,
                 'user' => $user,
-                'genres' => $genres
+                'genres' => $genres,
+                'books' => $books,
+                'authors' => $authors
             ]);
         }
         else{
