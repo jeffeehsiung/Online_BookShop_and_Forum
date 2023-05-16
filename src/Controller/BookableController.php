@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Repository\AuthorRepository;
 use App\Repository\AvatarRepository;
 use App\Repository\BookRepository;
+use App\Repository\FollowedBookRepository;
 use App\Repository\GenreRepository;
 use App\Repository\LibraryRepository;
 use App\Repository\LikedGenreRepository;
@@ -68,7 +69,9 @@ class BookableController extends AbstractController
     }
 
     #[Route("/home/{userID}", name: "home")]
-    public function Home(AuthorRepository $authorRepository, LikedGenreRepository $likedGenreRepository, UserRepository $userRepository, GenreRepository$genreRepository, BookRepository $bookRepository, $userID = null): Response
+    public function Home(AuthorRepository $authorRepository, LikedGenreRepository $likedGenreRepository,
+                         UserRepository $userRepository, GenreRepository$genreRepository, BookRepository $bookRepository,
+                         FollowedBookRepository $followedBookRepository, $userID = null): Response
     {
         $stylesheets = ['homev2.css'];
         $javascripts = ['home.js'];
@@ -76,8 +79,9 @@ class BookableController extends AbstractController
             $user = $userRepository->findOneBy(['id' => $userID]);
             $genre_id = $likedGenreRepository->findBy(['user'=>$userID]);
             $genres = $genreRepository->findBy(['id'=>$genre_id, ]);
-            $books =  $bookRepository->findBy(['genre'=>$genre_id] );
-            shuffle($books);
+            $genre_books =  $bookRepository->findBy(['genre'=>$genre_id] );
+            $followed = $followedBookRepository->findBy(['user'=>$userID]);
+            shuffle($genre_books);
             $authors = $authorRepository->findAll();
             return $this->render('home.html.twig', [
                 'title' => 'Home!',
@@ -85,7 +89,7 @@ class BookableController extends AbstractController
                 'javascripts' => $javascripts,
                 'user' => $user,
                 'genres' => $genres,
-                'books' => $books,
+                'genre_books' => $genre_books,
                 'authors' => $authors
             ]);
         }

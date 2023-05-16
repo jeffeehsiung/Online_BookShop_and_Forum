@@ -80,13 +80,13 @@
                     <h3>Books in the category {{ genre.getGenre() }}</h3>
                     <div class="book-list">
                         {% set count = 0 %}
-                        {% for book in books %}
-                            {% if book.getGenre() == genre %}
+                        {% for genre_book in genre_books %}
+                            {% if genre_book.getGenre() == genre %}
                                 {% if count < 20 %}
                                     <div class="book">
-                                        <img src="{{ book.imageUrl }}" alt="Cover 4" >
-                                        <h4>{{ book.title() }}</h4>
-                                        <h4>{{ book.author().getAuthorName() }}</h4>
+                                        <img src="{{ genre_book.imageUrl }}" alt="Cover 4" >
+                                        <h4>{{ genre_book.title() }}</h4>
+                                        <h4>{{ genre_book.author().getAuthorName() }}</h4>
                                         <a href="{{ path("home") }}" class="btn">Buy Now</a>
                                     </div>
                                     {% set count = count + 1 %}
