@@ -5,6 +5,9 @@ Welcome
 {% endblock %}
 
 {% block content %}
+    {% if error %}
+        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
 
     <section class="welcome_text">
         <h1 id ="welcome">Welcome to Bookable</h1>
@@ -17,60 +20,38 @@ Welcome
     <section id="Login" class="overlay">
         <section>
             <p class="login_text" id="login_title">Log in to your account</p>
-            <form method="post">
-                <label for="login_username" class="login_text">username:</label>
-                <input type="text" id="login_username" name="username" onkeyup="LoginFilledIn()" required><br>
+            <form action="{{ path('welcome') }}" method="post">
+                <label for="login_username" class="login_text">email:</label>
+                <input type="text" id="login_username" name="_username" value="{{ last_username }}" onkeyup="LoginFilledIn()" required><br>
                 <label for="login_password" class="login_text">password:</label>
-                <input type="text" id="login_password" name="password" onkeyup="LoginFilledIn()" required><br>
+                <input type="password" id="login_password" name="_password" onkeyup="LoginFilledIn()" required><br>
                 <input type="submit" name="Submit" id="login_submit" value="Submit" onclick="loginOff()"/>
+                {# next input is meant to determin where the user is sent on succes #}
+                <input type="hidden" name="_target_path" value="/home">
             </form>
         </section>
     </section>
-
+    {#
     <section id="Register" class="overlay">
         <section>
-            <p class="login_text" id="login_title">register to create an account</p>
-            <form method="post">
-                <label for="email" class="login_text">email:</label>
-                <input type="text" id="email" name="email" onkeyup="RegisterFilledIn()" required><br>
-                <label for="register_username" class="login_text">username:</label>
-                <input type="text" id="register_username" name="username" onkeyup="RegisterFilledIn()" required><br>
-                <label for="register_password" class="login_text">password:</label>
-                <input type="text" id="register_password" name="password" onkeyup="RegisterFilledIn()" required><br>
-                <input type="submit" name="Submit" id="register_submit" value="Submit" onclick="registerOff()"/>
-            </form>
+            {% for flash_error in app.flashes('verify_email_error') %}
+                <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+            {% endfor %}
+
+            <h1>Register</h1>
+
+            {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.email) }}
+            {{ form_row(registrationForm.plainPassword, {
+                label: 'Password'
+            }) }}
+            {{ form_row(registrationForm.agreeTerms) }}
+
+            <button type="submit" class="btn">Register</button>
+            {{ form_end(registrationForm) }}
         </section>
     </section>
+    #}
 
 
-
-    <script> {# putting code in html is not ideal, temporarely here because of example project #}
-        /*function loginOn() {
-            document.getElementById("Login").style.display = "flex";
-        }
-
-        function loginOff() {
-            document.getElementById("Login").style.display = "none";
-        }
-        function registerOn() {
-            document.getElementById("Register").style.display = "flex";
-        }
-
-        function registerOff() {
-            document.getElementById("Register").style.display = "none";
-        }*/
-    </script>
 {% endblock %}
-
-{#
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
-#}

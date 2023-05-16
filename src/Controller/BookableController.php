@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+use App\Entity\User;
 use App\Repository\AvatarRepository;
 use App\Repository\BookRepository;
 use App\Repository\GenreRepository;
@@ -11,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use function Symfony\Component\String\u;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class BookableController extends AbstractController
 {
@@ -54,12 +56,20 @@ class BookableController extends AbstractController
     }
 
     #[Route("/welcome", name: "welcome")]
-    public function Welcome(): Response
+    public function Welcome(AuthenticationUtils $authenticationUtils): Response
     {
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
         $stylesheets = ['welcome.css'];
         $javascripts = ['welcome.js'];
         return $this->render('welcome.html.twig',[
             'title'=>'Welcome!',
+            'controller_name' => 'BookableController',
+            'last_username' => $lastUsername,
+            'error'         => $error,
             'javascripts' => $javascripts,
             'stylesheets' => $stylesheets
         ]);
