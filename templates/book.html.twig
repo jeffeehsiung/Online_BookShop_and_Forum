@@ -31,7 +31,8 @@
             </button>
             <button id="btn-dislike" class="ratingButton dislike" onclick="dislike()">
                 <img class="btn-img" src="{{ asset('images/thumbs-down.png') }}" alt="Image Button">
-            </button>
+            </button><br />
+            <p1 id="like-counter">likes/dislikes: {{ book.likes }}/{{ book.dislikes }}</p1>
         </div>
         <br>
         <div id="book-options">

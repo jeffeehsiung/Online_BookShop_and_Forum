@@ -46,6 +46,10 @@ p {
     font-family: Poppins, serif;
 }
 
+#like-counter {
+    color: white;
+    font-family: Poppins, serif;
+}
 .ratingButton {
     background: none;
     border: none;
