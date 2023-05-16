@@ -16,65 +16,41 @@
     <section id="home-page">
         <section id="intro">
             <div class="container">
-                <h2>Reccomended books for your categories</h2>
-                <p>Have a look at the trending fiction and non fiction books</p>
+                <h2>Reccomended books for you!</h2>
+                <p>Have a look at the following book reccomendations below, selected only for you</p>
             </div>
         </section>
         <section id="books">
             <div class="container">
                 <h3>Based on your liked books</h3>
                 <div class="book-list">
-                    <div class="book">
-                        <img src="{{ asset('images/book1.png') }}" alt="Cover 1" >
-                        <h4>The Silent Patient</h4>
-                        <h4>Alex Michaelidis</h4>
-                        <a href="{{path("home")}}" class="btn">Buy Now</a>
-                    </div>
-                    <div class="book">
-                        <img src="{{ asset('images/book2.png') }}" alt="Cover 2" >
-                        <h4>The Testaments</h4>
-                        <h4>Margaret Atwood</h4>
-                        <a href="{{path("home")}}" class="btn">Buy Now</a>
-                    </div>
-                    <div class="book">
-                        <img src="{{ asset('images/book3.jpg') }}" alt="Cover 3" >
-                        <h4>The Dutch House</h4>
-                        <h4>Ann Patchett</h4>
-                        <a href="{{path("home")}}" class="btn">Buy Now</a>
-                    </div>
-                     <div class="book">
-                        <img src="{{ asset('images/book7.jpg') }}" alt="Cover 7" >
-                        <h4>The Kite Runner</h4>
-                        <h4>Khaled Hosseini</h4>
-                        <a href="{{path("home")}}" class="btn">Buy Now</a>
-                    </div>
-                    <div class="book">
-                        <img src="{{ asset('images/book8.jpg') }}" alt="Cover 8" >
-                        <h4>The old man and the sea</h4>
-                        <h4>Ernest hemmingway</h4>
-                        <a href="{{path("home")}}" class="btn">Buy Now</a>
-                    </div>
+                    {% set count = 0 %}
+                    {% for book in books%}
+                        {% for author in followed_authors %}
+                            {% if count <= 20 %}
+                                {% if author == book.getAuthor() %}
+                                    <div class="book">
+                                        <img src="{{ book.imageUrl }}" alt="book cover" >
+                                        <h4>{{ book.title() }}</h4>
+                                        <h4>{{ book.author().getAuthorName() }}</h4>
+                                        <a href="{{ path("book", {book_id: book.getID()}) }}" class="btn">Go to book</a>
+                                    </div>
+                                    {% set count = count+1 %}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
                 </div>
-                <h3>Based on your liked authors</h3>
+                <h3>Trending Books</h3>
                 <div class="book-list">
-                    <div class="book">
-                        <img src="{{ asset('images/book4.jpg') }}" alt="Cover 4" >
-                        <h4>Caste: The Origins of Our Discontents</h4>
-                        <h4>Isabel Wilkerson</h4>
-                        <a href="{{path("home")}}" class="btn">Buy Now</a>
-                    </div>
-                    <div class="book">
-                        <img src="{{ asset('images/book5.jpg') }}" alt="Cover 5">
-                        <h4>The Body Keeps the Score: Brain, Mind, and Body in the Healing of Trauma</h4>
-                        <h4>Bessel van der Kolk</h4>
-                        <a href="{{path("home")}}" class="btn">Buy Now</a>
-                    </div>
-                    <div class="book">
-                        <img src="{{ asset('images/book6.jpg') }}" alt="Cover 1" >
-                        <h4>Empire of Pain: The Secret History of the Sackler Dynasty</h4>
-                        <h4>Patrick eRadden Keefe</h4>
-                        <a href="{{path("home")}}" class="btn">Buy Now</a>
-                    </div>
+                    {% for book in popular_books|slice(0,20)%}
+                        <div class="book">
+                            <img src="{{ book.imageUrl }}" alt="book cover" >
+                            <h4>{{ book.title() }}</h4>
+                            <h4>{{ book.author().getAuthorName() }}</h4>
+                            <a href="{{ path("book", {book_id: book.getID()}) }}" class="btn">Go to book</a>
+                        </div>
+                    {% endfor %}
                 </div>
                 {% for genre in genres %}
                     <h3>Books in the category {{ genre.getGenre() }}</h3>
@@ -84,10 +60,10 @@
                             {% if genre_book.getGenre() == genre %}
                                 {% if count < 20 %}
                                     <div class="book">
-                                        <img src="{{ genre_book.imageUrl }}" alt="Cover 4" >
+                                        <img src="{{ genre_book.imageUrl }}" alt="book cover" >
                                         <h4>{{ genre_book.title() }}</h4>
                                         <h4>{{ genre_book.author().getAuthorName() }}</h4>
-                                        <a href="{{ path("home") }}" class="btn">Buy Now</a>
+                                        <a href="{{ path("book", {book_id: genre_book.getID()}) }}" class="btn">Go to book</a>
                                     </div>
                                     {% set count = count + 1 %}
                                 {% endif %}
@@ -98,93 +74,4 @@
             </div>
         </section>
     </section>
-
 {% endblock %}
-
-{# TODO: add more things: reccomendations from followed author,books, people #}
-
-{#  this is a reference in regular html
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Goodreads Choice Awards 2022</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<body>
-<header>
-    <div class="container">
-        <div id="logo">
-            <h1>Goodreads Choice Awards</h1>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Books</a></li>
-                <li><a href="#">Genres</a></li>
-                <li><a href="#">News & Interviews</a></li>
-                <li><a href="#">Lists</a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
-<section id="intro">
-    <div class="container">
-        <h2>Best Books 2022</h2>
-        <p>Discover the best books of 2022 so far and dive into unforgettable reads that will keep you entertained for hours. From fiction to non-fiction, there's something for everyone in this year's Goodreads Choice Awards.</p>
-    </div>
-</section>
-<section id="books">
-    <div class="container">
-        <h3>Fiction</h3>
-        <div class="book-list">
-            <div class="book">
-                <img src="book1.jpg">
-                <h4>The Silent Patient</h4>
-                <p>Alicia Berenson’s life is seemingly perfect. A famous painter married to an in-demand fashion photographer, she lives in a grand house with big windows overlooking a park in one of London’s most desirable areas. One evening, her husband Gabriel returns home late from a fashion shoot, and Alicia shoots him five times in the face and then never speaks another word.</p>
-                <a href="#" class="btn">Buy Now</a>
-            </div>
-            <div class="book">
-                <img src="book2.jpg">
-                <h4>The Testaments</h4>
-                <p>Margaret Atwood's sequel to her dystopian masterpiece, The Handmaid's Tale, picks up the story fifteen years after Offred stepped into the unknown. </p>
-                <a href="#" class="btn">Buy Now</a>
-            </div>
-            <div class="book">
-                <img src="book3.jpg">
-                <h4>The Dutch House</h4>
-                <p>The Dutch House is the story of a paradise lost, a tour de force that digs deeply into questions of inheritance, love and forgiveness, of how we want to see ourselves and of who we really are.</p>
-                <a href="#" class="btn">Buy Now</a>
-            </div>
-        </div>
-        <h3>Non-Fiction</h3>
-        <div class="book-list">
-            <div class="book">
-                <img src="book4.jpg">
-                <h4>Caste: The Origins of Our Discontents</h4>
-                <p>Isabel Wilkerson gives us a masterful portrait of an unseen phenomenon in America as she explores, through an immersive, deeply researched narrative and stories about real people, how America today and throughout its history has been shaped by a hidden caste system, a rigid hierarchy of human rankings.</p>
-                <a href="#" class="btn">Buy Now</a>
-            </div>
-            <div class="book">
-                <img src="book5.jpg">
-                <h4>The Body Keeps the Score: Brain, Mind, and Body in the Healing of Trauma</h4>
-                <p>Bessel van der Kolk, one of the world’s foremost experts on trauma, has spent over three decades working with survivors. In The Body Keeps the Score, he uses recent scientific advances to show how trauma literally reshapes both body and brain, compromising sufferers’ capacities for pleasure, engagement, self-control, and trust.</p>
-                <a href="#" class="btn">Buy Now</a>
-            </div>
-            <div class="book">
-                <img src="book6.jpg">
-                <h4>Empire of Pain: The Secret History of the Sackler Dynasty</h4>
-                <p>A grand, devastating portrait of three generations of the Sackler family, famed for their philanthropy, whose fortune was built by Valium and whose reputation was destroyed by OxyContin, by the prize-winning, bestselling author of Say Nothing.</p>
-                <a href="#" class="btn">Buy Now</a>
-            </div>
-        </div>
-    </div>
-</section>
-<footer>
-    <div class="container">
-        <p>© 2023 Goodreads Inc.</p>
-    </div>
-</footer>
-
-</body>
-</html>
-#}
