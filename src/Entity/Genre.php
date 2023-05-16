@@ -25,8 +25,6 @@ class Genre
     #[ORM\OneToMany(mappedBy: 'genre', targetEntity: LikedGenre::class)]
     private Collection $likedGenres;
 
-
-
     public function __construct()
     {
         $this->books = new ArrayCollection();
