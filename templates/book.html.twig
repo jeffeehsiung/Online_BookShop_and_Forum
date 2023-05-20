@@ -26,13 +26,22 @@
             <div class="progress-container">
                 <div class="progress-bar" id="progress-bar"></div>
             </div>
-            <button id="btn-like" class="ratingButton like" type="submit" name="direction" value="up" onclick="like()">
-                <img id="btn-like" class="btn-img" src="{{ asset('images/thumbs-up.png') }}" alt="Image Button">
+            {#
+
+            #}
+            {% if isLiked %}
+            <button id="btn-like" class="ratingButton like" type="submit" name="direction" value="up" disabled> <!--onclick="like()"-->
+                <img id="btn-like" class="btn-img" src="{{ asset('images/thumbs-up-fill.png') }}" alt="Image Button">
             </button>
-            <button id="btn-dislike" class="ratingButton dislike" type="submit" name="direction" value="down" onclick="dislike()">
+            {% else %}
+                <button id="btn-like" class="ratingButton like" type="submit" name="direction" value="up"> <!--onclick="like()"-->
+                    <img id="btn-like" class="btn-img" src="{{ asset('images/thumbs-up.png') }}" alt="Image Button">
+                </button>
+            {% endif %}
+            <button id="btn-dislike" class="ratingButton dislike" type="submit" name="direction" value="down"><!-- onclick="dislike()"-->
                 <img class="btn-img" src="{{ asset('images/thumbs-down.png') }}" alt="Image Button">
             </button><br />
-            <p1 id="like-counter">likes/dislikes: {{ book.likes }}/{{ book.dislikes }}</p1>
+            <p id="like-counter">likes/dislikes: {{ book.likes }}/{{ book.dislikes }}</p>
         </form>
         <br>
         <div id="book-options">

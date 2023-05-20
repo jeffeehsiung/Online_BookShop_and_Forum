@@ -1,20 +1,24 @@
 <?php
 
 namespace App\Controller;
+use App\Entity\LikedBook;
+use App\Entity\User;
+use App\Entity\Book;
 use App\Repository\AvatarRepository;
 use App\Repository\BookRepository;
 use App\Repository\FollowedBookRepository;
 use App\Repository\GenreRepository;
 use App\Repository\LibraryRepository;
+use App\Repository\LikedBookRepository;
 use App\Repository\LikedGenreRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Safe\Exceptions\PcreException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use function Symfony\Component\String\u;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class BookableController extends AbstractController
@@ -36,22 +40,40 @@ class BookableController extends AbstractController
     }
 
     #[Route('/book/{book_id}', name:"book")]
-    public function book(BookRepository $bookRepository, $book_id = null): Response
+    public function book(BookRepository $bookRepository, LikedBookRepository $likedBookRepository, $book_id = null): Response
     {
+        // Fetch user
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+
+        // Render page
         $stylesheets = ['book.css'];
         $javascripts = ['book.js'];
         if($book_id) {
             $book = $bookRepository->findOneBy(['id' => $book_id]);
+
+            // Check if book is liked
+            $likedBook = $likedBookRepository->findOneBy([
+                'user' => $user,
+                'book' => $book
+            ]);
+            $isLiked = false;
+            if($likedBook)
+                $isLiked = true;
+
+            // Beautify title
             try {
                 $bookTitle = u(preg_replace("/\([^)]+\)/", "", $book->getTitle()))->title(true);
             } catch (PcreException $e) {
                 $bookTitle = $e;
             }
+
             return $this->render('book.html.twig', [
                 'bookTitle' => $bookTitle,
                 'stylesheets' => $stylesheets,
                 'javascripts' => $javascripts,
-                'book' => $book
+                'book' => $book,
+                'isLiked' => $isLiked
             ]);
         } else {
             return new Response('Error: no book title detected');
@@ -59,10 +81,22 @@ class BookableController extends AbstractController
     }
 
     #[Route('/book/{book_id}/vote', name: "book_vote", methods: ['POST'])]
-    public function vote(BookRepository $bookRepository, Request $request, EntityManagerInterface $entityManager, $book_id = null) : Response
+    public function vote(BookRepository $bookRepository, LikedBookRepository $likedBookRepository, Request $request, EntityManagerInterface $entityManager, $book_id = null) : Response
     {
-        // TODO: set and check liked books to enable/disable like system
+        // TODO: implement dislike system
+        // Fetch user
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+
         $book = $bookRepository->findOneBy(['id' => $book_id]);
+
+        // Set as liked book in DB
+        $likedBook = new LikedBook();
+        $likedBook->setUser($user);
+        $likedBook->setBook($book);
+        $entityManager->persist($likedBook);
+
+        // Update likes
         $direction = $request->request->get('direction', 'up');
         if($direction === 'up') {
             $book->setLikes($book->getLikes() + 1);
@@ -101,6 +135,10 @@ class BookableController extends AbstractController
         UserRepository $userRepository, GenreRepository$genreRepository, BookRepository $bookRepository,
         FollowedBookRepository $followedBookRepository, $userID = null): Response
     {
+        // Fetch user
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $userID = $this->getUser()->getId();
+
         $stylesheets = ['homev2.css'];
         $javascripts = ['home.js'];
         if ($userID) {
@@ -157,8 +195,6 @@ class BookableController extends AbstractController
 
     }
 
-
-
     #[Route("/browsing", name: "browsing")]
     public function browsing(GenreRepository $genreRepository, BookRepository $bookRepository): Response {
         // genreRepository is used to get all genres from the database
@@ -184,7 +220,5 @@ class BookableController extends AbstractController
 
         ]);
     }
-
-
 
 }
