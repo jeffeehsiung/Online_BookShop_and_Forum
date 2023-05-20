@@ -6,11 +6,13 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'a22web12.users')]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -64,6 +66,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->Book = new ArrayCollection();
         $this->followedBooks = new ArrayCollection();
+        $this->likedGenres = new ArrayCollection();
     }
 
     /**
@@ -71,6 +74,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isVerified = false;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: LikedGenre::class)]
+    private Collection $likedGenres;
 
     public function getId(): ?int
     {
@@ -302,6 +311,48 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($followedBook->getUser() === $this) {
                 $followedBook->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LikedGenre>
+     */
+    public function getLikedGenres(): Collection
+    {
+        return $this->likedGenres;
+    }
+
+    public function addLikedGenre(LikedGenre $likedGenre): self
+    {
+        if (!$this->likedGenres->contains($likedGenre)) {
+            $this->likedGenres->add($likedGenre);
+            $likedGenre->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLikedGenre(LikedGenre $likedGenre): self
+    {
+        if ($this->likedGenres->removeElement($likedGenre)) {
+            // set the owning side to null (unless already changed)
+            if ($likedGenre->getUser() === $this) {
+                $likedGenre->setUser(null);
             }
         }
 

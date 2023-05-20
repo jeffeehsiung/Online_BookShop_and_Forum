@@ -40,6 +40,19 @@ class BookRepository extends ServiceEntityRepository
         }
     }
 
+    public function findPopular(){
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT book 
+            FROM App\Entity\Book book 
+            ORDER BY book.likes DESC
+            '
+        );
+        return $query->getResult();
+    }
+
+
     /**
      * @return Book[] Returns an array of Book objects and sort by genre_id and title
      */
