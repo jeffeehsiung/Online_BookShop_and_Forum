@@ -12,6 +12,7 @@
 {% endblock %}
 
 {% block content %}
+    {# TODO: fix the flex css issue. aside and flex not working #}
     <!-- https://symfony.com/doc/current/components/browser_kit.html -->
     <section id="browsing">
         <h1 id="browsing-title">Book Browsing & Searching </h1>
@@ -26,8 +27,10 @@
                         {% endfor %}
                     </select>
                 </label>
-                <label for="book-name"></label><input type="text" id = "book-name" name="book-name" placeholder="Title" value="book name">
-                <button type="submit" id = "search-btn" class="home-green-button button">Search</button>
+                <label for="book-name"></label>
+                <input type="text" id = "book-name" name="book-name" placeholder="Title" autocomplete="off">
+                <button type="submit" id = "search-btn" class="home-green-button">Search</button>
+                {# TODO: add another route in controller to enable a functional search button #}
             </form>
         </section>
     </section>
@@ -38,11 +41,11 @@
                 <input id="genre-filter" type="checkbox" class="genre-filter" value="{{ genre.id }}">
                 <label for="genre-filter" class="footer-link">{{ genre.genre }}</label><br>
             {% endfor %}
+            {# TODO: amke the filter functional #}
         </form>
     </aside>
 
     <section class="browsing-list">
-        {# TODO: dynamically load items each time in database table books #}
         {% for book in books %}
             <article class="browsing-list-item">
                 <img src="{{ book.getImageUrl() }}" alt={{ book.getSmallImageUrl() }} class="book-list-image" width="200" height="300">
@@ -60,6 +63,7 @@
 
     {#pages buttons#}
     <section class="browsing-pages">
+        {# TODO: make all page buttons functional #}
         <button type="submit" id="previous-page" class="home-green-button">Previous</button>
         <!-- iterate through the booksjson and create a button for each booksperpage books -->
         <!-- declare a page counter variable -->
