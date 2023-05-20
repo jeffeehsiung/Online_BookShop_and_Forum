@@ -11,21 +11,14 @@ search_btn.addEventListener("click", search);
 function search() {
     // get the book name value
     let book_title = book_name.value.trim();
-    if (book_title !== "") {
-        window.location.href = "/browsing/" + book_title;
-    }
+    // if (book_title !== "") {
+    //     window.location.href = "/browsing/" + book_title;
+    // }
+    fetch('{{path("browsing")}}/' + encodeURIComponent(book_title))
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => console.log(error));
+
 }
-
-// // declare a function to be called when the user clicks on a genre filter
-// function filter() {
-//     // get the values selected for each genre filter
-//     let selected_genres = [];
-//     for (let i = 0; i < genre_filters.length; i++) {
-//         if (genre_filters[i].checked) {
-//             selected_genres.push(genre_filters[i].value);
-//         }
-//     }
-//     // redirect to the browsing page with the selected genres (URL)
-//     window.location.href = "/browsing?genres=" + selected_genres.join(",");
-// }
-
