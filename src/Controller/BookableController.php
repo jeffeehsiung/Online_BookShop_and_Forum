@@ -4,7 +4,6 @@ namespace App\Controller;
 use App\Repository\AvatarRepository;
 use App\Repository\BookRepository;
 use App\Repository\GenreRepository;
-use App\Repository\LibraryRepository;
 use App\Repository\UserRepository;
 use Safe\Exceptions\PcreException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,7 +29,7 @@ class BookableController extends AbstractController
         ]);
     }
 
-    #[Route('/book/{book_id}')]
+    #[Route('/book/{book_id}', name:"book")]
     public function book(BookRepository $bookRepository, $book_id = null): Response
     {
         $stylesheets = ['book.css'];
@@ -99,8 +98,14 @@ class BookableController extends AbstractController
     public function browsing(GenreRepository $genreRepository, BookRepository $bookRepository): Response {
         // genreRepository is used to get all genres from the database
         $bookGenres = $genreRepository->findAll();
-        // declare bookRepository to be used to get all books from the database table books
-        $books = $bookRepository->findAll();
+        // declare a booksperpage variable to be used to get 20 books from the database table books
+        $booksPerPage = 20;
+        // declare bookRepository to be used to get 20 books from the database table books
+        $books = $bookRepository->findBy([],[],$booksPerPage);
+        $allBooks = $bookRepository->findAll();
+        // parse all books into json format variable
+        $booksjson = json_encode($allBooks);
+        // declare stylesheets and javascripts to be used in the twig template
         $stylesheets = ['browsing.css'];
         $javascripts = ['browsing.js'];
         return $this->render('browsing.html.twig',[
@@ -108,9 +113,13 @@ class BookableController extends AbstractController
             'stylesheets' => $stylesheets,
             'genres' => $bookGenres,
             'books' => $books,
+            'booksperpage' => $booksPerPage,
+            'booksjson' => $booksjson,
             'javascripts' => $javascripts
 
         ]);
     }
+
+
 
 }

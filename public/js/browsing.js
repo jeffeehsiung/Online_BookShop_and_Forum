@@ -19,7 +19,20 @@ function search() {
     // get the book name value
     let book_name_value = book_name.value;
 
-    // redirect to the browsing page with the selected genres and book name
+    // redirect to the browsing page with the selected genres and book name (URL)
     window.location.href = "/browsing?genres=" + selected_genres.join(",") + "&book_name=" + book_name_value;
-
 }
+
+// declare a function to be called when the user clicks on a genre filter
+function filter() {
+    // get the values selected for each genre filter
+    let selected_genres = [];
+    for (let i = 0; i < genre_filters.length; i++) {
+        if (genre_filters[i].checked) {
+            selected_genres.push(genre_filters[i].value);
+        }
+    }
+    // redirect to the browsing page with the selected genres (URL)
+    window.location.href = "/browsing?genres=" + selected_genres.join(",");
+}
+
