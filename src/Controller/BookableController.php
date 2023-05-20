@@ -98,8 +98,8 @@ class BookableController extends AbstractController
 
     #[Route("/home/{userID}", name: "home")]
     public function Home(AuthorRepository $authorRepository, LikedGenreRepository $likedGenreRepository,
-                         UserRepository $userRepository, GenreRepository$genreRepository, BookRepository $bookRepository,
-                         FollowedBookRepository $followedBookRepository, $userID = null): Response
+        UserRepository $userRepository, GenreRepository$genreRepository, BookRepository $bookRepository,
+        FollowedBookRepository $followedBookRepository, $userID = null): Response
     {
         $stylesheets = ['homev2.css'];
         $javascripts = ['home.js'];
@@ -157,12 +157,34 @@ class BookableController extends AbstractController
 
     }
 
+
+
     #[Route("/browsing", name: "browsing")]
-    public function browsing(): Response {
+    public function browsing(GenreRepository $genreRepository, BookRepository $bookRepository): Response {
+        // genreRepository is used to get all genres from the database
+        $bookGenres = $genreRepository->findAll();
+        // declare a booksperpage variable to be used to get 20 books from the database table books
+        $booksPerPage = 20;
+        // declare bookRepository to be used to get 20 books from the database table books
+        $books = $bookRepository->findBy([],[],$booksPerPage);
+        $allBooks = $bookRepository->findAll();
+        // parse all books into json format variable
+        $booksjson = json_encode($allBooks);
+        // declare stylesheets and javascripts to be used in the twig template
         $stylesheets = ['browsing.css'];
+        $javascripts = ['browsing.js'];
         return $this->render('browsing.html.twig',[
             'title'=>'Browser',
-            'stylesheets' => $stylesheets]);
+            'stylesheets' => $stylesheets,
+            'genres' => $bookGenres,
+            'books' => $books,
+            'booksperpage' => $booksPerPage,
+            'booksjson' => $booksjson,
+            'javascripts' => $javascripts
+
+        ]);
     }
+
+
 
 }
