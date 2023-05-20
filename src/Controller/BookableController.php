@@ -144,7 +144,7 @@ class BookableController extends AbstractController
     }
 
 
-    #[Route("/browsing/{book_title}", name: "browsing")]
+    #[Route("/browsing/{book_title}", name: 'browsing')]
     public function browsing(GenreRepository $genreRepository, BookRepository $bookRepository,
         $book_title = null): Response {
         // genreRepository is used to get all genres from the database
@@ -171,4 +171,30 @@ class BookableController extends AbstractController
         ]);
     }
 
+    #[Route("/browsing?book_name={book_title}", name: 'search')]
+    public function search(GenreRepository $genreRepository, BookRepository $bookRepository,
+        $book_title = null): Response {
+        // genreRepository is used to get all genres from the database
+        $bookGenres = $genreRepository->findAll();
+        // declare a booksperpage variable to be used to get 20 books from the database table books
+        $booksPerPage = 20;
+        // if a book title is passed in the url, then get all books with that title
+        $booktitle = $book_title? u(str_replace('-',' ',$book_title))->title(true) : null;
+        // if a book title is null, then get all books will be returned
+        $books = $bookRepository->findAllByTitle($booktitle, $booksPerPage);
+        // get the length of the books array
+        $booksCount = count($books);
+        // declare stylesheets and javascripts to be used in the twig template
+        $stylesheets = ['browsing.css'];
+        $javascripts = ['browsing.js'];
+        return $this->render('browsing.html.twig',[
+            'title'=>'Browser',
+            'stylesheets' => $stylesheets,
+            'genres' => $bookGenres,
+            'books' => $books,
+            'booksperpage' => $booksPerPage,
+            'bookscount' => $booksCount,
+            'javascripts' => $javascripts
+        ]);
+    }
 }

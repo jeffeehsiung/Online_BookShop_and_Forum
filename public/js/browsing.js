@@ -11,14 +11,8 @@ search_btn.addEventListener("click", search);
 function search() {
     // get the book name value
     let book_title = book_name.value.trim();
-    // if (book_title !== "") {
-    //     window.location.href = "/browsing/" + book_title;
-    // }
-    fetch('{{path("browsing")}}/' + encodeURIComponent(book_title))
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-        })
-        .catch(error => console.log(error));
-
+    if (book_title !== "") {
+         // window.location.href = "/browsing/" + book_title;
+        window.location.replace("/browsing/" + book_title);
+    }
 }
