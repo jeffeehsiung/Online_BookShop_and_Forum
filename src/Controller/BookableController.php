@@ -97,7 +97,7 @@ class BookableController extends AbstractController
     }
 
     #[Route("/home/{userID}", name: "home")]
-    public function Home(AuthorRepository $authorRepository, LikedGenreRepository $likedGenreRepository,
+    public function Home(LikedGenreRepository $likedGenreRepository,
         UserRepository $userRepository, GenreRepository$genreRepository, BookRepository $bookRepository,
         FollowedBookRepository $followedBookRepository, $userID = null): Response
     {
