@@ -28,7 +28,7 @@
                     </select>
                 </label>
                 <label for="book-name"></label>
-                <input type="text" id = "book-name" name="book-name" placeholder="Title" autocomplete="off">
+                <input type="text" id = "book_name" name="book_name" placeholder="Title" autocomplete="off">
                 <button type="submit" id = "search-btn" class="home-green-button">Search</button>
                 {# TODO: add another route in controller to enable a functional search button #}
             </form>
@@ -65,15 +65,12 @@
     <section class="browsing-pages">
         {# TODO: make all page buttons functional #}
         <button type="submit" id="previous-page" class="home-green-button">Previous</button>
-        <!-- iterate through the booksjson and create a button for each booksperpage books -->
         <!-- declare a page counter variable -->
-        {% set page = 1 %}
-        {% for i in 1..booksjson|length/booksperpage%}
-            <!-- if the remainder of current index divided by booksperpage is 0, then add a new page button -->
-            {% if (i % booksperpage == 0) %}
-                {% set page = page + 1 %}
-                <button type="submit" id="page-{{ page }}" class="home-green-button">{{ page }}</button>
-            {% endif %}
+        {% set page = 0 %}
+        <!-- iterate through the bookscount and create a button for each booksperpage books -->
+        {% for i in 1..(bookscount/booksperpage) %}
+            {% set page = page + 1 %}
+            <button type="submit" id="page-{{ page }}" class="home-green-button">{{ page }}</button>
         {% endfor %}
         <button type="submit" id="next-page" class="home-green-button">Next</button>
     </section>

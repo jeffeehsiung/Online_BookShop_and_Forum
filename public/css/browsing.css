@@ -13,9 +13,10 @@
     color: #B3B3B3;
 }
 
+
 .browsing-pages{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     gap: 10px;
 }
@@ -23,7 +24,6 @@
 .search-form{
     display: flex;
     flex-direction: column;
-    justify-content: center;
     gap: 10px;
 }
 
