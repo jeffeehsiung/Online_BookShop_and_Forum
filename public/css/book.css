@@ -35,15 +35,22 @@ h3 {
     color: white;
     font-size: small;
 }
+
 p {
     color: white;
     font-family: Poppins, serif;
 }
 
-#like-counter {
-    color: white;
+.subscript {
+    text-align: left;
     font-family: Poppins, serif;
+    font-weight: 250;
+    font-stretch: normal;
+    text-decoration: none;
+    color: white;
+    font-size: small;
 }
+
 .ratingButton {
     background: none;
     border: none;
