@@ -3,7 +3,14 @@ let progressBar = document.getElementById("progress-bar");
 let likeCount;
 let dislikeCount;
 
+function initialize(likes, dislikes) {
 
-//TODO: eliminate javascript for limiting width to header
-// Limit width to width of header
-bookPage.style.width = document.getElementById("navbar").offsetWidth.toString() + "px";
+    // Limit width to width of header
+    bookPage.style.width = document.getElementById("navbar").offsetWidth.toString() + "px";
+
+    likeCount = likes;
+    dislikeCount = dislikes;
+    let likePercentage = Math.round((likeCount/(likeCount+dislikeCount)) * 100);
+    progressBar.style.width = likePercentage + "%";
+    console.log(progressBar.style.width = likePercentage + "%");
+}

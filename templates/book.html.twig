@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block bodyAttributes %}
-    {# onload="initialize({{ book.likes }}, {{ book.dislikes }})" #}
+    onload="initialize({{ book.likes }}, {{ book.dislikes }})"
 {% endblock %}
 
 {% block content%}
@@ -24,8 +24,11 @@
         <h3>Genre: {{ book.genre().getGenre() }}</h3>
         <form id="like-system" action="{{ path('book_vote', {book_id: book.id}) }}" method="POST">
             <div class="progress-container">
-                <div class="progress-bar" id="progress-bar" style="width: {{ (book.likes()/(book.likes() + book.dislikes())) }}"></div>
+                <div class="progress-bar" id="progress-bar"></div>
             </div>
+            {#
+
+            #}
             {% if isLiked %}
                 <button id="btn-like" class="ratingButton like" type="submit" name="direction" value="like-down">
                     <img id="btn-like" class="btn-img" src="{{ asset('images/thumbs-up-fill.png') }}" alt="Image Button">
@@ -48,18 +51,13 @@
                     <img class="btn-img" src="{{ asset('images/thumbs-down.png') }}" alt="Image Button">
                 </button><br />
             {% endif %}
-            <i class="subscript" id="like-counter">likes/dislikes: {{ book.likes }}/{{ book.dislikes }}</i>
+            <h3 id="like-counter">likes/dislikes: {{ book.likes }}/{{ book.dislikes }}</h3>
         </form>
         <br>
-        <form id="follow" action="{{ path('book_follow', {'book_id': book.id}) }}" method="POST">
-            {% if isFollowed %}
-                <button type="submit" class="button" name="follow-direction" value="follow-down">Unfollow -</button>
-                <h3>You are already following this book</h3>
-                {% else %}
-                    <button type="submit" class="button" name="follow-direction" value="follow-up">Follow +</button>
-                    <i class="subscript">Follow this book to get updates and improved recommendations!</i>
-            {% endif %}
-        </form><br>
+        <div id="book-options">
+            <button type="button" class="button">Follow +</button>
+            <button type="button" class="button">Reserve</button>
+        </div>
         <section class="about">
             <div id="about-book">
                 <h2>About {{ bookTitle }}</h2>
