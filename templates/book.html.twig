@@ -26,22 +26,29 @@
             <div class="progress-container">
                 <div class="progress-bar" id="progress-bar"></div>
             </div>
-            {#
-
-            #}
             {% if isLiked %}
-            <button id="btn-like" class="ratingButton like" type="submit" name="direction" value="up" disabled> <!--onclick="like()"-->
-                <img id="btn-like" class="btn-img" src="{{ asset('images/thumbs-up-fill.png') }}" alt="Image Button">
-            </button>
-            {% else %}
-                <button id="btn-like" class="ratingButton like" type="submit" name="direction" value="up"> <!--onclick="like()"-->
+                <button id="btn-like" class="ratingButton like" type="submit" name="direction" value="like-down">
+                    <img id="btn-like" class="btn-img" src="{{ asset('images/thumbs-up-fill.png') }}" alt="Image Button">
+                </button>
+                <button id="btn-dislike" class="ratingButton dislike" type="submit" name="direction" value="dislike-up" disabled>
+                    <img class="btn-img" src="{{ asset('images/thumbs-down.png') }}" alt="Image Button">
+                </button><br />
+            {% elseif isDisliked%}
+                <button id="btn-like" class="ratingButton like" type="submit" name="direction" value="like-up" disabled>
                     <img id="btn-like" class="btn-img" src="{{ asset('images/thumbs-up.png') }}" alt="Image Button">
                 </button>
+                <button id="btn-dislike" class="ratingButton dislike" type="submit" name="direction" value="dislike-down">
+                    <img class="btn-img" src="{{ asset('images/thumbs-down-fill.png') }}" alt="Image Button">
+                </button><br />
+            {% else %}
+                <button id="btn-like" class="ratingButton like" type="submit" name="direction" value="like-up">
+                    <img id="btn-like" class="btn-img" src="{{ asset('images/thumbs-up.png') }}" alt="Image Button">
+                </button>
+                <button id="btn-dislike" class="ratingButton dislike" type="submit" name="direction" value="dislike-up">
+                    <img class="btn-img" src="{{ asset('images/thumbs-down.png') }}" alt="Image Button">
+                </button><br />
             {% endif %}
-            <button id="btn-dislike" class="ratingButton dislike" type="submit" name="direction" value="down"><!-- onclick="dislike()"-->
-                <img class="btn-img" src="{{ asset('images/thumbs-down.png') }}" alt="Image Button">
-            </button><br />
-            <p id="like-counter">likes/dislikes: {{ book.likes }}/{{ book.dislikes }}</p>
+            <h3 id="like-counter">likes/dislikes: {{ book.likes }}/{{ book.dislikes }}</h3>
         </form>
         <br>
         <div id="book-options">
