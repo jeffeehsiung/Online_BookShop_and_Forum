@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Controller;
+use App\Entity\DislikedBook;
 use App\Entity\LikedBook;
 use App\Entity\User;
 use App\Entity\Book;
 use App\Repository\AvatarRepository;
 use App\Repository\BookRepository;
+use App\Repository\DislikedBookRepository;
 use App\Repository\FollowedBookRepository;
 use App\Repository\GenreRepository;
 use App\Repository\LibraryRepository;
@@ -40,7 +42,7 @@ class BookableController extends AbstractController
     }
 
     #[Route('/book/{book_id}', name:"book")]
-    public function book(BookRepository $bookRepository, LikedBookRepository $likedBookRepository, $book_id = null): Response
+    public function book(BookRepository $bookRepository, LikedBookRepository $likedBookRepository, DislikedBookRepository $dislikedBookRepository, $book_id = null): Response
     {
         // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -52,14 +54,23 @@ class BookableController extends AbstractController
         if($book_id) {
             $book = $bookRepository->findOneBy(['id' => $book_id]);
 
-            // Check if book is liked
+            // Check if book is liked or disliked
+            $isLiked = false;
+            $isDisliked = false;
             $likedBook = $likedBookRepository->findOneBy([
                 'user' => $user,
                 'book' => $book
             ]);
-            $isLiked = false;
             if($likedBook)
                 $isLiked = true;
+            else {
+                $dislikedBook = $dislikedBookRepository->findOneBy([
+                    'user' => $user,
+                    'book' => $book
+                ]);
+                if($dislikedBook)
+                    $isDisliked = true;
+            }
 
             // Beautify title
             try {
@@ -73,7 +84,8 @@ class BookableController extends AbstractController
                 'stylesheets' => $stylesheets,
                 'javascripts' => $javascripts,
                 'book' => $book,
-                'isLiked' => $isLiked
+                'isLiked' => $isLiked,
+                'isDisliked' => $isDisliked
             ]);
         } else {
             return new Response('Error: no book title detected');
@@ -81,27 +93,52 @@ class BookableController extends AbstractController
     }
 
     #[Route('/book/{book_id}/vote', name: "book_vote", methods: ['POST'])]
-    public function vote(BookRepository $bookRepository, LikedBookRepository $likedBookRepository, Request $request, EntityManagerInterface $entityManager, $book_id = null) : Response
+    public function like
+    (
+        BookRepository $bookRepository, LikedBookRepository $likedBookRepository,
+        DislikedBookRepository $dislikedBookRepository, Request $request, EntityManagerInterface $entityManager,
+        $book_id = null
+    ) : Response
     {
-        // TODO: implement dislike system
         // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
 
         $book = $bookRepository->findOneBy(['id' => $book_id]);
 
-        // Set as liked book in DB
-        $likedBook = new LikedBook();
-        $likedBook->setUser($user);
-        $likedBook->setBook($book);
-        $entityManager->persist($likedBook);
-
         // Update likes
-        $direction = $request->request->get('direction', 'up');
-        if($direction === 'up') {
+        $direction = $request->request->get('direction', 'like-up');
+        if($direction === 'like-up') {
+            // Set as liked book in DB
+            $likedBook = new LikedBook();
+            $likedBook->setUser($user);
+            $likedBook->setBook($book);
+            $entityManager->persist($likedBook);
             $book->setLikes($book->getLikes() + 1);
-        } else {
+        } elseif($direction === 'like-down'){
+            // Unlike book
+            $likedBook = $likedBookRepository->findOneBy([
+                'user' => $user,
+                'book' => $book
+            ]);
+            $entityManager->remove($likedBook);
             $book->setLikes($book->getLikes() - 1);
+        } elseif($direction === 'dislike-up') {
+            // Set as disliked book in DB
+            $dislikedBook = new DislikedBook();
+            $dislikedBook->setUser($user);
+            $dislikedBook->setBook($book);
+            $entityManager->persist($dislikedBook);
+
+            $book->setDislikes($book->getDislikes() + 1);
+        } else {
+            // Un-dislike book
+            $dislikedBook = $dislikedBookRepository->findOneBy([
+                'user' => $user,
+                'book' => $book
+            ]);
+            $entityManager->remove($dislikedBook);
+            $book->setDislikes($book->getDislikes() - 1);
         }
 
         $entityManager->flush();

@@ -65,9 +65,13 @@ class Book
     #[ORM\OneToMany(mappedBy: 'book', targetEntity: LikedBook::class)]
     private Collection $likedBooks;
 
+    #[ORM\OneToMany(mappedBy: 'book', targetEntity: DislikedBook::class)]
+    private Collection $dislikedBooks;
+
     public function __construct()
     {
         $this->likedBooks = new ArrayCollection();
+        $this->dislikedBooks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -279,6 +283,36 @@ class Book
             // set the owning side to null (unless already changed)
             if ($likedBook->getBook() === $this) {
                 $likedBook->setBook(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DislikedBook>
+     */
+    public function getDislikedBooks(): Collection
+    {
+        return $this->dislikedBooks;
+    }
+
+    public function addDislikedBook(DislikedBook $dislikedBook): self
+    {
+        if (!$this->dislikedBooks->contains($dislikedBook)) {
+            $this->dislikedBooks->add($dislikedBook);
+            $dislikedBook->setBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDislikedBook(DislikedBook $dislikedBook): self
+    {
+        if ($this->dislikedBooks->removeElement($dislikedBook)) {
+            // set the owning side to null (unless already changed)
+            if ($dislikedBook->getBook() === $this) {
+                $dislikedBook->setBook(null);
             }
         }
 
