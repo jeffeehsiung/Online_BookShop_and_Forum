@@ -46,12 +46,6 @@
       {% endfor %}
     {% endif %}
 
-    {# TODO: refactor styling and javascript to work through encore #}
-    {% block stylesheets %}
-      {# 'app' must match the first argument to addEntry() in webpack.config.js #}
-      {{ encore_entry_link_tags('app') }}
-    {% endblock %}
-
   {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
 
@@ -61,10 +55,14 @@
       <script src="{{ asset('js/' ~ script) }}" defer></script>
     {% endfor %}
   {% endif %}
-
 </head>
 
 <body {% block bodyAttributes %}{% endblock %}>
+<div>
+{% for notice in app.flashes('succes') %}
+  {{ notice }}
+{% endfor %}
+</div>
   <div>
     <script type="text/javascript"
             src="https://unpkg.com/dangerous-html@0.1.12/dist/default/lib.umd.js"

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Book;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,20 +40,79 @@ class BookRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Book[] Returns an array of Book objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('b')
-//            ->andWhere('b.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('b.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findPopular(){
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT book 
+            FROM App\Entity\Book book 
+            ORDER BY book.likes DESC
+            '
+        );
+        return $query->getResult();
+    }
+
+
+    /**
+     * @return Book[] Returns an array of Book objects and sort by genre_id and title
+     */
+    public function findAllByGenre($gen_id): array
+    {
+        return $this->createQueryBuilder('genbooks')
+            ->andWhere('genbooks.exampleField = :val')
+            ->setParameter('val', $gen_id)
+                ->orderBy('genbooks.genre_id', 'ASC')
+                ->orderBy('genbooks.title', 'ASC')
+                ->setMaxResults(30)
+                ->getQuery()
+                ->getResult()
+        ;
+    }
+
+    /**
+     * find all book objects by title
+     * @return Book[] Returns an array of Book objects
+     */
+    public function findAllByTitle($title): array
+    {
+        return $this->createQueryBuilder('books')
+            ->andWhere('books.title LIKE :val')
+            ->setParameter('val', '%'.$title.'%')
+            ->orderBy('books.title', 'ASC')
+            ->setMaxResults(30)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @param $genre_ids is an array of genre ids
+     * iterate through the $genre_ids and add a where clause for each genre_id
+     * find all books for each genre_id
+     * @return Book[] Returns an array of Book object
+     */
+    public function findAllByGenreIds($gen_ids): array
+    {
+        $qb = $this->createQueryBuilder('books');
+        $qb->where($qb->expr()->in('books.genre_id', $gen_ids));
+        $qb->orderBy('books.genre_id', 'ASC');
+        $qb->orderBy('books.title', 'ASC');
+        $qb->setMaxResults(30);
+        return $qb->getQuery()->getResult();
+    }
+
+    // findall by genre and title
+    public function findAllByGenreAndTitle($gen_ids, $title): array
+    {
+        $qb = $this->createQueryBuilder('books');
+        $qb->where($qb->expr()->in('books.genre_id', $gen_ids));
+        $qb->andWhere('books.title LIKE :val')
+            ->setParameter('val', '%'.$title.'%');
+        $qb->orderBy('books.genre_id', 'ASC');
+        $qb->orderBy('books.title', 'ASC');
+        $qb->setMaxResults(30);
+        return $qb->getQuery()->getResult();
+    }
 
 //    public function findOneBySomeField($value): ?Book
 //    {
