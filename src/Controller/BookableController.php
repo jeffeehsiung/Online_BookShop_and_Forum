@@ -3,8 +3,10 @@
 namespace App\Controller;
 use App\Repository\AvatarRepository;
 use App\Repository\BookRepository;
+use App\Repository\FollowedBookRepository;
 use App\Repository\GenreRepository;
 use App\Repository\LibraryRepository;
+use App\Repository\ReadBooksRepository;
 use App\Repository\UserRepository;
 use Safe\Exceptions\PcreException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -77,15 +79,25 @@ class BookableController extends AbstractController
     }
 
     #[Route("/profile/{userID}")]
-    public function Profile(AvatarRepository $avatarRepository, UserRepository $userRepository, $userID = null): Response {
+    public function Profile(AvatarRepository $avatarRepository,ReadBooksRepository $readBookRepository, BookRepository $bookRepository,FollowedBookRepository $followedBookRepository, UserRepository $userRepository, $userID = null): Response {
         $stylesheets = ['profile.css'];
 
         if($userID) {
             $user = $userRepository->findOneBy(['id' => $userID]);
             $avatar = $avatarRepository->find(['id'=> $user->getAvatar()]);
+
+
+            $followed_id = $followedBookRepository->findBy(['user'=>$user]);
+            $follow_book = $bookRepository->findBy(['id'=>$followed_id]);
+            $read_id = $readBookRepository->findBy(['user'=>$user]);
+            $read_book = $bookRepository->findBy(['id'=>$read_id]);
+
+
             return $this->render('profile.html.twig', [
                 'user' => $user,
                 'avatar' => $avatar,
+                'followed_book'=> $follow_book,
+                'read_list'=> $read_book,
                 'stylesheets' => $stylesheets,
 
             ]);
