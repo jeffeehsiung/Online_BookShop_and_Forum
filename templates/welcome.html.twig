@@ -13,7 +13,7 @@ Welcome
         <h1 id ="welcome">Welcome to Bookable</h1>
         <img id = "logo_png" src="https://www.linkpicture.com/q/Bookable-removebg-preview-2.png" alt="the logo of the app">
         <h2 class="logintext">please log in or sign up</h2>
-        <button onclick="loginOn()" class="login_button">Log in</button>
+        <button id = "login_btn" onclick="loginOn()"   class="login_button">Log in</button>
         <button onclick="registerOn()" class="register_button">Register</button>
     </section>
 
@@ -27,10 +27,13 @@ Welcome
                 <input type="password" id="login_password" name="_password" onkeyup="LoginFilledIn()" required><br>
                 <input type="submit" name="Submit" id="login_submit" value="Submit" onclick="loginOff()"/>
                 {# next input is meant to determin where the user is sent on succes #}
-                <input type="hidden" name="_target_path" value="/home">
+             {   <input type="hidden" name="_target_path" value="/home">
             </form>
         </section>
     </section>
+
+   {# <div id="formDarkness"></div> #}
+
     {#
     <section id="Register" class="overlay">
         <section>

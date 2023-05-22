@@ -32,9 +32,36 @@ function RegisterFilledIn(){
 }
 
 function loginOn() {
+    //toggleForm(true);
     document.getElementById("Login").style.display = "flex";
 }
-
+/**
+let togAni;
+function toggleForm(enable) {
+    if (togAni) togAni.pause();
+    if (enable) {
+        $("#formDarkness").show();
+        $("#Login").show();
+        togAni = anime({
+            targets: "#Login",
+            top: $("#Login").attr("distance"),
+            duration: 200,
+            easing: "easeInOutSine"
+        });
+    } else {
+        $("#formDarkness").hide();
+        togAni = anime({
+            targets: "#Login",
+            top: -window.innerHeight + "px",
+            duration: 200,
+            easing: "easeInOutSine",
+            complete: () => {
+                $("#Login").css("top", "-100%");
+                $("#Login").hide();
+            }
+        });
+    }
+} **/
 function loginOff() {
     document.getElementById("Login").style.display = "none";
 }
