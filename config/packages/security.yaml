@@ -30,6 +30,10 @@ security:
                 # "app_login" is the name of the route created previously
                 login_path: welcome
                 check_path: welcome
+            #logout should send user back welcome page
+            logout:
+                path: app_logout
+                target: welcome
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used

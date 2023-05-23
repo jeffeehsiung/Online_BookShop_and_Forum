@@ -77,10 +77,15 @@
     <nav class="navbar-nav-content">
       <ul class="navbar-nav-links"> {# TODO: check if changing div and span to class nav and li+a messes up the css configuration #}
 
-        <li><a class="nav-link">About us </a></li>
-        <li><a class="nav-link">Browse a book</a></li>
-        <li><a class="nav-link">Community</a></li>
-        <li><a class="nav-link">Settings</a></li>
+        <li><a class="nav-link" >About us </a></li>
+        <li><a class="nav-link" href="{{ path('browsing') }}">Browse a book</a></li>
+        <li><a class="nav-link" >Community</a></li>
+        <li><a class="nav-link" href="{{ path('settings') }}">Settings</a></li>
+        {% if is_granted('ROLE_USER') %}
+          <li><a class="nav-link" href="{{ path('app_logout') }}">Log out</a></li>
+        {% endif %}
+
+
       </ul>
     <nav id="mobile-menu" class="navbar-mobile-menu">
       <div class="navbar-branding">
@@ -100,9 +105,12 @@
       <ul class="navbar-nav-links1">
 
         <li><a class="nav-link">About us</a></li>
-        <li><a class="nav-link">Browse a book</a></li>
+        <li><a class="nav-link" href="{{ path('browsing') }}">Browse a book</a></li>
         <li><a class="nav-link">Community</a></li>
-        <li><a class="nav-link">Settings</a></li>
+        <li><a class="nav-link" href="{{ path('settings') }}">Settings</a></li>
+        {% if is_granted('ROLE_USER') %}
+          <li><a class="nav-link" href="{{ path('app_logout') }}">Log out</a></li>
+        {% endif %}
       </ul>
     </nav>
   </nav>
