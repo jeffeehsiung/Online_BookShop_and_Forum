@@ -25,7 +25,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class BookableController extends AbstractController
 {
-    #[Route('/settings')]
+    #[Route('/settings', name: "settings")]
     public function settings(GenreRepository $genreRepository, UserRepository $userRepository): Response
     {
         $bookGenres = $genreRepository->findAll();
