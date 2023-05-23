@@ -21,6 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use function Symfony\Component\String\u;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class BookableController extends AbstractController
@@ -78,7 +79,6 @@ class BookableController extends AbstractController
             } catch (PcreException $e) {
                 $bookTitle = $e;
             }
-
             return $this->render('book.html.twig', [
                 'bookTitle' => $bookTitle,
                 'stylesheets' => $stylesheets,
@@ -266,6 +266,10 @@ class BookableController extends AbstractController
             'booksperpage' => $booksPerPage,
             'bookscount' => $booksCount,
             'javascripts' => $javascripts
+
         ]);
     }
+
+
+
 }
