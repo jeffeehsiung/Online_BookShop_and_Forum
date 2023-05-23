@@ -20,6 +20,17 @@ class FollowedBook
     #[ORM\ManyToOne(inversedBy: 'followedBooks')]
     private ?Book $book = null;
 
+    /**
+     * @param User|null $user
+     * @param Book|null $book
+     */
+    public function __construct(?User $user, ?Book $book)
+    {
+        $this->user = $user;
+        $this->book = $book;
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;

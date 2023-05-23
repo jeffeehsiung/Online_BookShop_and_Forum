@@ -26,7 +26,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class BookableController extends AbstractController
 {
-    #[Route('/settings')]
+    #[Route('/settings', name: "settings")]
     public function settings(GenreRepository $genreRepository, UserRepository $userRepository): Response
     {
         $bookGenres = $genreRepository->findAll();
@@ -34,7 +34,7 @@ class BookableController extends AbstractController
         $stylesheets = ['settings.css'];
         $javascripts = ['settings.js'];
 
-        return $this->render('setting.html.twig', [
+        return $this->render('setting.html.twig',[
             'username' => 'test_user',
             'stylesheets' => $stylesheets,
             'javascripts' => $javascripts,
@@ -42,8 +42,12 @@ class BookableController extends AbstractController
         ]);
     }
 
-    #[Route('/book/{book_id}', name: "book")]
-    public function book(BookRepository $bookRepository, LikedBookRepository $likedBookRepository, DislikedBookRepository $dislikedBookRepository, $book_id = null): Response
+    #[Route('/book/{book_id}', name:"book")]
+    public function book
+    (
+        BookRepository $bookRepository, LikedBookRepository $likedBookRepository,
+        FollowedBookRepository $followedBookRepository, DislikedBookRepository $dislikedBookRepository, $book_id = null
+    ): Response
     {
         // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -52,7 +56,7 @@ class BookableController extends AbstractController
         // Render page
         $stylesheets = ['book.css'];
         $javascripts = ['book.js'];
-        if ($book_id) {
+        if($book_id) {
             $book = $bookRepository->findOneBy(['id' => $book_id]);
 
             // Check if book is liked or disliked
@@ -73,6 +77,12 @@ class BookableController extends AbstractController
                     $isDisliked = true;
             }
 
+            // Check if book if followed
+            $isFollowed = !is_null($followedBookRepository->findOneBy([
+                'user' => $user,
+                'book' => $book
+            ]));
+
             // Beautify title
             try {
                 $bookTitle = u(preg_replace("/\([^)]+\)/", "", $book->getTitle()))->title(true);
@@ -85,7 +95,8 @@ class BookableController extends AbstractController
                 'javascripts' => $javascripts,
                 'book' => $book,
                 'isLiked' => $isLiked,
-                'isDisliked' => $isDisliked
+                'isDisliked' => $isDisliked,
+                'isFollowed' => $isFollowed
             ]);
         } else {
             return new Response('Error: no book title detected');
@@ -93,7 +104,7 @@ class BookableController extends AbstractController
     }
 
     #[Route('/book/{book_id}/vote', name: "book_vote", methods: ['POST'])]
-    public function like
+    public function vote
     (
         BookRepository $bookRepository, LikedBookRepository $likedBookRepository,
         DislikedBookRepository $dislikedBookRepository, Request $request, EntityManagerInterface $entityManager,
@@ -124,7 +135,7 @@ class BookableController extends AbstractController
             $entityManager->remove($likedBook);
             $book->setLikes($book->getLikes() - 1);
         } elseif($direction === 'dislike-up') {
-            // Set as disliked book in DB
+            // Set as disliked book
             $dislikedBook = new DislikedBook();
             $dislikedBook->setUser($user);
             $dislikedBook->setBook($book);
@@ -146,6 +157,38 @@ class BookableController extends AbstractController
             'book_id' => $book_id
         ]);
     }
+
+    #[Route('/book/{book_id}/follow', name: "book_follow", methods: ['POST'])]
+    public function follow
+    (
+        BookRepository $bookRepository, Request $request, EntityManagerInterface $entityManager, $book_id = null,
+        FollowedBookRepository $followedBookRepository
+    ) : Response
+    {
+        // Fetch user
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+
+        $book = $bookRepository->findOneBy(['id' => $book_id]);
+
+        // Update followed books
+        $direction = $request->request->get('follow-direction', 'follow-up');
+        if($direction === 'follow-up') {
+            $followedBook = new FollowedBook($user, $book);
+            $entityManager->persist($followedBook);
+        } else {
+            $followedBook = $followedBookRepository->findOneBy([
+                'user' => $user,
+                'book' => $book
+            ]);
+            $entityManager->remove($followedBook);
+        }
+        $entityManager->flush();
+        return $this->redirectToRoute("book", [
+            'book_id' => $book_id
+        ]);
+    }
+
 
     #[Route("/welcome", name: "welcome")]
     public function Welcome(AuthenticationUtils $authenticationUtils): Response
@@ -280,7 +323,6 @@ class BookableController extends AbstractController
 
         ]);
     }
-
 
 
 
