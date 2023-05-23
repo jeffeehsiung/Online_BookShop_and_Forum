@@ -13,6 +13,7 @@ use App\Repository\GenreRepository;
 use App\Repository\LibraryRepository;
 use App\Repository\LikedBookRepository;
 use App\Repository\LikedGenreRepository;
+use App\Repository\ReadBooksRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Safe\Exceptions\PcreException;
