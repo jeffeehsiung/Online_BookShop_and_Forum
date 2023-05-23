@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 use App\Entity\DislikedBook;
+use App\Entity\FollowedBook;
 use App\Entity\LikedBook;
 use App\Entity\User;
 use App\Entity\Book;
