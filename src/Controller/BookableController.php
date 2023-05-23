@@ -5,6 +5,7 @@ use App\Entity\DislikedBook;
 use App\Entity\LikedBook;
 use App\Entity\User;
 use App\Entity\Book;
+use App\Form\BookSearchFormType;
 use App\Repository\AvatarRepository;
 use App\Repository\BookRepository;
 use App\Repository\DislikedBookRepository;
@@ -15,6 +16,7 @@ use App\Repository\LikedBookRepository;
 use App\Repository\LikedGenreRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 use Safe\Exceptions\PcreException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -242,17 +244,40 @@ class BookableController extends AbstractController
 
     }
 
-    #[Route("/browsing/{book_title}", name: 'browsing')]
+    #[Route("/browsing/{book_title}", name: 'browsing') ]
     public function browsing(GenreRepository $genreRepository, BookRepository $bookRepository,
-        $book_title = null): Response {
+        Request $request, $book_title = null): Response {
+        // create a form to be used to search for books
+        $searchform = $this->createForm(BookSearchFormType::class);
+        // handle the request
+        $searchform->handleRequest($request);
+        // if the form is submitted and valid
+        if($searchform->isSubmitted() && $searchform->isValid()) {
+            // get the data from the form
+            $data = $searchform->getData();
+            // get the value from the data
+            $book_title = $data->getTitle();
+            // if the book title is not null
+            if($book_title) {
+                // redirect to the book title page
+                return $this->redirectToRoute('browsing', [
+                    'book_title'=>$book_title
+                ]);
+            }
+        }
         // genreRepository is used to get all genres from the database
         $bookGenres = $genreRepository->findAll();
         // declare a booksperpage variable to be used to get 20 books from the database table books
         $booksPerPage = 20;
         // if a book title is passed in the url, then get all books with that title
-        $booktitle = $book_title? u(str_replace('-',' ',$book_title))->title(true) : null;
+        $bookTitle = $book_title? u(str_replace('-',' ',$book_title))->title(true) : null;
         // if a book title is null, then get all books will be returned
-        $books = $bookRepository->findAllByTitle($booktitle, $booksPerPage);
+        $books = $bookRepository->findAllByTitle($bookTitle, $booksPerPage);
+        // if no books found
+        if(!$books) {
+            // return a 404 response with a message
+            throw $this -> createNotFoundException('No books found per book title');
+        }
         // get the length of the books array
         $booksCount = count($books);
         // declare stylesheets and javascripts to be used in the twig template
@@ -263,9 +288,11 @@ class BookableController extends AbstractController
             'stylesheets' => $stylesheets,
             'genres' => $bookGenres,
             'books' => $books,
+            'searchform' => $searchform->createView(),
             'booksperpage' => $booksPerPage,
             'bookscount' => $booksCount,
             'javascripts' => $javascripts
         ]);
     }
+
 }

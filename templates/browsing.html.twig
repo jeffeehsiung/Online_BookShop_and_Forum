@@ -17,39 +17,38 @@
 <section id="browsing">
     <h1 id="browsing-title">Book Browsing & Searching </h1>
     <!-- define header search-->
-    <section class="browsing-search">
+    <section id="browsing-search">
         <!-- define search form-->
-        <form action="#" class="search-form" method="get">
-            <label for="book-name"></label>
-            <input type="text" id = "book_name" name="book_name" placeholder="Title" autocomplete="off">
+        {{ form_start(searchform) }}
+            {{ form_widget(searchform) }}
             <button type="submit" id = "search-btn" class="home-green-button">Search</button>
-{#            <a href="{{ path("browsing",{book_title: book_name.value }) }}" id = "search-btn" class="home-green-button">Search</a>#}
-        </form>
+        {{ form_end(searchform) }}
     </section>
-    <aside class="browsing-filter-container">
+    <aside id="browsing-filter-container">
         <p class="footer-header">Type</p>
         <form action="#" method="get">
             {% for genre in genres %}
                 <input id="genre-filter" type="checkbox" class="genre-filter" value="{{ genre.id }}">
                 <label for="genre-filter" class="footer-link">{{ genre.genre }}</label><br>
             {% endfor %}
-            {# TODO: amke the filter functional #}
+            {# TODO: make the filter functional by creating a filter form #}
         </form>
     </aside>
 
-    <section class="browsing-list">
+    <section id="browsing-list">
         {% for book in books %}
-            <article class="browsing-list-item">
-                <img src="{{ book.getImageUrl() }}" alt={{ book.getSmallImageUrl() }} class="book-list-image" width="200" height="300">
-                <section class="book-list-description">
-                    <h2 class="book-list-title">{{ book.getTitle()}}</h2>
+            <div class="browsing-list-item">
+                <div class = "book-image-container">
+                    <img src="{{ book.getImageUrl() }}" alt={{ book.getSmallImageUrl() }} class="book-list-image" width="200" height="300">
+                </div>
+                <div class="book-list-description">
+                    <span class="book-list-title">{{ book.getTitle()}}</span>
                     {% if book.getAuthor() is not null %}
-                        <p class="book-list-author">{{ book.getAuthor().getAuthorName() }}</p>
+                        <span class="book-list-author">{{ book.getAuthor().getAuthorName() }}</span>
                     {% endif %}
-{#                    <button type = "submit" id = "details-btn" class="home-green-button">Detail</button>#}
                     <a href="{{ path("book", {'book_id': book.getId()}) }}" class="home-green-button">Detail</a>
-                </section>
-            </article>
+                </div>
+            </div>
         {% endfor %}
     </section>
 

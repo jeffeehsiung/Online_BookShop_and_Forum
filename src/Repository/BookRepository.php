@@ -82,14 +82,6 @@ class BookRepository extends ServiceEntityRepository
                 ->setParameter('val', '%'.$book_title.'%');
         }
         return $queryBuilder->setMaxResults($booksPerPage)->getQuery()->getResult();
-//        return $this->createQueryBuilder('books')
-//            ->andWhere('books.title LIKE :val')
-//            ->setParameter('val', '%'.$book_title.'%')
-//            ->orderBy('books.title', 'ASC')
-//            ->setMaxResults($booksPerPage)
-//            ->getQuery()
-//            ->getResult()
-//        ;
     }
 
     /**
