@@ -2,7 +2,7 @@
 <project version="4">
   <component name="PublishConfigData" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
-      <paths name="student@raspberrypi.local:22">
+      <paths name="studev">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />

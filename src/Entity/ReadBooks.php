@@ -6,7 +6,7 @@ use App\Repository\ReadBooksRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ReadBooksRepository::class)]
-#[ORM\Table(name: 'a22web12.read_books')]
+#[ORM\Table(name: 'local_bookable.read_books')]
 class ReadBooks
 {
     #[ORM\Id]
