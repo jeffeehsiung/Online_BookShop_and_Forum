@@ -3,11 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\BookRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
-#[ORM\Table(name: 'a22web12.books')]
+#[ORM\Table(name: 'local_bookable.books')]
 class Book
 {
     #[ORM\Id]
@@ -58,7 +60,19 @@ class Book
     private ?Genre $genre = null;
 
     #[ORM\Column(type: Types::BIGINT, nullable: true)]
-    private ?string $dislikes = null;
+    private ?int $dislikes = null;
+
+    #[ORM\OneToMany(mappedBy: 'book', targetEntity: LikedBook::class)]
+    private Collection $likedBooks;
+
+    #[ORM\OneToMany(mappedBy: 'book', targetEntity: DislikedBook::class)]
+    private Collection $dislikedBooks;
+
+    public function __construct()
+    {
+        $this->likedBooks = new ArrayCollection();
+        $this->dislikedBooks = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -233,14 +247,74 @@ class Book
         return $this;
     }
 
-    public function getDislikes(): ?string
+    public function getDislikes(): ?int
     {
         return $this->dislikes;
     }
 
-    public function setDislikes(?string $dislikes): self
+    public function setDislikes(?int $dislikes): self
     {
         $this->dislikes = $dislikes;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LikedBook>
+     */
+    public function getLikedBooks(): Collection
+    {
+        return $this->likedBooks;
+    }
+
+    public function addLikedBook(LikedBook $likedBook): self
+    {
+        if (!$this->likedBooks->contains($likedBook)) {
+            $this->likedBooks->add($likedBook);
+            $likedBook->setBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLikedBook(LikedBook $likedBook): self
+    {
+        if ($this->likedBooks->removeElement($likedBook)) {
+            // set the owning side to null (unless already changed)
+            if ($likedBook->getBook() === $this) {
+                $likedBook->setBook(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DislikedBook>
+     */
+    public function getDislikedBooks(): Collection
+    {
+        return $this->dislikedBooks;
+    }
+
+    public function addDislikedBook(DislikedBook $dislikedBook): self
+    {
+        if (!$this->dislikedBooks->contains($dislikedBook)) {
+            $this->dislikedBooks->add($dislikedBook);
+            $dislikedBook->setBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDislikedBook(DislikedBook $dislikedBook): self
+    {
+        if ($this->dislikedBooks->removeElement($dislikedBook)) {
+            // set the owning side to null (unless already changed)
+            if ($dislikedBook->getBook() === $this) {
+                $dislikedBook->setBook(null);
+            }
+        }
 
         return $this;
     }

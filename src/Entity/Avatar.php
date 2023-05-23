@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AvatarRepository::class)]
-#[ORM\Table(name: 'a22web12.avatars')]
+#[ORM\Table(name: 'local_bookable.avatars')]
 class Avatar
 {
     #[ORM\Id]

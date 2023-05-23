@@ -6,6 +6,7 @@
     max-width: 1200px;
     align-self: auto;
     align-items: center;
+    gap: 20px;
     flex-shrink: 1;
     padding-top: var(--dl-space-space-twounits);
     padding-left: var(--dl-space-space-oneandhalfunits);
@@ -23,6 +24,12 @@
     flex-direction: row;
     justify-content: flex-start;
 }
+
+#logo_png
+{
+    width: 90px;
+}
+
 .navbar-nav-links {
     gap: var(--dl-space-space-threeunits);
     display: flex;
@@ -1119,7 +1126,7 @@
     display: flex;
     max-width: 600px;
     align-items: flex-start;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
 }
 .home-main-subscribe {

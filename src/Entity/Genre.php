@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: GenreRepository::class)]
-#[ORM\Table(name: 'a22web12.genres')]
+#[ORM\Table(name: 'local_bookable.genres')]
 class Genre
 {
     #[ORM\Id]
@@ -22,11 +22,13 @@ class Genre
     #[ORM\OneToMany(mappedBy: 'genre', targetEntity: Book::class)]
     private Collection $books;
 
-
+    #[ORM\OneToMany(mappedBy: 'genre', targetEntity: LikedGenre::class)]
+    private Collection $likedGenres;
 
     public function __construct()
     {
         $this->books = new ArrayCollection();
+        $this->likedGenres = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -70,6 +72,36 @@ class Genre
             // set the owning side to null (unless already changed)
             if ($book->getGenre() === $this) {
                 $book->setGenre(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LikedGenre>
+     */
+    public function getLikedGenres(): Collection
+    {
+        return $this->likedGenres;
+    }
+
+    public function addLikedGenre(LikedGenre $likedGenre): self
+    {
+        if (!$this->likedGenres->contains($likedGenre)) {
+            $this->likedGenres->add($likedGenre);
+            $likedGenre->setGenre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLikedGenre(LikedGenre $likedGenre): self
+    {
+        if ($this->likedGenres->removeElement($likedGenre)) {
+            // set the owning side to null (unless already changed)
+            if ($likedGenre->getGenre() === $this) {
+                $likedGenre->setGenre(null);
             }
         }
 

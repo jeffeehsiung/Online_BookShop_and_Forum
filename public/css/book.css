@@ -8,12 +8,6 @@
     width: 100%;    /* TODO: change this parameter according to taste, after implementing about text content */
 }
 
-#like-system {
-
-}
-
-
-
 h1 {
     text-align: left;
     font-family: Poppins, serif;
@@ -46,6 +40,10 @@ p {
     font-family: Poppins, serif;
 }
 
+#like-counter {
+    color: white;
+    font-family: Poppins, serif;
+}
 .ratingButton {
     background: none;
     border: none;
