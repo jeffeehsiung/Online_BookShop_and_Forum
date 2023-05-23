@@ -43,7 +43,7 @@ class BookableController extends AbstractController
     }
 
     #[Route('/book/{book_id}', name: "book")]
-    public function book(BookRepository $bookRepository, $book_id = null): Response
+    public function book(BookRepository $bookRepository, LikedBookRepository $likedBookRepository, DislikedBookRepository $dislikedBookRepository, $book_id = null): Response
     {
         // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
