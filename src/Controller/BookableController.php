@@ -166,6 +166,7 @@ class BookableController extends AbstractController
             'stylesheets' => $stylesheets
         ]);
     }
+    //log out needs no real route, happens through security and rout .yaml files
 
     #[Route("/home/{userID}", name: "home")]
     public function Home(LikedGenreRepository $likedGenreRepository,
