@@ -13,6 +13,7 @@ use App\Repository\GenreRepository;
 use App\Repository\LibraryRepository;
 use App\Repository\LikedBookRepository;
 use App\Repository\LikedGenreRepository;
+use App\Repository\ReadBooksRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Safe\Exceptions\PcreException;
@@ -21,7 +22,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use function Symfony\Component\String\u;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class BookableController extends AbstractController
