@@ -5,6 +5,7 @@ h1 {
     font-stretch: normal;
     text-decoration: none;
     color: white;
+    font-size: 48px;
 }
 
 h2 {
@@ -22,6 +23,7 @@ h3 {
     font-weight: 500;
     font-stretch: normal;
     text-decoration: none;
+    font-size: 24px;
     color: #2A2A2A;
     background-color: #b7e8c5;
     width: fit-content;
@@ -40,7 +42,8 @@ h4{
 .book{
     display: flex;
     flex-direction: column;
-    position: center;
+    margin-left: auto;
+    margin-right: auto;
     width: 240px;
     gap: 25px;
     color: #B3B3B3;
@@ -49,8 +52,8 @@ h4{
 .book-list{
     display: flex;
     flex-direction: row;
-    position: center;
-    width: content-box;
+    margin-right: auto;
+    margin-left: auto;
     gap: 50px;
     background-color: #171717;
     border-bottom-right-radius: 10px;
