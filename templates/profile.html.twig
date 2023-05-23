@@ -17,7 +17,13 @@
 <section id="profilebody">
     <script src="https://kit.fontawesome.com/56afcbf775.js" crossorigin="anonymous"></script>
     <section id = "left">
+        {% if   avatar == null %}
+
+        <img id = "profilepic"  src = "https://ibb.co/Qrsb6JQ">
+        {%else %}
         <img id = "profilepic"  src = {{ avatar.getUrl() }}>
+        {% endif %}
+        else <img id = "profilepic"  src = {{ avatar.getUrl() }}>
         <h1 class = "profilename">{{ user.getFirstName() }}</h1>
         <h1 class = "profilename">{{ user.getLastName() }}</h1>
 

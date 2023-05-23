@@ -84,7 +84,8 @@ class BookableController extends AbstractController
 
         if($userID) {
             $user = $userRepository->findOneBy(['id' => $userID]);
-            $avatar = $avatarRepository->find(['id'=> $user->getAvatar()]);
+
+            $avatar = $user->getAvatar();
 
 
             $followed_id = $followedBookRepository->findBy(['user'=>$user]);
