@@ -11,23 +11,28 @@ Welcome
 
     <section class="welcome_text">
         <h1 id ="welcome">Welcome to Bookable</h1>
-        <img id = "logo_png" src="https://www.linkpicture.com/q/Bookable-removebg-preview-2.png" alt="the logo of the app">
-        <h2 class="logintext">please log in or sign up</h2>
+       {# <img id = "logo_png" src="https://www.linkpicture.com/q/Bookable-removebg-preview-2.png" alt="the logo of the app">#}
         <button id = "login_btn" onclick="loginOn()"   class="login_button">Log in</button>
         <button onclick="registerOn()" class="register_button">Register</button>
     </section>
 
     <section id="Login" class="overlay">
         <section>
-            <p class="login_text" id="login_title">Log in to your account</p>
+            <div class = "overlay_header">
+
+            <button onclick="loginOff()" class="cls_btn">&times;</button>
+            </div>
+            <p  id="login_title">Log in to your account</p>
             <form action="{{ path('welcome') }}" method="post">
                 <label for="login_username" class="login_text">email:</label>
                 <input type="text" id="login_username" name="_username" value="{{ last_username }}" onkeyup="LoginFilledIn()" required><br>
                 <label for="login_password" class="login_text">password:</label>
                 <input type="password" id="login_password" name="_password" onkeyup="LoginFilledIn()" required><br>
+                <div id = "submit">
                 <input type="submit" name="Submit" id="login_submit" value="Submit" onclick="loginOff()"/>
+                </div>
                 {# next input is meant to determin where the user is sent on succes #}
-             {   <input type="hidden" name="_target_path" value="/home">
+                <input type="hidden" name="_target_path" value="/home">
             </form>
         </section>
     </section>
