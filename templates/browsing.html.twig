@@ -15,56 +15,60 @@
     {# TODO: fix the flex css issue. aside and flex not working #}
     <!-- https://symfony.com/doc/current/components/browser_kit.html -->
 <section id="browsing">
-    <h1 id="browsing-title">Book Browsing & Searching </h1>
+    <header>
+        <h1 id="browsing-title">Book Browsing & Searching </h1>
+    </header>
     <!-- define header search-->
     <section id="browsing-search">
         <!-- define search form-->
         {{ form_start(searchform) }}
             {{ form_widget(searchform) }}
-            <button type="submit" id = "search-btn" class="home-green-button">Search</button>
+        <button type="submit" id = "search-btn" class="main-button">Search</button>
         {{ form_end(searchform) }}
     </section>
-    <aside id="browsing-filter-container">
-        <p class="footer-header">Type</p>
-        <form action="#" method="get">
-            {% for genre in genres %}
-                <input id="genre-filter" type="checkbox" class="genre-filter" value="{{ genre.id }}">
-                <label for="genre-filter" class="footer-link">{{ genre.genre }}</label><br>
+    <main id="contents">
+        <aside id="browsing-filter-container">
+            <header>
+                <h1 class="genre-header">Genres</h1>
+            </header>
+            <form action="#" method="get">
+                {% for genre in genres %}
+                    <input id="genre-filter" type="checkbox" class="genre-filter" value="{{ genre.id }}">
+                    <label for="genre-filter" class="footer-link">{{ genre.genre }}</label><br>
+                {% endfor %}
+                {# TODO: make the filter functional by creating a filter form #}
+            </form>
+        </aside>
+        <section id="browsing-list">
+            {% for book in books %}
+                <div class="browsing-list-item">
+                    <div class = "book-image-container">
+                        <img src="{{ book.getImageUrl() }}" alt={{ book.getSmallImageUrl() }} class="book-list-image" width="200" height="300">
+                    </div>
+                    <div class="book-list-description">
+                        <span class="book-list-title">{{ book.getTitle()}}</span>
+                        {% if book.getAuthor() is not null %}
+                            <span class="book-list-author">{{ book.getAuthor().getAuthorName() }}</span>
+                        {% endif %}
+                        <a href="{{ path("book", {'book_id': book.getId()}) }}" class="home-green-button">Detail</a>
+                    </div>
+                </div>
             {% endfor %}
-            {# TODO: make the filter functional by creating a filter form #}
-        </form>
-    </aside>
-
-    <section id="browsing-list">
-        {% for book in books %}
-            <div class="browsing-list-item">
-                <div class = "book-image-container">
-                    <img src="{{ book.getImageUrl() }}" alt={{ book.getSmallImageUrl() }} class="book-list-image" width="200" height="300">
-                </div>
-                <div class="book-list-description">
-                    <span class="book-list-title">{{ book.getTitle()}}</span>
-                    {% if book.getAuthor() is not null %}
-                        <span class="book-list-author">{{ book.getAuthor().getAuthorName() }}</span>
-                    {% endif %}
-                    <a href="{{ path("book", {'book_id': book.getId()}) }}" class="home-green-button">Detail</a>
-                </div>
-            </div>
-        {% endfor %}
-    </section>
-
+        </section>
+    </main>
     {#pages buttons#}
     <section class="browsing-pages">
         {# TODO: make all page buttons functional #}
-        <button type="submit" id="previous-page" class="home-green-button">Previous</button>
+        <button type="submit" id="previous-page" class="main-button">Previous</button>
         <!-- declare a page counter variable -->
         {% set page = 0 %}
         <!-- iterate through the bookscount and create a button for each booksperpage books -->
         {% for i in 1..(bookscount/booksperpage) %}
             {% set page = page + 1 %}
-            <button type="submit" id="page-{{ page }}" class="home-green-button">{{ page }}</button>
+            <button type="submit" id="page-{{ page }}" class="main-button">{{ page }}</button>
         {% endfor %}
-        <button type="submit" id="next-page" class="home-green-button">Next</button>
+        <button type="submit" id="next-page" class="main-button">Next</button>
     </section>
-</section>
+</>
 {% endblock %}
 
