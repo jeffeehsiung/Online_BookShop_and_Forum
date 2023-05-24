@@ -170,16 +170,21 @@ form {
 .register_button
 {
     cursor: pointer;
+    box-sizing: border-box;
 
+    /* Auto layout */
     padding: 8px 16px;
-    gap: 0px;
+    gap: 8px;
 
-    width: 150px;
-    height: 70px;
+
+    width: 220px;
+    height: 80px;
+
+
     background: #0C100C;
-   /** box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);**/
+    /**box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);**/
     border-radius: 50px;
-    font-size: 20px;
+    font-size: 30px;
     color : #80FF44;
 
 }
