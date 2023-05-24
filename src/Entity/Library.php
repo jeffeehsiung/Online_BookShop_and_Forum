@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LibraryRepository::class)]
-#[ORM\Table(name: 'a22web12.libraries')]
+#[ORM\Table(name: 'local_bookable.libraries')]
 class Library
 {
     #[ORM\Id]

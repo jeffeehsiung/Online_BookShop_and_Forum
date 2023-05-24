@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: 'a22web12.users')]
+#[ORM\Table(name: 'local_bookable.users')]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -66,6 +66,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->Book = new ArrayCollection();
         $this->followedBooks = new ArrayCollection();
+        $this->likedGenres = new ArrayCollection();
+        $this->likedBooks = new ArrayCollection();
+        $this->dislikedBooks = new ArrayCollection();
     }
 
     /**
@@ -76,6 +79,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: LikedGenre::class)]
+    private Collection $likedGenres;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: LikedBook::class)]
+    private Collection $likedBooks;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: DislikedBook::class)]
+    private Collection $dislikedBooks;
 
     public function getId(): ?int
     {
@@ -321,6 +333,96 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LikedGenre>
+     */
+    public function getLikedGenres(): Collection
+    {
+        return $this->likedGenres;
+    }
+
+    public function addLikedGenre(LikedGenre $likedGenre): self
+    {
+        if (!$this->likedGenres->contains($likedGenre)) {
+            $this->likedGenres->add($likedGenre);
+            $likedGenre->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLikedGenre(LikedGenre $likedGenre): self
+    {
+        if ($this->likedGenres->removeElement($likedGenre)) {
+            // set the owning side to null (unless already changed)
+            if ($likedGenre->getUser() === $this) {
+                $likedGenre->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LikedBook>
+     */
+    public function getLikedBooks(): Collection
+    {
+        return $this->likedBooks;
+    }
+
+    public function addLikedBook(LikedBook $likedBook): self
+    {
+        if (!$this->likedBooks->contains($likedBook)) {
+            $this->likedBooks->add($likedBook);
+            $likedBook->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLikedBook(LikedBook $likedBook): self
+    {
+        if ($this->likedBooks->removeElement($likedBook)) {
+            // set the owning side to null (unless already changed)
+            if ($likedBook->getUser() === $this) {
+                $likedBook->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DislikedBook>
+     */
+    public function getDislikedBooks(): Collection
+    {
+        return $this->dislikedBooks;
+    }
+
+    public function addDislikedBook(DislikedBook $dislikedBook): self
+    {
+        if (!$this->dislikedBooks->contains($dislikedBook)) {
+            $this->dislikedBooks->add($dislikedBook);
+            $dislikedBook->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDislikedBook(DislikedBook $dislikedBook): self
+    {
+        if ($this->dislikedBooks->removeElement($dislikedBook)) {
+            // set the owning side to null (unless already changed)
+            if ($dislikedBook->getUser() === $this) {
+                $dislikedBook->setUser(null);
+            }
+        }
 
         return $this;
     }

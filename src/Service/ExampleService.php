@@ -3,7 +3,7 @@
 // ...
 
 //this is an example directly from the symfony tutorial. It serves no purtpose aside from being a reference
-
+namespace App\Service;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 
