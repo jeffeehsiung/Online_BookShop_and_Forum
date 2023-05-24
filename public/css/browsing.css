@@ -63,6 +63,10 @@ body {
     margin: 7px;
 }
 
+#browsing-filter-container label:hover {
+    color: gold;
+}
+
 /* Search form styles */
 #browsing-search{
     display: flex;
@@ -188,6 +192,7 @@ body {
     margin: 50px;
 }
 
+.main-button:hover,
 .browsing-pages button:hover {
     background-color: deeppink;
     color: white;
