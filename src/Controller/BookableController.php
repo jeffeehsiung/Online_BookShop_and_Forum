@@ -161,9 +161,9 @@ class BookableController extends AbstractController
 
     #[Route('/book/{book_id}/follow', name: "book_follow", methods: ['POST'])]
     public function follow
-    (
-        BookRepository $bookRepository, Request $request, EntityManagerInterface $entityManager, $book_id = null,
-        FollowedBookRepository $followedBookRepository
+    ( FollowedBookRepository $followedBookRepository,
+        BookRepository $bookRepository, Request $request, EntityManagerInterface $entityManager, $book_id = null
+
     ) : Response
     {
         // Fetch user
