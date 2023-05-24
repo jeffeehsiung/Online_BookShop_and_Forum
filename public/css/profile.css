@@ -4,7 +4,7 @@
 #profilebody{
     flex-direction: row;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     gap : 50px;
     color: white;
     font-family: Poppins, serif;
@@ -17,7 +17,7 @@
     display: flex;
     justify-content: flex-start;
     align-content: center;
-    padding: 50px;
+
 
 
 }
@@ -58,6 +58,8 @@
     align-content: center;
     overflow: auto;
     color: white;
+    width= 200px;
+
 
 }
 
@@ -92,9 +94,20 @@
 
 .media-element {
     display: grid;
+
+
+Met vriendelijke groeten,
     grid-template-rows: min-content;
     gap: var(--_spacer);
     padding: var(--_spacer);
+
+    border-radius: 20px;
+    box-shadow: #3E3E3E;
+}
+.empty {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: min-content;
 
     border-radius: 20px;
     box-shadow: #3E3E3E;

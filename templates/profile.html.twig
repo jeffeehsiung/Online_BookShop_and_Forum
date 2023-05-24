@@ -14,61 +14,72 @@
 
 {% block content %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <section id="profilebody">
-        <script src="https://kit.fontawesome.com/56afcbf775.js" crossorigin="anonymous"></script>
-        <section id = "left">
-            <img id = "profilepic"  src = {{ avatar.getUrl() }}>
+<section id="profilebody">
+    <script src="https://kit.fontawesome.com/56afcbf775.js" crossorigin="anonymous"></script>
+    <section id = "left">
+        {% if   avatar == null %}
+
+        <img id = "profilepic"  src = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png">
+        {%else %}
+        <img id = "profilepic"  src = {{ avatar.getUrl() }}>
+        {% endif %}
+        {% if  user.getFirstName() == null %}
+
+            <h1 class = "profilename"> user {{ user.getId() }}</h1>
+        {%else %}
             <h1 class = "profilename">{{ user.getFirstName() }}</h1>
-            <h1 class = "profilename">{{ user.getLastName() }}</h1>
+        {% endif %}
+
+        <h1 class = "profilename">{{ user.getLastName() }}</h1>
 
 
-            <div class = "contactIcons">
-                <i class='fab fa-facebook-square' style='font-size:40px'></i>
-                <i class='fab fa-whatsapp' style='font-size:40px'></i>
-                <i class='fab fa-instagram' style='font-size:40px'></i>
-            </div>
-        </section>
+        <div class = "contactIcons">
+            <i class='fab fa-facebook-square' style='font-size:40px'></i>
+            <i class='fab fa-whatsapp' style='font-size:40px'></i>
+            <i class='fab fa-instagram' style='font-size:40px'></i>
+        </div>
+    </section>
 
-        <section id = "right">
-            <h1 class = section-title> Liked Books</h1>
-            <div class = booklist>
+    <section id = "right">
+        <h1 class = section-title> Liked Books</h1>
+        <div class = booklist>
 
                 {% if followed_book == null%}
-                    <div class="empty">
-                        <a > No liked books yet...</a>
-                    </div>
+                <div class="empty">
+                    <a > No liked books yet...</a>
+                </div>
                 {% else %}
-                    <div class="media-scroller snaps-inline">
-                        {% for book in followed_book %}
+            <div class="media-scroller snaps-inline">
+                {% for book in followed_book %}
 
-                            <div class="media-element">
-                                <img src = "{{ book.getImageUrl  }} "alt="">
-                                <p class="title">{{ book.getTitle }}</p>
-                            </div>
-                        {% endfor %}
-                    </div>
+                <div class="media-element">
+                    <img src = "{{ book.getImageUrl  }} "alt="">
+                    <p class="title">{{ book.getTitle }}</p>
+                </div>
+                {% endfor %}
+            </div>
                 {% endif %}
 
 
             </div>
 
 
-            <h1 class = section-title> To Read</h1>
-            <div class = booklist>
+        <h1 class = section-title> To Read</h1>
+        <div class = booklist>
 
                 {% if read_list == null%}
-                    <div class="empty">
-                        <a > To read list is empty...</a>
-                    </div>
+                <div class="empty">
+                    <a > To read list is empty...</a>
+                </div>
                 {% else %}
-                    <div class="media-scroller snaps-inline">
-                        {% for book in read_list %}
-                            <div class="media-element">
-                                <img src = "{{ book.getImageUrl  }} "alt="">
-                                <p class="title">{{ book.getTitle }}</p>
-                            </div>
-                        {% endfor %}
+            <div class="media-scroller snaps-inline">
+                {% for book in read_list %}
+                    <div class="media-element">
+                        <img src = "{{ book.getImageUrl  }} "alt="">
+                        <p class="title">{{ book.getTitle }}</p>
                     </div>
+                {% endfor %}
+            </div>
                 {% endif %}
 
 
@@ -77,9 +88,9 @@
 
 
 
-        </section>
-
     </section>
+
+</section>
 
 {% endblock %}
 
