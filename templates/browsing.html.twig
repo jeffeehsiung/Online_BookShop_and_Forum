@@ -38,6 +38,10 @@
                 {% endfor %}
                 {# TODO: make the filter functional by creating a filter form #}
             </form>
+            <!-- define filter form-->
+            {{ form_start(filterform) }}
+            {{ form_widget(filterform) }}
+            {{ form_end(filterform) }}
         </aside>
         <section id="browsing-list">
             {% for book in books %}

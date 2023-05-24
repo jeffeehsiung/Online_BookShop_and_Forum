@@ -76,11 +76,30 @@ class BookRepository extends ServiceEntityRepository
     public function findAllByTitle($book_title, $booksPerPage): array
     {
         $queryBuilder = $this->createQueryBuilder('books')
-            ->orderBy('books.title', 'DESC');
+            ->orderBy('books.id', 'DESC');
         if($book_title){
             $queryBuilder->andWhere('books.title LIKE :val')
                 ->setParameter('val', '%'.$book_title.'%');
         }
+        return $queryBuilder->setMaxResults($booksPerPage)->getQuery()->getResult();
+    }
+
+    public function filterByGenre(array $genreIDs, int $booksPerPage): array
+    {
+        // create a query builder
+        $queryBuilder = $this->createQueryBuilder('books')
+            ->orderBy('books.id', 'DESC');
+        // if there are genre ids, filter by genre ids
+        if ($genreIDs) {
+            // use orWhere() instead of andWhere() to filter by multiple genres
+            foreach ($genreIDs as $key => $genreID) {
+                $queryBuilder->orWhere('books.genre_id = :genre_id'.$key)
+                    ->setParameter('genre_id'.$key, $genreID);
+            }
+//            $queryBuilder->andWhere('books.genre_id IN (:genreIDs)')
+//                ->setParameter('genreIDs', $genreIDs);
+        }
+        // execute the query and return the result
         return $queryBuilder->setMaxResults($booksPerPage)->getQuery()->getResult();
     }
 
@@ -90,28 +109,7 @@ class BookRepository extends ServiceEntityRepository
      * find all books for each genre_id
      * @return Book[] Returns an array of Book object
      */
-    public function findAllByGenreIds($gen_ids): array
-    {
-        $qb = $this->createQueryBuilder('books');
-        $qb->where($qb->expr()->in('books.genre_id', $gen_ids));
-        $qb->orderBy('books.genre_id', 'ASC');
-        $qb->orderBy('books.title', 'ASC');
-        $qb->setMaxResults(30);
-        return $qb->getQuery()->getResult();
-    }
 
-    // findall by genre and title
-    public function findAllByGenreAndTitle($gen_ids, $title): array
-    {
-        $qb = $this->createQueryBuilder('books');
-        $qb->where($qb->expr()->in('books.genre_id', $gen_ids));
-        $qb->andWhere('books.title LIKE :val')
-            ->setParameter('val', '%'.$title.'%');
-        $qb->orderBy('books.genre_id', 'ASC');
-        $qb->orderBy('books.title', 'ASC');
-        $qb->setMaxResults(30);
-        return $qb->getQuery()->getResult();
-    }
 
 //    public function findOneBySomeField($value): ?Book
 //    {

@@ -2,8 +2,10 @@
 
 namespace App\Form;
 
-use App\Entity\Book;
+use App\Entity\Genre;
+use App\Repository\GenreRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,28 +14,33 @@ class BookFilterFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title')
-            ->add('goodreads_book_id')
-            ->add('best_book_id')
-            ->add('work_id')
-            ->add('books_count')
-            ->add('original_publication_year')
-            ->add('isbn')
-            ->add('isbn13')
-            ->add('language_code')
-            ->add('likes')
-            ->add('image_url')
-            ->add('small_image_url')
-            ->add('dislikes')
-            ->add('author')
-            ->add('genre')
+        //for each genre in the database, create a checkbox, and set the label to the genre name
+            ->add('genre', CheckboxType::class, [
+                // display the genre name as the label
+//                'label' => function (Genre $genre) {
+//                    return (string) $genre->getGenre();
+//                },
+                'label' => 'Genre',
+                'label_attr' => [
+                    'class' => 'genre-label',
+                    'color' => 'white',
+                    'hover' => 'gold',
+                ],
+                'mapped' => false,
+                'required' => false,
+                'translation_domain' => false,
+                'attr' => [
+                    'class' => 'genre-checkbox',
+                ],
+
+            ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Book::class,
+            'data_class' => Genre::class,
         ]);
     }
 }

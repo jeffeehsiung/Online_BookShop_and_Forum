@@ -5,6 +5,7 @@ use App\Entity\DislikedBook;
 use App\Entity\LikedBook;
 use App\Entity\User;
 use App\Entity\Book;
+use App\Form\BookFilterFormType;
 use App\Form\BookSearchFormType;
 use App\Repository\AvatarRepository;
 use App\Repository\BookRepository;
@@ -246,11 +247,11 @@ class BookableController extends AbstractController
 
     #[Route("/browsing/{book_title}", name: 'browsing') ]
     public function browsing(GenreRepository $genreRepository, BookRepository $bookRepository,
-        Request $request, $book_title = null): Response {
+        Request $searchRequest, Request $filterRequest, $book_title = null): Response {
         // create a form to be used to search for books
         $searchform = $this->createForm(BookSearchFormType::class);
         // handle the request
-        $searchform->handleRequest($request);
+        $searchform->handleRequest($searchRequest);
         // if the form is submitted and valid
         if($searchform->isSubmitted() && $searchform->isValid()) {
             // get the data from the form
@@ -265,10 +266,29 @@ class BookableController extends AbstractController
                 ]);
             }
         }
-        // genreRepository is used to get all genres from the database
+        // create a form to be used to filter books
+        $filterform = $this->createForm(BookFilterFormType::class);
+        // handle the request
+        $filterform->handleRequest($filterRequest);
+        // if the form is submitted and valid
+        if($filterform->isSubmitted() && $filterform->isValid()) {
+            // get the data from the form
+            $data = $filterform->getData();
+            // put all the genres selected in an array
+            $genreIDs = [];
+            // if the genre ids is not null
+            if($data) {
+                // loop through the genre ids
+                foreach($data as $genre) {
+                    // add the genre id to the array
+                    $genreIDs[] = $genre->getId();
+                }
+            }
+        }
+        // genreRepository is used to get all genres from the database for the filter form
         $bookGenres = $genreRepository->findAll();
         // declare a booksperpage variable to be used to get 20 books from the database table books
-        $booksPerPage = 20;
+        $booksPerPage = 34;
         // if a book title is passed in the url, then get all books with that title
         $bookTitle = $book_title? u(str_replace('-',' ',$book_title))->title(true) : null;
         // if a book title is null, then get all books will be returned
@@ -277,6 +297,15 @@ class BookableController extends AbstractController
         if(!$books) {
             // return a 404 response with a message
             throw $this -> createNotFoundException('No books found per book title');
+        }
+        // filter the books by selected genres
+        if(isset($genreIDs)) {
+            $books = $bookRepository->filterByGenre($genreIDs, $booksPerPage);
+        }
+        // if no books found
+        if(!$books) {
+            // return a 404 response with a message
+            throw $this -> createNotFoundException('No books found per genre');
         }
         // get the length of the books array
         $booksCount = count($books);
@@ -289,6 +318,7 @@ class BookableController extends AbstractController
             'genres' => $bookGenres,
             'books' => $books,
             'searchform' => $searchform->createView(),
+            'filterform' => $filterform->createView(),
             'booksperpage' => $booksPerPage,
             'bookscount' => $booksCount,
             'javascripts' => $javascripts
