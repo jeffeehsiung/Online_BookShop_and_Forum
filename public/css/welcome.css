@@ -1,6 +1,6 @@
 
 main {
-    color: white;
+
     font-size: 30px;
 
 }
@@ -41,7 +41,7 @@ main {
     left: 34%;
     right: 34%;
     border: 1px solid #666; /*a nice looking border for the overlay*/
-    background: #093545; /*black background so that you can't see the welcome text underneath*/
+    background: #3E3E3E; /*black background so that you can't see the welcome text underneath*/
     border-radius:20px;
     color: #FFF;
     width:32%;
@@ -61,7 +61,7 @@ main {
 }
 
 #login_username, #login_password, #register_username, #register_password, #email {
-    background: #224957;
+    background: #75797E;
     border-radius: 10px;
     margin-bottom: 10px;
     margin-left: 10px;
@@ -104,8 +104,8 @@ main {
     cursor: not-allowed;
     font-size: 100%;
     opacity: 1;
-    color: white;
-    background: #20DF7F;
+    color: #3E3E3E;
+    background: #80FF44;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
     border-radius: 20px;
 
