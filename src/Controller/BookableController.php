@@ -219,7 +219,6 @@ class BookableController extends AbstractController
         // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $userID = $this->getUser()->getId();
-        echo "user is ".$userID;
         $stylesheets = ['homev2.css'];
         $javascripts = ['home.js'];
         if ($userID) {
