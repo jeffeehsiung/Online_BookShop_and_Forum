@@ -8,8 +8,9 @@ use App\Entity\User;
 use App\Repository\BookRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
-class LikedBooksFixtures extends Fixture
+class LikedBooksFixtures extends Fixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -24,5 +25,8 @@ class LikedBooksFixtures extends Fixture
             $manager->persist($likedBook);
         }
         $manager->flush();
+    }
+    public function getOrder(){
+        return 6;
     }
 }

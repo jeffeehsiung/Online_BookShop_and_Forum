@@ -3,13 +3,15 @@
 namespace App\DataFixtures;
 
 use App\Entity\Book;
+use App\Entity\DislikedBook;
 use App\Entity\LikedBook;
 use App\Entity\User;
 use App\Repository\BookRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
-class DislikedBooksFixtures extends Fixture
+class DislikedBooksFixtures extends Fixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -19,11 +21,14 @@ class DislikedBooksFixtures extends Fixture
         for ($i = 0; $i < 100; $i++) {
             //make sure that liked and disliked don't overlap!!!!
             $book = $manager->getRepository(Book::class)->findOneBy(['id' => $i+101]);
-            $likedBook = new LikedBook();
-            $likedBook->setBook($book);
-            $likedBook->setUser($user);
-            $manager->persist($likedBook);
+            $dislikedBooks = new DislikedBook();
+            $dislikedBooks->setBook($book);
+            $dislikedBooks->setUser($user);
+            $manager->persist($dislikedBooks);
         }
         $manager->flush();
+    }
+    public function getOrder(){
+        return 6;
     }
 }

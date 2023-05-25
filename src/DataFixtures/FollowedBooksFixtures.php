@@ -3,13 +3,16 @@
 namespace App\DataFixtures;
 
 use App\Entity\Book;
+use App\Entity\FollowedBook;
 use App\Entity\LikedBook;
 use App\Entity\User;
 use App\Repository\BookRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
-class FollowedBooksFixtures extends Fixture
+class FollowedBooksFixtures extends Fixture implements OrderedFixtureInterface
+
 {
     public function load(ObjectManager $manager)
     {
@@ -18,11 +21,12 @@ class FollowedBooksFixtures extends Fixture
         //add the first 100 uneven books to the database for a specific user
         for ($i = 0; $i < 100; $i++) {
             $book = $manager->getRepository(Book::class)->findOneBy(['id' => 2*$i+1]);
-            $likedBook = new LikedBook();
-            $likedBook->setBook($book);
-            $likedBook->setUser($user);
-            $manager->persist($likedBook);
+            $followedBook = new FollowedBook($user, $book);
+            $manager->persist($followedBook);
         }
         $manager->flush();
+    }
+    public function getOrder(){
+        return 6;
     }
 }

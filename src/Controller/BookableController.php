@@ -211,7 +211,7 @@ class BookableController extends AbstractController
         ]);
     }
 
-    #[Route("/home/{userID}", name: "home")]
+    #[Route("/home", name: "home")]
     public function Home(LikedGenreRepository $likedGenreRepository,
         UserRepository $userRepository, GenreRepository$genreRepository, BookRepository $bookRepository,
         FollowedBookRepository $followedBookRepository, $userID = null): Response
@@ -219,7 +219,7 @@ class BookableController extends AbstractController
         // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $userID = $this->getUser()->getId();
-
+        echo "user is ".$userID;
         $stylesheets = ['homev2.css'];
         $javascripts = ['home.js'];
         if ($userID) {
@@ -229,8 +229,14 @@ class BookableController extends AbstractController
             $genres = $genreRepository->findBy(['id'=>$genre_id, ]);
             $genre_books =  $bookRepository->findBy(['genre'=>$genre_id] );
             $followed = $followedBookRepository->findBy(['user'=>$userID]);
+            $followed_book_id =[];
+            foreach ($followed as $follow){
+                $current_book_id = $follow->getBook()->getId();
+                $followed_book_id[] = $current_book_id;
+            }
             $followed_authors = [];
-            $followed_books = $bookRepository->findBy(['id'=>$followed]);
+            $followed_books = $bookRepository->findBy(['id'=>$followed_book_id]);
+
             foreach ($followed_books as $followed_book){
                 $current_author = $followed_book->getAuthor();
                 $followed_authors[] = $current_author;
