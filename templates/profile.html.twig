@@ -34,9 +34,11 @@
 
 
         <div class = "contactIcons">
-            <i class='fab fa-facebook-square' style='font-size:40px'></i>
-            <i class='fab fa-whatsapp' style='font-size:40px'></i>
-            <i class='fab fa-instagram' style='font-size:40px'></i>
+            <a style="cursor: pointer" href="{{ path('settings') }}" >
+                <i class='fa-solid fa-gear' style='font-size:40px'></i>
+            </a>
+
+
         </div>
     </section>
 
@@ -46,7 +48,7 @@
 
                 {% if followed_book == null%}
                 <div class="empty">
-                    <a > No liked books yet...</a>
+                    <a >  &emsp; &emsp;  No liked books yet...</a>
                 </div>
                 {% else %}
             <div class="media-scroller snaps-inline">
@@ -69,7 +71,7 @@
 
                 {% if read_list == null%}
                 <div class="empty">
-                    <a > To read list is empty...</a>
+                    <a >   &emsp; &emsp; To read list is empty...</a>
                 </div>
                 {% else %}
             <div class="media-scroller snaps-inline">

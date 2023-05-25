@@ -4,11 +4,12 @@
 #profilebody{
     flex-direction: row;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     gap : 50px;
     color: white;
     font-family: Poppins, serif;
     width: 1200px;
+    align-content: center;
 
 }
 #left
@@ -17,6 +18,8 @@
     display: flex;
     justify-content: flex-start;
     align-content: center;
+    width: fit-content;
+
 
 
 
@@ -25,12 +28,14 @@
 .profilename
 {
     color: white;
+    width: fit-content;
 }
 #profilepic
 {
     inline-size: 120%;
     aspect-ratio: 16/ 16;
-    object-fit: cover;
+    width: 250px;
+    object-fit: contain;
     border-radius: 20px;
     border-color: #2e3136;
     border-width: medium;
@@ -42,7 +47,7 @@
     display: flex;
     justify-content: center;
     gap: 20px;
-
+    color: #FFFFFF;
     padding: 20px;
 
 
@@ -58,7 +63,7 @@
     align-content: center;
     overflow: auto;
     color: white;
-    width= 200px;
+    width: 50%;
 
 
 }
@@ -94,9 +99,6 @@
 
 .media-element {
     display: grid;
-
-
-Met vriendelijke groeten,
     grid-template-rows: min-content;
     gap: var(--_spacer);
     padding: var(--_spacer);
@@ -105,12 +107,7 @@ Met vriendelijke groeten,
     box-shadow: #3E3E3E;
 }
 .empty {
-    display: grid;
-    grid-auto-flow: column;
-    grid-template-rows: min-content;
 
-    border-radius: 20px;
-    box-shadow: #3E3E3E;
 }
 
 .media-element > img {
