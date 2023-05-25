@@ -43,7 +43,7 @@ body {
 }
 
 /* Filter styles */
-#browsing-filter-container {
+#browsing-filter-container{
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;

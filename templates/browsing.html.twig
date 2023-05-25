@@ -12,7 +12,6 @@
 {% endblock %}
 
 {% block content %}
-    {# TODO: fix the flex css issue. aside and flex not working #}
     <!-- https://symfony.com/doc/current/components/browser_kit.html -->
 <section id="browsing">
     <header>
@@ -28,16 +27,16 @@
     </section>
     <main id="contents">
         <aside id="browsing-filter-container">
-            <header>
-                <h1 class="genre-header">Genres</h1>
-            </header>
-            <form action="#" method="get">
-                {% for genre in genres %}
-                    <input id="genre-filter" type="checkbox" class="genre-filter" value="{{ genre.id }}">
-                    <label for="genre-filter" class="footer-link">{{ genre.genre }}</label><br>
-                {% endfor %}
-                {# TODO: make the filter functional by creating a filter form #}
-            </form>
+{#            <header>#}
+{#                <h1 class="genre-header">Genres</h1>#}
+{#            </header>#}
+{#            <form action="#" method="get">#}
+{#                {% for genre in genres %}#}
+{#                    <input id="genre-filter" type="checkbox" class="genre-filter" value="{{ genre.id }}">#}
+{#                    <label for="genre-filter" class="footer-link">{{ genre.genre }}</label><br>#}
+{#                {% endfor %}#}
+{#                #}{# TODO: make the filter functional by creating a filter form #}
+{#            </form>#}
             <!-- define filter form-->
             {{ form_start(filterform) }}
             {{ form_widget(filterform) }}
@@ -60,19 +59,16 @@
             {% endfor %}
         </section>
     </main>
+
     {#pages buttons#}
     <section class="browsing-pages">
-        {# TODO: make all page buttons functional #}
-        <button type="submit" id="previous-page" class="main-button">Previous</button>
-        <!-- declare a page counter variable -->
-        {% set page = 0 %}
-        <!-- iterate through the bookscount and create a button for each booksperpage books -->
-        {% for i in 1..(bookscount/booksperpage) %}
-            {% set page = page + 1 %}
-            <button type="submit" id="page-{{ page }}" class="main-button">{{ page }}</button>
-        {% endfor %}
-        <button type="submit" id="next-page" class="main-button">Next</button>
+        {% if previous >= 0 %}
+            <a href="{{ path("browsing", {'offset': previous}) }}" class="main-button">Previous</a>
+        {% endif %}
+        {% if next < books|length %}
+            <a href="{{ path("browsing", {'offset': next}) }}" class="main-button">Next</a>
+        {% endif %}
     </section>
-</>
+</section>
 {% endblock %}
 

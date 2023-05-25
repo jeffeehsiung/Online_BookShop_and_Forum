@@ -19,7 +19,8 @@ class BookSearchFormType extends AbstractType
                     'class'=> 'bg-white',
                     'style'=>'margin-bottom:15px'
                 ),
-                'label'=>false
+                'label'=>false,
+                'required'=>true,
             ])
         ;
     }

@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Entity\Book;
 use App\Form\BookFilterFormType;
 use App\Form\BookSearchFormType;
+use App\Form\GenreFilterFormType;
 use App\Repository\AvatarRepository;
 use App\Repository\BookRepository;
 use App\Repository\DislikedBookRepository;
@@ -28,6 +29,11 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class BookableController extends AbstractController
 {
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+    ){
+
+    }
     #[Route('/settings')]
     public function settings(GenreRepository $genreRepository, UserRepository $userRepository): Response
     {
@@ -172,7 +178,7 @@ class BookableController extends AbstractController
 
     #[Route("/home/{userID}", name: "home")]
     public function Home(LikedGenreRepository $likedGenreRepository,
-        UserRepository $userRepository, GenreRepository$genreRepository, BookRepository $bookRepository,
+        UserRepository $userRepository, GenreRepository $genreRepository, BookRepository $bookRepository,
         FollowedBookRepository $followedBookRepository, $userID = null): Response
     {
         // Fetch user
@@ -247,7 +253,7 @@ class BookableController extends AbstractController
 
     #[Route("/browsing/{book_title}", name: 'browsing') ]
     public function browsing(GenreRepository $genreRepository, BookRepository $bookRepository,
-        Request $searchRequest, Request $filterRequest, $book_title = null): Response {
+        Request $pageRequest, Request $searchRequest, Request $filterRequest, $book_title = null): Response {
         // create a form to be used to search for books
         $searchform = $this->createForm(BookSearchFormType::class);
         // handle the request
@@ -285,14 +291,16 @@ class BookableController extends AbstractController
                 }
             }
         }
+
+        // get the page number from the url
+        $offset = max(0, $pageRequest->query->getInt('offset', 0));
         // genreRepository is used to get all genres from the database for the filter form
         $bookGenres = $genreRepository->findAll();
-        // declare a booksperpage variable to be used to get 20 books from the database table books
-        $booksPerPage = 34;
         // if a book title is passed in the url, then get all books with that title
         $bookTitle = $book_title? u(str_replace('-',' ',$book_title))->title(true) : null;
         // if a book title is null, then get all books will be returned
-        $books = $bookRepository->findAllByTitle($bookTitle, $booksPerPage);
+        $books = $bookRepository->findAllByTitle($bookTitle, $offset);
+
         // if no books found
         if(!$books) {
             // return a 404 response with a message
@@ -300,7 +308,7 @@ class BookableController extends AbstractController
         }
         // filter the books by selected genres
         if(isset($genreIDs)) {
-            $books = $bookRepository->filterByGenre($genreIDs, $booksPerPage);
+            $books = $bookRepository->filterByGenre($genreIDs);
         }
         // if no books found
         if(!$books) {
@@ -319,7 +327,8 @@ class BookableController extends AbstractController
             'books' => $books,
             'searchform' => $searchform->createView(),
             'filterform' => $filterform->createView(),
-            'booksperpage' => $booksPerPage,
+            'previous' => $offset - BookRepository::PAGINATOR_PER_PAGE,
+            'next' => min(count($books), $offset + BookRepository::PAGINATOR_PER_PAGE),
             'bookscount' => $booksCount,
             'javascripts' => $javascripts
         ]);

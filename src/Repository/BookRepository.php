@@ -6,17 +6,20 @@ use App\Entity\Book;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * @extends ServiceEntityRepository<Book>
  *
  * @method Book|null find($id, $lockMode = null, $lockVersion = null)
  * @method Book|null findOneBy(array $criteria, array $orderBy = null)
- * @method Book[]    findAll()
  * @method Book[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class BookRepository extends ServiceEntityRepository
 {
+    // create paginator for book list
+    public const PAGINATOR_PER_PAGE = 34;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Book::class);
@@ -38,6 +41,13 @@ class BookRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public  function findAll():array
+    {
+        // override the findAll() method to automatically order by id (newest first).
+        // Ordering the book list by pk may facilitate browsing: ref: https://symfony.com/doc/6.2/the-fast-track/en/12-event.html
+        return $this->findBy([],['id'=>'DESC']);
     }
 
     public function findPopular(){
@@ -73,7 +83,7 @@ class BookRepository extends ServiceEntityRepository
      * find all book objects by title
      * @return Book[] Returns an array of Book objects
      */
-    public function findAllByTitle($book_title, $booksPerPage): array
+    public function findAllByTitleOld($book_title, $booksPerPage): array
     {
         $queryBuilder = $this->createQueryBuilder('books')
             ->orderBy('books.id', 'DESC');
@@ -84,7 +94,22 @@ class BookRepository extends ServiceEntityRepository
         return $queryBuilder->setMaxResults($booksPerPage)->getQuery()->getResult();
     }
 
-    public function filterByGenre(array $genreIDs, int $booksPerPage): array
+    public function findAllByTitle($book_title, int $offset): Paginator
+    {
+        $queryBuilder = $this->createQueryBuilder('books')
+            ->orderBy('books.id', 'DESC');
+        if($book_title){
+            $queryBuilder->andWhere('books.title LIKE :val')
+                ->setParameter('val', '%'.$book_title.'%');
+        }
+        $queryBuilder->setMaxResults(self::PAGINATOR_PER_PAGE)->setFirstResult($offset)
+            ->getQuery();
+//            ->getResult();
+        return new Paginator($queryBuilder);
+    }
+
+
+    public function filterByGenre(array $genreIDs): array
     {
         // create a query builder
         $queryBuilder = $this->createQueryBuilder('books')
@@ -100,7 +125,7 @@ class BookRepository extends ServiceEntityRepository
 //                ->setParameter('genreIDs', $genreIDs);
         }
         // execute the query and return the result
-        return $queryBuilder->setMaxResults($booksPerPage)->getQuery()->getResult();
+        return $queryBuilder->setMaxResults(self::PAGINATOR_PER_PAGE)->getQuery()->getResult();
     }
 
     /**
