@@ -71,13 +71,16 @@
   <div class="home-container">
   <header>
   <nav class="navbar-navbar navbar-root-class-name" id="navbar">
-    <section id="logo"> {# TODO: create proper logo #}
-      <img id = "logo_png" src="https://www.linkpicture.com/q/Bookable-removebg-preview-2.png">
-    </section>
+    <a href="{{ path('home') }}">
+      <section id="logo"  > {# TODO: create proper logo #}
+        <img id = "logo_png" src="https://www.linkpicture.com/q/Bookable-removebg-preview-2.png">
+      </section>
+    </a>
+
     <nav class="navbar-nav-content">
       <ul class="navbar-nav-links"> {# TODO: check if changing div and span to class nav and li+a messes up the css configuration #}
 
-        <li><a class="nav-link" >About us </a></li>
+        <li><a class="nav-link" href="{{ path('about') }}">About us </a></li>
         <li><a class="nav-link" href="{{ path('browsing') }}">Browse a book</a></li>
         <li><a class="nav-link" >Community</a></li>
         <li><a class="nav-link" href="{{ path('settings') }}">Settings</a></li>
@@ -173,7 +176,7 @@
                 <span class="footer-header">Company</span>
               </div>
               <div class="home-links-narrow">
-                <span class="footer-link">About</span>
+                <a href="{{ 'about' }}"> <span class="footer-link" >About</span></a>
                 <span class="footer-link">Team</span>
                 <span class="footer-link">News</span>
               </div>
@@ -183,13 +186,13 @@
         </div>
         <section class="home-copyright">
           <span class="home-footer-copyright">
-            © 2022 latitude. All Rights Reserved.
+            © 2023 a22web12.
           </span>
         </section>
       </main>
       <section class="home-mobile-copyright">
         <span class="home-footer-copyright">
-          © 2022 latitude. All Rights Reserved.
+          © 2022 a22web12.
         </span>
       </section>
     </div>
