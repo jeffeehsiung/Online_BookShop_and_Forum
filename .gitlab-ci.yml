@@ -6,17 +6,6 @@
 # Read more on when to use this template at
 # https://docs.gitlab.com/ee/ci/yaml/#workflowrules
 
-image: composer:2.5
-
-#  before script: runs ssh check
-before_script:
-- mkdir -p ~/.ssh
-  - eval $(ssh-agent -s)
-  - echo "$SSH_PRIVATE_KEY" | ssh-add -
-  - ssh-keyscan shell.studev.groept.be >
-                          ~/.ssh/known_hosts
-  - apk add rsync
-
 workflow:
   rules:
     - if: $CI_MERGE_REQUEST_IID
