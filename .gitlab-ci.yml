@@ -6,6 +6,16 @@
 # Read more on when to use this template at
 # https://docs.gitlab.com/ee/ci/yaml/#workflowrules
 
+image: composer:2.5
+
+#  before script: runs ssh check
+before_script:
+- mkdir -p ~/.ssh
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | ssh-add -
+  - ssh-keyscan shell.studev.groept.be >
+                          ~/.ssh/known_hosts
+  - apk add rsync
 
 workflow:
   rules:
@@ -59,10 +69,15 @@ lint-test-job:   # This job also runs in the test stage.
 
 
 deploy-job:      # This job runs in the deploy stage.
+  only:
+    - master
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
   environment: production
   script:
-    - echo "Deploying application..."
-    - echo "Application successfully deployed."
+    - composer install
+    - rsync -rv --exclude=".git/"
+                --exclude=".env"
+                --delete
+                ./ a22web12@shell.studev.groept.be:/var/www/html
 
 
