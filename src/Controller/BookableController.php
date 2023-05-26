@@ -7,7 +7,6 @@ use App\Entity\User;
 use App\Entity\Book;
 use App\Form\BookFilterFormType;
 use App\Form\BookSearchFormType;
-use App\Form\GenreFilterFormType;
 use App\Repository\AvatarRepository;
 use App\Repository\BookRepository;
 use App\Repository\DislikedBookRepository;
@@ -18,7 +17,6 @@ use App\Repository\LikedBookRepository;
 use App\Repository\LikedGenreRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\QueryBuilder;
 use Safe\Exceptions\PcreException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,11 +27,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class BookableController extends AbstractController
 {
-    public function __construct(
-        private EntityManagerInterface $entityManager,
-    ){
-
-    }
     #[Route('/settings')]
     public function settings(GenreRepository $genreRepository, UserRepository $userRepository): Response
     {
@@ -281,11 +274,6 @@ class BookableController extends AbstractController
         $bookTitle = $book_title? u(str_replace('-',' ',$book_title))->title(true) : null;
         // if a book title is null, then get all books will be returned
         $books = $bookRepository->findAllByTitle($bookTitle, $offset);
-        // if no books found
-        if(!$books) {
-            // return a 404 response with a message
-            throw $this -> createNotFoundException('No books found per book title');
-        }
 
         // create a form to be used to filter books
         $filterform = $this->createForm(BookFilterFormType::class);
@@ -306,11 +294,6 @@ class BookableController extends AbstractController
                 }
                 // filter the books by the genre ids
                 $books = $bookRepository->filterByGenre($genreIDs, $offset);
-                // if no books found
-                if(!$books) {
-                    // return a 404 response with a message
-                    throw $this -> createNotFoundException('No books found per genre');
-                }
             }
         }
         // get the length of the books array
