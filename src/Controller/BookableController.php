@@ -254,6 +254,7 @@ class BookableController extends AbstractController
     #[Route("/browsing/{book_title}", name: 'browsing') ]
     public function browsing(GenreRepository $genreRepository, BookRepository $bookRepository,
         Request $pageRequest, Request $searchRequest, Request $filterRequest, $book_title = null): Response {
+        /* TODO: keep php variables: $book_title, $genreIDs, $books, alive for the entire session */
         // create a form to be used to search for books
         $searchform = $this->createForm(BookSearchFormType::class);
         // handle the request
@@ -272,26 +273,6 @@ class BookableController extends AbstractController
                 ]);
             }
         }
-        // create a form to be used to filter books
-        $filterform = $this->createForm(BookFilterFormType::class);
-        // handle the request
-        $filterform->handleRequest($filterRequest);
-        // if the form is submitted and valid
-        if($filterform->isSubmitted() && $filterform->isValid()) {
-            // get the data from the form
-            $data = $filterform->getData();
-            // put all the genres selected in an array
-            $genreIDs = [];
-            // if the genre ids is not null
-            if($data) {
-                // loop through the genre ids
-                foreach($data as $genre) {
-                    // add the genre id to the array
-                    $genreIDs[] = $genre->getId();
-                }
-            }
-        }
-
         // get the page number from the url
         $offset = max(0, $pageRequest->query->getInt('offset', 0));
         // genreRepository is used to get all genres from the database for the filter form
@@ -300,20 +281,37 @@ class BookableController extends AbstractController
         $bookTitle = $book_title? u(str_replace('-',' ',$book_title))->title(true) : null;
         // if a book title is null, then get all books will be returned
         $books = $bookRepository->findAllByTitle($bookTitle, $offset);
-
         // if no books found
         if(!$books) {
             // return a 404 response with a message
             throw $this -> createNotFoundException('No books found per book title');
         }
-        // filter the books by selected genres
-        if(isset($genreIDs)) {
-            $books = $bookRepository->filterByGenre($genreIDs);
-        }
-        // if no books found
-        if(!$books) {
-            // return a 404 response with a message
-            throw $this -> createNotFoundException('No books found per genre');
+
+        // create a form to be used to filter books
+        $filterform = $this->createForm(BookFilterFormType::class);
+        // handle the request
+        $filterform->handleRequest($filterRequest);
+        // if the form is submitted and valid
+        if($filterform->isSubmitted() && $filterform->isValid()) {
+            // get the selected choices from the form
+            $data = $filterform->get('genre')->getData();
+            // put all the genres selected in an array
+            $genreIDs = [];
+            // if the genre ids is not null
+            if($data) {
+                // loop through each genre object in the data array
+                foreach($data as $genre) {
+                    // append the genre id to the genre ids array
+                    $genreIDs[] = $genre->getId();
+                }
+                // filter the books by the genre ids
+                $books = $bookRepository->filterByGenre($genreIDs, $offset);
+                // if no books found
+                if(!$books) {
+                    // return a 404 response with a message
+                    throw $this -> createNotFoundException('No books found per genre');
+                }
+            }
         }
         // get the length of the books array
         $booksCount = count($books);

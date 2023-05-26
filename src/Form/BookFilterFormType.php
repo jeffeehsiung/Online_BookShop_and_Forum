@@ -36,6 +36,7 @@ class BookFilterFormType extends AbstractType
                     function ($choice, $key, $value) {
                         return [
                             'class' => 'genre-filter-checkbox',
+                            'onchange' => 'this.form.submit()',
                         ];
                     },
                 'row_attr' => [
@@ -57,6 +58,7 @@ class BookFilterFormType extends AbstractType
                     // flexbox styling for the genre filter checkboxes to display them in a column
                     'style' => 'display: flex; flex-direction: column; flex-wrap: wrap; align-items: flex-start;',
                 ],
+                'translation_domain' => false,
                 // the returned value is an array of Genre objects: https://symfony.com/doc/current/reference/forms/types/collection.html
                 'required' => false,
             ])

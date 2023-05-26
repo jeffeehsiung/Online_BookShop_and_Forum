@@ -27,16 +27,6 @@
     </section>
     <main id="contents">
         <aside id="browsing-filter-container">
-{#            <header>#}
-{#                <h1 class="genre-header">Genres</h1>#}
-{#            </header>#}
-{#            <form action="#" method="get">#}
-{#                {% for genre in genres %}#}
-{#                    <input id="genre-filter" type="checkbox" class="genre-filter" value="{{ genre.id }}">#}
-{#                    <label for="genre-filter" class="footer-link">{{ genre.genre }}</label><br>#}
-{#                {% endfor %}#}
-{#                #}{# TODO: make the filter functional by creating a filter form #}
-{#            </form>#}
             <!-- define filter form-->
             {{ form_start(filterform) }}
             {{ form_widget(filterform) }}
