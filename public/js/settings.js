@@ -31,3 +31,7 @@ avatarOverlay.addEventListener('click', function(e) {
 function overlayOn() {
     avatarOverlay.style.display = 'flex';
 }
+
+function onBioChange() {
+    document.getElementById("btn-save-bio").disabled = false;
+}

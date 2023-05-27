@@ -24,7 +24,11 @@
             <h3>Genre: {{ book.genre().getGenre() }}</h3>
             <form id="like-system" action="{{ path('book_vote', {book_id: book.id}) }}" method="POST">
                 <div class="progress-container">
-                    <div class="progress-bar" id="progress-bar" style="width: {{ (book.likes()/(book.likes() + book.dislikes())) * 100 }}%"></div>
+                    {% if (book.likes + book.dislikes) == 0 %}
+                        <div class="progress-bar" id="progress-bar" style="width: 50%"></div>
+                    {% else %}
+                        <div class="progress-bar" id="progress-bar" style="width: {{ (book.likes()/(book.likes() + book.dislikes())) * 100 }}%"></div>
+                    {% endif %}
                 </div>
                 {% if isLiked %}
                     <button id="btn-like" class="ratingButton like" type="submit" name="direction" value="like-down">

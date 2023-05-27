@@ -140,3 +140,7 @@ form {
 #user-avatar {
     width: 40%;
 }
+
+.button:disabled {
+    cursor: not-allowed;
+}

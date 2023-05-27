@@ -149,11 +149,15 @@
                 </form>
             </section>
 
-            <form>
+            <form id="set-bio" action="{{ path('setBio') }}" method="POST">
                 <label for="bio">Bio:</label>
-                <textarea id="bio" name="bio" rows="4" cols="50"></textarea>
+                {% if user.getBio() is null %}
+                    <textarea id="bio" name="bio" rows="4" cols="50" placeholder="add a bio to your profile" oninput="onBioChange()" required></textarea>
+                    {% else %}
+                        <textarea id="bio" name="bio" rows="4" cols="50" placeholder="{{ user.getBio() }}" required></textarea>
+                {% endif %}
                 <br>
-                <button type="submit" class="button">Save</button>
+                <button id="btn-save-bio" type="submit" class="button">Save bio</button>
             </form>
         </div>
     </section>

@@ -60,4 +60,26 @@ class SettingsController extends AbstractController
 
         return $this->redirectToRoute("settings");
     }
+
+    #[Route('/settings/setBio', name:"setBio", methods: ['POST'])]
+    public function setBio
+    (
+        Request $request, EntityManagerInterface $entityManager
+    ) : Response
+    {
+        // Fetch user
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+
+        // get bio from form
+        $bio = $request->request->get('bio', null);
+
+        // push to db is bio retrieved
+        if($bio) {
+            $user->setBio($bio);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute("settings");
+    }
 }
