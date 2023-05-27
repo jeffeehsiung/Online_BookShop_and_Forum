@@ -35,6 +35,7 @@ class RegistrationController extends AbstractController
         $stylesheets = ['welcome.css'];
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
