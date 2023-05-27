@@ -277,7 +277,13 @@ class BookableController extends AbstractController
 
 
             $followed_id = $followedBookRepository->findBy(['user'=>$user]);
-            $follow_book = $bookRepository->findBy(['id'=>$followed_id]);
+            $followed_book_id =[];
+            foreach ($followed_id as $follow){
+                $current_book_id = $follow->getBook()->getId();
+                $followed_book_id[] = $current_book_id;
+            }
+
+            $follow_book = $bookRepository->findBy(['id'=>$followed_book_id]);
             $read_id = $readBookRepository->findBy(['user'=>$user]);
             $read_book = $bookRepository->findBy(['id'=>$read_id]);
 
