@@ -226,7 +226,7 @@ class BookableController extends AbstractController
         $javascripts = ['home.js'];
         if ($userID) {
             $user = $userRepository->findOneBy(['id' => $userID]);
-            $books = $bookRepository->findAll();
+//            $books = $bookRepository->findAll();
             $genre_id = $likedGenreRepository->findBy(['user'=>$userID]);
             $genres = $genreRepository->findBy(['id'=>$genre_id, ]);
             $genre_books =  $bookRepository->findBy(['genre'=>$genre_id] );
@@ -236,24 +236,31 @@ class BookableController extends AbstractController
                 $current_book_id = $follow->getBook()->getId();
                 $followed_book_id[] = $current_book_id;
             }
-            $followed_authors = [];
             $followed_books = $bookRepository->findBy(['id'=>$followed_book_id]);
+            $followed_authors = [];
+            $followed_authors_id = [];
 
             foreach ($followed_books as $followed_book){
                 $current_author = $followed_book->getAuthor();
-                $followed_authors[] = $current_author;
+                if(in_array($current_author->getID(), $followed_authors_id) ==0){
+                    $followed_authors[] = $current_author;
+                    $followed_authors_id[] = $current_author->getId();
+                }
             }
+
+            $books_from_authors = $bookRepository->findBy(['author' => $followed_authors]);
+
             $popular_books = $bookRepository->findPopular();
 
 
-            shuffle($books);
+            shuffle($books_from_authors);
             shuffle($genre_books);
             return $this->render('home.html.twig', [
                 'title' => 'Home!',
                 'stylesheets' => $stylesheets,
                 'javascripts' => $javascripts,
                 'user' => $user,
-                'books' => $books,
+                'books' => $books_from_authors,
                 'genres' => $genres,
                 'genre_books' => $genre_books,
                 'followed_authors' => $followed_authors,
