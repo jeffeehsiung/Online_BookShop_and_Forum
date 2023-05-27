@@ -273,7 +273,7 @@ class BookableController extends AbstractController
     }
 
     #[Route("/profile", name: "profile")]
-    public function Profile(AvatarRepository $avatarRepository,ReadBooksRepository $readBookRepository, BookRepository $bookRepository,FollowedBookRepository $followedBookRepository, UserRepository $userRepository, $userID = null): Response {
+    public function Profile(AvatarRepository $avatarRepository,ReadBooksRepository $readBookRepository, BookRepository $bookRepository,FollowedBookRepository $followedBookRepository, UserRepository $userRepository, LikedBookRepository $likedBookRepository, DislikedBookRepository $dislikedBookRepository, $userID = null): Response {
         $stylesheets = ['profile.css'];
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $userID = $this->getUser()->getId();
@@ -289,19 +289,31 @@ class BookableController extends AbstractController
                 $current_book_id = $follow->getBook()->getId();
                 $followed_book_id[] = $current_book_id;
             }
-
             $follow_book = $bookRepository->findBy(['id'=>$followed_book_id]);
-            $read_id = $readBookRepository->findBy(['user'=>$user]);
-            $read_book = $bookRepository->findBy(['id'=>$read_id]);
 
+            $liked_id = $likedBookRepository->findBy(['user'=>$user]);
+            $liked_book_id = [];
+            foreach ($liked_id as $liked){
+                $current_book_id = $liked->getBook()->getId();
+                $liked_book_id[] = $current_book_id;
+            }
+            $liked_book = $bookRepository->findBy(['id'=>$liked_book_id]);
+
+            $disliked_id = $dislikedBookRepository->findBy(['user'=>$user]);
+            $disliked_book_id = [];
+            foreach ($disliked_id as $disliked){
+                $current_book_id= $disliked->getBook()->getId();
+                $disliked_book_id = $current_book_id;
+            }
+            $disliked_book = $bookRepository->findBy(['id'=>$disliked_book_id]);
 
             return $this->render('profile.html.twig', [
                 'user' => $user,
                 'avatar' => $avatar,
                 'followed_book'=> $follow_book,
-                'read_list'=> $read_book,
+                'liked_list'=> $liked_book,
+                'disliked_list'=>$disliked_book,
                 'stylesheets' => $stylesheets,
-
             ]);
         } else {
             return new Response('Error: no book title detected');

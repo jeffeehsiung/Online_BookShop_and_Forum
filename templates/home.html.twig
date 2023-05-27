@@ -22,9 +22,12 @@
         </section>
         <section id="books">
             <div class="container">
-                <h3>Based on your liked books</h3>
+                <h3>Based on your followed books</h3>
                 <div class="book-list">
                     {% set count = 0 %}
+                    {% if books==null %}
+                    <h2>No followed books yet</h2>
+                    {%  endif %}
                     {% for book in books%}
                         {% for author in followed_authors %}
                             {% if count <= 20 %}
