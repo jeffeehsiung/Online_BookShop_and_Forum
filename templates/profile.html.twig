@@ -54,9 +54,11 @@
             <div class="media-scroller snaps-inline">
                 {% for book in followed_book %}
 
-                <div class="media-element">
+                <div class="media-element" >
+                    <a href="{{ path("book", {book_id: book.getID()}) }}">
                     <img src = "{{ book.getImageUrl  }} "alt="">
                     <p class="title">{{ book.getTitle }}</p>
+                    </a>
                 </div>
                 {% endfor %}
             </div>
