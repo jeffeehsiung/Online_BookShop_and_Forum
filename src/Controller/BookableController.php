@@ -163,9 +163,9 @@ class BookableController extends AbstractController
 
     #[Route('/book/{book_id}/follow', name: "book_follow", methods: ['POST'])]
     public function follow
-    (
-        BookRepository $bookRepository, Request $request, EntityManagerInterface $entityManager, $book_id = null,
-        FollowedBookRepository $followedBookRepository
+    ( FollowedBookRepository $followedBookRepository,
+        BookRepository $bookRepository, Request $request, EntityManagerInterface $entityManager, $book_id = null
+
     ) : Response
     {
         // Fetch user
@@ -212,6 +212,7 @@ class BookableController extends AbstractController
             'stylesheets' => $stylesheets
         ]);
     }
+    //log out needs no real route, happens through security and rout .yaml files
 
     #[Route("/home", name: "home")]
     public function Home(LikedGenreRepository $likedGenreRepository,
@@ -264,9 +265,11 @@ class BookableController extends AbstractController
         }
     }
 
-    #[Route("/profile/{userID}")]
+    #[Route("/profile/{userID}", name: "profile")]
     public function Profile(AvatarRepository $avatarRepository,ReadBooksRepository $readBookRepository, BookRepository $bookRepository,FollowedBookRepository $followedBookRepository, UserRepository $userRepository, $userID = null): Response {
         $stylesheets = ['profile.css'];
+//        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+//        $userID = $this->getUser()->getId();
 
         if($userID) {
             $user = $userRepository->findOneBy(['id' => $userID]);

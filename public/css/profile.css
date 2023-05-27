@@ -9,6 +9,7 @@
     color: white;
     font-family: Poppins, serif;
     width: 1200px;
+    align-content: center;
 
 }
 #left
@@ -17,7 +18,9 @@
     display: flex;
     justify-content: flex-start;
     align-content: center;
-    padding: 50px;
+    width: fit-content;
+
+
 
 
 }
@@ -25,12 +28,14 @@
 .profilename
 {
     color: white;
+    width: fit-content;
 }
 #profilepic
 {
     inline-size: 120%;
     aspect-ratio: 16/ 16;
-    object-fit: cover;
+    width: 250px;
+    object-fit: contain;
     border-radius: 20px;
     border-color: #2e3136;
     border-width: medium;
@@ -42,7 +47,7 @@
     display: flex;
     justify-content: center;
     gap: 20px;
-
+    color: #FFFFFF;
     padding: 20px;
 
 
@@ -58,6 +63,8 @@
     align-content: center;
     overflow: auto;
     color: white;
+    width: 50%;
+
 
 }
 
@@ -98,6 +105,9 @@
 
     border-radius: 20px;
     box-shadow: #3E3E3E;
+}
+.empty {
+
 }
 
 .media-element > img {
