@@ -30,15 +30,16 @@ build-job:       # This job runs in the build stage, which runs first.
     # - composer require symfony/runtime
     # - php bin/console cache:clear
     - composer install
-    # - echo "installing & updateting nvm"
-    # - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-    # - export NVM_DIR="$HOME/.nvm" [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-    # - echo "Install and update npm"
-    # - npm install -g npm
-    # - echo "Check the node and npm version"
-    # - node -v npm -v
-    # - echo "Compiling the code..."
-    # - npm run build 
+    - echo "installing & updateting nvm"
+    - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+    - export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    - echo "Install and update npm"
+    - npm install -g npm
+    - echo "Check the node and npm version"
+    - node -v npm -v
+    - echo "Compiling the code..."
+    - npm run build 
     - echo "Compile complete."
 
 unit-test-job:   # This job runs in the test stage.
