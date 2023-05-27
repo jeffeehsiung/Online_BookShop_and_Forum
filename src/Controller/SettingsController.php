@@ -2,9 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Genre;
+use App\Entity\LikedGenre;
 use App\Repository\AvatarRepository;
 use App\Repository\GenreRepository;
+use App\Repository\LikedGenreRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Array_;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +30,13 @@ class SettingsController extends AbstractController
         $bookGenres = $genreRepository->findAll();
         $avatars = $avatarRepository->findAll();
 
+        // build genres array from likedgenres of user
+        $likedGenres = $user->getLikedGenres();
+        $favouriteGenresInitial = array();
+        foreach ($likedGenres as $genre) {
+            array_push($favouriteGenresInitial, $genre->getGenre());
+        }
+
         // TODO: split twig templates into file format 'controllername/methodname.html.twig' -> example: 'bookable/settings.html.twig'
         $stylesheets = ['settings.css'];
         $javascripts = ['settings.js'];
@@ -34,7 +46,8 @@ class SettingsController extends AbstractController
             'avatars' => $avatars,
             'stylesheets' => $stylesheets,
             'javascripts' => $javascripts,
-            'bookgenres' => $bookGenres
+            'bookgenres' => $bookGenres,
+            'favouriteGenresInitial' => $favouriteGenresInitial
         ]);
     }
     #[Route('/settings/setAvatar', name: "setAvatar", methods: ['POST'])]
@@ -80,6 +93,40 @@ class SettingsController extends AbstractController
             $entityManager->flush();
         }
 
+        return $this->redirectToRoute("settings");
+    }
+
+    #[Route('/settings/editLikedGenres', name:"editLikedGenres", methods: ['POST'])]
+    public function editLikedGenres
+    (
+        Request $request, EntityManagerInterface $entityManager, GenreRepository $genreRepository,
+        LikedGenreRepository $likedGenreRepository
+    ) : Response
+    {
+        // Fetch user
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+
+        $newLikedGenreIDs = array_values($request->request->all());
+
+        // remove liked genres
+        $likedGenres = $user->getLikedGenres();
+        foreach ($likedGenres as $likedGenre) {
+            $user->removeLikedGenre($likedGenre);
+            $entityManager->remove($likedGenre);
+        }
+
+        // add new liked genres
+        foreach ($newLikedGenreIDs as $id) {
+            $likedGenre = new LikedGenre();
+            $likedGenre
+                ->setUser($user)
+                ->setGenre($genreRepository->findOneBy(['id' => $id]));
+            $entityManager->persist($likedGenre);
+            $user->addLikedGenre($likedGenre);
+        }
+
+        $entityManager->flush();
         return $this->redirectToRoute("settings");
     }
 }

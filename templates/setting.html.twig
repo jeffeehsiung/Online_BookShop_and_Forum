@@ -63,28 +63,43 @@
 
         <button type="button" class="settings-submenu" >Preferences</button>
         <div class="settings-menu-content">
-            <form id="form-favourite-genres">
-                <h2>Add you favourite genres</h2>
-                <label for="genres">Favorite Book Genres:</label><br>
+            <form id="form-favourite-genres" action="{{ path('editLikedGenres') }}" method="POST">
+                <h2>Add your favourite genres</h2>
+                <label for="genres">Favourite Book Genres:</label><br>
                 <div id="genres">
-                    {% for genre in bookgenres %}
-                        <div class="genre">
-                            <input type="checkbox" id="{{ genre.getGenre() }}" name="{{ genre.getGenre() }}" value="{{ genre.getGenre()|capitalize }}">
-                            <label for="{{ genre.getGenre() }}">{{ genre.getGenre()|capitalize }}</label>
-                        </div><br>
+                    <div class="genre">
+                        {#
+                        {% for genre in user.getLikedGenres() %}
+                        <p>{{ genre.getGenre().getGenre() }}</p>
                     {% endfor %}
+                        #}
+                        {% for genre in favouriteGenresInitial %}
+                            <p>{{ genre.getGenre() }}</p>
+                        {% endfor %}
+                    {% for genre in bookgenres %}
+                        {% if genre in favouriteGenresInitial %}
+                            <input type="checkbox" id="{{ genre.getGenre() }}" name="{{ genre.getGenre() }}" value="{{ genre.id }}" checked>
+                            <label for="{{ genre.getGenre() }}">{{ genre.getGenre()|capitalize }}</label>
+                        {% else %}
+                            <input type="checkbox" id="{{ genre.getGenre() }}" name="{{ genre.getGenre() }}" value="{{ genre.id }}">
+                            <label for="{{ genre.getGenre() }}">{{ genre.getGenre()|capitalize }}</label>
+                        {% endif %}
+                    {% endfor %}
+                    </div><br>
                 </div>
                 <button type="submit" class="button">Save Genres</button>
             </form>
 
             {#TODO: add overlay for searching and editing your favourite authors #}
+            {#
             <form id="form-add-authors">
                 <h2>Add authors to your list of favourite authors</h2>
                 <button class="button">Search for authors</button>
             </form>
+            #}
         </div>
-
-        <button type="button" class="settings-submenu" >Privacy</button>
+         {#
+         <button type="button" class="settings-submenu" >Privacy</button>
         <div class="settings-menu-content">
             <form>
                 <h2> Choose which information to share with Bookable: </h2>
@@ -120,6 +135,7 @@
                 <button type="submit" class="button">Save changes</button>
             </form>
         </div>
+         #}
 
         <button type="button" class="settings-submenu" >Profile</button>
         <div class="settings-menu-content">
@@ -149,6 +165,7 @@
                 </form>
             </section>
 
+            {# TODO: input safety #}
             <form id="set-bio" action="{{ path('setBio') }}" method="POST">
                 <label for="bio">Bio:</label>
                 {% if user.getBio() is null %}
