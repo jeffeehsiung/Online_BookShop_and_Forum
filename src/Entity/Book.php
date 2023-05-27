@@ -9,8 +9,8 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
-//#[ORM\Table(name: 'local_bookable.books')]
-#[ORM\Table(name: 'a22web12.books')]
+#[ORM\Table(name: 'local_bookable.books')]
+//#[ORM\Table(name: 'a22web12.books')]
 class Book
 {
     #[ORM\Id]
@@ -57,10 +57,10 @@ class Book
     #[ORM\Column(nullable: true)]
     private ?int $genre_id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'help')]
+    #[ORM\ManyToOne(inversedBy: 'books')]
     private ?Author $author = null;
 
-    #[ORM\ManyToOne(inversedBy: 'help')]
+    #[ORM\ManyToOne(inversedBy: 'books')]
     private ?Genre $genre = null;
 
     #[ORM\Column(type: Types::BIGINT, nullable: true)]
@@ -118,6 +118,12 @@ class Book
 
         return $this;
     }
+
+    public function getGenreId(): ?int
+    {
+        return $this->genre_id;
+    }
+
 
     public function getWorkId(): ?int
     {
@@ -225,11 +231,6 @@ class Book
         $this->small_image_url = $small_image_url;
 
         return $this;
-    }
-
-    public function getGenreId(): ?int
-    {
-        return $this->genre_id;
     }
 
     public function getAuthor(): ?Author

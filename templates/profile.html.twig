@@ -19,9 +19,9 @@
     <section id = "left">
         {% if   avatar == null %}
 
-        <img id = "profilepic"  src = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png">
+        <img id = "profilepic"  src = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png" alt="">
         {%else %}
-        <img id = "profilepic"  src = {{ avatar.getUrl() }}>
+        <img id = "profilepic"  src = "{{ avatar.getUrl() }}" alt="" >
         {% endif %}
         {% if  user.getFirstName() == null %}
 
@@ -43,9 +43,8 @@
     </section>
 
     <section id = "right">
-        <h1 class = section-title> Liked Books</h1>
+        <h1 class = section-title> Followed Books</h1>
         <div class = booklist>
-
                 {% if followed_book == null%}
                 <div class="empty">
                     <a >  &emsp; &emsp;  No liked books yet...</a>
@@ -56,36 +55,54 @@
 
                 <div class="media-element" >
                     <a href="{{ path("book", {book_id: book.getID()}) }}">
-                    <img src = "{{ book.getImageUrl  }} "alt="">
+                    <img src = "{{ book.getImageUrl  }}" alt="">
                     <p class="title">{{ book.getTitle }}</p>
                     </a>
                 </div>
                 {% endfor %}
             </div>
                 {% endif %}
-
-
             </div>
 
-
-        <h1 class = section-title> To Read</h1>
+        <h1 class = section-title> Liked Books</h1>
         <div class = booklist>
 
-                {% if read_list == null%}
+                {% if liked_list == null%}
                 <div class="empty">
                     <a >   &emsp; &emsp; To read list is empty...</a>
                 </div>
                 {% else %}
             <div class="media-scroller snaps-inline">
-                {% for book in read_list %}
+                {% for book in liked_list %}
                     <div class="media-element">
-                        <img src = "{{ book.getImageUrl  }} "alt="">
+                        <a href="{{ path("book", {book_id: book.getID()}) }}">
+                        <img src = "{{ book.getImageUrl  }}" alt="">
                         <p class="title">{{ book.getTitle }}</p>
+                        </a>
                     </div>
                 {% endfor %}
             </div>
                 {% endif %}
+        </div>
+            <h1 class = section-title> Disliked Books</h1>
+            <div class = booklist>
 
+                {% if disliked_list == null%}
+                    <div class="empty">
+                        <a >   &emsp; &emsp; Disliked list is empty...</a>
+                    </div>
+                {% else %}
+                    <div class="media-scroller snaps-inline">
+                        {% for book in disliked_list %}
+                            <div class="media-element">
+                                <a href="{{ path("book", {book_id: book.getID()}) }}">
+                                    <img src = "{{ book.getImageUrl  }}" alt="">
+                                    <p class="title">{{ book.getTitle }}</p>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
 
             </div>
 

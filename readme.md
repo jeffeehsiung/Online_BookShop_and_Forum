@@ -9,8 +9,8 @@ Provide a link to the main page of your application. Or if you have multiple par
 
 ## Website credentials
 ### Regular user
-- login : 
-- password :
+- login : zomaarivde@outlook.com
+- password : secret
 ### Admin / Library manager / ...
 - login :
 - password :
@@ -18,8 +18,16 @@ Provide a link to the main page of your application. Or if you have multiple par
 ---
 
 ## Implemented Features
-Provide a short description of the actual implemented features in your project
+
 * user authentication
 * (e.g.) tagging/liking books
 * (e.g.) search libraries
 * ...
+
+## coding conventions
+
+snake_case for css classes and ids
+
+lowerPascalCasing for php and javascript variables and functions
+
+

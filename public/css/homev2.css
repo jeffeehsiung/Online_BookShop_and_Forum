@@ -25,7 +25,7 @@ h3 {
     text-decoration: none;
     font-size: 24px;
     color: #2A2A2A;
-    background-color: #b7e8c5;
+    background-color: #c9e265;
     width: fit-content;
     padding: 5px;
     border-top-left-radius: 10px;
@@ -50,6 +50,7 @@ h4{
 }
 
 .book-list{
+    width: 65vw;
     display: flex;
     flex-direction: row;
     margin-right: auto;
@@ -64,46 +65,15 @@ h4{
     margin-bottom: 20px;
 }
 
-/* width */
-.book-list::-webkit-scrollbar {
-    width: 10px;
-    margin: 10px;
-}
 
-/* Track */
-.book-list::-webkit-scrollbar-track {
-    background: #171717;
-    padding: 10px;
-    border-radius: 10px;
-}
 
-/* Handle */
-.book-list::-webkit-scrollbar-thumb {
-    background: #b7e8c5;
-    border-radius: 10px;
-    margin: 10px;
-    scroll-padding: 20px;
-
-}
-
-/* Handle on hover */
-.book-list::-webkit-scrollbar-thumb:hover {
-    background: #698670;
-}
 .book-list p{
     padding-left: 5px;
     padding-right: 5px;
 }
-.book-list a{
-    background-color: #b7e8c5;
-    color: #2A2A2A;
-    padding: 10px;
-    border-radius: 20px;
-    align-self: center;
-    width: fit-content;
-}
+
 .book-list a:hover{
-    background-color: #698670;
+    background-color: #626e31;
     color: white;
 }
 .book-list p{
@@ -129,7 +99,7 @@ h4{
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #b7e8c5;
+    background: #c9e265;
     border-radius: 10px;
     margin: 10px;
     scroll-padding: 20px;
@@ -137,8 +107,8 @@ h4{
 }
 
 /* Handle on hover */
-.book-list::-webkit-scrollbar-thumb:hover {
-    background: #698670;
+::-webkit-scrollbar-thumb:hover {
+    background: #626e31;
 }
 #intro{
     color: #B3B3B3;
