@@ -62,8 +62,8 @@
                             {% if genre_book.getGenre() == genre %}
                                 {% if count < 20 %}
                                     <div class="book">
-                                        <a href="{{ path("book", {book_id: book.getID()}) }}">
-                                            <img src="{{ book.imageUrl }}" alt="book cover" >
+                                        <a href="{{ path("book", {book_id: genre_book.getID()}) }}">
+                                            <img src="{{ genre_book.imageUrl }}" alt="book cover" >
                                         </a>
                                         <h4>{{ genre_book.title() }}</h4>
                                         <h4>{{ genre_book.author().getAuthorName() }}</h4>

@@ -54,6 +54,9 @@ class Book
     #[ORM\Column(length: 512, nullable: true)]
     private ?string $small_image_url = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $genre_id = null;
+
     #[ORM\ManyToOne(inversedBy: 'books')]
     private ?Author $author = null;
 
@@ -115,6 +118,12 @@ class Book
 
         return $this;
     }
+
+    public function getGenreId(): ?int
+    {
+        return $this->genre_id;
+    }
+
 
     public function getWorkId(): ?int
     {
