@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Unit;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use PHPUnit\Framework\TestCase;
 
-class BookableControllerTest extends WebTestCase
+class BookableControllerTest extends TestCase
 {
-
+    /**
+     * @depends testWelcome
+     */
     public function testSettings()
     {
         $client = static::createClient();
@@ -17,6 +19,9 @@ class BookableControllerTest extends WebTestCase
         // Add more assertions based on the expected behavior of the settings route
     }
 
+    /**
+     * @depends testWelcome
+     */
     public function testBook()
     {
         $client = static::createClient();
@@ -27,6 +32,9 @@ class BookableControllerTest extends WebTestCase
         // Add more assertions based on the expected behavior of the book route
     }
 
+    /**
+     * @depends testBook
+     */
     public function testVote()
     {
         $client = static::createClient();
@@ -36,6 +44,9 @@ class BookableControllerTest extends WebTestCase
         // Add more assertions based on the expected behavior of the vote route
     }
 
+    /**
+     * @depends testBook
+     */
     public function testFollow()
     {
         $client = static::createClient();
@@ -55,6 +66,9 @@ class BookableControllerTest extends WebTestCase
         // Add more assertions based on the expected behavior of the welcome route
     }
 
+    /**
+     * @depends testWelcome
+     */
     public function testHome()
     {
         $client = static::createClient();
@@ -65,6 +79,9 @@ class BookableControllerTest extends WebTestCase
         // Add more assertions based on the expected behavior of the home route
     }
 
+    /**
+     * @depends testWelcome
+     */
     public function testProfile()
     {
         $client = static::createClient();
@@ -75,6 +92,9 @@ class BookableControllerTest extends WebTestCase
         // Add more assertions based on the expected behavior of the profile route
     }
 
+    /**
+     * @depends testWelcome
+     */
     public function testAbout()
     {
         $client = static::createClient();
@@ -85,6 +105,9 @@ class BookableControllerTest extends WebTestCase
         // Add more assertions based on the expected behavior of the about route
     }
 
+    /**
+     * @depends testWelcome
+     */
     public function testBrowsing()
     {
         $client = static::createClient();
