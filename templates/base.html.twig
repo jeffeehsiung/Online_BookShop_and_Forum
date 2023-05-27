@@ -81,6 +81,7 @@
       <ul class="navbar-nav-links"> {# TODO: check if changing div and span to class nav and li+a messes up the css configuration #}
 
         <li><a class="nav-link" href="{{ path('about') }}">About us </a></li>
+        <li><a class="nav-link" href="{{ path('welcome') }}">Login </a></li>
 
         {% if is_granted('ROLE_USER') %}
           <li><a class="nav-link" href="{{ path('browsing') }}">Browse a book</a></li>
