@@ -14,7 +14,7 @@ Welcome
         {#  <img id = "logo_png" src="https://www.linkpicture.com/q/Bookable-removebg-preview-2.png" alt="the logo of the app">#}
 
         <button onclick="loginOn()" class="login_button">Log in</button>
-        <button class = "register_button" href="{{ path('app_register') }}">Register</button>
+        <a class = "register_button" href="{{ path('app_register') }}">Register</a>
     </section>
 
     <section id="Login" class="overlay">
@@ -37,27 +37,7 @@ Welcome
             </form>
         </section>
     </section>
-    {#
-    <section id="Register" class="overlay">
-        <section>
-            {% for flash_error in app.flashes('verify_email_error') %}
-                <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-            {% endfor %}
 
-            <h1>Register</h1>
-
-            {{ form_start(registrationForm) }}
-            {{ form_row(registrationForm.email) }}
-            {{ form_row(registrationForm.plainPassword, {
-                label: 'Password'
-            }) }}
-            {{ form_row(registrationForm.agreeTerms) }}
-
-            <button type="submit" class="btn">Register</button>
-            {{ form_end(registrationForm) }}
-        </section>
-    </section>
-    #}
 
 
 {% endblock %}
