@@ -6,8 +6,8 @@ use App\Repository\LikedBookRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LikedBookRepository::class)]
-//#[ORM\Table(name: 'local_bookable.liked_books')]
-#[ORM\Table(name: 'a22web12.liked_books')]
+#[ORM\Table(name: 'local_bookable.liked_books')]
+//#[ORM\Table(name: 'a22web12.liked_books')]
 class LikedBook
 {
     #[ORM\Id]
