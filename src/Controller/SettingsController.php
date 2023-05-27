@@ -2,18 +2,15 @@
 
 namespace App\Controller;
 
-use App\Entity\Genre;
 use App\Entity\LikedGenre;
 use App\Repository\AvatarRepository;
 use App\Repository\GenreRepository;
-use App\Repository\LikedGenreRepository;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use phpDocumentor\Reflection\Types\Array_;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class SettingsController extends AbstractController
 {
@@ -85,7 +82,7 @@ class SettingsController extends AbstractController
         $user = $this->getUser();
 
         // get bio from form
-        $bio = $request->request->get('bio', null);
+        $bio = $request->request->get('bio');
 
         // push to db is bio retrieved
         if($bio) {
@@ -99,8 +96,7 @@ class SettingsController extends AbstractController
     #[Route('/settings/editLikedGenres', name:"editLikedGenres", methods: ['POST'])]
     public function editLikedGenres
     (
-        Request $request, EntityManagerInterface $entityManager, GenreRepository $genreRepository,
-        LikedGenreRepository $likedGenreRepository
+        Request $request, EntityManagerInterface $entityManager, GenreRepository $genreRepository
     ) : Response
     {
         // Fetch user
@@ -124,6 +120,36 @@ class SettingsController extends AbstractController
                 ->setGenre($genreRepository->findOneBy(['id' => $id]));
             $entityManager->persist($likedGenre);
             $user->addLikedGenre($likedGenre);
+        }
+
+        $entityManager->flush();
+        return $this->redirectToRoute("settings");
+    }
+
+    #[Route('/settings/editPassword', name:"editPassword", methods: ['POST'])]
+    public function editPassword
+    (
+        Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher
+    ) : Response
+    {
+        // Fetch user
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+
+        // update password if valid, pass error message if not and redirect to settings page
+        $currentUnHashedPassword = $request->request->get('current-password');
+        if($passwordHasher->isPasswordValid($user, $currentUnHashedPassword)) {
+            $newHashedPassword = $passwordHasher->hashPassword(
+                $user,
+                $request->request->get('new-password')
+            );
+            $user->setPassword($newHashedPassword);
+            $this->addFlash('password-success', 'password was edited succesfully');
+        } else {
+            $this->addFlash(
+                'password-fail',
+                "changing password failed because 'current password' field was filled in wrong, retry"
+            );
         }
 
         $entityManager->flush();

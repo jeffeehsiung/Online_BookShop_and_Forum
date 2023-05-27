@@ -53,13 +53,10 @@ class Book
     #[ORM\Column(length: 512, nullable: true)]
     private ?string $small_image_url = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $genre_id = null;
-
-    #[ORM\ManyToOne(inversedBy: 'help')]
+    #[ORM\ManyToOne(inversedBy: 'books')]
     private ?Author $author = null;
 
-    #[ORM\ManyToOne(inversedBy: 'help')]
+    #[ORM\ManyToOne(inversedBy: 'books')]
     private ?Genre $genre = null;
 
     #[ORM\Column(type: Types::BIGINT, nullable: true)]
@@ -224,11 +221,6 @@ class Book
         $this->small_image_url = $small_image_url;
 
         return $this;
-    }
-
-    public function getGenreId(): ?int
-    {
-        return $this->genre_id;
     }
 
     public function getAuthor(): ?Author

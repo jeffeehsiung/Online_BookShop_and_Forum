@@ -144,3 +144,42 @@ form {
 .button:disabled {
     cursor: not-allowed;
 }
+
+#passwordMatchMessage {
+    width: 100%;
+}
+
+#password-message {
+    display: flex;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 15px;
+    justify-content: space-between;
+
+    color: rgba(255, 255, 255, 1);
+    align-self: auto;
+
+    text-align: left;
+    font-family: Poppins, serif;
+    font-weight: 500;
+    font-stretch: normal;
+    text-decoration: none;
+
+    padding: 18px;
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 15px;
+}
+
+#close {
+    color: black;
+    padding: 2px 5px;
+    transition: 0.3s;
+}
+
+#close:hover {
+    background: #CCCCCC;
+    cursor: pointer;
+    border-radius: 2px;
+}
