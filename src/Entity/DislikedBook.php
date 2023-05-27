@@ -2,34 +2,23 @@
 
 namespace App\Entity;
 
-use App\Repository\FollowedBookRepository;
+use App\Repository\DislikedBookRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: FollowedBookRepository::class)]
-#[ORM\Table(name: 'local_bookable.followed_books')]
-class FollowedBook
+#[ORM\Entity(repositoryClass: DislikedBookRepository::class)]
+#[ORM\Table(name: 'local_bookable.disliked_books')]
+class DislikedBook
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'followedBooks')]
+    #[ORM\ManyToOne(inversedBy: 'dislikedBooks')]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(inversedBy: 'followedBooks')]
+    #[ORM\ManyToOne(inversedBy: 'dislikedBooks')]
     private ?Book $book = null;
-
-    /**
-     * @param User|null $user
-     * @param Book|null $book
-     */
-    public function __construct(?User $user, ?Book $book)
-    {
-        $this->user = $user;
-        $this->book = $book;
-    }
-
 
     public function getId(): ?int
     {

@@ -68,6 +68,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->followedBooks = new ArrayCollection();
         $this->likedGenres = new ArrayCollection();
         $this->likedBooks = new ArrayCollection();
+        $this->dislikedBooks = new ArrayCollection();
     }
 
     /**
@@ -84,6 +85,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: LikedBook::class)]
     private Collection $likedBooks;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: DislikedBook::class)]
+    private Collection $dislikedBooks;
 
     public function getId(): ?int
     {
@@ -387,6 +391,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($likedBook->getUser() === $this) {
                 $likedBook->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DislikedBook>
+     */
+    public function getDislikedBooks(): Collection
+    {
+        return $this->dislikedBooks;
+    }
+
+    public function addDislikedBook(DislikedBook $dislikedBook): self
+    {
+        if (!$this->dislikedBooks->contains($dislikedBook)) {
+            $this->dislikedBooks->add($dislikedBook);
+            $dislikedBook->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDislikedBook(DislikedBook $dislikedBook): self
+    {
+        if ($this->dislikedBooks->removeElement($dislikedBook)) {
+            // set the owning side to null (unless already changed)
+            if ($dislikedBook->getUser() === $this) {
+                $dislikedBook->setUser(null);
             }
         }
 
