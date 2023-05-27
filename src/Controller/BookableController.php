@@ -265,9 +265,11 @@ class BookableController extends AbstractController
         }
     }
 
-    #[Route("/profile/{userID}")]
+    #[Route("/profile/{userID}", name: "profile")]
     public function Profile(AvatarRepository $avatarRepository,ReadBooksRepository $readBookRepository, BookRepository $bookRepository,FollowedBookRepository $followedBookRepository, UserRepository $userRepository, $userID = null): Response {
         $stylesheets = ['profile.css'];
+//        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+//        $userID = $this->getUser()->getId();
 
         if($userID) {
             $user = $userRepository->findOneBy(['id' => $userID]);
