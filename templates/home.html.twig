@@ -30,10 +30,11 @@
                             {% if count <= 20 %}
                                 {% if author == book.getAuthor() %}
                                     <div class="book">
-                                        <img src="{{ book.imageUrl }}" alt="book cover" >
+                                        <a href="{{ path("book", {book_id: book.getID()}) }}">
+                                            <img src="{{ book.imageUrl }}" alt="book cover" >
+                                        </a>
                                         <h4>{{ book.title() }}</h4>
                                         <h4>{{ book.author().getAuthorName() }}</h4>
-                                        <a href="{{ path("book", {book_id: book.getID()}) }}" class="btn">Go to book</a>
                                     </div>
                                     {% set count = count+1 %}
                                 {% endif %}
@@ -45,10 +46,11 @@
                 <div class="book-list">
                     {% for book in popular_books|slice(0,20)%}
                         <div class="book">
-                            <img src="{{ book.imageUrl }}" alt="book cover" >
+                            <a href="{{ path("book", {book_id: book.getID()}) }}">
+                                <img src="{{ book.imageUrl }}" alt="book cover" >
+                            </a>
                             <h4>{{ book.title() }}</h4>
                             <h4>{{ book.author().getAuthorName() }}</h4>
-                            <a href="{{ path("book", {book_id: book.getID()}) }}" class="btn">Go to book</a>
                         </div>
                     {% endfor %}
                 </div>
@@ -60,10 +62,11 @@
                             {% if genre_book.getGenre() == genre %}
                                 {% if count < 20 %}
                                     <div class="book">
-                                        <img src="{{ genre_book.imageUrl }}" alt="book cover" >
+                                        <a href="{{ path("book", {book_id: book.getID()}) }}">
+                                            <img src="{{ book.imageUrl }}" alt="book cover" >
+                                        </a>
                                         <h4>{{ genre_book.title() }}</h4>
                                         <h4>{{ genre_book.author().getAuthorName() }}</h4>
-                                        <a href="{{ path("book", {book_id: genre_book.getID()}) }}" class="btn">Go to book</a>
                                     </div>
                                     {% set count = count + 1 %}
                                 {% endif %}

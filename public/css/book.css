@@ -67,7 +67,7 @@ p {
 /* TODO: copied from settings.css, refactor somehow */
 .button {
     color: black;
-    background-color: #b7e8c5;
+    background-color: #c9e265;
     font-weight: 500;
     width: fit-content;
     height: fit-content;
@@ -87,7 +87,7 @@ p {
 .progress-bar {
     width: 50%;
     height: 5px;
-    background-color: #b7e8c5;
+    background-color: #c9e265;
     border-radius: 5px;
     text-align: center;
     line-height: 30px;
