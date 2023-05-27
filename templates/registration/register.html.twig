@@ -12,7 +12,7 @@
 
     {% form_theme registrationForm 'form_div_layout.html.twig' %}
     {{ form_start(registrationForm) }}
-    <div class = 'register_text'>
+    <div id = "register_fields" class = 'register_text'>
         {{ form_row(registrationForm.first_name) }}
         {{ form_row(registrationForm.last_name) }}
         {{ form_row(registrationForm.username) }}
