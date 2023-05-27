@@ -27,12 +27,17 @@ main {
 
 .overlay {
     height: 100vh;
-    position:absolute;
-    top:40%;
-    left:0;
     width: 100vw;
+    position:absolute;
+    top:0;
+    right:0;
+    left:0;
+    bottom: 0;
+
     display: none;
     z-index: 2;
+    background-size: cover;
+    backdrop-filter: blur(20px);
 
 }
 
@@ -40,10 +45,11 @@ main {
 
     position: absolute;
     font-family: Poppins, serif;
+    top: 30vh;
     left: 34%;
     right: 34%;
     border: 1px solid #666; /*a nice looking border for the overlay*/
-    background: #3E3E3E; /*black background so that you can't see the welcome text underneath*/
+    background: #2e3136; /*black background so that you can't see the welcome text underneath*/
     border-radius:20px;
     color: #FFF;
     width:32%;

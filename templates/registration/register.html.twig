@@ -8,15 +8,19 @@
     {% endfor %}
 
 
-    <p id = 'login_title' >Register</p>
+    <p id = 'register_title' >Register</p>
 
-
+    {% form_theme registrationForm 'form_div_layout.html.twig' %}
     {{ form_start(registrationForm) }}
-    <div class = 'login_text'>
+    <div id = "register_fields" class = 'register_text'>
+        {{ form_row(registrationForm.first_name) }}
+        {{ form_row(registrationForm.last_name) }}
+        {{ form_row(registrationForm.username) }}
         {{ form_row(registrationForm.email) }}
         {{ form_row(registrationForm.plainPassword, {
             label: 'Password'
         }) }}
+
         {{ form_row(registrationForm.agreeTerms) }}
     </div>
         <button type="submit" class="register_submit">Register</button>
