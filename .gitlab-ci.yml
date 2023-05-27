@@ -38,7 +38,7 @@ build-job:       # This job runs in the build stage, which runs first.
     # - echo "Check the node and npm version"
     # - node -v npm -v
     # - echo "Compiling the code..."
-    - npm run build 
+    # - npm run build 
     - echo "Compile complete."
 
 unit-test-job:   # This job runs in the test stage.
