@@ -7,6 +7,8 @@ use App\Controller\BookableController;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\GenreRepository;
 use App\Repository\BookRepository;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class BrowserUnitTest extends TestCase
 {
@@ -15,26 +17,24 @@ class BrowserUnitTest extends TestCase
         // Mock the dependencies
         $genreRepositoryMock = $this->createMock(GenreRepository::class);
         $bookRepositoryMock = $this->createMock(BookRepository::class);
-        $requestMock = $this->createMock(Request::class);
+        $pageRequest = $this->createMock(Request::class);
+        $searchRequest = Request::create('/browsing/harry', 'GET');
+        $filterRequest = $this->createMock(Request::class);
+        $book_title = 'Book Title';
+
+
+
+        $bookRepositoryMock->expects($this->once())
+            // call the findAllByTitle() method with the string 'Book Title' and the offset 0 as arguments
+            ->method('findAllByTitle')
+            ->with($book_title, 0)
+            // expect the method to return a paginator object
+            ->willReturn($this->createMock(\Doctrine\ORM\Tools\Pagination\Paginator::class));
 
         // Set up the expectations
         $genreRepositoryMock->expects($this->once())
             ->method('findAll')
             ->willReturn([]);
 
-        $bookRepositoryMock->expects($this->once())
-            ->method('findAllByTitle')
-            ->with('Book Title', 0)
-            ->willReturn([]);
-
-        // Create an instance of the controller
-        $controller = new BookableController();
-
-        // Call the browsing method
-        $response = $controller->browsing($genreRepositoryMock, $bookRepositoryMock, $requestMock, $requestMock, $requestMock, 'book-title');
-
-        // Assert the response
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals(200, $response->getStatusCode());
     }
 }

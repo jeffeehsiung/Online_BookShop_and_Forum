@@ -300,6 +300,11 @@ class BookableController extends AbstractController
     #[Route("/browsing/{book_title}", name: 'browsing') ]
     public function browsing(GenreRepository $genreRepository, BookRepository $bookRepository,
         Request $pageRequest, Request $searchRequest, Request $filterRequest, $book_title = null): Response {
+//        // Fetch user
+//        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+//        $user = $this->getUser();
+//        $userID = $user->getId();
+
         /* TODO: keep php variables: $book_title, $genreIDs, $books, alive for the entire session */
         // create a form to be used to search for books
         $searchform = $this->createForm(BookSearchFormType::class);
