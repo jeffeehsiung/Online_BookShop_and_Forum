@@ -32,7 +32,7 @@ class RegistrationController extends AbstractController
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
-        $stylesheets = ['welcome.css'];
+        $stylesheets = ['register.css'];
 
         if ($form->isSubmitted() && $form->isValid()) {
 
