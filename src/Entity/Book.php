@@ -57,10 +57,10 @@ class Book
     #[ORM\Column(nullable: true)]
     private ?int $genre_id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'help')]
+    #[ORM\ManyToOne(inversedBy: 'books')]
     private ?Author $author = null;
 
-    #[ORM\ManyToOne(inversedBy: 'help')]
+    #[ORM\ManyToOne(inversedBy: 'books')]
     private ?Genre $genre = null;
 
     #[ORM\Column(type: Types::BIGINT, nullable: true)]
