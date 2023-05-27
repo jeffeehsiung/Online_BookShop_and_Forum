@@ -176,8 +176,8 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: #b7e8c5;
-    color: darkslategray;
+    background-color: #c9e265;
+    color: #2A2A2A;
     padding: 5px;
     border-radius: 10px;
     width: fit-content;
@@ -194,7 +194,7 @@ body {
 
 .main-button:hover,
 .browsing-pages button:hover {
-    background-color: deeppink;
+    background-color: #626e31;
     color: white;
 }
 
@@ -203,7 +203,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #b7e8c5;
+    background-color: #c9e265;
     color: #2A2A2A;
     padding: 5px;
     border-radius: 5px;

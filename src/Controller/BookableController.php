@@ -29,22 +29,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class BookableController extends AbstractController
 {
-    #[Route('/settings', name: "settings")]
-    public function settings(GenreRepository $genreRepository, UserRepository $userRepository): Response
-    {
-        $bookGenres = $genreRepository->findAll();
-        // TODO: split twig templates into file format 'controllername/methodname.html.twig' -> example: 'bookable/settings.html.twig'
-        $stylesheets = ['settings.css'];
-        $javascripts = ['settings.js'];
-
-        return $this->render('setting.html.twig',[
-            'username' => 'test_user',
-            'stylesheets' => $stylesheets,
-            'javascripts' => $javascripts,
-            'bookgenres' => $bookGenres
-        ]);
-    }
-
     #[Route('/book/{book_id}', name:"book")]
     public function book
     (
@@ -163,9 +147,9 @@ class BookableController extends AbstractController
 
     #[Route('/book/{book_id}/follow', name: "book_follow", methods: ['POST'])]
     public function follow
-    (
-        BookRepository $bookRepository, Request $request, EntityManagerInterface $entityManager, $book_id = null,
-        FollowedBookRepository $followedBookRepository
+    ( FollowedBookRepository $followedBookRepository,
+        BookRepository $bookRepository, Request $request, EntityManagerInterface $entityManager, $book_id = null
+
     ) : Response
     {
         // Fetch user
@@ -212,6 +196,7 @@ class BookableController extends AbstractController
             'stylesheets' => $stylesheets
         ]);
     }
+    //log out needs no real route, happens through security and rout .yaml files
 
     #[Route("/home", name: "home")]
     public function Home(LikedGenreRepository $likedGenreRepository,
@@ -264,17 +249,25 @@ class BookableController extends AbstractController
         }
     }
 
-    #[Route("/profile/{userID}")]
+    #[Route("/profile", name: "profile")]
     public function Profile(AvatarRepository $avatarRepository,ReadBooksRepository $readBookRepository, BookRepository $bookRepository,FollowedBookRepository $followedBookRepository, UserRepository $userRepository, $userID = null): Response {
         $stylesheets = ['profile.css'];
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $userID = $this->getUser()->getId();
 
         if($userID) {
             $user = $userRepository->findOneBy(['id' => $userID]);
-            $avatar = $avatarRepository->find(['id'=> $user->getAvatar()]);
+            $avatar = $user->getAvatar();
 
 
             $followed_id = $followedBookRepository->findBy(['user'=>$user]);
-            $follow_book = $bookRepository->findBy(['id'=>$followed_id]);
+            $followed_book_id =[];
+            foreach ($followed_id as $follow){
+                $current_book_id = $follow->getBook()->getId();
+                $followed_book_id[] = $current_book_id;
+            }
+
+            $follow_book = $bookRepository->findBy(['id'=>$followed_book_id]);
             $read_id = $readBookRepository->findBy(['user'=>$user]);
             $read_book = $bookRepository->findBy(['id'=>$read_id]);
 
