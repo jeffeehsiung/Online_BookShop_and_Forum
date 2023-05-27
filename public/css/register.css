@@ -6,6 +6,21 @@ main {
 
 }
 
-.register_text div{
+.register_text div {
     /*these are the rows of the form*/
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.register_text label
+
+{
+    padding: 10px;
+}
+
+.register_text input
+
+{
+    border-radius: 10px;
 }
