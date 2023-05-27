@@ -8,8 +8,8 @@
     {% endfor %}
 
 
-    <p id = 'register_title' >Register</p>
-
+    <p id = 'register_title' >REGISTER</p>
+    <section id="registration_layout">
     {% form_theme registrationForm 'form_div_layout.html.twig' %}
     {{ form_start(registrationForm) }}
     <div id = "register_fields" class = 'register_text'>
@@ -20,11 +20,15 @@
         {{ form_row(registrationForm.plainPassword, {
             label: 'Password'
         }) }}
-
-        {{ form_row(registrationForm.agreeTerms) }}
     </div>
+    <div id ='accept'>
+        {{ form_row(registrationForm.agreeTerms) }}
+        </div>
+        <div id="register_button">
         <button type="submit" class="register_submit">Register</button>
-    {{ form_end(registrationForm) }}
+        </div>
 
+    {{ form_end(registrationForm) }}
+    </section>
 
 {% endblock %}

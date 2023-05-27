@@ -5,22 +5,78 @@ main {
 
 
 }
-
+#registration_layout
+{
+    display: flex;
+    flex-direction: column;
+}
+#register_title
+{
+    text-align: center;
+    font-size: larger;
+}
 .register_text div {
     /*these are the rows of the form*/
     padding: 10px;
     display: flex;
-    justify-content: flex-end;
+    gap: 10%;
+    flex-direction: column;
+
+    justify-content: flex-start;
 }
 
 .register_text label
 
 {
+    padding-bottom: 1%;
+    font-size: small;
+    text-align: start;
+
+
+
+}
+
+
+#accept
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: center;
+    font-size: 20px;
     padding: 10px;
+    gap: 20px;
 }
 
 .register_text input
 
 {
+
     border-radius: 10px;
+
+}
+.register_text input #registration_form_agreeTerms
+{
+    padding: 20px;
+}
+#register_button
+{
+    display: flex;
+    justify-content: center;
+}
+.register_submit
+
+{
+    cursor: not-allowed;
+    font-size: 100%;
+    opacity: 1;
+    color: #3E3E3E;
+    background: #80FF44;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    margin-top: 20px;
+    width: 30%;
+    height: 20%;
+
+
 }
