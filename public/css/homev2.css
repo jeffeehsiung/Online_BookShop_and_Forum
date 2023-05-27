@@ -50,7 +50,7 @@ h4{
 }
 
 .book-list{
-    width: 75vw;
+    width: 65vw;
     display: flex;
     flex-direction: row;
     margin-right: auto;
