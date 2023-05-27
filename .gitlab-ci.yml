@@ -29,6 +29,7 @@ build-job:       # This job runs in the build stage, which runs first.
     # - echo "Clearing php cache"
     # - composer require symfony/runtime
     # - php bin/console cache:clear
+    - composer install
     # - echo "installing & updateting nvm"
     # - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
     # - export NVM_DIR="$HOME/.nvm" [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
