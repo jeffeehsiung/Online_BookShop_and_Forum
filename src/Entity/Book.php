@@ -119,6 +119,12 @@ class Book
         return $this;
     }
 
+    public function getGenreId(): ?int
+    {
+        return $this->genre_id;
+    }
+
+
     public function getWorkId(): ?int
     {
         return $this->work_id;

@@ -58,7 +58,7 @@ class BookRepository extends ServiceEntityRepository
             FROM App\Entity\Book book 
             ORDER BY book.likes DESC
             '
-        );
+        )->setMaxResults(20);
         return $query->getResult();
     }
 
@@ -125,12 +125,7 @@ class BookRepository extends ServiceEntityRepository
         return new Paginator($queryBuilder);
     }
 
-    /**
-     * @param $genre_ids is an array of genre ids
-     * iterate through the $genre_ids and add a where clause for each genre_id
-     * find all books for each genre_id
-     * @return Book[] Returns an array of Book object
-     */
+
 
 
 //    public function findOneBySomeField($value): ?Book

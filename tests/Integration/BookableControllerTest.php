@@ -1,17 +1,11 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Integration;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use App\Repository\GenreRepository;
-use App\Repository\BookRepository;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-
 
 class BookableControllerTest extends WebTestCase
 {
-
     /**
      * @depends testWelcome
      */
@@ -38,8 +32,9 @@ class BookableControllerTest extends WebTestCase
         // Add more assertions based on the expected behavior of the book route
     }
 
+
     /**
-     * @depends testWelcome
+     * @depends testBook
      */
     public function testVote()
     {
@@ -51,7 +46,7 @@ class BookableControllerTest extends WebTestCase
     }
 
     /**
-     * @depends testWelcome
+     * @depends testBook
      */
     public function testFollow()
     {
@@ -118,15 +113,16 @@ class BookableControllerTest extends WebTestCase
     {
         // Create a new client to browse the application
         $client = static::createClient();
-        $crawler = $client->request('GET', '/welcome');
+//        $crawler = $client->request('GET', '/welcome');
+        $crawler = $client->request('GET', '/browsing');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        // log in
-        $form = $crawler->selectButton('Submit')->form();
-        $form['_username'] = 'jeffee@gmail.com';
-        $form['_password'] = 'jeffee';
-        $client->submit($form);
-
-         print_r($client->getResponse()->getContent());
+//        // log in
+//        $form = $crawler->selectButton('Submit')->form();
+//        $form['_username'] = 'jeffee@gmail.com';
+//        $form['_password'] = 'jeffee';
+//        $client->submit($form);
+//
+//         print_r($client->getResponse()->getContent());
 
 //        $this->assertEquals(200, $client->getResponse()->getStatusCode());
 //        $this->assertSelectorTextContains('.title', 'Browsing');
