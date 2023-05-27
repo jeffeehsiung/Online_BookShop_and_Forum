@@ -6,6 +6,8 @@ use App\Entity\FollowedBook;
 use App\Entity\LikedBook;
 use App\Entity\User;
 use App\Entity\Book;
+use App\Form\BookFilterFormType;
+use App\Form\BookSearchFormType;
 use App\Repository\AvatarRepository;
 use App\Repository\BookRepository;
 use App\Repository\DislikedBookRepository;
@@ -14,6 +16,7 @@ use App\Repository\GenreRepository;
 use App\Repository\LibraryRepository;
 use App\Repository\LikedBookRepository;
 use App\Repository\LikedGenreRepository;
+use App\Repository\ReadBooksRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Safe\Exceptions\PcreException;
@@ -26,7 +29,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class BookableController extends AbstractController
 {
-    #[Route('/settings')]
+    #[Route('/settings', name: "settings")]
     public function settings(GenreRepository $genreRepository, UserRepository $userRepository): Response
     {
         $bookGenres = $genreRepository->findAll();
@@ -89,7 +92,6 @@ class BookableController extends AbstractController
             } catch (PcreException $e) {
                 $bookTitle = $e;
             }
-
             return $this->render('book.html.twig', [
                 'bookTitle' => $bookTitle,
                 'stylesheets' => $stylesheets,
@@ -211,15 +213,14 @@ class BookableController extends AbstractController
         ]);
     }
 
-    #[Route("/home/{userID}", name: "home")]
+    #[Route("/home", name: "home")]
     public function Home(LikedGenreRepository $likedGenreRepository,
-                         UserRepository $userRepository, GenreRepository$genreRepository, BookRepository $bookRepository,
-                         FollowedBookRepository $followedBookRepository, $userID = null): Response
+        UserRepository $userRepository, GenreRepository$genreRepository, BookRepository $bookRepository,
+        FollowedBookRepository $followedBookRepository, $userID = null): Response
     {
         // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $userID = $this->getUser()->getId();
-
         $stylesheets = ['homev2.css'];
         $javascripts = ['home.js'];
         if ($userID) {
@@ -229,8 +230,14 @@ class BookableController extends AbstractController
             $genres = $genreRepository->findBy(['id'=>$genre_id, ]);
             $genre_books =  $bookRepository->findBy(['genre'=>$genre_id] );
             $followed = $followedBookRepository->findBy(['user'=>$userID]);
+            $followed_book_id =[];
+            foreach ($followed as $follow){
+                $current_book_id = $follow->getBook()->getId();
+                $followed_book_id[] = $current_book_id;
+            }
             $followed_authors = [];
-            $followed_books = $bookRepository->findBy(['id'=>$followed]);
+            $followed_books = $bookRepository->findBy(['id'=>$followed_book_id]);
+
             foreach ($followed_books as $followed_book){
                 $current_author = $followed_book->getAuthor();
                 $followed_authors[] = $current_author;
@@ -258,15 +265,25 @@ class BookableController extends AbstractController
     }
 
     #[Route("/profile/{userID}")]
-    public function Profile(AvatarRepository $avatarRepository, UserRepository $userRepository, $userID = null): Response {
+    public function Profile(AvatarRepository $avatarRepository,ReadBooksRepository $readBookRepository, BookRepository $bookRepository,FollowedBookRepository $followedBookRepository, UserRepository $userRepository, $userID = null): Response {
         $stylesheets = ['profile.css'];
 
         if($userID) {
             $user = $userRepository->findOneBy(['id' => $userID]);
             $avatar = $avatarRepository->find(['id'=> $user->getAvatar()]);
+
+
+            $followed_id = $followedBookRepository->findBy(['user'=>$user]);
+            $follow_book = $bookRepository->findBy(['id'=>$followed_id]);
+            $read_id = $readBookRepository->findBy(['user'=>$user]);
+            $read_book = $bookRepository->findBy(['id'=>$read_id]);
+
+
             return $this->render('profile.html.twig', [
                 'user' => $user,
                 'avatar' => $avatar,
+                'followed_book'=> $follow_book,
+                'read_list'=> $read_book,
                 'stylesheets' => $stylesheets,
 
             ]);
@@ -275,18 +292,72 @@ class BookableController extends AbstractController
         }
 
     }
+    #[Route("/about", name:"about")]
+    public function About(): Response
+    {
+        $stylesheets = ['about.css'];
+        $javascripts = ['about.js'];
+        return$this->render('about.html.twig', [
+            'stylesheets'=> $stylesheets,
+            'javascripts'=>$javascripts
+        ]);
+        }
 
-    #[Route("/browsing", name: "browsing")]
-    public function browsing(GenreRepository $genreRepository, BookRepository $bookRepository): Response {
-        // genreRepository is used to get all genres from the database
+
+    #[Route("/browsing/{book_title}", name: 'browsing') ]
+    public function browsing(GenreRepository $genreRepository, BookRepository $bookRepository,
+        Request $pageRequest, Request $searchRequest, Request $filterRequest, $book_title = null): Response {
+        /* TODO: keep php variables: $book_title, $genreIDs, $books, alive for the entire session */
+        // create a form to be used to search for books
+        $searchform = $this->createForm(BookSearchFormType::class);
+        // handle the request
+        $searchform->handleRequest($searchRequest);
+        // if the form is submitted and valid
+        if($searchform->isSubmitted() && $searchform->isValid()) {
+            // get the data from the form
+            $data = $searchform->getData();
+            // get the value from the data
+            $book_title = $data->getTitle();
+            // if the book title is not null
+            if($book_title) {
+                // redirect to the book title page
+                return $this->redirectToRoute('browsing', [
+                    'book_title'=>$book_title
+                ]);
+            }
+        }
+        // get the page number from the url
+        $offset = max(0, $pageRequest->query->getInt('offset', 0));
+        // genreRepository is used to get all genres from the database for the filter form
         $bookGenres = $genreRepository->findAll();
-        // declare a booksperpage variable to be used to get 20 books from the database table books
-        $booksPerPage = 20;
-        // declare bookRepository to be used to get 20 books from the database table books
-        $books = $bookRepository->findBy([],[],$booksPerPage);
-        $allBooks = $bookRepository->findAll();
-        // parse all books into json format variable
-        $booksjson = json_encode($allBooks);
+        // if a book title is passed in the url, then get all books with that title
+        $bookTitle = $book_title? u(str_replace('-',' ',$book_title))->title(true) : null;
+        // if a book title is null, then get all books will be returned
+        $books = $bookRepository->findAllByTitle($bookTitle, $offset);
+
+        // create a form to be used to filter books
+        $filterform = $this->createForm(BookFilterFormType::class);
+        // handle the request
+        $filterform->handleRequest($filterRequest);
+        // if the form is submitted and valid
+        if($filterform->isSubmitted() && $filterform->isValid()) {
+            // get the selected choices from the form
+            $data = $filterform->get('genre')->getData();
+            // put all the genres selected in an array
+            $genreIDs = [];
+            // if the genre ids is not null
+            if($data) {
+                // loop through each genre object in the data array
+                foreach($data as $genre) {
+                    // append the genre id to the genre ids array
+                    $genreIDs[] = $genre->getId();
+                }
+                // filter the books by the genre ids
+                $books = $bookRepository->filterByGenre($genreIDs, $offset);
+            }
+        }
+        // get the length of the books array
+        $booksCount = count($books);
         // declare stylesheets and javascripts to be used in the twig template
         $stylesheets = ['browsing.css'];
         $javascripts = ['browsing.js'];
@@ -295,11 +366,16 @@ class BookableController extends AbstractController
             'stylesheets' => $stylesheets,
             'genres' => $bookGenres,
             'books' => $books,
-            'booksperpage' => $booksPerPage,
-            'booksjson' => $booksjson,
+            'searchform' => $searchform->createView(),
+            'filterform' => $filterform->createView(),
+            'previous' => $offset - BookRepository::PAGINATOR_PER_PAGE,
+            'next' => min(count($books), $offset + BookRepository::PAGINATOR_PER_PAGE),
+            'bookscount' => $booksCount,
             'javascripts' => $javascripts
-
         ]);
     }
+
+
+
 
 }

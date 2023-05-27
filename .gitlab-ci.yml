@@ -6,6 +6,7 @@
 # Read more on when to use this template at
 # https://docs.gitlab.com/ee/ci/yaml/#workflowrules
 
+#define the base docker image file used for all jobs
 
 workflow:
   rules:
@@ -57,12 +58,36 @@ lint-test-job:   # This job also runs in the test stage.
 #     reports:
 #       codequality: gl-code-quality-report.json
 
+image: composer:2.5
+# Before we start any job, prepare the container with some extra configuration
+# e.g. setting the ssh credentials, so we can later copy to shell.studev.groept.be 
+before_script:
+  # create a local .ssh folder in the container
+  - mkdir -p ~/.ssh
+  # start the ssh-agent and add the private key to the system
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | ssh-add -
+  # add the fingerprint for shell.studev.groept.be as a trusted host
+  - ssh-keyscan shell.studev.groept.be > ~/.ssh/known_hosts
+  # install rsync to copy files to the web server
+  # this container runs Alpine Linux, where apk is the package manager (not apt-get) 
+  - apk add rsync
 
+# Every job will start a container with a clone from the current repo
 deploy-job:      # This job runs in the deploy stage.
+  # run this job only when there is a push on the master branch 
+  only:
+    - main
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
   environment: production
   script:
-    - echo "Deploying application..."
-    - echo "Application successfully deployed."
+    - composer install
+    # rsync is a copy/sync tool we use to copy the current folder ./ to studev
+    # we ignore the .git folder and the .env file
+    # we delete the files on the remote server that are not present in the local copy
+    - rsync -rv --exclude=".git/"
+                --exclude=".env"
+                --delete
+                ./ a22web12@shell.studev.groept.be:/var/www/html
 
 
