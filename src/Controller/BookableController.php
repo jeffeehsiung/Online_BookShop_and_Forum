@@ -29,22 +29,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class BookableController extends AbstractController
 {
-    #[Route('/settings', name: "settings")]
-    public function settings(GenreRepository $genreRepository, UserRepository $userRepository): Response
-    {
-        $bookGenres = $genreRepository->findAll();
-        // TODO: split twig templates into file format 'controllername/methodname.html.twig' -> example: 'bookable/settings.html.twig'
-        $stylesheets = ['settings.css'];
-        $javascripts = ['settings.js'];
-
-        return $this->render('setting.html.twig',[
-            'username' => 'test_user',
-            'stylesheets' => $stylesheets,
-            'javascripts' => $javascripts,
-            'bookgenres' => $bookGenres
-        ]);
-    }
-
     #[Route('/book/{book_id}', name:"book")]
     public function book
     (

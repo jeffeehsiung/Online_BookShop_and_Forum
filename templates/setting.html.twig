@@ -66,7 +66,6 @@
             <form id="form-favourite-genres">
                 <h2>Add you favourite genres</h2>
                 <label for="genres">Favorite Book Genres:</label><br>
-                {# TODO: dynamically load your book genres #}
                 <div id="genres">
                     {% for genre in bookgenres %}
                         <div class="genre">
@@ -125,18 +124,36 @@
         <button type="button" class="settings-submenu" >Profile</button>
         <div class="settings-menu-content">
             <h2>Edit you profile: </h2>
+
+            <section id="avatar-settings">
+                {% if user.getAvatar() is null %}
+                    <p>No avatar is set yet</p>
+                    <button class="button" id="btn-open-avatar-overlay" onclick="overlayOn()">Choose your avatar &#8599;</button>
+                {% else %}
+                    <p>This is your current avatar:</p>
+                    <img id="user-avatar" src="{{ user.getAvatar().url }}" alt="user avatar">
+                    <button class="button" id="btn-open-avatar-overlay" onclick="overlayOn()">Update avatar &#8599;</button>
+                {% endif %}
+
+                <form id="set-avatar" action="{{ path('setAvatar') }}" method="POST">
+                    <div id="avatar-overlay">
+                        <h1>Choose your avatar below:</h1>
+                        <div id="grid-container">
+                            {% for avatar in avatars %}
+                                <button id="btn-avatar" class="avatar-image" type="submit" name="avatar-id" value="{{ avatar.id }}">
+                                    <img src="{{ avatar.url }}" alt="avatar img {{ avatar.id }}">
+                                </button>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </form>
+            </section>
+
             <form>
                 <label for="bio">Bio:</label>
                 <textarea id="bio" name="bio" rows="4" cols="50"></textarea>
                 <br>
                 <button type="submit" class="button">Save</button>
-            </form>
-
-            <form enctype="multipart/form-data">
-                <label for="picture">Choose a profile picture:</label>
-                <input type="file" id="picture" name="picture">
-                <br>
-                <button type="submit" class="button">Upload</button>
             </form>
         </div>
     </section>
