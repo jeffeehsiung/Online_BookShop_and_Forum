@@ -32,10 +32,11 @@ build-job:       # This job runs in the build stage, which runs first.
     - composer install
     - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
     - export NVM_DIR="$HOME/.nvm"
+#    - source ~/$NVM_DIR/nvm.sh
+    - -s "$NVM_DIR/nvm.sh"
+    - \. "$NVM_DIR/nvm.sh"
     - . $NVM_DIR/nvm.sh
-    - nvm install 16
-    - nvm use 16
-    - npm install
+    - nvm install lts
 
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
