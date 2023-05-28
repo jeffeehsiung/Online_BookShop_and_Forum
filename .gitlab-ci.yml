@@ -22,6 +22,21 @@ stages:
   - deploy
   - production
 
+image: composer:2.5
+# Before we start any job, prepare the container with some extra configuration
+# e.g. setting the ssh credentials, so we can later copy to shell.studev.groept.be
+before_script:
+  # create a local .ssh folder in the container
+  - mkdir -p ~/.ssh
+  # start the ssh-agent and add the private key to the system
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | ssh-add -
+  # add the fingerprint for shell.studev.groept.be as a trusted host
+  - ssh-keyscan shell.studev.groept.be > ~/.ssh/known_hosts
+  # install rsync to copy files to the web server
+  # this container runs Alpine Linux, where apk is the package manager (not apt-get)
+  - apk add rsync
+
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
   script:
@@ -61,21 +76,6 @@ lint-test-job:   # This job also runs in the test stage.
 #   artifacts:
 #     reports:
 #       codequality: gl-code-quality-report.json
-
-image: composer:2.5
-# Before we start any job, prepare the container with some extra configuration
-# e.g. setting the ssh credentials, so we can later copy to shell.studev.groept.be
-before_script:
-  # create a local .ssh folder in the container
-  - mkdir -p ~/.ssh
-  # start the ssh-agent and add the private key to the system
-  - eval $(ssh-agent -s)
-  - echo "$SSH_PRIVATE_KEY" | ssh-add -
-  # add the fingerprint for shell.studev.groept.be as a trusted host
-  - ssh-keyscan shell.studev.groept.be > ~/.ssh/known_hosts
-  # install rsync to copy files to the web server
-  # this container runs Alpine Linux, where apk is the package manager (not apt-get)
-  - apk add rsync
 
 # To contribute improvements to CI/CD templates, please follow the Development guide at:
 # https://docs.gitlab.com/ee/development/cicd/templates.html
@@ -120,6 +120,7 @@ publish:
       if [[ "$(npm view ${NPM_PACKAGE_NAME} versions)" != *"'${NPM_PACKAGE_VERSION}'"* ]]; then
         npm publish
         echo "Successfully published version ${NPM_PACKAGE_VERSION} of ${NPM_PACKAGE_NAME} to GitLab's NPM registry: ${CI_PROJECT_URL}/-/packages"
+        npm run build
       else
         echo "Version ${NPM_PACKAGE_VERSION} of ${NPM_PACKAGE_NAME} has already been published, so no new version has been published."
       fi
