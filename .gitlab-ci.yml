@@ -37,7 +37,6 @@ workflow:
 stages:
   - build
   - test
-  # - code_quality
   - review
   - deploy
   - production
@@ -73,17 +72,15 @@ lint-test-job:   # This job also runs in the test stage.
     - echo "Linting code... This will take about 10 seconds."
     - echo "No lint issues found."
 
-
-before-deploy:
-  stage: deploy
-  script:
-    # create a local .ssh folder in the container
-    - mkdir -p ~/.ssh
-    # start the ssh-agent and add the private key to the system
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | ssh-add -
-    # add the fingerprint for shell.studev.groept.be as a trusted host
-    - ssh-keyscan shell.studev.groept.be > ~/.ssh/known_hosts
+#include:
+#  - template: Code-Quality.gitlab-ci.yml
+#
+#code_quality:
+#  services:
+#  tags:
+#    - cq-sans-dind     # Set this job to only run on our new specialized runner
+#  artifacts:
+#    paths: [gl-code-quality-report.json]
 
 # Every job will start a container with a clone from the current repo
 deploy-job:      # This job runs in the deploy stage.
@@ -95,6 +92,14 @@ deploy-job:      # This job runs in the deploy stage.
   environment: production
   script:
     - composer install
+    # create a local .ssh folder in the container
+    - mkdir -p ~/.ssh
+    # start the ssh-agent and add the private key to the system
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | ssh-add -
+    # add the fingerprint for shell.studev.groept.be as a trusted host
+    - ssh-keyscan shell.studev.groept.be > ~/.ssh/known_hosts
+    # host key fail? now after uninstalling runner?
     # install rsync to copy files to the web server
     # this container runs Alpine Linux, where apk is the package manager (not apt-get)
     - apk add rsync
