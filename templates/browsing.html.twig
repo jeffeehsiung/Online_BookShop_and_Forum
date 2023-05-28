@@ -23,6 +23,7 @@
         {{ form_start(searchform) }}
             {{ form_widget(searchform) }}
         <button type="submit" id = "search-btn" class="main-button">Search</button>
+        <a href="{{ path("browsing") }}" type="submit" id = "reset-btn" class="main-button">Reset</a>
         {{ form_end(searchform) }}
     </section>
     <main id="contents">
@@ -53,10 +54,18 @@
     {#pages buttons#}
     <section class="browsing-pages">
         {% if previous >= 0 %}
-            <a href="{{ path("browsing", {'offset': previous}) }}" class="main-button">Previous</a>
+            {%  if book_title is not null %}
+                <a href="{{ path("searching", {'book_title': book_title, 'offset': previous}) }}" class="main-button">Previous</a>
+            {% else %}
+                <a href="{{ path("browsing", {'offset': previous}) }}" class="main-button">Previous</a>
+            {% endif %}
         {% endif %}
         {% if next < books|length %}
-            <a href="{{ path("browsing", {'offset': next}) }}" class="main-button">Next</a>
+            {%  if book_title is not null %}
+                <a href="{{ path("searching", {'book_title': book_title, 'offset': next}) }}" class="main-button">Next</a>
+            {% else %}
+                <a href="{{ path("browsing", {'offset': next}) }}" class="main-button">Next</a>
+            {% endif %}
         {% endif %}
     </section>
 </section>

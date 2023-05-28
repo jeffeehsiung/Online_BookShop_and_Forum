@@ -39,7 +39,7 @@ Provide a link to the main page of your application. Or if you have multiple par
 ## coding conventions
 * snake_case for XXX variables #TODO(snake_case)
 * lowerPascalCasing for XXX #TODO(camelCase)
-* upperCasing for XXX classes
+* upperCasing for XXX classes 
 * camelCasing for XXX classes #TODO(camelCase)
 
 
