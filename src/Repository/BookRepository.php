@@ -94,34 +94,63 @@ class BookRepository extends ServiceEntityRepository
         return $queryBuilder->setMaxResults($booksPerPage)->getQuery()->getResult();
     }
 
-    public function findAllByTitle($book_title, int $offset): Paginator
+//    public function findAllByTitle($book_title, int $offset): Paginator
+//    {
+//        $queryBuilder = $this->createQueryBuilder('books');
+//        if($book_title){
+//            $queryBuilder->andWhere('books.title LIKE :val')
+//                ->setParameter('val', '%'.$book_title.'%');
+//        }
+//        $queryBuilder->orderBy('books.id', 'DESC')
+//            ->setMaxResults(self::PAGINATOR_PER_PAGE)
+//            ->setFirstResult($offset)
+//            ->getQuery();
+////            ->getResult();
+//        return new Paginator($queryBuilder);
+//    }
+
+    public function findAllByTitle($book_title, int $offset): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('books');
         if($book_title){
             $queryBuilder->andWhere('books.title LIKE :val')
                 ->setParameter('val', '%'.$book_title.'%');
         }
-        $queryBuilder->orderBy('books.id', 'DESC')
-            ->setMaxResults(self::PAGINATOR_PER_PAGE)
-            ->setFirstResult($offset)
-            ->getQuery();
-//            ->getResult();
-        return new Paginator($queryBuilder);
+        $queryBuilder->orderBy('books.id', 'DESC');
+        return $queryBuilder;
     }
 
 
-    public function filterByGenre(array $genreIDs, int $offset): Paginator
+//    public function filterByGenre(array $genreIDs, int $offset): Paginator
+//    {
+//        // create a query builder
+//        $queryBuilder = $this->createQueryBuilder('books')
+//            // get the books with genre id in the array
+//            ->andWhere('books.genre_id IN (:genreIDs)')
+//            ->setParameter('genreIDs', $genreIDs)
+//            ->orderBy('books.id', 'DESC');
+//        // execute the query
+//        $queryBuilder->setMaxResults(self::PAGINATOR_PER_PAGE)->setFirstResult($offset)
+//            ->getQuery();
+////            ->getResult();
+//        return new Paginator($queryBuilder);
+//    }
+
+    public function filterByGenre(QueryBuilder $queryBuilder, array $genreIDs, int $offset): Paginator
     {
-        // create a query builder
-        $queryBuilder = $this->createQueryBuilder('books')
-            // get the books with genre id in the array
-            ->andWhere('books.genre_id IN (:genreIDs)')
-            ->setParameter('genreIDs', $genreIDs)
-            ->orderBy('books.id', 'DESC');
+        if ($genreIDs == null) {
+            $queryBuilder->orderBy('books.id', 'DESC');
+        }else{
+            $queryBuilder
+                // get the books with genre id in the array
+                ->andWhere('books.genre_id IN (:genreIDs)')
+                ->setParameter('genreIDs', $genreIDs)
+                ->orderBy('books.id', 'DESC');
+        }
         // execute the query
-        $queryBuilder->setMaxResults(self::PAGINATOR_PER_PAGE)->setFirstResult($offset)
+        $queryBuilder->setMaxResults(self::PAGINATOR_PER_PAGE)
+            ->setFirstResult($offset)
             ->getQuery();
-//            ->getResult();
         return new Paginator($queryBuilder);
     }
 
