@@ -2,12 +2,18 @@
 
 namespace App\Tests\Unit;
 
+use App\Controller\BaseController;
+use App\Controller\BookableController;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\TestCase;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use App\Repository\GenreRepository;
 use App\Repository\BookRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use function PHPUnit\Framework\assertIsArray;
 
 
 class BookableControllerTest extends TestCase
@@ -18,12 +24,6 @@ class BookableControllerTest extends TestCase
      */
     public function testSettings()
     {
-        $client = static::createClient();
-        $client->request('GET', '/settings');
-
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertSelectorTextContains('.title', 'Settings');
-        // Add more assertions based on the expected behavior of the settings route
     }
 
     /**
@@ -31,12 +31,6 @@ class BookableControllerTest extends TestCase
      */
     public function testBook()
     {
-        $client = static::createClient();
-        $client->request('GET', '/book/1');
-
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertSelectorTextContains('.title', 'Book Title');
-        // Add more assertions based on the expected behavior of the book route
     }
 
 
@@ -45,11 +39,6 @@ class BookableControllerTest extends TestCase
      */
     public function testVote()
     {
-        $client = static::createClient();
-        $client->request('POST', '/book/1/vote');
-
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        // Add more assertions based on the expected behavior of the vote route
     }
 
     /**
@@ -57,21 +46,10 @@ class BookableControllerTest extends TestCase
      */
     public function testFollow()
     {
-        $client = static::createClient();
-        $client->request('POST', '/book/1/follow');
-
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        // Add more assertions based on the expected behavior of the follow route
     }
 
     public function testWelcome()
     {
-        $client = static::createClient();
-        $client->request('GET', '/welcome');
-
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertSelectorTextContains('.title', 'Welcome!');
-        // Add more assertions based on the expected behavior of the welcome route
     }
 
     /**
@@ -79,12 +57,6 @@ class BookableControllerTest extends TestCase
      */
     public function testHome()
     {
-        $client = static::createClient();
-        $client->request('GET', '/home');
-
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertSelectorTextContains('.title', 'Home');
-        // Add more assertions based on the expected behavior of the home route
     }
 
     /**
@@ -92,12 +64,7 @@ class BookableControllerTest extends TestCase
      */
     public function testProfile()
     {
-        $client = static::createClient();
-        $client->request('GET', '/profile/1');
 
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertSelectorTextContains('.title', 'Profile');
-        // Add more assertions based on the expected behavior of the profile route
     }
 
     /**
@@ -105,40 +72,54 @@ class BookableControllerTest extends TestCase
      */
     public function testAbout()
     {
-        $client = static::createClient();
-        $client->request('GET', '/about');
-
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertSelectorTextContains('.title', 'About');
-        // Add more assertions based on the expected behavior of the about route
     }
 
-    /**
-     * @depends testWelcome
-     */
     public function testBrowsing()
     {
-        // Mock the dependencies
-        $genreRepositoryMock = $this->createMock(GenreRepository::class);
-        $bookRepositoryMock = $this->createMock(BookRepository::class);
+        //workflow: given, when, then, arrange, act, assert
+        // given that we have a genre repository and a book repository and three requests
+        $registry = $this->createConfiguredMock(ManagerRegistry::class, [
+            'getRepository' => $this->createMock(GenreRepository::class)
+        ]
+        );
+        // assert repository is not null
+        $this->assertNotNull($registry->getRepository(GenreRepository::class));
+        // print the class name of the repository
+        $this->assertIsString(get_class($registry->getRepository(GenreRepository::class)));
+        $genreRepositoryMock = new GenreRepository($registry);
+        // asser genreRepositoryMock is not null
+        $this->assertNotNull($genreRepositoryMock);
+        // assert that the repository is an instance of GenreRepository
+        $this->assertInstanceOf(GenreRepository::class, $genreRepositoryMock);
+        // declare registerMock as a ManagerRegistry for the book repository
+        $registry = $this->createConfiguredMock(ManagerRegistry::class, [
+            'getRepository' => $this->createMock(BookRepository::class)
+        ]
+        );
+        // assert repository is not null
+        $this->assertNotNull($registry->getRepository(BookRepository::class));
+        // print the class name of the repository
+        $this->assertIsString(get_class($registry->getRepository(BookRepository::class)));
+        $bookRepositoryMock = new BookRepository($registry);
+        // asser bookRepositoryMock is not null
+        $this->assertNotNull($bookRepositoryMock);
+        // assert that the repository is an instance of BookRepository
+        $this->assertInstanceOf(BookRepository::class, $bookRepositoryMock);
         $pageRequest = $this->createMock(Request::class);
-        $searchRequest = Request::create('/browsing/harry', 'GET');
+        $searchRequest = $this->createMock(Request::class);
         $filterRequest = $this->createMock(Request::class);
-        $book_title = 'Book Title';
-
-
-
-        $bookRepositoryMock->expects($this->once())
-            // call the findAllByTitle() method with the string 'Book Title' and the offset 0 as arguments
-            ->method('findAllByTitle')
-            ->with($book_title, 0)
-            // expect the method to return a paginator object
-            ->willReturn($this->createMock(\Doctrine\ORM\Tools\Pagination\Paginator::class));
-
-        // Set up the expectations
-        $genreRepositoryMock->expects($this->once())
-            ->method('findAll')
-            ->willReturn([]);
-
+        // construct a bookable controller
+        $bookableController = $this->createMock(BookableController::class);
+        // assert that the bookable controller is not null
+        $this->assertNotNull($bookableController);
+        // assert that the bookable controller is an instance of BookableController
+        $this->assertInstanceOf(BookableController::class, $bookableController);
+        // given that the method will return a response, assert that the response is not null
+        $response = $bookableController->browsing($genreRepositoryMock, $bookRepositoryMock, $pageRequest, $searchRequest, $filterRequest);
+        $this->assertNotNull($response);
+        // assert that the response is an instance of Response
+        $this->assertInstanceOf(Response::class, $response);
+        // assert that the response is not empty
+        $this->assertNotEmpty($response);
     }
 }

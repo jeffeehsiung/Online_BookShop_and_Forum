@@ -233,11 +233,6 @@ class Book
         return $this;
     }
 
-    public function getGenreId(): ?int
-    {
-        return $this->genre_id;
-    }
-
     public function getAuthor(): ?Author
     {
         return $this->author;
