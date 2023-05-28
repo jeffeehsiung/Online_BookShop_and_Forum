@@ -12,7 +12,8 @@
 
 # Official framework image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/node/tags/
-image: node:latest
+default:
+  image: node:latest
 
 # Pick zero or more services to be used on all builds.
 # Only needed when using a docker container to run your tests in.
@@ -26,21 +27,6 @@ services:
 cache:
   paths:
     - node_modules/
-
-image: composer:2.5
-# Before we start any job, prepare the container with some extra configuration
-# e.g. setting the ssh credentials, so we can later copy to shell.studev.groept.be
-before_script:
-  # create a local .ssh folder in the container
-  - mkdir -p ~/.ssh
-  # start the ssh-agent and add the private key to the system
-  - eval $(ssh-agent -s)
-  - echo "$SSH_PRIVATE_KEY" | ssh-add -
-  # add the fingerprint for shell.studev.groept.be as a trusted host
-  - ssh-keyscan shell.studev.groept.be > ~/.ssh/known_hosts
-  # install rsync to copy files to the web server
-  # this container runs Alpine Linux, where apk is the package manager (not apt-get)
-  - apk add rsync
 
 workflow:
   rules:
@@ -56,16 +42,32 @@ stages:
   - deploy
   - production
 
+# Before we start any job, prepare the container with some extra configuration
+# e.g. setting the ssh credentials, so we can later copy to shell.studev.groept.be
+before-build:
+  image: composer:2.5
+  stage: build
+  script:
+    # create a local .ssh folder in the container
+    - mkdir -p ~/.ssh
+    # start the ssh-agent and add the private key to the system
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | ssh-add -
+    # add the fingerprint for shell.studev.groept.be as a trusted host
+    - ssh-keyscan shell.studev.groept.be > ~/.ssh/known_hosts
+    # install rsync to copy files to the web server
+    # this container runs Alpine Linux, where apk is the package manager (not apt-get)
+    - apk add rsync
+    - composer require symfony/runtime
+    - php bin/console cache:pool:clear cache.global_clearer
+    - composer require symfony/webpack-encore-bundle
+    - composer install
 
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
   before_script:
     - npm install
   script:
-    - composer require symfony/runtime
-    - php bin/console cache:pool:clear cache.global_clearer
-    - composer require symfony/webpack-encore-bundle
-    - composer install
     - npm run build
 
 unit-test-job:   # This job runs in the test stage.
@@ -99,6 +101,7 @@ lint-test-job:   # This job also runs in the test stage.
 
 # Every job will start a container with a clone from the current repo
 deploy-job:      # This job runs in the deploy stage.
+  image: composer:2.5
   # run this job only when there is a push on the master branch 
   only:
     - main
