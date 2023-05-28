@@ -22,6 +22,27 @@ stages:
   - deploy
   - production
 
+# Official framework image. Look for the different tagged releases at:
+# https://hub.docker.com/r/library/node/tags/
+image: node:latest
+
+# Pick zero or more services to be used on all builds.
+# Only needed when using a docker container to run your tests in.
+# Check out: https://docs.gitlab.com/ee/ci/services/index.html
+services:
+  - mysql:latest
+  - postgres:latest
+
+# This folder is cached between builds
+# https://docs.gitlab.com/ee/ci/yaml/index.html#cache
+cache:
+  paths:
+    - node_modules/
+
+test_async:
+  script:
+    - npm install
+    - node ./specs/start.js ./specs/async.spec.js
 
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
