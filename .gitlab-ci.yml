@@ -12,8 +12,8 @@
 
 # Official framework image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/node/tags/
-default:
-  image: node:latest
+
+image: node:latest
 
 # Pick zero or more services to be used on all builds.
 # Only needed when using a docker container to run your tests in.
@@ -91,7 +91,6 @@ lint-test-job:   # This job also runs in the test stage.
 
 
 before-deploy:
-  image: composer:2.5
   stage: deploy
   script:
     # create a local .ssh folder in the container
@@ -101,9 +100,6 @@ before-deploy:
     - echo "$SSH_PRIVATE_KEY" | ssh-add -
     # add the fingerprint for shell.studev.groept.be as a trusted host
     - ssh-keyscan shell.studev.groept.be > ~/.ssh/known_hosts
-    # install rsync to copy files to the web server
-    # this container runs Alpine Linux, where apk is the package manager (not apt-get)
-    - apk add rsync
 
 # Every job will start a container with a clone from the current repo
 deploy-job:      # This job runs in the deploy stage.
@@ -115,6 +111,9 @@ deploy-job:      # This job runs in the deploy stage.
   environment: production
   script:
     - composer install
+    # install rsync to copy files to the web server
+    # this container runs Alpine Linux, where apk is the package manager (not apt-get)
+    - apk add rsync
     # rsync is a copy/sync tool we use to copy the current folder ./ to studev
     # we ignore the .git folder and the .env file
     # we delete the files on the remote server that are not present in the local copy
