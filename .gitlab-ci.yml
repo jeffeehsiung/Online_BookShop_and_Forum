@@ -22,22 +22,22 @@ stages:
   - deploy
   - production
 
-# Official framework image. Look for the different tagged releases at:
-# https://hub.docker.com/r/library/node/tags/
-image: node:latest composer:2.5
-
-# Pick zero or more services to be used on all builds.
-# Only needed when using a docker container to run your tests in.
-# Check out: https://docs.gitlab.com/ee/ci/services/index.html
-services:
-  - mysql:latest
-  - postgres:latest
-
-# This folder is cached between builds
-# https://docs.gitlab.com/ee/ci/yaml/index.html#cache
-cache:
-  paths:
-    - node_modules/
+## Official framework image. Look for the different tagged releases at:
+## https://hub.docker.com/r/library/node/tags/
+#image: node:latest
+#
+## Pick zero or more services to be used on all builds.
+## Only needed when using a docker container to run your tests in.
+## Check out: https://docs.gitlab.com/ee/ci/services/index.html
+#services:
+#  - mysql:latest
+#  - postgres:latest
+#
+## This folder is cached between builds
+## https://docs.gitlab.com/ee/ci/yaml/index.html#cache
+#cache:
+#  paths:
+#    - node_modules/
 
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
@@ -54,7 +54,6 @@ build-job:       # This job runs in the build stage, which runs first.
     - nvm install 16
     - nvm install node
     - npm install
-    -
 
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
