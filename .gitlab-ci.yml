@@ -34,9 +34,9 @@ build-job:       # This job runs in the build stage, which runs first.
     - export NVM_DIR="$HOME/.nvm"
     - source $NVM_DIR/nvm.sh
     - . $NVM_DIR/nvm.sh
-    - nvm install 16
+    - nvm install --lts
     - ln -s /usr/bin/nodejs /usr/bin/node
-    - nvm exec 16 npm -v
+    - nvm exec 16 node -v
 
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
