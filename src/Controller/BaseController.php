@@ -9,18 +9,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BaseController extends AbstractController
 {
-    private array $stylesheets;
-
-    public function __construct() {
-        $this->stylesheets[] = 'base.css';
-    }
-
-    #[Route('/', name: 'base')]
-    public function home(): Response
-    {
-        return $this->render('base.html.twig', [
-            'stylesheets' => $this->stylesheets,
-        ]);
-    }
+//    private array $stylesheets;
+//
+//    public function __construct() {
+//        $this->stylesheets[] = 'base.css';
+//    }
+//
+//    #[Route('/', name: 'base')]
+//    public function home(): Response
+//    {
+//        return $this->render('base.html.twig', [
+//            'stylesheets' => $this->stylesheets,
+//        ]);
+//    }
 
 }
