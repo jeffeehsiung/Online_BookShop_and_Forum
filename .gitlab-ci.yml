@@ -30,12 +30,7 @@ build-job:       # This job runs in the build stage, which runs first.
     # - php bin/console cache:clear
     - composer install
     - echo "installing & updateting nvm"
-    - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-    - export NVM_DIR="$HOME/.nvm"
-    - source ~/.nvm/nvm.sh
-    - sudo ln -s /usr/local/bin/npm /usr/bin/npm
-    - echo "Check the node and npm version"
-    - node -v npm -v
+    - sudo apt-get install nodejs npm -y
     - echo "Compiling the code..."
     - npm run build 
     - echo "Compile complete."
