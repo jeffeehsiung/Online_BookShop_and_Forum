@@ -84,8 +84,7 @@ before_script:
   # add the fingerprint for shell.studev.groept.be as a trusted host
   - ssh-keyscan shell.studev.groept.be > ~/.ssh/known_hosts
   # install rsync to copy files to the web server
-  # this container runs Alpine Linux, where apk is the package manager (not apt-get) 
-  - apk add rsync
+  # this container runs Alpine Linux, where apk is the package manager (not apt-get)
 
 # Every job will start a container with a clone from the current repo
 deploy-job:      # This job runs in the deploy stage.
@@ -96,6 +95,7 @@ deploy-job:      # This job runs in the deploy stage.
   environment: production
   script:
     - composer install
+    - apk add rsync
     # rsync is a copy/sync tool we use to copy the current folder ./ to studev
     # we ignore the .git folder and the .env file
     # we delete the files on the remote server that are not present in the local copy
