@@ -48,20 +48,10 @@ before-build:
   image: composer:2.5
   stage: build
   script:
-    # create a local .ssh folder in the container
-    - mkdir -p ~/.ssh
-    # start the ssh-agent and add the private key to the system
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | ssh-add -
-    # add the fingerprint for shell.studev.groept.be as a trusted host
-    - ssh-keyscan shell.studev.groept.be > ~/.ssh/known_hosts
-    # install rsync to copy files to the web server
-    # this container runs Alpine Linux, where apk is the package manager (not apt-get)
-    - apk add rsync
     - composer require symfony/runtime
     - php bin/console cache:pool:clear cache.global_clearer
     - composer require symfony/webpack-encore-bundle
-    - composer install
+    - composer update
 
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
@@ -98,6 +88,22 @@ lint-test-job:   # This job also runs in the test stage.
 #     reports:
 #       codequality: gl-code-quality-report.json
 
+
+
+before-deploy:
+  image: composer:2.5
+  stage: deploy
+  script:
+    # create a local .ssh folder in the container
+    - mkdir -p ~/.ssh
+    # start the ssh-agent and add the private key to the system
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | ssh-add -
+    # add the fingerprint for shell.studev.groept.be as a trusted host
+    - ssh-keyscan shell.studev.groept.be > ~/.ssh/known_hosts
+    # install rsync to copy files to the web server
+    # this container runs Alpine Linux, where apk is the package manager (not apt-get)
+    - apk add rsync
 
 # Every job will start a container with a clone from the current repo
 deploy-job:      # This job runs in the deploy stage.
