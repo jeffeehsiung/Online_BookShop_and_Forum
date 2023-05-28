@@ -78,9 +78,6 @@
                 <label for="genres">Favourite Book Genres:</label><br>
                 <div id="genres">
                     <div class="genre">
-                        {% for genre in favouriteGenresInitial %}
-                            <p>{{ genre.getGenre() }}</p>
-                        {% endfor %}
                         {% for genre in bookgenres %}
                         {% if genre in favouriteGenresInitial %}
                             <input type="checkbox" id="{{ genre.getGenre() }}" name="{{ genre.getGenre() }}" value="{{ genre.id }}" checked>
@@ -120,15 +117,3 @@
     </section>
 
 {% endblock %}
-{#
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
-#}
