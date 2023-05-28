@@ -30,8 +30,7 @@ build-job:       # This job runs in the build stage, which runs first.
     # - php bin/console cache:clear
     - composer install
     - echo "installing & updateting nvm"
-    - sudo apt-get install nodejs npm -y
-    - echo "Compiling the code..."
+    - which npm
     - npm run build 
     - echo "Compile complete."
 
