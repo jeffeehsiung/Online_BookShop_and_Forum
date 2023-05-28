@@ -36,7 +36,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - \. $NVM_DIR/nvm.sh
     - nvm install 16
     - nvm install node
-    - nvm use node
+    - export PATH="$PATH:"/usr/local/bin/""
     - npm install
 
 unit-test-job:   # This job runs in the test stage.
