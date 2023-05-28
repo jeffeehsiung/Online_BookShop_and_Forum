@@ -26,6 +26,11 @@
         <a href="{{ path("browsing") }}" type="submit" id = "reset-btn" class="main-button">Reset</a>
         {{ form_end(searchform) }}
     </section>
+    {% for message in app.flashes('search') %}
+        <div id = search-alert class="search-alert">
+            {{ message }}
+        </div>
+    {% endfor %}
     <main id="contents">
         <aside id="browsing-filter-container">
             <!-- define filter form-->

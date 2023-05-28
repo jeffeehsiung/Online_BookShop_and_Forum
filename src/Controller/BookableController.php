@@ -368,7 +368,7 @@ class BookableController extends AbstractController
         // if a book title is passed in the url, then get all books with that title
         $bookTitle = $book_title? u(str_replace('-',' ',$book_title))->title(true) : null;
         // if a book title is null, then get all books will be returned
-        $books = $bookRepository->findAllByTitle($bookTitle, $offset);
+        $booksPAG = $bookRepository->findAllByTitle($bookTitle, $offset);
 
         // create a form to be used to filter books
         $filterform = $this->createForm(BookFilterFormType::class);
@@ -385,10 +385,10 @@ class BookableController extends AbstractController
                     // append the genre id to the genre ids array
                     $genreIDs[] = $genre->getId();
                 }
-                // filter the books by the genre ids
-                $books = $bookRepository->filterByGenre($genreIDs, $offset);
             }
         }
+        // filter the books by the genre ids
+        $books = $bookRepository->filterByGenre($booksPAG, $genreIDs, $offset);
         // get the length of the books array
         $booksCount = count($books);
         // declare stylesheets and javascripts to be used in the twig template
@@ -418,6 +418,7 @@ class BookableController extends AbstractController
         $user = $this->getUser();
         $userID = $user->getId();
 
+
         /* TODO: keep php variables: $book_title, $genreIDs, $books, alive for the entire session */
         // create a form to be used to search for books
         $searchform = $this->createForm(BookSearchFormType::class);
@@ -433,6 +434,7 @@ class BookableController extends AbstractController
         if ($book_title == null){
             $book_title = $pageRequest->query->get('book_title');
         }
+
         // get the page number from the url
         $offset = max(0, $pageRequest->query->getInt('offset', 0));
         // genreRepository is used to get all genres from the database for the filter form
@@ -440,7 +442,7 @@ class BookableController extends AbstractController
         // if a book title is passed in the url, then get all books with that title
         $bookTitle = $book_title? u(str_replace('-',' ',$book_title))->title(true) : null;
         // if a book title is null, then get all books will be returned
-        $books = $bookRepository->findAllByTitle($bookTitle, $offset);
+        $booksPAG = $bookRepository->findAllByTitle($bookTitle, $offset);
 
         // create a form to be used to filter books
         $filterform = $this->createForm(BookFilterFormType::class);
@@ -457,12 +459,15 @@ class BookableController extends AbstractController
                     // append the genre id to the genre ids array
                     $genreIDs[] = $genre->getId();
                 }
-                // filter the books by the genre ids
-                $books = $bookRepository->filterByGenre($genreIDs, $offset);
             }
         }
+        // filter the books by the genre ids
+        $books = $bookRepository->filterByGenre($booksPAG, $genreIDs, $offset);
         // get the length of the books array
         $booksCount = count($books);
+        // add search flash message: number of results for the search book title
+        $this->addFlash('search', $booksCount . ' results for ' . $bookTitle);
+
         // declare stylesheets and javascripts to be used in the twig template
         $stylesheets = ['browsing.css'];
         $javascripts = ['browsing.js'];

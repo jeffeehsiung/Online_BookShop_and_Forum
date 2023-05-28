@@ -91,6 +91,18 @@ body {
     border-radius: 5px;
 }
 
+#search-alert {
+    font-family: Poppins, serif;
+    color: whitesmoke;
+    font-stretch: normal;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: -15px;
+    margin-bottom: 30px;
+}
+
 /* Book listing styles */
 #browsing-list {
     display: flex;
