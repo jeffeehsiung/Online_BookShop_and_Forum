@@ -92,6 +92,7 @@ before-deploy:
     - echo "$SSH_PRIVATE_KEY" | ssh-add -
     # add the fingerprint for shell.studev.groept.be as a trusted host
     - ssh-keyscan shell.studev.groept.be > ~/.ssh/known_hosts
+    # host key fail?
 
 # Every job will start a container with a clone from the current repo
 deploy-job:      # This job runs in the deploy stage.
