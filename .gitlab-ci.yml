@@ -9,11 +9,6 @@
 #define the base docker image file used for all jobs
 # You can copy and paste this template into a new `.gitlab-ci.yml` file.
 # You should not add this template to an existing `.gitlab-ci.yml` file by using the `include:` keyword.
-#
-# To contribute improvements to CI/CD templates, please follow the Development guide at:
-# https://docs.gitlab.com/ee/development/cicd/templates.html
-# This specific template is located at:
-# https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Nodejs.gitlab-ci.yml
 
 # Official framework image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/node/tags/
@@ -64,8 +59,6 @@ stages:
 
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
-  tags:
-    - node
   before_script:
     - yarn install
   script:
