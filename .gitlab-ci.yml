@@ -37,7 +37,6 @@ workflow:
 stages:
   - build
   - test
-  # - code_quality
   - review
   - deploy
   - production
