@@ -24,7 +24,7 @@ stages:
 
 # Official framework image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/node/tags/
-image: node:latest
+image: node:latest composer:2.5
 
 # Pick zero or more services to be used on all builds.
 # Only needed when using a docker container to run your tests in.
@@ -50,7 +50,12 @@ build-job:       # This job runs in the build stage, which runs first.
     - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
     - export NVM_DIR="$HOME/.nvm"
     - . $NVM_DIR/nvm.sh
-    - nvm use 16
+    - nvm --v
+    - nvm install 16
+    - nvm install node
+    - node -v
+    - npm install
+    -
 
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
@@ -80,7 +85,7 @@ lint-test-job:   # This job also runs in the test stage.
 #     reports:
 #       codequality: gl-code-quality-report.json
 
-image: composer:2.5
+#image: composer:2.5
 # Before we start any job, prepare the container with some extra configuration
 # e.g. setting the ssh credentials, so we can later copy to shell.studev.groept.be 
 before_script:
