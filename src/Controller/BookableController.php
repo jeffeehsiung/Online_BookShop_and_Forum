@@ -20,6 +20,7 @@ use App\Repository\ReadBooksRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Safe\Exceptions\PcreException;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,6 +30,23 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class BookableController extends AbstractController
 {
+    // dependency injection
+    private array $stylesheets;
+    // make constructor with container builder
+    public function __construct() {
+        $this->stylesheets[] = 'base.css';
+        // set container builder
+//        $containerBuilder = new ContainerBuilder();
+//        $this->setContainer($containerBuilder);
+    }
+
+    #[Route('/', name: 'base')]
+    public function base(): Response
+    {
+        return $this->render('base.html.twig', [
+            'stylesheets' => $this->stylesheets,
+        ]);
+    }
     #[Route('/book/{book_id}', name:"book")]
     public function book
     (
@@ -319,6 +337,11 @@ class BookableController extends AbstractController
     #[Route("/browsing/{book_title}", name: 'browsing') ]
     public function browsing(GenreRepository $genreRepository, BookRepository $bookRepository,
         Request $pageRequest, Request $searchRequest, Request $filterRequest, $book_title = null): Response {
+        // Fetch user
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+        $userID = $user->getId();
+
         /* TODO: keep php variables: $book_title, $genreIDs, $books, alive for the entire session */
         // create a form to be used to search for books
         $searchform = $this->createForm(BookSearchFormType::class);
