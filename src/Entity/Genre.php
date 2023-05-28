@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: GenreRepository::class)]
 #[ORM\Table(name: 'local_bookable.genres')]
+//#[ORM\Table(name: 'a22web12.genres')]
 class Genre
 {
     #[ORM\Id]

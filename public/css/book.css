@@ -35,15 +35,22 @@ h3 {
     color: white;
     font-size: small;
 }
+
 p {
     color: white;
     font-family: Poppins, serif;
 }
 
-#like-counter {
-    color: white;
+.subscript {
+    text-align: left;
     font-family: Poppins, serif;
+    font-weight: 250;
+    font-stretch: normal;
+    text-decoration: none;
+    color: white;
+    font-size: small;
 }
+
 .ratingButton {
     background: none;
     border: none;
@@ -60,7 +67,7 @@ p {
 /* TODO: copied from settings.css, refactor somehow */
 .button {
     color: black;
-    background-color: #b7e8c5;
+    background-color: #c9e265;
     font-weight: 500;
     width: fit-content;
     height: fit-content;
@@ -80,7 +87,7 @@ p {
 .progress-bar {
     width: 50%;
     height: 5px;
-    background-color: #b7e8c5;
+    background-color: #c9e265;
     border-radius: 5px;
     text-align: center;
     line-height: 30px;

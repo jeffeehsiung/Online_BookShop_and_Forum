@@ -1,5 +1,5 @@
 @import "https://unpkg.com/open-props";
-@import "https://unpkg.com/open-props/normalize.min.css";
+/*@import "https://unpkg.com/open-props/normalize.min.css";*/
 
 #profilebody{
     flex-direction: row;
@@ -9,6 +9,7 @@
     color: white;
     font-family: Poppins, serif;
     width: 1200px;
+    align-content: center;
 
 }
 #left
@@ -17,20 +18,30 @@
     display: flex;
     justify-content: flex-start;
     align-content: center;
-    padding: 50px;
+    width: fit-content;
+}
 
-
+h1 {
+    text-align: left;
+    font-family: Poppins, serif;
+    font-weight: 500;
+    font-stretch: normal;
+    text-decoration: none;
+    color: white;
+    font-size: 48px;
 }
 
 .profilename
 {
     color: white;
+    width: fit-content;
 }
 #profilepic
 {
     inline-size: 120%;
     aspect-ratio: 16/ 16;
-    object-fit: cover;
+    width: 250px;
+    object-fit: contain;
     border-radius: 20px;
     border-color: #2e3136;
     border-width: medium;
@@ -42,7 +53,7 @@
     display: flex;
     justify-content: center;
     gap: 20px;
-
+    color: #FFFFFF;
     padding: 20px;
 
 
@@ -58,10 +69,8 @@
     align-content: center;
     overflow: auto;
     color: white;
-
+    width: 60%;
 }
-
-
 
 .media-scroller {
     --_spacer: 3px;
@@ -98,6 +107,9 @@
 
     border-radius: 20px;
     box-shadow: #3E3E3E;
+}
+.empty {
+
 }
 
 .media-element > img {
@@ -151,7 +163,7 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #199033;
+    background: #c9e265;
     border-radius: 20px;
 }
 

@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AuthorRepository::class)]
 #[ORM\Table(name: 'local_bookable.authors')]
+//#[ORM\Table(name: 'a22web12.authors')]
 class Author
 {
     #[ORM\Id]
@@ -30,6 +31,12 @@ class Author
     public function getId(): ?int
     {
         return $this->id;
+    }
+    public function setId($id): ?self
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getAuthorName(): ?string

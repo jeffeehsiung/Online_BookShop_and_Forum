@@ -110,6 +110,38 @@
     text-decoration: none;
 }
 
+::-webkit-scrollbar {
+    width: 10px;
+    margin: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #171717;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #c9e265;
+    border-radius: 10px;
+    margin: 10px;
+    scroll-padding: 20px;
+
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #626e31;
+}
+#intro{
+    color: #B3B3B3;
+    text-align: left;
+    font-family: Poppins, serif;
+    font-weight: 500;
+    font-stretch: normal;
+    text-decoration: none;
+    padding-bottom: 20px;
+}
 
 .mark-mark {
     gap: var(--dl-space-space-halfunit);

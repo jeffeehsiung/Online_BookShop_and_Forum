@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: FollowedBookRepository::class)]
 #[ORM\Table(name: 'local_bookable.followed_books')]
+//#[ORM\Table(name: 'a22web12.followed_books')]
 class FollowedBook
 {
     #[ORM\Id]
@@ -19,6 +20,17 @@ class FollowedBook
 
     #[ORM\ManyToOne(inversedBy: 'followedBooks')]
     private ?Book $book = null;
+
+    /**
+     * @param User|null $user
+     * @param Book|null $book
+     */
+    public function __construct(?User $user, ?Book $book)
+    {
+        $this->user = $user;
+        $this->book = $book;
+    }
+
 
     public function getId(): ?int
     {
