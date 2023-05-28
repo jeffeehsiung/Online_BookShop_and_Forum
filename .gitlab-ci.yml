@@ -7,6 +7,46 @@
 # https://docs.gitlab.com/ee/ci/yaml/#workflowrules
 
 #define the base docker image file used for all jobs
+# You can copy and paste this template into a new `.gitlab-ci.yml` file.
+# You should not add this template to an existing `.gitlab-ci.yml` file by using the `include:` keyword.
+#
+# To contribute improvements to CI/CD templates, please follow the Development guide at:
+# https://docs.gitlab.com/ee/development/cicd/templates.html
+# This specific template is located at:
+# https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Nodejs.gitlab-ci.yml
+
+# Official framework image. Look for the different tagged releases at:
+# https://hub.docker.com/r/library/node/tags/
+image: node:latest
+
+# Pick zero or more services to be used on all builds.
+# Only needed when using a docker container to run your tests in.
+# Check out: https://docs.gitlab.com/ee/ci/services/index.html
+services:
+  - mysql:latest
+  - redis:latest
+  - postgres:latest
+
+# This folder is cached between builds
+# https://docs.gitlab.com/ee/ci/yaml/index.html#cache
+cache:
+  paths:
+    - node_modules/
+
+#image: composer:2.5
+# Before we start any job, prepare the container with some extra configuration
+# e.g. setting the ssh credentials, so we can later copy to shell.studev.groept.be
+before_script:
+  # create a local .ssh folder in the container
+  - mkdir -p ~/.ssh
+  # start the ssh-agent and add the private key to the system
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | ssh-add -
+  # add the fingerprint for shell.studev.groept.be as a trusted host
+  - ssh-keyscan shell.studev.groept.be > ~/.ssh/known_hosts
+  # install rsync to copy files to the web server
+  # this container runs Alpine Linux, where apk is the package manager (not apt-get)
+  - apk add rsync
 
 workflow:
   rules:
@@ -22,33 +62,18 @@ stages:
   - deploy
   - production
 
-image: composer:2.5
-# Before we start any job, prepare the container with some extra configuration
-# e.g. setting the ssh credentials, so we can later copy to shell.studev.groept.be
-before_script:
-  # create a local .ssh folder in the container
-  - mkdir -p ~/.ssh
-  # start the ssh-agent and add the private key to the system
-  - eval $(ssh-agent -s)
-  - echo "$SSH_PRIVATE_KEY" | ssh-add -
-  # add the fingerprint for shell.studev.groept.be as a trusted host
-  - ssh-keyscan shell.studev.groept.be > ~/.ssh/known_hosts
-  # install rsync to copy files to the web server
-  # this container runs Alpine Linux, where apk is the package manager (not apt-get)
-  - apk add rsync
-
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
+  tags:
+    - node
+  before_script:
+    - yarn install
   script:
-    # - echo "Clearing php cache"
     - composer require symfony/runtime
     - php bin/console cache:pool:clear cache.global_clearer
     - composer require symfony/webpack-encore-bundle
     - composer install
-    - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-    - export NVM_DIR="$HOME/.nvm"
-    - '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
-    - node -v
+    - npm run build
 
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
@@ -78,10 +103,6 @@ lint-test-job:   # This job also runs in the test stage.
 #     reports:
 #       codequality: gl-code-quality-report.json
 
-# To contribute improvements to CI/CD templates, please follow the Development guide at:
-# https://docs.gitlab.com/ee/development/cicd/templates.html
-# This specific template is located at:
-# https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/npm.gitlab-ci.yml
 
 # Every job will start a container with a clone from the current repo
 deploy-job:      # This job runs in the deploy stage.
