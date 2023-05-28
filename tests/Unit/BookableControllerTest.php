@@ -4,6 +4,7 @@ namespace App\Tests\Unit;
 
 use App\Controller\BaseController;
 use App\Controller\BookableController;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
@@ -50,6 +51,28 @@ class BookableControllerTest extends TestCase
 
     public function testWelcome()
     {
+        //workflow: given, when, then, arrange, act, assert
+        // given that we have a user repository
+        $userRepository = $this->createConfiguredMock(ManagerRegistry::class, [
+                'getRepository' => $this->createMock(UserRepository::class)
+            ]
+        );
+        // assert repository is not null
+        $this->assertNotNull($userRepository->getRepository(UserRepository::class));
+        // print the class name of the repository
+        $this->assertIsString(get_class($userRepository->getRepository(UserRepository::class)));
+        $this->assertTrue(get_class($userRepository->getRepository(UserRepository::class))=="UserRepository");
+        $userRepositoryMock = new UserRepository($userRepository);
+        // assert userRepositoryMock is not null
+        $this->assertNotNull($userRepositoryMock);
+        // assert that the repository is an instance of UserRepository
+        $this->assertInstanceOf(GenreRepository::class, $userRepositoryMock);
+        // construct a bookable controller
+        $bookableController = $this->createMock(BookableController::class);
+        // assert that the bookable controller is not null
+        $this->assertNotNull($bookableController);
+        // assert that the bookable controller is an instance of BookableController
+        $this->assertInstanceOf(BookableController::class, $bookableController);
     }
 
     /**
@@ -57,6 +80,7 @@ class BookableControllerTest extends TestCase
      */
     public function testHome()
     {
+
     }
 
     /**
@@ -87,7 +111,7 @@ class BookableControllerTest extends TestCase
         // print the class name of the repository
         $this->assertIsString(get_class($registry->getRepository(GenreRepository::class)));
         $genreRepositoryMock = new GenreRepository($registry);
-        // asser genreRepositoryMock is not null
+        // assert genreRepositoryMock is not null
         $this->assertNotNull($genreRepositoryMock);
         // assert that the repository is an instance of GenreRepository
         $this->assertInstanceOf(GenreRepository::class, $genreRepositoryMock);
