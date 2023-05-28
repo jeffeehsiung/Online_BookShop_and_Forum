@@ -134,8 +134,6 @@ deploy-job:      # This job runs in the deploy stage.
   environment: production
   script:
     - composer install
-    - npm install
-    - npm run build
     # rsync is a copy/sync tool we use to copy the current folder ./ to studev
     # we ignore the .git folder and the .env file
     # we delete the files on the remote server that are not present in the local copy
