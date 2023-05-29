@@ -40,14 +40,12 @@ class BookableController extends AbstractController
 //        $this->setContainer($containerBuilder);
     }
 
-    #[Route('/', name: 'base')]
+    #[Route('/', name: 'index')]
     public function base(): Response
     {
-        return $this->render('base.html.twig', [
-            'stylesheets' => $this->stylesheets,
-        ]);
+        return $this->redirectToRoute('welcome');
     }
-    #[Route('/book/{book_id}', name:"book")]
+    #[Route('/book/{book_id}', name: 'book')]
     public function book
     (
         BookRepository $bookRepository, LikedBookRepository $likedBookRepository,
@@ -90,7 +88,7 @@ class BookableController extends AbstractController
 
             // Beautify title
             try {
-                $bookTitle = u(preg_replace("/\([^)]+\)/", "", $book->getTitle()))->title(true);
+                $bookTitle = u(preg_replace('/\([^)]+\)/', '', $book->getTitle()))->title(true);
             } catch (PcreException $e) {
                 $bookTitle = $e;
             }
@@ -108,7 +106,7 @@ class BookableController extends AbstractController
         }
     }
 
-    #[Route('/book/{book_id}/vote', name: "book_vote", methods: ['POST'])]
+    #[Route('/book/{book_id}/vote', name: 'book_vote', methods: ['POST'])]
     public function vote
     (
         BookRepository $bookRepository, LikedBookRepository $likedBookRepository,
@@ -158,12 +156,12 @@ class BookableController extends AbstractController
         }
 
         $entityManager->flush();
-        return $this->redirectToRoute("book", [
+        return $this->redirectToRoute('book', [
             'book_id' => $book_id
         ]);
     }
 
-    #[Route('/book/{book_id}/follow', name: "book_follow", methods: ['POST'])]
+    #[Route('/book/{book_id}/follow', name: 'book_follow', methods: ['POST'])]
     public function follow
     ( FollowedBookRepository $followedBookRepository,
         BookRepository $bookRepository, Request $request, EntityManagerInterface $entityManager, $book_id = null
@@ -189,13 +187,13 @@ class BookableController extends AbstractController
             $entityManager->remove($followedBook);
         }
         $entityManager->flush();
-        return $this->redirectToRoute("book", [
+        return $this->redirectToRoute('book', [
             'book_id' => $book_id
         ]);
     }
 
 
-    #[Route("/welcome", name: "welcome")]
+    #[Route('/welcome', name: 'welcome')]
     public function Welcome(AuthenticationUtils $authenticationUtils): Response
     {
         // get the login error if there is one
@@ -216,7 +214,7 @@ class BookableController extends AbstractController
     }
     //log out needs no real route, happens through security and rout .yaml files
 
-    #[Route("/home", name: "home")]
+    #[Route('/home', name: 'home')]
     public function Home(LikedGenreRepository $likedGenreRepository,
         UserRepository $userRepository, GenreRepository$genreRepository, BookRepository $bookRepository,
         FollowedBookRepository $followedBookRepository, $userID = null): Response
@@ -229,7 +227,12 @@ class BookableController extends AbstractController
         if ($userID) {
             $user = $userRepository->findOneBy(['id' => $userID]);
 //            $books = $bookRepository->findAll();
-            $genre_id = $likedGenreRepository->findBy(['user'=>$userID]);
+            $liked_genre_id = $likedGenreRepository->findBy(['user'=>$userID]);
+            $genre_id = [];
+            foreach ($liked_genre_id as $liked){
+                $current_genre_id = $liked->getGenre()->getId();
+                $genre_id[] = $current_genre_id;
+            }
             $genres = $genreRepository->findBy(['id'=>$genre_id, ]);
             $genre_books =  $bookRepository->findBy(['genre'=>$genre_id] );
             $followed = $followedBookRepository->findBy(['user'=>$userID]);
@@ -274,7 +277,7 @@ class BookableController extends AbstractController
         }
     }
 
-    #[Route("/profile", name: "profile")]
+    #[Route('/profile', name: 'profile')]
     public function Profile(AvatarRepository $avatarRepository,ReadBooksRepository $readBookRepository, BookRepository $bookRepository,FollowedBookRepository $followedBookRepository, UserRepository $userRepository, LikedBookRepository $likedBookRepository, DislikedBookRepository $dislikedBookRepository, $userID = null): Response {
         $stylesheets = ['profile.css'];
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -322,7 +325,7 @@ class BookableController extends AbstractController
         }
 
     }
-    #[Route("/about", name:"about")]
+    #[Route('/about', name: 'about')]
     public function About(): Response
     {
         $stylesheets = ['about.css'];
@@ -334,7 +337,7 @@ class BookableController extends AbstractController
         }
 
 
-    #[Route("/browsing", name: 'browsing') ]
+    #[Route('/browsing', name: 'browsing') ]
     public function browsing(GenreRepository $genreRepository, BookRepository $bookRepository,
         Request $pageRequest, Request $searchRequest, Request $filterRequest, $book_title = null, $genreIDs = []): Response {
         // Fetch user
@@ -410,7 +413,7 @@ class BookableController extends AbstractController
         ]);
     }
 
-    #[Route("/browsing/{book_title}", name: 'searching') ]
+    #[Route('/browsing/{book_title}', name: 'searching') ]
     public function searching(GenreRepository $genreRepository, BookRepository $bookRepository,
         Request $pageRequest, Request $searchRequest, Request $filterRequest, $book_title = null, $genreIDs = []): Response {
         // Fetch user

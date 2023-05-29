@@ -1,19 +1,14 @@
 <?php
 
-namespace App\Tests\Unit;
+namespace App\Tests\Unit\Controller;
 
-use App\Controller\BaseController;
 use App\Controller\BookableController;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Tools\Pagination\Paginator;
+use App\Repository\BookRepository;
+use App\Repository\GenreRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\TestCase;
-use App\Repository\GenreRepository;
-use App\Repository\BookRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use function PHPUnit\Framework\assertIsArray;
 
 
 class BookableControllerTest extends TestCase
