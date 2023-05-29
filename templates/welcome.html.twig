@@ -30,7 +30,7 @@
             <button onclick="loginOff()" class="cls_btn">&times;</button>
             </div>
             <p  id="login_title">Log into your account</p>
-            <form action="{{ path('welcome') }}" method="post">
+            <form id="login_form" action="{{ path('welcome') }}" method="post">
                 <label for="login_username" class="login_text">Email:</label>
                 <input type="text" id="login_username" name="_username" value="{{ last_username }}" oninput="LoginFilledIn()" required><br>
                 <label for="login_password" class="login_text">Password:</label>

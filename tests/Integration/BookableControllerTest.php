@@ -15,7 +15,7 @@ class BookableControllerTest extends WebTestCase
         $client->request('GET', '/settings');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertSelectorTextContains('.title', 'Settings');
+        $this->assertSelectorTextContains('title', 'Settings');
         // Add more assertions based on the expected behavior of the settings route
     }
 
@@ -28,7 +28,7 @@ class BookableControllerTest extends WebTestCase
         $client->request('GET', '/book/1');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertSelectorTextContains('.title', 'Book Title');
+        $this->assertSelectorTextContains('title', 'Book Title');
         // Add more assertions based on the expected behavior of the book route
     }
 
@@ -63,7 +63,7 @@ class BookableControllerTest extends WebTestCase
         $client->request('GET', '/welcome');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertSelectorTextContains('.title', 'Welcome!');
+        $this->assertSelectorTextContains('title', 'Welcome');
         // Add more assertions based on the expected behavior of the welcome route
     }
 
@@ -73,11 +73,30 @@ class BookableControllerTest extends WebTestCase
     public function testHome()
     {
         $client = static::createClient();
-        $client->request('GET', '/home');
+        $crawler = $client->request('GET', '/home');
+        //we should be automatically redirected to the welcome page (status code 302)
+        $this->assertEquals(302, $client->getResponse()->getStatusCode(), 'you should have been redirected to the welcome page');
+        //follow the redirect
+        $crawler = $client->followRedirect();
+        //make sure we are on welcome page
+        $this->assertSelectorTextContains('title', 'Welcome');
 
+        //open the popup
+        $login_button = $crawler->selectLink('Login')->link();
+        $crawler = $client->click($login_button);
+        //make sure it is opened
+        $this->assertSelectorTextContains('p', 'Log into your account');
+
+        //fill in the form
+        $form = $crawler->filter('#login_form')->form();
+        $form['_username'] = "jens.77@live.be";
+        $form['_password'] = "password";
+        $client->submit($form);
+        $crawler = $client->followRedirect();
+        //make sure we got to the home page
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertSelectorTextContains('.title', 'Home');
-        // Add more assertions based on the expected behavior of the home route
+        $this->assertSelectorTextContains('title', 'Home');
+        $this->assertSelectorTextContains('h1', 'Reccomended books for you!');
     }
 
     /**
@@ -89,7 +108,7 @@ class BookableControllerTest extends WebTestCase
         $client->request('GET', '/profile/1');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertSelectorTextContains('.title', 'Profile');
+        $this->assertSelectorTextContains('title', 'Profile');
         // Add more assertions based on the expected behavior of the profile route
     }
 
@@ -102,7 +121,7 @@ class BookableControllerTest extends WebTestCase
         $client->request('GET', '/about');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertSelectorTextContains('.title', 'About');
+        $this->assertSelectorTextContains('title', 'About');
         // Add more assertions based on the expected behavior of the about route
     }
 
@@ -125,7 +144,7 @@ class BookableControllerTest extends WebTestCase
 //         print_r($client->getResponse()->getContent());
 
 //        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-//        $this->assertSelectorTextContains('.title', 'Browsing');
+//        $this->assertSelectorTextContains('title', 'Browsing');
 //
 //        // Check if book details are displayed correctly
 //        $this->assertCount(1, $crawler->filter('.book-title'));
