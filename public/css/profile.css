@@ -10,8 +10,8 @@
     font-family: Poppins, serif;
     width: 1200px;
     align-content: center;
-
 }
+
 #left
 {
     flex-direction: column;
