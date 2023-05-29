@@ -227,7 +227,12 @@ class BookableController extends AbstractController
         if ($userID) {
             $user = $userRepository->findOneBy(['id' => $userID]);
 //            $books = $bookRepository->findAll();
-            $genre_id = $likedGenreRepository->findBy(['user'=>$userID]);
+            $liked_genre_id = $likedGenreRepository->findBy(['user'=>$userID]);
+            $genre_id = [];
+            foreach ($liked_genre_id as $liked){
+                $current_genre_id = $liked->getGenre()->getId();
+                $genre_id[] = $current_genre_id;
+            }
             $genres = $genreRepository->findBy(['id'=>$genre_id, ]);
             $genre_books =  $bookRepository->findBy(['genre'=>$genre_id] );
             $followed = $followedBookRepository->findBy(['user'=>$userID]);
