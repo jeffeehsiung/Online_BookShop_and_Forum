@@ -40,12 +40,10 @@ class BookableController extends AbstractController
 //        $this->setContainer($containerBuilder);
     }
 
-    #[Route('/', name: 'base')]
+    #[Route('/', name: 'index')]
     public function base(): Response
     {
-        return $this->render('base.html.twig', [
-            'stylesheets' => $this->stylesheets,
-        ]);
+        return $this->redirectToRoute('welcome');
     }
     #[Route('/book/{book_id}', name:"book")]
     public function book

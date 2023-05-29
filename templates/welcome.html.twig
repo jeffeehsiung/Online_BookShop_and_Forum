@@ -1,7 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-Welcome
+    Welcome | {{ parent() }}
+{% endblock %}
+
+{% block bodyAttributes %}
+    onload="LoginFilledIn()"
 {% endblock %}
 
 {% block content %}
