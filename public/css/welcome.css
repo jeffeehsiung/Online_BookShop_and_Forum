@@ -27,12 +27,17 @@ main {
 
 .overlay {
     height: 100vh;
-    position:absolute;
-    top:40%;
-    left:0;
     width: 100vw;
+    position:absolute;
+    top:0;
+    right:0;
+    left:0;
+    bottom: 0;
+
     display: none;
     z-index: 2;
+    background-size: cover;
+    backdrop-filter: blur(20px);
 
 }
 
@@ -40,10 +45,11 @@ main {
 
     position: absolute;
     font-family: Poppins, serif;
+    top: 30vh;
     left: 34%;
     right: 34%;
     border: 1px solid #666; /*a nice looking border for the overlay*/
-    background: #3E3E3E; /*black background so that you can't see the welcome text underneath*/
+    background: #2e3136; /*black background so that you can't see the welcome text underneath*/
     border-radius:20px;
     color: #FFF;
     width:32%;
@@ -52,15 +58,18 @@ main {
 }
 
 .login_text {
-    font-size: 30px;
+    font-size: medium;
     color: white;
     margin-left: 15px;
+
 }
 #login_title{
     text-align: center;
     margin-top: 10px;
     margin-bottom: 10px;
     color: #FFFFFF;
+    text-transform: uppercase;
+    font-size: large;
 }
 
 #login_username, #login_password, #register_username, #register_password, #email {
@@ -93,7 +102,8 @@ main {
 {
     justify-content: center;
     color:white;
-    font-size: 50px;
+    font-size: large;
+    text-transform: uppercase;
     padding-bottom: 20px;
 }
 #submit
@@ -173,16 +183,16 @@ form {
 .register_button
 {
     cursor: pointer;
-    box-sizing: border-box;
-
+    /*box-sizing: border-box;*/
+    display: flex;
     /* Auto layout */
-    padding: 8px 16px;
-    gap: 8px;
 
+   /* gap: 8px;*/
 
+    align-items: center;
     width: 220px;
     height: 80px;
-
+    justify-content: center;
 
     background: #0C100C;
     /**box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);**/

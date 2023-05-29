@@ -1,7 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-Welcome
+    Welcome | {{ parent() }}
+{% endblock %}
+
+{% block bodyAttributes %}
+    onload="LoginFilledIn()"
 {% endblock %}
 
 {% block content %}
@@ -14,21 +18,23 @@ Welcome
         {#  <img id = "logo_png" src="https://www.linkpicture.com/q/Bookable-removebg-preview-2.png" alt="the logo of the app">#}
 
         <button onclick="loginOn()" class="login_button">Log in</button>
-        <a class = "register_button" href="{{ path('app_register') }}">Register</a>
+        <div class = "register_button">
+        <a  href="{{ path('app_register') }}">Register</a>
+        </div>
     </section>
 
     <section id="Login" class="overlay">
-        <section>
+        <section >
             <div class = "overlay_header">
 
             <button onclick="loginOff()" class="cls_btn">&times;</button>
             </div>
-            <p  id="login_title">Log in to your account</p>
+            <p  id="login_title">Log into your account</p>
             <form action="{{ path('welcome') }}" method="post">
-                <label for="login_username" class="login_text">email:</label>
-                <input type="text" id="login_username" name="_username" value="{{ last_username }}" onkeyup="LoginFilledIn()" required><br>
-                <label for="login_password" class="login_text">password:</label>
-                <input type="password" id="login_password" name="_password" onkeyup="LoginFilledIn()" required><br>
+                <label for="login_username" class="login_text">Email:</label>
+                <input type="text" id="login_username" name="_username" value="{{ last_username }}" oninput="LoginFilledIn()" required><br>
+                <label for="login_password" class="login_text">Password:</label>
+                <input type="password" id="login_password" name="_password" oninput="LoginFilledIn()" required><br>
                 <div id = "submit">
                 <input type="submit" name="Submit" id="login_submit" value="Submit" onclick="loginOff()"/>
                 </div>

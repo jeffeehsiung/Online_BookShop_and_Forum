@@ -7,6 +7,26 @@
 # https://docs.gitlab.com/ee/ci/yaml/#workflowrules
 
 #define the base docker image file used for all jobs
+# You can copy and paste this template into a new `.gitlab-ci.yml` file.
+# You should not add this template to an existing `.gitlab-ci.yml` file by using the `include:` keyword.
+
+# Official framework image. Look for the different tagged releases at:
+# https://hub.docker.com/r/library/node/tags/
+
+image: node:latest
+
+# Pick zero or more services to be used on all builds.
+# Only needed when using a docker container to run your tests in.
+# Check out: https://docs.gitlab.com/ee/ci/services/index.html
+services:
+  - mysql:latest
+  - postgres:latest
+
+# This folder is cached between builds
+# https://docs.gitlab.com/ee/ci/yaml/index.html#cache
+cache:
+  paths:
+    - node_modules/
 
 workflow:
   rules:
@@ -17,78 +37,54 @@ workflow:
 stages:
   - build
   - test
-  # - code_quality
   - review
   - deploy
   - production
 
+# Before we start any job, prepare the container with some extra configuration
+# e.g. setting the ssh credentials, so we can later copy to shell.studev.groept.be
+before-build:
+  image: composer:2.5
+  stage: build
+  script:
+    - composer require symfony/runtime
+    - php bin/console cache:pool:clear cache.global_clearer
+    - composer require symfony/webpack-encore-bundle
+    - composer update
 
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
+  before_script:
+    - npm install
   script:
-    # - echo "Clearing php cache"
-    # - php bin/console cache:clear
-    - composer install
-    - echo "installing & updateting nvm"
-    - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-    - export NVM_DIR="$HOME/.nvm" 
-     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-    - echo "Install and update npm"
-    - npm install -g npm
-    - echo "Check the node and npm version"
-    - node -v npm -v
-    - echo "Compiling the code..."
-    - npm run build 
-    - echo "Compile complete."
+    - npm run build
 
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
   script:
     - echo "Running unit tests... This will take about 60 seconds."
     # - php bin/phpunit
-    # - php bin/phpunit tests/Form
-    - sleep 60
     - echo "Code coverage is 90%"
 
 lint-test-job:   # This job also runs in the test stage.
   stage: test    # It can run at the same time as unit-test-job (in parallel).
   script:
     - echo "Linting code... This will take about 10 seconds."
-    - sleep 10
     - echo "No lint issues found."
 
-# code_quality:
-#   stage: code_quality
-#   image: node:latest
-    # include:
-    # - template: Code-Quality.gitlab-ci.yml
-#   script:
-#     - npm install -g eslint
-#     - eslint --ext .js,.vue src/
-      # - echo "official code quality tool: https://docs.codeclimate.com/docs/list-of-engines. "
-      # - echo "yaml code quality set up reference web: https://docs.gitlab.com/ee/ci/testing/code_quality.html"
-      # - echo "code quality demo youtube video: https://www.youtube.com/watch?v=B32LxtJKo9M"
-#   artifacts:
-#     reports:
-#       codequality: gl-code-quality-report.json
-
-image: composer:2.5
-# Before we start any job, prepare the container with some extra configuration
-# e.g. setting the ssh credentials, so we can later copy to shell.studev.groept.be 
-before_script:
-  # create a local .ssh folder in the container
-  - mkdir -p ~/.ssh
-  # start the ssh-agent and add the private key to the system
-  - eval $(ssh-agent -s)
-  - echo "$SSH_PRIVATE_KEY" | ssh-add -
-  # add the fingerprint for shell.studev.groept.be as a trusted host
-  - ssh-keyscan shell.studev.groept.be > ~/.ssh/known_hosts
-  # install rsync to copy files to the web server
-  # this container runs Alpine Linux, where apk is the package manager (not apt-get) 
-  - apk add rsync
+#include:
+#  - template: Code-Quality.gitlab-ci.yml
+#
+#code_quality:
+#  services:
+#  tags:
+#    - cq-sans-dind     # Set this job to only run on our new specialized runner
+#  artifacts:
+#    paths: [gl-code-quality-report.json]
 
 # Every job will start a container with a clone from the current repo
 deploy-job:      # This job runs in the deploy stage.
+  image: composer:2.5
   # run this job only when there is a push on the master branch 
   only:
     - main
@@ -96,6 +92,17 @@ deploy-job:      # This job runs in the deploy stage.
   environment: production
   script:
     - composer install
+    # create a local .ssh folder in the container
+    - mkdir -p ~/.ssh
+    # start the ssh-agent and add the private key to the system
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | ssh-add -
+    # add the fingerprint for shell.studev.groept.be as a trusted host
+    - ssh-keyscan shell.studev.groept.be > ~/.ssh/known_hosts
+    # host key fail? now after uninstalling runner?
+    # install rsync to copy files to the web server
+    # this container runs Alpine Linux, where apk is the package manager (not apt-get)
+    - apk add rsync
     # rsync is a copy/sync tool we use to copy the current folder ./ to studev
     # we ignore the .git folder and the .env file
     # we delete the files on the remote server that are not present in the local copy
@@ -103,5 +110,3 @@ deploy-job:      # This job runs in the deploy stage.
                 --exclude=".env"
                 --delete
                 ./ a22web12@shell.studev.groept.be:/var/www/html
-
-
