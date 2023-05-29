@@ -40,9 +40,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 64, nullable: true)]
     private ?string $location = null;
 
-    #[ORM\ManyToOne(inversedBy: 'users')]
-    private ?Library $library = null;
-
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $phone_number = null;
 
@@ -220,18 +217,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLocation(?string $location): self
     {
         $this->location = $location;
-
-        return $this;
-    }
-
-    public function getLibrary(): ?Library
-    {
-        return $this->library;
-    }
-
-    public function setLibrary(?Library $library): self
-    {
-        $this->library = $library;
 
         return $this;
     }
