@@ -24,7 +24,7 @@ class BookableControllerTest extends WebTestCase
 
         //fill in the form
         $form = $crawler->filter('#login_form')->form();
-        $form['_username'] = "jens.77@live.be";
+        $form['_username'] = "test@test.com";
         $form['_password'] = "password";
         $client->submit($form);
         $crawler = $client->followRedirect();
@@ -66,7 +66,7 @@ class BookableControllerTest extends WebTestCase
 
         //fill in the form
         $form = $crawler->filter('#login_form')->form();
-        $form['_username'] = "jens.77@live.be";
+        $form['_username'] = "test@test.com";
         $form['_password'] = "password";
         $client->submit($form);
         $crawler = $client->followRedirect();
