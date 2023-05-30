@@ -1,0 +1,56 @@
+<?php
+
+namespace App\Tests\Integration\Controller;
+
+use App\Entity\User;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+
+class RegistrationControllerTest extends WebTestCase
+{
+    public function testRegister()
+    {
+        /*
+          * test registration
+          */
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/home');
+        //we should be automatically redirected to the welcome page (status code 302)
+        $this->assertEquals(302, $client->getResponse()->getStatusCode(), 'you should have been redirected to the welcome page');
+        //follow the redirect
+        $crawler = $client->followRedirect();
+        //make sure we are on welcome page
+        $this->assertSelectorTextContains('title', 'Welcome');
+
+        //click the register link
+        $linkPosition = 4;
+        $link = $crawler->filter('a')->eq($linkPosition); //of all the links, register is the fourth one
+        $crawler = $client->click($link->link());
+        //make sure we are on the register page
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertSelectorTextContains('title', 'Register');
+
+        //fill in the form
+        $form = $crawler->filter('form[name="registration_form"]')->form();
+        $fields = $form->all();
+        $fieldNames = array_keys($fields);
+        $form['registration_form[first_name]'] = "testname";
+        $form['registration_form[last_name]'] = "testname";
+        $form['registration_form[username]'] = "testname";
+        $form['registration_form[email]'] = "testregister@test.com";
+        $form['registration_form[plainPassword][first]'] = "password";
+        $form['registration_form[plainPassword][second]'] = "password";
+        $form["registration_form[agreeTerms]"] = true;
+        $client->submit($form);
+        $crawler = $client->followRedirect();
+        $crawler = $client->followRedirect();
+        //make sure we got to the welcome page
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertSelectorTextContains('title', 'Welcome');
+
+        //remove the user we just added from the database
+        $userManager = $this->getContainer()->get('doctrine')->getManager();
+        $testRegisterObject = $userManager->getRepository(User::class)->findOneBy(['email' => "testregister@test.com"]);
+        $userManager->remove($testRegisterObject);
+        $userManager->flush();
+    }
+}
