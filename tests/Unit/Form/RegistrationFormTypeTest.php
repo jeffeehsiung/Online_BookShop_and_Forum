@@ -60,10 +60,12 @@ class RegistrationFormTypeTest extends TypeTestCase
         $this->assertEquals($expected, $model);
     }
 
-    public function testCustomFormView()
+    //this example code is used to test custom variables within the form but we don't have any tot test
+    /*public function testCustomFormView()
     {
         $formData = new User();
         // ... prepare the data as you need
+
 
         // The initial data may be used to compute custom view variables
         $view = $this->factory->create(RegistrationFormType::class, $formData)
@@ -71,5 +73,5 @@ class RegistrationFormTypeTest extends TypeTestCase
 
         $this->assertArrayHasKey('custom_var', $view->vars);
         $this->assertSame('expected value', $view->vars['custom_var']);
-    }
+    }*/
 }

@@ -61,12 +61,12 @@ class BookableControllerTest extends TestCase
         $this->assertNotNull($userRepository->getRepository(UserRepository::class));
         // print the class name of the repository
         $this->assertIsString(get_class($userRepository->getRepository(UserRepository::class)));
-        $this->assertTrue(get_class($userRepository->getRepository(UserRepository::class))=="UserRepository");
+        $this->assertStringContainsString("UserRepository",get_class($userRepository->getRepository(UserRepository::class)));
         $userRepositoryMock = new UserRepository($userRepository);
         // assert userRepositoryMock is not null
         $this->assertNotNull($userRepositoryMock);
         // assert that the repository is an instance of UserRepository
-        $this->assertInstanceOf(GenreRepository::class, $userRepositoryMock);
+        $this->assertInstanceOf(UserRepository::class, $userRepositoryMock);
         // construct a bookable controller
         $bookableController = $this->createMock(BookableController::class);
         // assert that the bookable controller is not null
