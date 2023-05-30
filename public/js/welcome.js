@@ -1,7 +1,6 @@
 document.getElementById("login_submit").disabled=true;
 document.getElementById("register_submit").disabled=true;
 
-
 function LoginFilledIn(){
     if (document.getElementById("login_username").value!=="" && document.getElementById("login_password").value!==""){
         document.getElementById("login_submit").disabled=false;
