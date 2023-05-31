@@ -17,7 +17,6 @@ class BookableControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/home');
         $crawler = $client->followRedirect();
         //make sure we are on welcome page
-
         $login_button = $crawler->selectLink('Login')->link();
         $crawler = $client->click($login_button);
 
@@ -89,11 +88,14 @@ class BookableControllerTest extends WebTestCase
         $form['_username'] = "wrong@test.com";
         $form['_password'] = "password";
         $client->submit($form);
-        //$crawler = $client->followRedirect();
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $crawler = $client->followRedirect();
         //make sure we remained on welcome
-        //$this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertSelectorTextContains('title', 'Welcome');
-        $this->assertSelectorTextContains('error_display', 'Invalid credentials.');
+        print_r($client->getResponse()->getContent());
+
+        $this->assertSelectorTextContains('#error_display', 'Invalid credentials.');
     }
 
     public function testWelcomeWrongPassword()
@@ -122,11 +124,12 @@ class BookableControllerTest extends WebTestCase
         $form['_username'] = "test@test.com";
         $form['_password'] = "wrongPassword";
         $client->submit($form);
-        //$crawler = $client->followRedirect();
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $crawler = $client->followRedirect();
         //make sure we remained on welcome
         //$this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertSelectorTextContains('title', 'Welcome');
-        $this->assertSelectorTextContains('error_display', 'Invalid credentials.');
+        $this->assertSelectorTextContains('#error_display', 'Invalid credentials.');
     }
 
 
