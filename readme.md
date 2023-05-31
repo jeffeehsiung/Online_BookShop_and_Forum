@@ -39,7 +39,6 @@ Provide a link to the main page of your application. Or if you have multiple par
 ## coding conventions
 * upper camel case for all classes (UpperCamelCase)
 * lower camel casing for all functions (lowerCamelCase)
-* camelCasing for all functions (camelCase)
 * lower camel casing for all variables (lowerCamelCase)
 * snake_case for all key naming (snake_case) used for selection
 * snake_case for all csv files (snake_case)
