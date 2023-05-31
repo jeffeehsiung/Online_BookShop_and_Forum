@@ -2,61 +2,36 @@
 
 namespace App\Tests\Integration\Controller;
 
+use App\Entity\User;
+use Doctrine\ORM\Tools\DebugUnitOfWorkListener;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class BookableControllerTest extends WebTestCase
 {
-    /**
-     * @depends testWelcome
-     */
-    public function testSettings()
+    public function authenticateUser()
     {
+        /*
+         * Functionality gets tested in the testHome, since authentication, if done correctly brings you to the home
+         * page
+         */
         $client = static::createClient();
-        $client->request('GET', '/settings');
+        $crawler = $client->request('GET', '/home');
+        $crawler = $client->followRedirect();
+        //make sure we are on welcome page
 
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertSelectorTextContains('.title', 'Settings');
-        // Add more assertions based on the expected behavior of the settings route
+        $login_button = $crawler->selectLink('Login')->link();
+        $crawler = $client->click($login_button);
+
+        //fill in the form
+        $form = $crawler->filter('#login_form')->form();
+        $form['_username'] = "test@test.com";
+        $form['_password'] = "password";
+        $client->submit($form);
+        $crawler = $client->followRedirect();
+        //make sure we got to the home page
+
+        return $client;
     }
-
-    /**
-     * @depends testWelcome
-     */
-    public function testBook()
-    {
-        $client = static::createClient();
-        $client->request('GET', '/book/1');
-
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertSelectorTextContains('title', 'Book Title');
-        // Add more assertions based on the expected behavior of the book route
-    }
-
-
-    /**
-     * @depends testBook
-     */
-    public function testVote()
-    {
-        $client = static::createClient();
-        $client->request('POST', '/book/1/vote');
-
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        // Add more assertions based on the expected behavior of the vote route
-    }
-
-    /**
-     * @depends testBook
-     */
-    public function testFollow()
-    {
-        $client = static::createClient();
-        $client->request('POST', '/book/1/follow');
-
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        // Add more assertions based on the expected behavior of the follow route
-    }
-
     public function testWelcome()
     {
         $client = static::createClient();
@@ -66,12 +41,14 @@ class BookableControllerTest extends WebTestCase
         $this->assertSelectorTextContains('title', 'Welcome');
         // Add more assertions based on the expected behavior of the welcome route
     }
-
     /**
      * @depends testWelcome
      */
     public function testHome()
     {
+        /*
+         * test that doesn't use the testAuthentication, doubles as test for authentication
+         */
         $client = static::createClient();
         $crawler = $client->request('GET', '/home');
         //we should be automatically redirected to the welcome page (status code 302)
@@ -89,26 +66,97 @@ class BookableControllerTest extends WebTestCase
 
         //fill in the form
         $form = $crawler->filter('#login_form')->form();
-        $form['_username'] = "jens.77@live.be";
+        $form['_username'] = "test@test.com";
         $form['_password'] = "password";
         $client->submit($form);
         $crawler = $client->followRedirect();
         //make sure we got to the home page
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertSelectorTextContains('title', 'Home');
-        $this->assertSelectorTextContains('h1', 'Reccomended books for you!');
+        $this->assertSelectorTextContains('h1', 'Recommended books for you!');
+        return $crawler;
+    }
+    /**
+     * @depends testHome
+     */
+    public function testSettings()
+    {
+        $client = $this->authenticateUser();
+        $crawler = $client->request('GET', '/home');
+        $this->assertSelectorTextContains('title', 'Home');
+
+        //based on position in the list, will change if we change the order of the elements in the list
+        $linkPosition = 2;
+        $link = $crawler->filter('a.nav-link')->eq($linkPosition);
+        $crawler = $client->click($link->link());
+        //check what got returned
+        print_r($client->getResponse()->getContent());
+        //make some asserts to make sure all got displayed well
+        $this->assertSelectorTextContains('title', 'Settings');
+        $this->assertSelectorTextContains('h2', 'Edit you profile:');
+
     }
 
     /**
-     * @depends testWelcome
+     * @depends testHome
+     */
+    public function testBook()
+    {
+        $client = $this->authenticateUser();
+        $client->request('GET', '/book/1');
+        //we should be automatically redirected to the welcome page (status code 302)
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Since authentication is already done, you should see the page');
+        //make sure we are on welcome page
+        $this->assertSelectorTextContains('title', 'The Hunger Games');
+        $this->assertSelectorTextContains('h2', 'Suzanne Collins');
+    }
+
+
+    /**
+     * @depends testBook
+     */
+    public function testVote()
+    {
+        $client = $this->authenticateUser();
+        $client->request('GET', '/book/1');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $client->request('POST', '/book/1/vote');
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $crawler = $client->followRedirect();
+        $this->assertSelectorTextContains('title', 'Games');
+        $this->assertSelectorTextContains('h2', 'Suzanne Collins');
+    }
+
+    /**
+     * @depends testBook
+     */
+    public function testFollow()
+    {
+        $client = $this->authenticateUser();
+        $client->request('GET', '/book/1');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $client->request('POST', '/book/1/follow');
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $crawler = $client->followRedirect();
+        $this->assertSelectorTextContains('title', 'The Hunger Games');
+        $this->assertSelectorTextContains('h2', 'Suzanne Collins');
+
+
+        // Add more assertions based on the expected behavior of the follow route
+    }
+
+
+    /**
+     * @depends testHome
      */
     public function testProfile()
     {
-        $client = static::createClient();
-        $client->request('GET', '/profile/1');
-
+        $client = $this->authenticateUser();
+        $client->request('GET', '/profile');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        print_r($client->getResponse()->getContent());
         $this->assertSelectorTextContains('title', 'Profile');
+        $this->assertSelectorTextContains('h1.section-title', 'Followed Books');
         // Add more assertions based on the expected behavior of the profile route
     }
 
@@ -119,7 +167,6 @@ class BookableControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('GET', '/about');
-
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertSelectorTextContains('title', 'About');
         // Add more assertions based on the expected behavior of the about route
@@ -131,7 +178,7 @@ class BookableControllerTest extends WebTestCase
     public function testBrowsing()
     {
         // Create a new client to browse the application
-        $client = static::createClient();
+        $client = $this->authenticateUser();
 //        $crawler = $client->request('GET', '/welcome');
         $crawler = $client->request('GET', '/browsing');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
