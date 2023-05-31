@@ -13,11 +13,11 @@ Provide a link to the main page of your application. Or if you have multiple par
 
 ## Website credentials
 ### Regular user
-- login : zomaarivde@outlook.com
-- password : secret
+- login : 
+- password : password
 ### Admin / Library manager / ...
-- login : jeffee@gmail.com #TODO: need to have a general one
-- password : jeffee #TODO: need to have a general one
+- login : test@test.com
+- password : password
 
 ---
 
@@ -37,9 +37,12 @@ Provide a link to the main page of your application. Or if you have multiple par
 * pagination
 
 ## coding conventions
-* snake_case for XXX variables #TODO(snake_case)
-* lowerPascalCasing for XXX #TODO(camelCase)
-* upperCasing for XXX classes 
-* camelCasing for XXX classes #TODO(camelCase)
+* upper camel case for all classes (UpperCamelCase)
+* lower camel casing for all functions (lowerCamelCase)
+* camelCasing for all functions (camelCase)
+* lower camel casing for all variables (lowerCamelCase)
+* snake_case for all key naming (snake_case) used for selection
+* snake_case for all csv files (snake_case)
+* ![img.png](img.png)
 
 
