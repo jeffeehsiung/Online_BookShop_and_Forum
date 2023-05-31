@@ -47,12 +47,12 @@ before-build:
   image: composer:2.5
   stage: build
   script:
-    - composer update -w
+    - composer update -W
     - composer install
     - composer require symfony/runtime
     - php bin/console cache:pool:clear cache.global_clearer
-    - composer require symfony/webpack-encore-bundle:*
-    
+    - composer require symfony/webpack-encore-bundle:* #^2.0 is the current version
+
 
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
