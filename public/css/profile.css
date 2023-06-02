@@ -106,8 +106,7 @@ h1 {
     padding: var(--_spacer);
 
     border-radius: 20px;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
-    /*    originally: box-shadow: #3E3E3E;*/
+    box-shadow: 0 0 0 1px rgba(62, 62, 62, 1);
 }
 .empty {
 
