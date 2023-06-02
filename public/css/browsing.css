@@ -49,7 +49,6 @@ body {
     flex-wrap: wrap;
     padding: 10px;
     flex: 0 0 auto;
-    background-color: gray(0.5);
 }
 
 #browsing-filter-container .genre-header {
