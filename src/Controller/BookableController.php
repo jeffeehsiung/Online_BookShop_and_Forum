@@ -39,7 +39,7 @@ class BookableController extends AbstractController
 //        $containerBuilder = new ContainerBuilder();
 //        $this->setContainer($containerBuilder);
     }
-
+//TODO change 'index' to 'base'
     #[Route('/', name: 'index')]
     public function base(): Response
     {
@@ -194,7 +194,7 @@ class BookableController extends AbstractController
 
 
     #[Route('/welcome', name: 'welcome')]
-    public function Welcome(AuthenticationUtils $authenticationUtils): Response
+    public function welcome(AuthenticationUtils $authenticationUtils): Response
     {
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -215,18 +215,18 @@ class BookableController extends AbstractController
     //log out needs no real route, happens through security and rout .yaml files
 
     #[Route('/home', name: 'home')]
-    public function Home(LikedGenreRepository $likedGenreRepository,
-        UserRepository $userRepository, GenreRepository$genreRepository, BookRepository $bookRepository,
-        FollowedBookRepository $followedBookRepository, $userID = null): Response
+    public function home(LikedGenreRepository   $likedGenreRepository,
+                         UserRepository         $userRepository, GenreRepository $genreRepository, BookRepository $bookRepository,
+                         FollowedBookRepository $followedBookRepository, $user_id = null): Response
     {
         // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $userID = $this->getUser()->getId();
+        $user_id = $this->getUser()->getId();
         $stylesheets = ['homev2.css'];
-        if ($userID) {
-            $user = $userRepository->findOneBy(['id' => $userID]);
+        if ($user_id) {
+            $user = $userRepository->findOneBy(['id' => $user_id]);
 //            $books = $bookRepository->findAll();
-            $liked_genre_id = $likedGenreRepository->findBy(['user'=>$userID]);
+            $liked_genre_id = $likedGenreRepository->findBy(['user'=>$user_id]);
             $genre_id = [];
             foreach ($liked_genre_id as $liked){
                 $current_genre_id = $liked->getGenre()->getId();
@@ -234,7 +234,7 @@ class BookableController extends AbstractController
             }
             $genres = $genreRepository->findBy(['id'=>$genre_id, ]);
             $genre_books =  $bookRepository->findBy(['genre'=>$genre_id] );
-            $followed = $followedBookRepository->findBy(['user'=>$userID]);
+            $followed = $followedBookRepository->findBy(['user'=>$user_id]);
             $followed_book_id =[];
             foreach ($followed as $follow){
                 $current_book_id = $follow->getBook()->getId();
@@ -276,7 +276,7 @@ class BookableController extends AbstractController
     }
 
     #[Route('/profile', name: 'profile')]
-    public function Profile(AvatarRepository $avatarRepository,ReadBooksRepository $readBookRepository, BookRepository $bookRepository,FollowedBookRepository $followedBookRepository, UserRepository $userRepository, LikedBookRepository $likedBookRepository, DislikedBookRepository $dislikedBookRepository, $userID = null): Response {
+    public function profile(AvatarRepository $avatarRepository, ReadBooksRepository $readBookRepository, BookRepository $bookRepository, FollowedBookRepository $followedBookRepository, UserRepository $userRepository, LikedBookRepository $likedBookRepository, DislikedBookRepository $dislikedBookRepository, $userID = null): Response {
         $stylesheets = ['profile.css'];
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $userID = $this->getUser()->getId();
@@ -324,7 +324,7 @@ class BookableController extends AbstractController
 
     }
     #[Route('/about', name: 'about')]
-    public function About(): Response
+    public function about(): Response
     {
         $stylesheets = ['about.css'];
         $javascripts = ['about.js'];
@@ -337,11 +337,11 @@ class BookableController extends AbstractController
 
     #[Route('/browsing', name: 'browsing') ]
     public function browsing(GenreRepository $genreRepository, BookRepository $bookRepository,
-        Request $pageRequest, Request $searchRequest, Request $filterRequest, $book_title = null, $genreIDs = []): Response {
+                             Request         $pageRequest, Request $searchRequest, Request $filterRequest, $book_title = null, $genre_ids = []): Response {
         // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
-        $userID = $user->getId();
+        $user_id = $user->getId();
 
         /* TODO: keep php variables: $book_title, $genreIDs, $books, alive for the entire session */
         // create a form to be used to search for books
@@ -372,52 +372,37 @@ class BookableController extends AbstractController
         $booksPAG = $bookRepository->findAllByTitle($bookTitle, $offset);
 
         // create a form to be used to filter books
-        $filterform = $this->createForm(BookFilterFormType::class);
+        $filterForm = $this->createForm(BookFilterFormType::class);
         // handle the request
-        $filterform->handleRequest($filterRequest);
+        $filterForm->handleRequest($filterRequest);
         // if the form is submitted and valid
-        if($filterform->isSubmitted() && $filterform->isValid()) {
+        if($filterForm->isSubmitted() && $filterForm->isValid()) {
             // get the selected choices from the form
-            $data = $filterform->get('genre')->getData();
+            $data = $filterForm->get('genre')->getData();
             // if the genre ids is not null
             if($data) {
                 // loop through each genre object in the data array
                 foreach($data as $genre) {
                     // append the genre id to the genre ids array
-                    $genreIDs[] = $genre->getId();
+                    $genre_ids[] = $genre->getId();
                 }
             }
         }
         // filter the books by the genre ids
-        $books = $bookRepository->filterByGenre($booksPAG, $genreIDs, $offset);
+        $books = $bookRepository->filterByGenre($booksPAG, $genre_ids, $offset);
         // get the length of the books array
         $booksCount = count($books);
         // declare stylesheets and javascripts to be used in the twig template
-        $stylesheets = ['browsing.css'];
-        $javascripts = ['browsing.js'];
-        return $this->render('browsing.html.twig',[
-            'title'=>'Browser',
-            'stylesheets' => $stylesheets,
-            'genres' => $bookGenres,
-            'books' => $books,
-            'book_title' => $bookTitle,
-            'genreIDs' => $genreIDs,
-            'searchform' => $searchform->createView(),
-            'filterform' => $filterform->createView(),
-            'previous' => $offset - BookRepository::PAGINATOR_PER_PAGE,
-            'next' => min(count($books), $offset + BookRepository::PAGINATOR_PER_PAGE),
-            'bookscount' => $booksCount,
-            'javascripts' => $javascripts
-        ]);
+        return $this->getRenderedBrowsing($bookGenres, $books, $bookTitle, $genre_ids, $searchform, $filterForm, $offset, $booksCount);
     }
 
     #[Route('/browsing/{book_title}', name: 'searching') ]
     public function searching(GenreRepository $genreRepository, BookRepository $bookRepository,
-        Request $pageRequest, Request $searchRequest, Request $filterRequest, $book_title = null, $genreIDs = []): Response {
+                              Request         $pageRequest, Request $searchRequest, Request $filterRequest, $book_title = null, $genre_ids = []): Response {
         // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
-        $userID = $user->getId();
+        $user_id = $user->getId();
 
 
         /* TODO: keep php variables: $book_title, $genreIDs, $books, alive for the entire session */
@@ -435,6 +420,7 @@ class BookableController extends AbstractController
         if ($book_title == null){
             $book_title = $pageRequest->query->get('book_title');
         }
+        //TODO check if this can be refactored
 
         // get the page number from the url
         $offset = max(0, $pageRequest->query->getInt('offset', 0));
@@ -446,49 +432,63 @@ class BookableController extends AbstractController
         $booksPAG = $bookRepository->findAllByTitle($bookTitle, $offset);
 
         // create a form to be used to filter books
-        $filterform = $this->createForm(BookFilterFormType::class);
+        $filterForm = $this->createForm(BookFilterFormType::class);
         // handle the request
-        $filterform->handleRequest($filterRequest);
+        $filterForm->handleRequest($filterRequest);
         // if the form is submitted and valid
-        if($filterform->isSubmitted() && $filterform->isValid()) {
+        if($filterForm->isSubmitted() && $filterForm->isValid()) {
             // get the selected choices from the form
-            $data = $filterform->get('genre')->getData();
+            $data = $filterForm->get('genre')->getData();
             // if the genre ids is not null
             if($data) {
                 // loop through each genre object in the data array
                 foreach($data as $genre) {
                     // append the genre id to the genre ids array
-                    $genreIDs[] = $genre->getId();
+                    $genre_ids[] = $genre->getId();
                 }
             }
         }
         // filter the books by the genre ids
-        $books = $bookRepository->filterByGenre($booksPAG, $genreIDs, $offset);
+        $books = $bookRepository->filterByGenre($booksPAG, $genre_ids, $offset);
         // get the length of the books array
         $booksCount = count($books);
         // add search flash message: number of results for the search book title
         $this->addFlash('search', $booksCount . ' results for ' . $bookTitle);
 
         // declare stylesheets and javascripts to be used in the twig template
+        return $this->getRenderedBrowsing($bookGenres, $books, $bookTitle, $genre_ids, $searchform, $filterForm, $offset, $booksCount);
+    }
+
+    /**
+     * @param array $bookGenres
+     * @param \Doctrine\ORM\Tools\Pagination\Paginator $books
+     * @param \Symfony\Component\String\AbstractString|\Symfony\Component\String\UnicodeString|null $bookTitle
+     * @param mixed $genre_ids
+     * @param \Symfony\Component\Form\FormInterface $searchform
+     * @param \Symfony\Component\Form\FormInterface $filterForm
+     * @param mixed $offset
+     * @param int $booksCount
+     * @return Response
+     */
+    public function getRenderedBrowsing(array $bookGenres, \Doctrine\ORM\Tools\Pagination\Paginator $books, \Symfony\Component\String\AbstractString|\Symfony\Component\String\UnicodeString|null $bookTitle, mixed $genre_ids, \Symfony\Component\Form\FormInterface $searchform, \Symfony\Component\Form\FormInterface $filterForm, mixed $offset, int $booksCount): Response
+    {
         $stylesheets = ['browsing.css'];
         $javascripts = ['browsing.js'];
-        return $this->render('browsing.html.twig',[
-            'title'=>'Browser',
+        return $this->render('browsing.html.twig', [
+            'title' => 'Browser',
             'stylesheets' => $stylesheets,
             'genres' => $bookGenres,
             'books' => $books,
             'book_title' => $bookTitle,
-            'genreIDs' => $genreIDs,
+            'genreIDs' => $genre_ids,
             'searchform' => $searchform->createView(),
-            'filterform' => $filterform->createView(),
+            'filterForm' => $filterForm->createView(),
             'previous' => $offset - BookRepository::PAGINATOR_PER_PAGE,
             'next' => min(count($books), $offset + BookRepository::PAGINATOR_PER_PAGE),
             'bookscount' => $booksCount,
             'javascripts' => $javascripts
         ]);
     }
-
-
 
 
 }
