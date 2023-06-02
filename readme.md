@@ -37,11 +37,18 @@ Provide a link to the main page of your application. Or if you have multiple par
 * pagination
 
 ## coding conventions
+### names
 * upper camel case for all classes (UpperCamelCase)
 * lower camel casing for all functions (lowerCamelCase)
 * lower camel casing for all variables (lowerCamelCase)
 * snake_case for all key naming (snake_case) used for selection
 * snake_case for all csv files (snake_case)
 * ![img.png](img.png)
+### indention
+* Allman for functions and classes
+* K&R for css blocks
+* ![img_1.png](img_1.png)
+* ![img_2.png](img_2.png)
+
 
 
