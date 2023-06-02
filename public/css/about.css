@@ -30,7 +30,7 @@ h3 {
     font-stretch: normal;
     text-decoration: none;
     color: #2A2A2A;
-    background-color: #b7e8c5;
+    background-color: #c9e265;
     width: fit-content;
     margin-top: 25px;
     padding: 5px;
@@ -62,11 +62,11 @@ p {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #b7e8c5;
+    background-color: #c9e265;
     border-radius: 10px;
     margin: 10px;
     scroll-padding: 20px;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #698670;
+    background: #626e31;
 }
