@@ -35,7 +35,7 @@
 .navbar-text {
   color: rgba(255, 255, 255, 1);
   align-self: auto;
-  font-style: Medium;
+  font-style: normal;
   text-align: left;
   font-family: Poppins;
   font-weight: 500;
@@ -95,7 +95,7 @@
 .navbar-text1 {
   color: rgba(255, 255, 255, 1);
   align-self: auto;
-  font-style: Medium;
+  font-style: normal;
   text-align: left;
   font-family: Poppins;
   font-weight: 500;

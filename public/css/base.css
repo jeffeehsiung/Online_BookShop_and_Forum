@@ -42,7 +42,7 @@
 .navbar-text {
     color: rgba(255, 255, 255, 1);
     align-self: auto;
-    font-style: Medium;
+    font-style: normal;
     text-align: left;
     font-family: Poppins;
     font-weight: 500;
@@ -102,7 +102,7 @@
 .navbar-text1 {
     color: rgba(255, 255, 255, 1);
     align-self: auto;
-    font-style: Medium;
+    font-style: normal;
     text-align: left;
     font-family: Poppins;
     font-weight: 500;
@@ -189,7 +189,7 @@
     display: flex;
     padding: var(--dl-space-space-unit);
     align-items: center;
-    aspect-ratio: 1;
+    aspect-ratio: 1 / 1;
     border-radius: 50%;
     flex-direction: column;
     justify-content: center;

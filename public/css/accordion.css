@@ -138,14 +138,14 @@
 @media(max-width: 479px) {
   .accordion-element {
     width: 350px;
-    max-width: auto;
+    max-width: 350px;
   }
   .accordion-element1 {
     width: 350px;
-    max-width: auto;
+    max-width: 350px;
   }
   .accordion-element2 {
     width: 350px;
-    max-width: auto;
+    max-width: 350px;
   }
 }
