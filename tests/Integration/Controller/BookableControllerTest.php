@@ -222,13 +222,20 @@ class BookableControllerTest extends WebTestCase
         $client->request('GET', '/profile');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         print_r($client->getResponse()->getContent());
+
+        $crawler = $client->request('GET', '/profile');
+
         $this->assertSelectorTextContains('title', 'Profile');
         $this->assertSelectorTextContains('h1.section-title', 'Followed Books');
 
         //test if profile name is correct: ok
         $this->assertSelectorTextContains('h1.profilename',  "user 1007");
-        //test if profile name if avatar is correct:
-        $this->assertSelectorTextContains('#profilepic', "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png");
+
+        //test if  avatar is correct:
+        $avatarUrl = $crawler->filter('img#profilepic')->attr('src');
+        $expectedAvatarUrl = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png';
+        $this->assertSame($expectedAvatarUrl, $avatarUrl);
+
 
         // Add more assertions based on the expected behavior of the profile route
 
