@@ -8,47 +8,32 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class BookableControllerTest extends WebTestCase
 {
-    public function authenticateUser()
+    public function authenticateUser($username="test@test.com", $password="password")
     {
         /*
-         * Functionality gets tested in the testHome, since authentication, if done correctly brings you to the home
-         * page
+         * Functionality gets tested in the testWelcome, since authentication happens there
          */
         $client = static::createClient();
         $crawler = $client->request('GET', '/home');
         $crawler = $client->followRedirect();
         //make sure we are on welcome page
-
         $login_button = $crawler->selectLink('Login')->link();
         $crawler = $client->click($login_button);
 
         //fill in the form
         $form = $crawler->filter('#login_form')->form();
-        $form['_username'] = "test@test.com";
-        $form['_password'] = "password";
+        $form['_username'] = $username;
+        $form['_password'] = $password;
         $client->submit($form);
         $crawler = $client->followRedirect();
-        //make sure we got to the home page
 
         return $client;
     }
     public function testWelcome()
     {
-        $client = static::createClient();
-        $client->request('GET', '/welcome');
-
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertSelectorTextContains('title', 'Welcome');
-        // Add more assertions based on the expected behavior of the welcome route
-    }
-    /**
-     * @depends testWelcome
-     */
-    public function testHome()
-    {
         /*
-         * test that doesn't use the testAuthentication, doubles as test for authentication
-         */
+          * test authentication with correct credentials
+          */
         $client = static::createClient();
         $crawler = $client->request('GET', '/home');
         //we should be automatically redirected to the welcome page (status code 302)
@@ -70,11 +55,92 @@ class BookableControllerTest extends WebTestCase
         $form['_password'] = "password";
         $client->submit($form);
         $crawler = $client->followRedirect();
-        //make sure we got to the home page
+        //make sure we went to Home
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertSelectorTextContains('title', 'Home');
         $this->assertSelectorTextContains('h1', 'Recommended books for you!');
-        return $crawler;
+
+    }
+
+    public function testWelcomeWrongEmail()
+    {
+        /*
+         * test with wrong email
+         */
+
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/home');
+        //we should be automatically redirected to the welcome page (status code 302)
+        $this->assertEquals(302, $client->getResponse()->getStatusCode(), 'you should have been redirected to the welcome page');
+        //follow the redirect
+        $crawler = $client->followRedirect();
+        //make sure we are on welcome page
+        $this->assertSelectorTextContains('title', 'Welcome');
+
+        //open the popup
+        $login_button = $crawler->selectLink('Login')->link();
+        $crawler = $client->click($login_button);
+        //make sure it is opened
+        $this->assertSelectorTextContains('p', 'Log into your account');
+
+        //fill in the form
+        $form = $crawler->filter('#login_form')->form();
+        $form['_username'] = "wrong@test.com";
+        $form['_password'] = "password";
+        $client->submit($form);
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $crawler = $client->followRedirect();
+        //make sure we remained on welcome
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertSelectorTextContains('title', 'Welcome');
+        print_r($client->getResponse()->getContent());
+
+        $this->assertSelectorTextContains('#error_display', 'Invalid credentials.');
+    }
+
+    public function testWelcomeWrongPassword()
+    {
+        /*
+         * test with wrong password
+         */
+
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/home');
+        //we should be automatically redirected to the welcome page (status code 302)
+        $this->assertEquals(302, $client->getResponse()->getStatusCode(), 'you should have been redirected to the welcome page');
+        //follow the redirect
+        $crawler = $client->followRedirect();
+        //make sure we are on welcome page
+        $this->assertSelectorTextContains('title', 'Welcome');
+
+        //open the popup
+        $login_button = $crawler->selectLink('Login')->link();
+        $crawler = $client->click($login_button);
+        //make sure it is opened
+        $this->assertSelectorTextContains('p', 'Log into your account');
+
+        //fill in the form
+        $form = $crawler->filter('#login_form')->form();
+        $form['_username'] = "test@test.com";
+        $form['_password'] = "wrongPassword";
+        $client->submit($form);
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $crawler = $client->followRedirect();
+        //make sure we remained on welcome
+        //$this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertSelectorTextContains('title', 'Welcome');
+        $this->assertSelectorTextContains('#error_display', 'Invalid credentials.');
+    }
+
+
+    /**
+     * @depends testWelcome
+     */
+    public function testHome()
+    {
+        $client = $this->authenticateUser();
+        $crawler = $client->request('GET', '/home');
+        $this->assertSelectorTextContains('title', 'Home');
     }
     /**
      * @depends testHome
