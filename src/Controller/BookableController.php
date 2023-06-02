@@ -223,7 +223,6 @@ class BookableController extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $userID = $this->getUser()->getId();
         $stylesheets = ['homev2.css'];
-        $javascripts = ['home.js'];
         if ($userID) {
             $user = $userRepository->findOneBy(['id' => $userID]);
 //            $books = $bookRepository->findAll();
