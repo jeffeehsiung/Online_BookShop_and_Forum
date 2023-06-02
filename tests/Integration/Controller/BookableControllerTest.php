@@ -164,7 +164,7 @@ class BookableControllerTest extends WebTestCase
         //test if profile name is correct: ok
         $this->assertSelectorTextContains('h1.profilename',  "user 1007");
         //test if profile name if avatar is correct:
-        $this->assertSelectorTextContains('img.profilepic',  "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png");
+        $this->assertSelectorTextContains('#profilepic', "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png");
 
         // Add more assertions based on the expected behavior of the profile route
 
