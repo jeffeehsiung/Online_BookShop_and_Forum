@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class BookableControllerTest extends WebTestCase
 {
-    public function authenticateUser($username="test@test.com", $password="password")
+    public function authenticateUser($username, $password)
     {
         /*
          * Functionality gets tested in the testWelcome, since authentication happens there
@@ -139,7 +139,7 @@ class BookableControllerTest extends WebTestCase
      */
     public function testHome()
     {
-        $client = $this->authenticateUser();
+        $client = $this->authenticateUser("test@test.com","password");
         $crawler = $client->request('GET', '/home');
         $this->assertSelectorTextContains('title', 'Home');
     }
@@ -148,7 +148,7 @@ class BookableControllerTest extends WebTestCase
      */
     public function testSettings()
     {
-        $client = $this->authenticateUser();
+        $client = $this->authenticateUser("test@test.com","password");
         $crawler = $client->request('GET', '/home');
         $this->assertSelectorTextContains('title', 'Home');
 
@@ -218,7 +218,8 @@ class BookableControllerTest extends WebTestCase
      */
     public function testProfile()
     {
-        $client = $this->authenticateUser();
+        /* First Profile is a new porfile wiht no liked bookes or profile picture nor correct username*/
+        $client = $this->authenticateUser("test@test.com","password");
         $client->request('GET', '/profile');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         print_r($client->getResponse()->getContent());
@@ -237,10 +238,22 @@ class BookableControllerTest extends WebTestCase
         $this->assertSame($expectedAvatarUrl, $avatarUrl);
 
 
-        // Add more assertions based on the expected behavior of the profile route
+        //Testing Followed Books
+        // Assert that no folllowed books are displayed
+        $this->assertSelectorTextContains('#followed div.empty', 'No followed books yet...');
 
 
-        //is teh name correct
+        //Testing Liked Books
+        // Assert that no liked books are displayed
+        $this->assertSelectorTextContains('#Liked div.empty', 'No liked books yet...');
+
+
+        //Testing Disliked books
+        // Assert that no disliked books are displayed
+        $this->assertSelectorTextContains('#Disliked div.empty', 'No disliked books yet...');
+
+
+
 
     }
 
