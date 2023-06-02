@@ -6,6 +6,7 @@ use App\Entity\User;
 use Doctrine\ORM\Tools\DebugUnitOfWorkListener;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+
 class BookableControllerTest extends WebTestCase
 {
     public function authenticateUser()
@@ -24,7 +25,7 @@ class BookableControllerTest extends WebTestCase
 
         //fill in the form
         $form = $crawler->filter('#login_form')->form();
-        $form['_username'] = "jens.77@live.be";
+        $form['_username'] = "test@test.com";
         $form['_password'] = "password";
         $client->submit($form);
         $crawler = $client->followRedirect();
@@ -66,9 +67,11 @@ class BookableControllerTest extends WebTestCase
 
         //fill in the form
         $form = $crawler->filter('#login_form')->form();
-        $form['_username'] = "jens.77@live.be";
+        $form['_username'] = "test@test.com";
         $form['_password'] = "password";
         $client->submit($form);
+        print_r($client->getResponse()->getContent());
+
         $crawler = $client->followRedirect();
         //make sure we got to the home page
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -157,7 +160,17 @@ class BookableControllerTest extends WebTestCase
         print_r($client->getResponse()->getContent());
         $this->assertSelectorTextContains('title', 'Profile');
         $this->assertSelectorTextContains('h1.section-title', 'Followed Books');
+
+        //test if profile name is correct: ok
+        $this->assertSelectorTextContains('h1.profilename',  "user 1007");
+        //test if profile name if avatar is correct:
+        $this->assertSelectorTextContains('img.profilepic',  "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png");
+
         // Add more assertions based on the expected behavior of the profile route
+
+
+        //is teh name correct
+
     }
 
     /**
