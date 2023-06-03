@@ -76,7 +76,9 @@ unit-test-job:   # This job runs in the test stage.
     - php -r "if (hash_file('sha384', 'composer-setup.php') === '55ce33d7678c5a611085589f1f3ddf8b3c52d662cd01d4ba75c0ee0459970c2200a51f492d557530c71c15d8dba01eae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
     - php composer-setup.php
     - php -r "unlink('composer-setup.php');"
-    - php composer.phar require symfony/runtime
+    - php composer.phar install
+    - php composer.phar update -W
+    - php composer.phar require symfony/runtime:* #^5.3 is the current version
 #    # run the migration on the temporary database
 #    - php bin/console doctrine:migrations:migrate
     # load some test data in the temporary database
