@@ -35,11 +35,11 @@ class BookableControllerTest extends WebTestCase
           * test authentication with correct credentials
           */
         $client = static::createClient();
-        $crawler = $client->request('GET', '/welcome');
+        $crawler = $client->request('GET', '/home');
         //we should be automatically redirected to the welcome page (status code 302)
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'you should have been redirected to the welcome page');
-//        //follow the redirect
-//        $crawler = $client->followRedirect();
+        $this->assertEquals(302, $client->getResponse()->getStatusCode(), 'you should have been redirected to the welcome page');
+        //follow the redirect
+        $crawler = $client->followRedirect();
         //make sure we are on welcome page
         $this->assertSelectorTextContains('title', 'Welcome');
 
@@ -54,7 +54,6 @@ class BookableControllerTest extends WebTestCase
         $form['_username'] = "test@test.com";
         $form['_password'] = "password";
         $client->submit($form);
-        // follow the redirect
         $crawler = $client->followRedirect();
         //make sure we went to Home
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -240,9 +239,6 @@ class BookableControllerTest extends WebTestCase
     }
 
 
-    /**
-     * @depends testWelcome
-     */
     public function testBrowsing()
     {
         $client = $this->authenticateUser();
