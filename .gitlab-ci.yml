@@ -61,6 +61,7 @@ unit-test-job:   # This job runs in the test stage.
   services:
     # a container with a temporary mysql db for running unit tests
     - mysql:8
+    - composer:2.5
   variables:
     # environment variables for configuring the mysql test database container
     MYSQL_DATABASE: local_bookable
