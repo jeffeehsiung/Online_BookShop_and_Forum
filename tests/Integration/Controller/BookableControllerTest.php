@@ -238,14 +238,15 @@ class BookableControllerTest extends WebTestCase
         // Add more assertions based on the expected behavior of the about route
     }
 
-
+    /**
+     * @depends testWelcome
+     */
     public function testBrowsing()
     {
         $client = $this->authenticateUser();
         // follow the redirect
         $crawler = $client->request('GET', '/browsing');
         // follow the redirect
-        $crawler = $client->followRedirect();
         print_r($client->getResponse()->getContent());
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Since authentication is already done, you should see the page');
