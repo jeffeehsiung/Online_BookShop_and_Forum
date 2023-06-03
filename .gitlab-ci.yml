@@ -55,36 +55,40 @@ build-job:       # This job runs in the build stage, which runs first.
   script:
     - npm run build
 
-unit-test-job:   # This job runs in the test stage.
+before-test:
   image: php:7.4
-  stage: test    # It only starts when the job in the build stage completes successfully.
+  stage: test
   services:
-    # a container with a temporary mysql db for running unit tests
     - mysql:8
   variables:
-    # environment variables for configuring the mysql test database container
-    MYSQL_DATABASE: local_bookable
-    MYSQL_USER: local_bookable
-    MYSQL_ROOT_PASSWORD: password
-    MYSQL_PASSWORD: password
-    # set the correct DSN in Symfony to connect to the temporary database
-    DATABASE_URL: "mysql://local_bookable:password@localhost:3306/local_bookable?serverVersion=8&charset=utf8mb4"
-    # before starting the test scripts, add specific software to the container (only for this job)
-  before_script:
-    # mysql PDO needs to be installed as a PHP extension in the container for the tests to run
-    - docker-php-ext-install pdo pdo_mysql
+      MYSQL_DATABASE: local_bookable
+      MYSQL_USER: local_bookable
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_PASSWORD: password
+      DATABASE_URL: "mysql://local_bookable:password@localhost:3306/local_bookable?serverVersion=8&charset=utf8mb4"
   script:
-#    - composer install
+      - docker-php-ext-install pdo pdo_mysql
+
+unit-test-job:   # This job runs in the test stage.
+  image: composer:2.5
+  stage: test
+  script:
+    - composer install
+    - composer require symfony/runtime
     # run the migration on the temporary database
     - php bin/console doctrine:migrations:migrate
     # load some test data in the temporary database
     - php bin/console doctrine:fixtures:load -n
     # run the tests (using the temporary database)
+    - echo "Running unit tests"
     - php bin/phpunit test/Unit
-    - echo "Unit tests are 100% successful"
-    - echo "Running integration test... This will take about 60 seconds."
+    - echo "Running integration tests"
     - php bin/phpunit test/Integration
-    - echo "Code coverage is 90%"
+    - echo "Running all tests"
+    - php bin/phpunit
+    - echo "Clearing cache"
+    - php bin/console cache:clear
+    - php bin/console cache:pool:clear cache.global_clearer
 
 lint-test-job:   # This job also runs in the test stage.
   stage: test    # It can run at the same time as unit-test-job (in parallel).
