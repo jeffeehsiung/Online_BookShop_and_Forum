@@ -39,9 +39,6 @@ class BookableController extends AbstractController
     // make constructor with container builder
     public function __construct() {
         $this->stylesheets[] = 'base.css';
-        // set container builder
-//        $containerBuilder = new ContainerBuilder();
-//        $this->setContainer($containerBuilder);
     }
 //TODO change 'index' to 'base'
     #[Route('/', name: 'index')]
