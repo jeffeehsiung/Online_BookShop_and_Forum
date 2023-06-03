@@ -55,33 +55,27 @@ build-job:       # This job runs in the build stage, which runs first.
   script:
     - npm run build
 
-before-test:
+
+unit-test-job:   # This job runs in the test stage.
   image: php:7.4
   stage: test
   services:
     - mysql:8
   variables:
-      MYSQL_DATABASE: local_bookable
-      MYSQL_USER: local_bookable
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_PASSWORD: password
-      DATABASE_URL: "mysql://local_bookable:password@localhost:3306/local_bookable?serverVersion=8&charset=utf8mb4"
+    MYSQL_DATABASE: local_bookable
+    MYSQL_USER: local_bookable
+    MYSQL_ROOT_PASSWORD: password
+    MYSQL_PASSWORD: password
+    DATABASE_URL: "mysql://local_bookable:password@localhost:3306/local_bookable?serverVersion=8&charset=utf8mb4"
+  before_script:
+    - docker-php-ext-install pdo pdo_mysql
   script:
-      - docker-php-ext-install pdo pdo_mysql
-
-unit-test-job:   # This job runs in the test stage.
-  image: composer:2.5
-  stage: test
-  services:
-    - mysql:8
-    - php:7.4
-  script:
-    - composer install
-    - composer require symfony/runtime
-    # run the migration on the temporary database
-    - php bin/console doctrine:migrations:migrate
+    #    - composer install
+#    - composer require symfony/runtime
+#    # run the migration on the temporary database
+#    - php bin/console doctrine:migrations:migrate
     # load some test data in the temporary database
-    - php bin/console doctrine:fixtures:load --append
+    - php bin/console doctrine:fixtures:load --env=test
     # run the tests (using the temporary database)
     - echo "Running unit tests"
     - php bin/phpunit test/Unit
