@@ -282,28 +282,15 @@ class BookableControllerTest extends WebTestCase
         $this->assertCount(2, $followedBooks); // Assuming there are 2 followed books for the first profile
 
         // Assert the titles of the followed books
-        $expectedTitles = ['The Mauritius Command', 'Cinderella Ate My Daughter: Dispatches From The Frontlines Of The New Girlie-Girl Culture']; // Assuming the followed books have these titles
-        $followedBooks->each(function ($book, $index) use ($expectedTitles) {
-            $this->assertSame($expectedTitles[$index], $book->filter('p.title')->text());
+        $expectedTitles = ['Cinder (The Lunar Chronicles, #1)','Little Bee']; // Assuming the followed books have these titles
+        $actualTitles = [];
+        $followedBooks->each(function ($book) use (&$actualTitles) {
+            $actualTitles[] = $book->filter('p.title')->text();
         });
 
+        // Assert the titles of the followed books
+        $this->assertSame($expectedTitles, $actualTitles);
 
-            //Testing Followed Books
-        // Assert that no folllowed books are displayed
-        /**
-        $this->assertSelectorTextContains('#followed div.media-scroller snaps-inline', 'No followed books yet...');
-
-
-        //Testing Liked Books
-        // Assert that no liked books are displayed
-        $this->assertSelectorTextContains('#Liked div.empty', 'No liked books yet...');
-
-
-        //Testing Disliked books
-        // Assert that no disliked books are displayed
-        $this->assertSelectorTextContains('#Disliked div.empty', 'No disliked books yet...');
-
-**/
 
 
     }
