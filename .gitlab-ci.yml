@@ -61,6 +61,8 @@ unit-test-job:   # This job runs in the test stage.
   stage: test
   services:
     - mysql:8
+    - redis:latest
+    - composer:2.5
   variables:
     MYSQL_DATABASE: local_bookable
     MYSQL_USER: local_bookable
@@ -70,8 +72,8 @@ unit-test-job:   # This job runs in the test stage.
   before_script:
     - docker-php-ext-install pdo pdo_mysql
   script:
-    #    - composer install
-#    - composer require symfony/runtime
+    - composer install
+    - composer require symfony/runtime
 #    # run the migration on the temporary database
 #    - php bin/console doctrine:migrations:migrate
     # load some test data in the temporary database
