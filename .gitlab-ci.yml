@@ -40,6 +40,7 @@ stages:
 before-build:
   stage: build
   script:
+    - pwd
     - ls
     - composer update -W
     - composer install
@@ -64,7 +65,6 @@ unit-test-job:   # This job runs in the test stage.
   services:
     - mysql:8
   script:
-    - ./vendor/bin/phpunit
     - echo "Running unit tests"
     - php bin/phpunit tests/Unit
     - echo "Running integration tests"
