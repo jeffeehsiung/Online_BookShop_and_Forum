@@ -390,11 +390,24 @@ class BookableController extends AbstractController
         }
         // if pageRequest is submitted and valid, get the book_title, offset, and genre_ids from the url
         if($pageRequest->isMethod('GET') && $pageRequest->query->get('offset') != null) {
-            $genre_ids = $pageRequest->query->all()['genre_ids'];
-            // for each genre id in the genre ids array, append the genre id to the genre ids array
-            foreach($genre_ids as $genre_id) {
-                $genre_ids[] = $genre_id;
+            // check if request has key 'genre_ids'
+            if(array_key_exists('genre_ids', $pageRequest->query->all())) {
+                // get the genre ids from the url
+                $genre_ids = $pageRequest->query->all()['genre_ids'];
+                // for each genre id in the genre ids array, append the genre id to the genre ids array
+                foreach($genre_ids as $genre_id) {
+                    $genre_ids[] = $genre_id;
+                }
             }
+//            // check if the genre ids is not null
+//            if($pageRequest->query->all()['genre_ids'] != null){
+//                // get the genre ids from the url
+//                $genre_ids = $pageRequest->query->all()['genre_ids'];
+//                // for each genre id in the genre ids array, append the genre id to the genre ids array
+//                foreach($genre_ids as $genre_id) {
+//                    $genre_ids[] = $genre_id;
+//                }
+//            }// check if the book title is not null
         }
         // filter the books by the genre ids
         $books = $bookRepository->filterByGenre($booksPAG, $genre_ids, $offset);
