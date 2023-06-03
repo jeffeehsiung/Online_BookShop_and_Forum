@@ -39,7 +39,7 @@ class RegistrationControllerTest extends WebTestCase
         $form['registration_form[email]'] = "testregister@test.com";
         $form['registration_form[plainPassword][first]'] = "password";
         $form['registration_form[plainPassword][second]'] = "password";
-        $form["registration_form[agreeTerms]"] = true;
+        $form["registration_form[agree_terms]"] = true;
         $client->submit($form);
         $crawler = $client->followRedirect(); //2 redirections because it counts the "going to welcome" as a seperate redirect
         $crawler = $client->followRedirect();
@@ -106,7 +106,7 @@ class RegistrationControllerTest extends WebTestCase
         $form['registration_form[email]'] = "testregister@test.com";
         $form['registration_form[plainPassword][first]'] = "password";
         $form['registration_form[plainPassword][second]'] = "wrongPassword";
-        $form["registration_form[agreeTerms]"] = true;
+        $form["registration_form[agree_terms]"] = true;
         $client->submit($form);
 
         //make sure we remained on the register page
@@ -188,7 +188,7 @@ class RegistrationControllerTest extends WebTestCase
         $form['registration_form[email]'] = "testregister@test.com";
         $form['registration_form[plainPassword][first]'] = "password";
         $form['registration_form[plainPassword][second]'] = "wrongPassword";
-        $form["registration_form[agreeTerms]"] = true;
+        $form["registration_form[agree_terms]"] = true;
         $client->submit($form);
 
         //make sure we remained on the register page

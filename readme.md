@@ -22,26 +22,67 @@ Provide a link to the main page of your application. Or if you have multiple par
 ---
 
 ## Implemented Features
+### General ###
+* About Us page
+* Bookable logo to home page
 
 ### User Log in & Register ###
 * user authentication
-### User Home Page ###
+* log in
+* log out
+* register
+* set up username
+* set up email
+* set up password
+* confirm password
+
+### User Home ###
+* display the recommended books based on user's followed books
+* display the trending books based on the number of likes
+* display the new books based on each liked genre
+* display the books based on each of user's followed genre
+* link to the book page
+
 ### User Settings ###
+* setting profile picture
+* setting profile description (bio)
+* setting preferred genres
+* editing password
+* 
 ### User Profile ###
+* display user's profile picture
+* display user's profile description (bio)
+* display user's followed books
+* display user's liked books
+* display user's disliked books
+
 ### Book Page ###
-* dislike/liking books
+* dislike books
+* liking books
+* follow books
+* unfollow books
+
 ### User Browsing ###
-* search libraries
+* search libraries with book title
 * filter books by single genre
 * filter books by multiple genres
-* pagination
+* displaying the number of search and filter results
+* link to the book page
+* previous and next page
 
 ## coding conventions
+### names
 * upper camel case for all classes (UpperCamelCase)
 * lower camel casing for all functions (lowerCamelCase)
 * lower camel casing for all variables (lowerCamelCase)
 * snake_case for all key naming (snake_case) used for selection
 * snake_case for all csv files (snake_case)
 * ![img.png](img.png)
+### indention
+* Allman for functions and classes
+* K&R for css blocks
+* ![img_1.png](img_1.png)
+* ![img_2.png](img_2.png)
+
 
 

@@ -58,11 +58,11 @@ class SettingsController extends AbstractController
         $user = $this->getUser();
 
         // get avatar from form
-        $avatarID = $request->request->get('avatar-id', 0);
+        $avatar_id = $request->request->get('avatar-id', 0);
 
         // push to database if avatar was found
-        if($avatarID) {
-            $avatar = $avatarRepository->findOneBy(['id' => $avatarID]);
+        if($avatar_id) {
+            $avatar = $avatarRepository->findOneBy(['id' => $avatar_id]);
             $user->setAvatar($avatar);
             $entityManager->persist($user);
             $entityManager->flush();
