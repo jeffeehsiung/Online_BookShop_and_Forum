@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 //#[ORM\Table(name: 'local_bookable.books')]
-#[ORM\Table(name: 'a22web12.books')]
+#[ORM\Table(name: 'books')]
 class Book
 {
     #[ORM\Id]

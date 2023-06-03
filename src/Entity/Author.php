@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AuthorRepository::class)]
 //#[ORM\Table(name: 'local_bookable.authors')]
-#[ORM\Table(name: 'a22web12.authors')]
+#[ORM\Table(name: 'authors')]
 class Author
 {
     #[ORM\Id]
