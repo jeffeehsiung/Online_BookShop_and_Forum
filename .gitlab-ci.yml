@@ -63,8 +63,6 @@ unit-test-job:   # This job runs in the test stage.
   stage: test
   services:
     - mysql:8
-    - redis:latest
-    - composer:2.5
   variables:
     MYSQL_DATABASE: local_bookable
     MYSQL_USER: local_bookable
