@@ -64,7 +64,7 @@ unit-test-job:   # This job runs in the test stage.
   services:
     - mysql:8
   script:
-    - ./vendor/bin/simple-phpunit
+    - ./vendor/bin/phpunit
     - echo "Running unit tests"
     - php bin/phpunit tests/Unit
     - echo "Running integration tests"
