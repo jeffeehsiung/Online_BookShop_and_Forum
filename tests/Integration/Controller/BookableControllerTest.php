@@ -290,8 +290,6 @@ class BookableControllerTest extends WebTestCase
         // Assert the titles of the followed books
         $this->assertSame($expectedTitles, $actualTitles);
 
-
-
     }
 
     /**
