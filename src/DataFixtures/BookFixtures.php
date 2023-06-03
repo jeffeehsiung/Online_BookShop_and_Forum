@@ -14,12 +14,31 @@ class BookFixtures extends Fixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-
+        //done in parts because it is too much data to handle at once
+        //even now the memory limit needs to be increased to 256 MB in PHP.ini
         $csvFile = 'src/csv_files/books.csv';
+        $this->addToDatabase($csvFile, $manager);
+        $csvFile = 'src/csv_files/books_pt2.csv';
+        $this->addToDatabase($csvFile, $manager);
+        $csvFile = 'src/csv_files/books_pt3.csv';
+        $this->addToDatabase($csvFile, $manager);
+    }
+    public function getOrder(){
+        return 3; //smaller means earlier
+    }
 
+    /**
+     * @param string $csvFile
+     * @param ObjectManager $manager
+     * @return void
+     * @throws \League\Csv\Exception
+     * @throws \League\Csv\InvalidArgument
+     * @throws \League\Csv\UnavailableStream
+     */
+    public function addToDatabase(string $csvFile, ObjectManager $manager): void
+    {
         $data = Reader::createFromPath($csvFile, 'r');
         $data->setDelimiter(';');
-
         $data->setHeaderOffset(0);
 
         foreach ($data as $row) {
@@ -45,8 +64,4 @@ class BookFixtures extends Fixture implements OrderedFixtureInterface
         }
         $manager->flush();
     }
-    public function getOrder(){
-        return 3; //smaller means earlier
-    }
-
 }

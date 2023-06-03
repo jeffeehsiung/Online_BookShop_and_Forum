@@ -12,15 +12,12 @@ use League\Csv\Reader;
 
 class UserFixtures extends Fixture implements OrderedFixtureInterface
 {
-
-
     public function load(ObjectManager $manager)
     {
         $csvFile = 'src/csv_files/users.csv';
 
         $data = Reader::createFromPath($csvFile, 'r');
         $data->setDelimiter(';');
-
         $data->setHeaderOffset(0);
 
         foreach ($data as $row){

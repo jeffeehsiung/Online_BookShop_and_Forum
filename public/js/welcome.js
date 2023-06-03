@@ -1,7 +1,7 @@
 document.getElementById("login_submit").disabled=true;
 document.getElementById("register_submit").disabled=true;
 
-function LoginFilledIn(){
+function loginFilledIn(){
     if (document.getElementById("login_username").value!=="" && document.getElementById("login_password").value!==""){
         document.getElementById("login_submit").disabled=false;
         document.getElementById("login_submit").style.opacity="1";
@@ -23,11 +23,4 @@ function loginOn() {
 
 function loginOff() {
     document.getElementById("Login").style.display = "none";
-}
-function registerOn() {
-    document.getElementById("Register").style.display = "flex";
-}
-
-function registerOff() {
-    document.getElementById("Register").style.display = "none";
 }

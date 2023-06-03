@@ -20,11 +20,6 @@ for (let i = 0; i < coll.length; i++) {
         }
     });
 }
-/*
-document.getElementById("btn-open-avatar-overlay").addEventListener('click', function(){
-    avatarOverlay.style.display = 'flex';
-})
-*/
 
 avatarOverlay.addEventListener('click', function(e) {
     if(e.target.id === 'avatar-overlay') {
