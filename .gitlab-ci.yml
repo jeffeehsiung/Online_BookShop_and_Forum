@@ -56,6 +56,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - npm run build
 
 unit-test-job:   # This job runs in the test stage.
+  image: php:7.4
   stage: test    # It only starts when the job in the build stage completes successfully.
   services:
     # a container with a temporary mysql db for running unit tests
@@ -75,15 +76,15 @@ unit-test-job:   # This job runs in the test stage.
   script:
     - echo "Running unit tests... This will take about 60 seconds."
     - composer install
-      # run the migration on the temporary database
+    # run the migration on the temporary database
     - php bin/console doctrine:migrations:migrate
     # load some test data in the temporary database
     - php bin/console doctrine:fixtures:load -n
     # run the tests (using the temporary database)
-    - php bin/phpunit/tests/Unit
+    - php bin/phpunit test/Unit
     - echo "Unit tests are 100% successful"
     - echo "Running integration test... This will take about 60 seconds."
-    - php bin/phpunit/tests/Integration
+    - php bin/phpunit test/Integration
     - echo "Code coverage is 90%"
 
 lint-test-job:   # This job also runs in the test stage.
