@@ -21,7 +21,7 @@ when@test:
     doctrine:
         dbal:
             # "TEST_TOKEN" is typically set by ParaTest
-            dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+            url: 'mysql://local_bookable:password@localhost:3306/local_bookable?serverVersion=8&charset=utf8mb4'
 
 when@prod:
     doctrine:

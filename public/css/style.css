@@ -75,7 +75,7 @@
 .nav-link {
   color: #fff;
   font-size: 16px;
-  font-style: Medium;
+  font-style: normal;
   text-align: left;
   transition: 0.3s;
   font-family: Poppins;
@@ -254,6 +254,6 @@
 }
 @media(max-width: 479px) {
   .accordion-element {
-    max-width: auto;
+    max-width: 350px;
   }
 }
