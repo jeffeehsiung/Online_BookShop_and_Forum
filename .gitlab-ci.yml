@@ -15,13 +15,6 @@
 
 image: node:latest
 
-# Pick zero or more services to be used on all builds.
-# Only needed when using a docker container to run your tests in.
-# Check out: https://docs.gitlab.com/ee/ci/services/index.html
-services:
-  - mysql:latest
-  - postgres:latest
-
 # This folder is cached between builds
 # https://docs.gitlab.com/ee/ci/yaml/index.html#cache
 cache:
@@ -48,8 +41,9 @@ before-build:
   stage: build
   script:
     - cd /var/www/html
-    - composer update -W
+    - ls
     - composer install
+    - composer update -W
     - composer require symfony/runtime
     - php bin/console cache:pool:clear cache.global_clearer
     - composer require symfony/webpack-encore-bundle:* #^2.0 is the current version
