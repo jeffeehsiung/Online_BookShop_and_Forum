@@ -72,6 +72,9 @@ before-test:
 unit-test-job:   # This job runs in the test stage.
   image: composer:2.5
   stage: test
+  services:
+    - mysql:8
+    - php:7.4
   script:
     - composer install
     - composer require symfony/runtime
