@@ -62,7 +62,7 @@
             {%  if book_title is not null %}
                 <a href="{{ path("searching", {'book_title': book_title, 'offset': previous, 'genre_ids': genre_ids}) }}" class="main-button">Previous</a>
             {% else %}
-                <a href="{{ path("browsing", {'offset': previous}) }}" class="main-button">Previous</a>
+                <a href="{{ path("browsing", {'offset': previous, 'genre_ids': genre_ids}) }}" class="main-button">Previous</a>
             {% endif %}
         {% endif %}
         {% if next < books|length %}
