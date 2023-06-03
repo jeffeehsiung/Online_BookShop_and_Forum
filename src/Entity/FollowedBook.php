@@ -6,8 +6,8 @@ use App\Repository\FollowedBookRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: FollowedBookRepository::class)]
-#[ORM\Table(name: 'local_bookable.followed_books')]
-//#[ORM\Table(name: 'a22web12.followed_books')]
+//#[ORM\Table(name: 'local_bookable.followed_books')]
+#[ORM\Table(name: 'followed_books')]
 class FollowedBook
 {
     #[ORM\Id]

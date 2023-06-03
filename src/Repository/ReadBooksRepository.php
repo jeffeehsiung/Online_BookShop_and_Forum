@@ -38,29 +38,4 @@ class ReadBooksRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
-//    /**
-//     * @return ReadBooks[] Returns an array of ReadBooks objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('r.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?ReadBooks
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }
