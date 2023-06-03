@@ -61,7 +61,6 @@ unit-test-job:   # This job runs in the test stage.
   services:
     # a container with a temporary mysql db for running unit tests
     - mysql:8
-    - composer:2.5
   variables:
     # environment variables for configuring the mysql test database container
     MYSQL_DATABASE: local_bookable
@@ -75,8 +74,7 @@ unit-test-job:   # This job runs in the test stage.
     # mysql PDO needs to be installed as a PHP extension in the container for the tests to run
     - docker-php-ext-install pdo pdo_mysql
   script:
-    - echo "Running unit tests... This will take about 60 seconds."
-    - composer install
+#    - composer install
     # run the migration on the temporary database
     - php bin/console doctrine:migrations:migrate
     # load some test data in the temporary database
