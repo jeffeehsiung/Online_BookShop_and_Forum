@@ -216,7 +216,7 @@ class BookableControllerTest extends WebTestCase
     /**
      * @depends testHome
      */
-    public function testProfile()
+    public function testProfile1()
     {
         /* First Profile is a new porfile wiht no liked bookes or profile picture nor correct username*/
         $client = $this->authenticateUser("test@test.com","password");
@@ -253,6 +253,57 @@ class BookableControllerTest extends WebTestCase
         $this->assertSelectorTextContains('#Disliked div.empty', 'No disliked books yet...');
 
 
+
+
+    }
+    public function testProfile2()
+    {
+        $client = $this->authenticateUser("MATH@gmail.com","password");
+        $client->request('GET', '/profile');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        print_r($client->getResponse()->getContent());
+
+        $crawler = $client->request('GET', '/profile');
+
+        $this->assertSelectorTextContains('title', 'Profile');
+        $this->assertSelectorTextContains('h1.section-title', 'Followed Books');
+
+        //test if profile name is correct: ok
+        $this->assertSelectorTextContains('#First',  "Mathilde");
+        $this->assertSelectorTextContains('#Last',  "Blanc");
+        //test if  avatar is correct:
+        $avatarUrl = $crawler->filter('img#profilepic')->attr('src');
+        $expectedAvatarUrl = 'https://api.dicebear.com/6.x/personas/svg?seed=Angel';
+        $this->assertSame($expectedAvatarUrl, $avatarUrl);
+
+
+        // Assert the followed books
+        $followedBooks = $client->getCrawler()->filter('#followed .media-element');
+        $this->assertCount(2, $followedBooks); // Assuming there are 2 followed books for the first profile
+
+        // Assert the titles of the followed books
+        $expectedTitles = ['The Mauritius Command', 'Cinderella Ate My Daughter: Dispatches From The Frontlines Of The New Girlie-Girl Culture']; // Assuming the followed books have these titles
+        $followedBooks->each(function ($book, $index) use ($expectedTitles) {
+            $this->assertSame($expectedTitles[$index], $book->filter('p.title')->text());
+        });
+
+
+            //Testing Followed Books
+        // Assert that no folllowed books are displayed
+        /**
+        $this->assertSelectorTextContains('#followed div.media-scroller snaps-inline', 'No followed books yet...');
+
+
+        //Testing Liked Books
+        // Assert that no liked books are displayed
+        $this->assertSelectorTextContains('#Liked div.empty', 'No liked books yet...');
+
+
+        //Testing Disliked books
+        // Assert that no disliked books are displayed
+        $this->assertSelectorTextContains('#Disliked div.empty', 'No disliked books yet...');
+
+**/
 
 
     }

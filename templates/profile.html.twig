@@ -25,12 +25,12 @@
         {% endif %}
         {% if  user.getFirstName() == null %}
 
-            <h1 class = "profilename"> user {{ user.getId() }}</h1>
+            <h1 class = "profilename" id="First"> user {{ user.getId() }}</h1>
         {%else %}
-            <h1 class = "profilename">{{ user.getFirstName() }}</h1>
+            <h1 class = "profilename" id="First">{{ user.getFirstName() }}</h1>
         {% endif %}
 
-        <h1 class = "profilename">{{ user.getLastName() }}</h1>
+        <h1 class = "profilename" id="Last">{{ user.getLastName() }}</h1>
 
 
         <div class = "contactIcons">
