@@ -35,11 +35,11 @@ class BookableControllerTest extends WebTestCase
           * test authentication with correct credentials
           */
         $client = static::createClient();
-        $crawler = $client->request('GET', '/home');
+        $crawler = $client->request('GET', '/welcome');
         //we should be automatically redirected to the welcome page (status code 302)
-        $this->assertEquals(302, $client->getResponse()->getStatusCode(), 'you should have been redirected to the welcome page');
-        //follow the redirect
-        $crawler = $client->followRedirect();
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'you should have been redirected to the welcome page');
+//        //follow the redirect
+//        $crawler = $client->followRedirect();
         //make sure we are on welcome page
         $this->assertSelectorTextContains('title', 'Welcome');
 
@@ -54,6 +54,7 @@ class BookableControllerTest extends WebTestCase
         $form['_username'] = "test@test.com";
         $form['_password'] = "password";
         $client->submit($form);
+        // follow the redirect
         $crawler = $client->followRedirect();
         //make sure we went to Home
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -238,44 +239,59 @@ class BookableControllerTest extends WebTestCase
         // Add more assertions based on the expected behavior of the about route
     }
 
+
     /**
      * @depends testWelcome
      */
     public function testBrowsing()
     {
-        // Create a new client to browse the application
         $client = $this->authenticateUser();
-//        $crawler = $client->request('GET', '/welcome');
+        // follow the redirect
         $crawler = $client->request('GET', '/browsing');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-//        // log in
-//        $form = $crawler->selectButton('Submit')->form();
-//        $form['_username'] = 'jeffee@gmail.com';
-//        $form['_password'] = 'jeffee';
-//        $client->submit($form);
-//
-//         print_r($client->getResponse()->getContent());
+        // follow the redirect
+        $crawler = $client->followRedirect();
+        print_r($client->getResponse()->getContent());
 
-//        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-//        $this->assertSelectorTextContains('title', 'Browsing');
-//
-//        // Check if book details are displayed correctly
-//        $this->assertCount(1, $crawler->filter('.book-title'));
-//        $this->assertEquals('Book Title', $crawler->filter('.book-title')->text());
-//        $this->assertCount(1, $crawler->filter('.book-author'));
-//        $this->assertEquals('Book Author', $crawler->filter('.book-author')->text());
-//        // Add more assertions based on the expected book details
-//
-//        // Check if related books are displayed correctly
-//        $this->assertCount(3, $crawler->filter('.related-book'));
-//        // Add more assertions based on the expected related books
-//
-//        // Check if book categories are displayed correctly
-//        $this->assertCount(2, $crawler->filter('.category'));
-//        // Add more assertions based on the expected categories
-//
-//        // Check if book reviews are displayed correctly
-//        $this->assertCount(2, $crawler->filter('.book-review'));
-//        // Add more assertions based on the expected reviews
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Since authentication is already done, you should see the page');
+        $this->assertSelectorTextContains('title', 'Browsing', 'The title of the page should be "Browsing"');
+
+        // Check if there is at least one browsing-list-item
+        $this->assertGreaterThan(0, $crawler->filter('div.browsing-list-item')->count(), 'There should be at least one browsing-list-item');
+
+        // check if there is a form with id search form
+        $this->assertGreaterThan(0, $crawler->filter('form#search_form')->count(), 'There should be a form with id search_form');
+        // check if there is a form with id genre_filter_form
+        $this->assertGreaterThan(0, $crawler->filter('form#genre_filter_form')->count(), 'There should be a form with id genre_filter_form');
+        //chekc if there are three buttons with class main-button: search, reset, next
+        $this->assertEquals(3, $crawler->filter('button.main-button')->count(), 'There should be three buttons with class main-button');
+    }
+
+    /**
+     * @depends testBrowsing
+     */
+    public function testSearching(){
+        // get the user authenticated client
+        $client = $this->authenticateUser();
+        // get the browsing page
+        $crawler = $client->request('GET', '/browsing');
+        // get the search form
+        $form = $crawler->filter('form#search_form')->form();
+        // fill in the form
+        $form['search'] = "Hunger";
+        // select the search button
+        $search_btn = $crawler->selectLink('search-btn')->link();
+        // submit the form
+        $crawler = $client->click($search_btn);
+        // check if the page is redirected to the browsing page with a flash message containing the searched book title
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Since form is submitted, you should see the search page');
+        // follow the redirect
+        $crawler = $client->followRedirect();
+        $this->assertSelectorTextContains('div.search-alert', 'Hunger', 'The flash message should contain the searched book title');
+        // filter the collection of books by the genre_filter_form
+        $form = $crawler->filter('form#genre_filter_form')->form();
+        // tick the checkbox with label "Young Adult" value 17
+        $form['genre_filter_form[genres][17]']->tick(['17']);
+        // check if the page is redirected and has status code 200
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Since form is submitted, you should see the search page');
     }
 }

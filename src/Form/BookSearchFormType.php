@@ -17,7 +17,8 @@ class BookSearchFormType extends AbstractType
             ->add('title',TextType::class,[
                 'attr'=>array(
                     'class'=> 'bg-white',
-                    'style'=>'margin-bottom:15px'
+                    'style'=>'margin-bottom:15px',
+                    'id'=>'search_form'
                 ),
                 'label'=>false,
                 'required'=>true,
