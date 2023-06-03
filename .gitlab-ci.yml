@@ -21,6 +21,7 @@ default:
 cache:
   paths:
     - node_modules/
+    - vendor/
 
 workflow:
   rules:
@@ -41,13 +42,13 @@ before-build:
   stage: build
   script:
     - pwd
-    - ls
     - composer update -W
     - composer install
     - composer require symfony/runtime
     - php bin/console cache:pool:clear cache.global_clearer
     - composer require symfony/webpack-encore-bundle:* #^2.0 is the current version
     - composer require --dev symfony/phpunit-bridge
+    - ls
 
 
 build-job:       # This job runs in the build stage, which runs first.
@@ -59,27 +60,44 @@ build-job:       # This job runs in the build stage, which runs first.
     - npm run build
 
 
-unit-test-job:   # This job runs in the test stage.
-  image: php:7.4
+test-job:   # This job runs in the test stage.
+  image: php:latest
   stage: test
+  before_script:
+    - apt-get update -yqq
+    - apt-get install -yqq git libpq-dev libcurl4-gnutls-dev libicu-dev libvpx-dev libjpeg-dev libpng-dev libxpm-dev zlib1g-dev libfreetype6-dev libxml2-dev libexpat1-dev libbz2-dev libgmp3-dev libldap2-dev unixodbc-dev libsqlite3-dev libaspell-dev libsnmp-dev libpcre3-dev libtidy-dev libonig-dev libzip-dev
+    # Install PHP extensions
+    - docker-php-ext-install mbstring pdo_pgsql curl intl gd xml zip bz2 opcache
+    - pecl install xdebug
+    - docker-php-ext-enable xdebug
+    # Install and run composer
+    - curl -sS https://getcomposer.org/installer | php
+    - php composer.phar install
+  # Bring in any services we need https://docs.gitlab.com/ee/ci/services/index.html
+  # See http://docs.gitlab.com/ee/ci/services/README.html for examples.
   services:
     - mysql:8
+
+  # Set any variables we need
+  variables:
+    # Configure mysql environment variables (https://hub.docker.com/r/_/mysql/)
+    MYSQL_DATABASE: local_bookable
+    MYSQL_ROOT_PASSWORD: password
+
+  # Run our tests
+  # If Xdebug was installed you can generate a coverage report and see code coverage metrics.
   script:
-    - echo "Running unit tests"
-    - php bin/phpunit tests/Unit
-    - echo "Running integration tests"
-    - php bin/phpunit tests/Integration
-    - echo "Running all tests"
-    - php bin/phpunit
+    - vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
+#    - echo "Running unit tests"
+#    - php bin/phpunit tests/Unit
+#    - echo "Running integration tests"
+#    - php bin/phpunit tests/Integration
+#    - echo "Running all tests"
+#    - php bin/phpunit
     - echo "Clearing cache"
     - php bin/console cache:clear
     - php bin/console cache:pool:clear cache.global_clearer
 
-lint-test-job:   # This job also runs in the test stage.
-  stage: test    # It can run at the same time as unit-test-job (in parallel).
-  script:
-    - echo "Linting code... This will take about 10 seconds."
-    - echo "No lint issues found."
 
 include:
   - template: Code-Quality.gitlab-ci.yml
