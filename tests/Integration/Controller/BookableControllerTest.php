@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class BookableControllerTest extends WebTestCase
 {
-    public function authenticateUser($username="test@test.com", $password="password")
+    public function authenticateUser($email="test@test.com", $password="password")
     {
         /*
          * Functionality gets tested in the testWelcome, since authentication happens there
@@ -22,7 +22,7 @@ class BookableControllerTest extends WebTestCase
 
         //fill in the form
         $form = $crawler->filter('#login_form')->form();
-        $form['_username'] = $username;
+        $form['_username'] = $email;
         $form['_password'] = $password;
         $client->submit($form);
         $crawler = $client->followRedirect();
@@ -138,7 +138,7 @@ class BookableControllerTest extends WebTestCase
      */
     public function testHome()
     {
-        $client = $this->authenticateUser();
+        $client = $this->authenticateUser('hometest@test.com', 'password');
         $crawler = $client->request('GET', '/home');
         $this->assertSelectorTextContains('title', 'Home');
     }
