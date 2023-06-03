@@ -186,7 +186,7 @@ class BookableController extends AbstractController
             ]);
             $entityManager->remove($followedBook);
         }
-        $entityManager->flush();
+//        $entityManager->flush();
         return $this->redirectToRoute('book', [
             'book_id' => $book_id
         ]);

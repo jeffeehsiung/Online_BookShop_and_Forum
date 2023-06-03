@@ -57,8 +57,6 @@ class BookFilterFormType extends AbstractType
                     'class' => 'genre-filter-container',
                     // flexbox styling for the genre filter checkboxes to display them in a column
                     'style' => 'display: flex; flex-direction: column; flex-wrap: wrap; align-items: flex-start;',
-                    // add a id to the form for HTML styling
-                    'id' => 'genre_filter_form',
                 ],
                 'translation_domain' => false,
                 // the returned value is an array of Genre objects: https://symfony.com/doc/current/reference/forms/types/collection.html

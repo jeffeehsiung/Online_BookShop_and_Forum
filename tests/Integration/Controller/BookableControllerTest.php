@@ -246,9 +246,8 @@ class BookableControllerTest extends WebTestCase
         $client = $this->authenticateUser();
         // follow the redirect
         $crawler = $client->request('GET', '/browsing');
-        // follow the redirect
-        print_r($client->getResponse()->getContent());
-
+//        // follow the redirect
+//        print_r($client->getResponse()->getContent());
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Since authentication is already done, you should see the page');
         $this->assertSelectorTextContains('title', 'Browsing', 'The title of the page should be "Browsing"');
 
@@ -256,11 +255,11 @@ class BookableControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('div.browsing-list-item')->count(), 'There should be at least one browsing-list-item');
 
         // check if there is a form with id search form
-        $this->assertGreaterThan(0, $crawler->filter('form#search_form')->count(), 'There should be a form with id search_form');
+        $this->assertGreaterThan(0, $crawler->filter('#book_search_form_title')->count(), 'There should be a form with id search_form');
         // check if there is a form with id genre_filter_form
-        $this->assertGreaterThan(0, $crawler->filter('form#genre_filter_form')->count(), 'There should be a form with id genre_filter_form');
+        $this->assertGreaterThan(0, $crawler->filter('#book_filter_form_genre')->count(), 'There should be a form with id genre_filter_form');
         //chekc if there are three buttons with class main-button: search, reset, next
-        $this->assertEquals(3, $crawler->filter('button.main-button')->count(), 'There should be three buttons with class main-button');
+        $this->assertEquals(3, $crawler->filter('.main-button')->count(), 'There should be three buttons with class main-button');
     }
 
     /**
@@ -271,24 +270,42 @@ class BookableControllerTest extends WebTestCase
         $client = $this->authenticateUser();
         // get the browsing page
         $crawler = $client->request('GET', '/browsing');
-        // get the search form
-        $form = $crawler->filter('form#search_form')->form();
-        // fill in the form
-        $form['search'] = "Hunger";
-        // select the search button
-        $search_btn = $crawler->selectLink('search-btn')->link();
+        // get the first form in the page
+        $form = $crawler->filter('form')->form();
+        // set the value of the input with id book_search_form_title to "Hunger"
+        $form['book_search_form[title]'] = 'Harry';
         // submit the form
-        $crawler = $client->click($search_btn);
-        // check if the page is redirected to the browsing page with a flash message containing the searched book title
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Since form is submitted, you should see the search page');
+        $crawler = $client->submit($form);
         // follow the redirect
         $crawler = $client->followRedirect();
-        $this->assertSelectorTextContains('div.search-alert', 'Hunger', 'The flash message should contain the searched book title');
-        // filter the collection of books by the genre_filter_form
-        $form = $crawler->filter('form#genre_filter_form')->form();
-        // tick the checkbox with label "Young Adult" value 17
-        $form['genre_filter_form[genres][17]']->tick(['17']);
-        // check if the page is redirected and has status code 200
+        // check if the page is redirected to the browsing page with a flash message containing the searched book title
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Since form is submitted, you should see the search page');
+        $this->assertSelectorTextContains('div.search-alert', 'Harry', 'The flash message should contain the searched book title');
+        $filter_form = $crawler->filter('aside')->filter('form')->form();
+        // get the input checkbox type with value 17
+        $genre_form = $crawler->filter('aside')->filter('form')->form()['book_filter_form[genre]'];
+//        $genre_checkbox = $crawler->filter('aside')->filter('form')->filter('input[type="checkbox"][value="17"]');
+        // filter and list all input checkbox type
+        $genre_checkbox = $crawler->filter('aside')->filter('form')->filter('input[type="checkbox"]');
+        // assert if there is 17 input checkbox type ( 17 genres)
+        $this->assertEquals(17, $genre_checkbox->count(), 'There should be 17 input checkbox type');
+        // get the last DOM element
+        $YoungAdult = $genre_checkbox->getNode(16);
+        // assert if the type of the last DOM element is checkbox
+        $this->assertEquals('checkbox', $YoungAdult->getAttribute('type'), 'The type of the last DOM element should be checkbox');
+        // tick the last checkbox
+        $genre_form[16]->tick();
+        // check if the last checkbox is checked
+        $this->assertTrue($genre_form[16]->hasValue(), 'The last checkbox should be checked');
+        // submit the form
+        $crawler = $client->submit($filter_form);
+        // check the flash message
+        $this->assertSelectorTextContains('div.search-alert', 'Harry', 'The flash message should contain the searched book title');
+        // test the reset button
+        $reset_btn = $crawler->filter('#reset-btn')->link();
+        // click the reset button
+        $crawler = $client->click($reset_btn);
+        // check the redirect status code
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Since reset button is clicked, you should see the search page');
     }
 }
