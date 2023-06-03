@@ -65,9 +65,9 @@ unit-test-job:   # This job runs in the test stage.
     - mysql:8
   script:
     - echo "Running unit tests"
-    - php bin/phpunit test/Unit
+    - php bin/phpunit tests/Unit
     - echo "Running integration tests"
-    - php bin/phpunit test/Integration
+    - php bin/phpunit tests/Integration
     - echo "Running all tests"
     - php bin/phpunit
     - echo "Clearing cache"
