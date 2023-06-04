@@ -21,9 +21,9 @@
         <testsuite name="Unit Tests">
             <directory>tests/Unit</directory>
         </testsuite>
-<!--        <testsuite name="Int Tests">-->
-<!--            <directory>tests/Integration</directory>-->
-<!--        </testsuite>-->
+        <testsuite name="Int Tests">
+            <directory>tests/Integration</directory>
+        </testsuite>
     </testsuites>
 
     <coverage processUncoveredFiles="true">
