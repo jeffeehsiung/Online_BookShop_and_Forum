@@ -18,10 +18,6 @@ class SettingsControllerTest extends WebTestCase
 
     private User $testUser;
 
-
-    //private $genreRepository;
-
-
     /**
      * @throws \Exception
      */
@@ -36,7 +32,6 @@ class SettingsControllerTest extends WebTestCase
 
         // Get the necessary services and repositories
         $this->entityManager = $this->client->getContainer()->get('doctrine')->getManager();
-        //$this->genreRepository = $this->entityManager->getRepository(Genre::class);
     }
 
     /**
