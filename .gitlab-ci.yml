@@ -95,7 +95,7 @@ code_quality:
 # build again
 before-deploy:
   image: node:latest
-  stage: build
+  stage: deploy
   before_script:
     - npm install
   script:
