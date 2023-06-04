@@ -46,9 +46,8 @@ before-build:
     - composer install
     - composer require symfony/runtime
     - php bin/console cache:pool:clear cache.global_clearer
-    - composer require symfony/webpack-encore-bundle:* #^2.0 is the current version
+#    - composer require symfony/webpack-encore-bundle:* #^2.0 is the current version
     - ls
-
 
 build-job:       # This job runs in the build stage, which runs first.
   image: node:latest
@@ -67,8 +66,8 @@ test-job:   # This job runs in the test stage.
     - apt-get install -yqq git libpq-dev libcurl4-gnutls-dev libicu-dev libvpx-dev libjpeg-dev libpng-dev libxpm-dev zlib1g-dev libfreetype6-dev libxml2-dev libexpat1-dev libbz2-dev libgmp3-dev libldap2-dev unixodbc-dev libsqlite3-dev libaspell-dev libsnmp-dev libpcre3-dev libtidy-dev libonig-dev libzip-dev
     # Install PHP extensions
     - docker-php-ext-install mbstring pdo_pgsql curl intl gd xml zip bz2 opcache
-#    - pecl install xdebug
-#    - docker-php-ext-enable xdebug
+    - pecl install xdebug
+    - docker-php-ext-enable xdebug
     # Install and run composer
     - curl -sS https://getcomposer.org/installer | php
     - php composer.phar install
@@ -92,7 +91,6 @@ test-job:   # This job runs in the test stage.
 
 include:
   - template: Code-Quality.gitlab-ci.yml
-
 code_quality:
   rules:
     - if: $CODE_QUALITY_DISABLED
