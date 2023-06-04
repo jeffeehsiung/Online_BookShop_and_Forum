@@ -5,6 +5,7 @@ namespace App\Security;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
@@ -18,6 +19,9 @@ class EmailVerifier
         private EntityManagerInterface $entityManager
     ) {}
 
+    /**
+     * @throws TransportExceptionInterface
+     */
     public function sendEmailConfirmation(string $verifyEmailRouteName, UserInterface $user, TemplatedEmail $email): void
     {
         $signatureComponents = $this->verifyEmailHelper->generateSignature(

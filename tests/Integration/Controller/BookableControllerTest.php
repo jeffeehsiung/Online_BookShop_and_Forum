@@ -2,17 +2,29 @@
 
 namespace App\Tests\Integration\Controller;
 
+use App\Entity\Book;
+use App\Entity\DislikedBook;
+use App\Entity\FollowedBook;
+use App\Entity\LikedBook;
 use App\Entity\User;
+use App\Repository\BookRepository;
+use App\Repository\DislikedBookRepository;
+use App\Repository\FollowedBookRepository;
+use App\Repository\LikedBookRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\Tools\DebugUnitOfWorkListener;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class BookableControllerTest extends WebTestCase
 {
+
     public function authenticateUser($email="test@test.com", $password="password")
     {
         /*
          * Functionality gets tested in the testWelcome, since authentication happens there
          */
+        self::ensureKernelShutdown();
         $client = static::createClient();
         $crawler = $client->request('GET', '/home');
         $crawler = $client->followRedirect();
@@ -34,6 +46,7 @@ class BookableControllerTest extends WebTestCase
         /*
           * test authentication with correct credentials
           */
+        self::ensureKernelShutdown();
         $client = static::createClient();
         $crawler = $client->request('GET', '/home');
         //we should be automatically redirected to the welcome page (status code 302)
@@ -59,7 +72,6 @@ class BookableControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertSelectorTextContains('title', 'Home');
         $this->assertSelectorTextContains('h1', 'Recommended books for you!');
-
     }
 
     public function testWelcomeWrongEmail()
@@ -67,7 +79,7 @@ class BookableControllerTest extends WebTestCase
         /*
          * test with wrong email
          */
-
+        self::ensureKernelShutdown();
         $client = static::createClient();
         $crawler = $client->request('GET', '/home');
         //we should be automatically redirected to the welcome page (status code 302)
@@ -103,7 +115,7 @@ class BookableControllerTest extends WebTestCase
         /*
          * test with wrong password
          */
-
+        self::ensureKernelShutdown();
         $client = static::createClient();
         $crawler = $client->request('GET', '/home');
         //we should be automatically redirected to the welcome page (status code 302)
@@ -138,7 +150,7 @@ class BookableControllerTest extends WebTestCase
      */
     public function testHome()
     {
-        $client = $this->authenticateUser('hometest@test.com', 'password');
+        $client = $this->authenticateUser();
         $crawler = $client->request('GET', '/home');
         $this->assertSelectorTextContains('title', 'Home');
         $this->assertSelectorExists('div.followed-books h3','Based on your followed books');
@@ -173,9 +185,7 @@ class BookableControllerTest extends WebTestCase
     {
         $client = $this->authenticateUser();
         $client->request('GET', '/book/1');
-        //we should be automatically redirected to the welcome page (status code 302)
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Since authentication is already done, you should see the page');
-        //make sure we are on welcome page
         $this->assertSelectorTextContains('title', 'The Hunger Games');
         $this->assertSelectorExists('h2', 'Suzanne Collins');
     }
@@ -183,17 +193,143 @@ class BookableControllerTest extends WebTestCase
 
     /**
      * @depends testBook
+     * @throws \Exception
      */
     public function testVote()
     {
-        $client = $this->authenticateUser();
-        $client->request('GET', '/book/1');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $client->request('POST', '/book/1/vote');
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $crawler = $client->followRedirect();
-        $this->assertSelectorTextContains('title', 'Games');
-        $this->assertSelectorTextContains('h2', 'Suzanne Collins');
+        // Alternative login method
+        self::ensureKernelShutdown();
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $testUser = $userRepository->findOneBy(['email' => 'test@test.com']);
+        $client->loginUser($testUser);
+
+        // get a book and the amount of initial likes to be tested
+        $bookRepository = static::getContainer()->get(BookRepository::class);
+        $book = $bookRepository->findOneBy(['id' => 1]);
+        $initialLikes = $book->getLikes();
+
+        /*
+         *  Correct data test 1: like
+         */
+        // Make a request to the vote endpoint with correct data
+        $client->request(
+            'POST',
+            '/book/' . $book->getId() . '/vote',
+            ['direction' => 'like-up']
+        );
+
+        // Assert the response status code
+        $this->assertSame(302, $client->getResponse()->getStatusCode());
+
+        // Assert that the book was liked by the user
+        //TODO: refactor likedBookRepository in setup
+        $likedBookRepository = static::getContainer()->get(LikedBookRepository::class);
+        $likedBook = $likedBookRepository->findOneBy(['user' => $testUser, 'book' => $book]);
+        $this->assertInstanceOf(LikedBook::class, $likedBook);
+
+        // Assert that the book's likes count has been incremented
+        $this->assertSame($initialLikes + 1, $book->getLikes());
+
+        // Clean up the database
+        $this->entityManager = $client->getContainer()->get('doctrine')->getManager();
+
+
+        /*
+         *  Correct data test 2: unlike
+         */
+        // Make a request to the vote endpoint with like-down
+        $client->request(
+            'POST',
+            '/book/' . $book->getId() . '/vote',
+            ['direction' => 'like-down']
+        );
+
+        // Assert the response status code
+        $this->assertSame(302, $client->getResponse()->getStatusCode());
+
+        // Re-fetch book
+        $book = $bookRepository->findOneBy(['id' => 1]);
+
+        // Assert that the book was unliked by the user
+        $likedBook = $likedBookRepository->findOneBy(['user' => $testUser, 'book' => $book]);
+        $this->assertNull($likedBook);
+
+        // Assert that the book's likes count has been restored
+        $this->assertSame($initialLikes, $book->getLikes());
+
+        /*
+         *  Correct data test 3: dislike
+        */
+        // fetch book and dislikes
+        $book = $bookRepository->findOneBy(['id' => 1]);
+        $initialDisLikes = $book->getDislikes();
+        // Make a request to the vote endpoint with correct data
+        $client->request(
+            'POST',
+            '/book/' . $book->getId() . '/vote',
+            ['direction' => 'dislike-up']
+        );
+        // Assert the response status code
+        $this->assertSame(302, $client->getResponse()->getStatusCode());
+
+        // Assert that the book was disliked by the user
+        //TODO: refactor disLikedBookRepository in setup
+        $disLikedBookRepository = static::getContainer()->get(DisLikedBookRepository::class);
+        $disLikedBook = $disLikedBookRepository->findOneBy(['user' => $testUser, 'book' => $book]);
+        $this->assertInstanceOf(DislikedBook::class, $disLikedBook);
+
+        // Assert that the book's likes count has been incremented
+        $this->assertSame($initialDisLikes + 1, $disLikedBook->getBook()->getDislikes());
+
+        /*
+         *  Correct data test 4: un-dislike
+         */
+        // Make a request to the vote endpoint with like-down
+        $client->request(
+            'POST',
+            '/book/' . $book->getId() . '/vote',
+            ['direction' => 'dislike-down']
+        );
+
+        // Assert the response status code
+        $this->assertSame(302, $client->getResponse()->getStatusCode());
+
+        // Re-fetch book
+        $book = $bookRepository->findOneBy(['id' => 1]);
+
+        // Assert that the book was unliked by the user
+        $disLikedBook = $disLikedBookRepository->findOneBy(['user' => $testUser, 'book' => $book]);
+        $this->assertNull($likedBook);
+
+        // Assert that the book's likes count has been restored
+        $this->assertSame($initialDisLikes, $book->getDislikes());
+
+
+        /*
+         *   Malicious data test
+         */
+        // Re-fetch book
+        $book = $bookRepository->findOneBy(['id' => 1]);
+        // Make a request to the vote endpoint with malicious data
+        $client->request(
+            'POST',
+            '/book/' . $book->getId() . '/vote',
+            ['direction' => 'malicious-data']
+        );
+
+        // Assert the response status code
+        $this->assertSame(302, $client->getResponse()->getStatusCode());
+
+        // Re-fetch book
+        $book = $bookRepository->findOneBy(['id' => 1]);
+
+        // Assert that the book was not liked by the user
+        $likedBook = $likedBookRepository->findOneBy(['user' => $testUser, 'book' => $book]);
+        $this->assertNull($likedBook);
+
+        // Assert that the likes count remained the same
+        $this->assertSame($initialLikes, $book->getLikes());
     }
 
     /**
@@ -201,17 +337,59 @@ class BookableControllerTest extends WebTestCase
      */
     public function testFollow()
     {
-        $client = $this->authenticateUser();
-        $client->request('GET', '/book/1');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $client->request('POST', '/book/1/follow');
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $crawler = $client->followRedirect();
-        $this->assertSelectorTextContains('title', 'The Hunger Games');
-        $this->assertSelectorTextContains('h2', 'Suzanne Collins');
+        // Alternative login method
+        //TODO: implement in setUp type function
+        self::ensureKernelShutdown();
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $testUser = $userRepository->findOneBy(['email' => 'test@test.com']);
+        $client->loginUser($testUser);
 
+        // get a book to be tested
+        $bookRepository = static::getContainer()->get(BookRepository::class);
+        $book = $bookRepository->findOneBy(['id' => 1]);
 
-        // Add more assertions based on the expected behavior of the follow route
+        /*
+         * Correct data test
+         */
+        // Make a request to the follow endpoint
+        $client->request(
+            'POST',
+            '/book/' . $book->getId() . '/follow',
+            ['follow-direction' => 'follow-up']
+        );
+
+        // Assert the response status code
+        $this->assertSame(302, $client->getResponse()->getStatusCode());
+
+        // Assert that the book is followed by the user
+        //TODO: refactor followedBookRepository in setup
+        $followedBookRepository = static::getContainer()->get(FollowedBookRepository::class);
+        $followedBook = $followedBookRepository->findOneBy(['user' => $testUser, 'book' => $book]);
+        $this->assertInstanceOf(FollowedBook::class, $followedBook);
+
+        // Clean up the database
+        $this->entityManager = $client->getContainer()->get('doctrine')->getManager();
+        $this->entityManager->remove($followedBook);
+        $this->entityManager->flush();
+
+        /*
+         * Malicious data test
+         */
+        // Make a request to the follow endpoint with malicious data
+        $client->request(
+            'POST',
+            '/book/' . $book->getId() . '/follow',
+            ['follow-direction' => 'malicious-data']
+        );
+
+        // Assert the response status code
+        $this->assertSame(302, $client->getResponse()->getStatusCode());
+
+        // Assert that the book is not followed by the user
+        //TODO: refactor followedBookRepository in setup
+        $followedBook = $followedBookRepository->findOneBy(['user' => $testUser, 'book' => $book]);
+        $this->assertNull($followedBook);
     }
 
 
@@ -234,6 +412,7 @@ class BookableControllerTest extends WebTestCase
      */
     public function testAbout()
     {
+        self::ensureKernelShutdown();
         $client = static::createClient();
         $client->request('GET', '/about');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
