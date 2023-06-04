@@ -98,19 +98,23 @@ code_quality:
   artifacts:
     paths: [gl-code-quality-report.json]
 
+# build again
+before-deploy:
+  image: node:latest
+  stage: build
+  before_script:
+    - npm install
+  script:
+    - npm run build
 
 # Every job will start a container with a clone from the current repo
 deploy-job:      # This job runs in the deploy stage.
-  image: node:latest
   # run this job only when there is a push on the master branch 
   only:
     - main
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully
-  before_script:
-    - composer install
-    - npm install
-    - npm run build
   script:
+    - composer install
     # create a local .ssh folder in the container
     - mkdir -p ~/.ssh
     # start the ssh-agent and add the private key to the system
