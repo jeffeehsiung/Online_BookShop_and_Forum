@@ -22,6 +22,7 @@
         </section>
         <section id="books">
             <div class="container">
+                <div class="followed-books">
                 <h3>Based on your followed books</h3>
                 <div class="book-list">
                     {% set count = 0 %}
@@ -45,6 +46,8 @@
                         {% endfor %}
                     {% endfor %}
                 </div>
+                </div>
+                <div class="trending">
                 <h3>Trending Books</h3>
                 <div class="book-list">
                     {% for book in popular_books|slice(0,20)%}
@@ -57,7 +60,9 @@
                         </div>
                     {% endfor %}
                 </div>
+                </div>
                 {% for genre in genres %}
+                    <div class="{{ genre.getGenre() }}">
                     <h3>Books in the category {{ genre.getGenre() }}</h3>
                     <div class="book-list">
                         {% set count = 0 %}
@@ -75,6 +80,7 @@
                                 {% endif %}
                             {% endif %}
                         {% endfor %}
+                    </div>
                     </div>
                 {% endfor %}
             </div>
