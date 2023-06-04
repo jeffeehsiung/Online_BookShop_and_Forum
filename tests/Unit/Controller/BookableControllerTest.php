@@ -2,24 +2,18 @@
 
 namespace App\Tests\Unit\Controller;
 
-use App\Controller\BaseController;
 use App\Controller\BookableController;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\TestCase;
 use App\Repository\GenreRepository;
 use App\Repository\BookRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use function PHPUnit\Framework\assertIsArray;
 
 
 class BookableControllerTest extends TestCase
 {
-
     /**
      * @depends testWelcome
      */
@@ -39,6 +33,7 @@ class BookableControllerTest extends TestCase
     }
 
 //TODO replace dummytests with proper tests
+
     /**
      * @depends testBook
      */
@@ -69,7 +64,7 @@ class BookableControllerTest extends TestCase
         $this->assertNotNull($userRepository->getRepository(UserRepository::class));
         // print the class name of the repository
         $this->assertIsString(get_class($userRepository->getRepository(UserRepository::class)));
-        $this->assertStringContainsString("UserRepository",get_class($userRepository->getRepository(UserRepository::class)));
+        $this->assertStringContainsString('UserRepository',get_class($userRepository->getRepository(UserRepository::class)));
         $userRepositoryMock = new UserRepository($userRepository);
         // assert userRepositoryMock is not null
         $this->assertNotNull($userRepositoryMock);

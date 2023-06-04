@@ -41,11 +41,13 @@ class BookableController extends AbstractController
         $this->stylesheets[] = 'base.css';
     }
 //TODO change 'index' to 'base'
+// Why? index is convention
     #[Route('/', name: 'index')]
     public function base(): Response
     {
         return $this->redirectToRoute('welcome');
     }
+
     #[Route('/book/{book_id}', name: 'book')]
     public function book
     (
@@ -122,7 +124,7 @@ class BookableController extends AbstractController
         $book = $bookRepository->findOneBy(['id' => $book_id]);
 
         // Update likes
-        $direction = $request->request->get('direction', 'like-up');
+        $direction = $request->request->get('direction');
         if($direction === 'like-up') {
             // Set as liked book in DB
             $likedBook = new LikedBook();
@@ -146,7 +148,7 @@ class BookableController extends AbstractController
             $entityManager->persist($dislikedBook);
 
             $book->setDislikes($book->getDislikes() + 1);
-        } else {
+        } elseif($direction === 'dislike-down') {
             // Un-dislike book
             $dislikedBook = $dislikedBookRepository->findOneBy([
                 'user' => $user,
@@ -154,6 +156,11 @@ class BookableController extends AbstractController
             ]);
             $entityManager->remove($dislikedBook);
             $book->setDislikes($book->getDislikes() - 1);
+        } else {
+            //In case of malicious data, redirect to book page without voting on book
+            return $this->redirectToRoute('book', [
+                'book_id' => $book_id
+            ]);
         }
 
         $entityManager->flush();
@@ -176,16 +183,21 @@ class BookableController extends AbstractController
         $book = $bookRepository->findOneBy(['id' => $book_id]);
 
         // Update followed books
-        $direction = $request->request->get('follow-direction', 'follow-up');
+        $direction = $request->request->get('follow-direction');
         if($direction === 'follow-up') {
             $followedBook = new FollowedBook($user, $book);
             $entityManager->persist($followedBook);
-        } else {
+        } elseif($direction === 'follow-down') {
             $followedBook = $followedBookRepository->findOneBy([
                 'user' => $user,
                 'book' => $book
             ]);
             $entityManager->remove($followedBook);
+        } else {
+            // In case of malicious data, redirect to book page without following book
+            return $this->redirectToRoute('book', [
+                'book_id' => $book_id
+            ]);
         }
         $entityManager->flush();
         return $this->redirectToRoute('book', [
