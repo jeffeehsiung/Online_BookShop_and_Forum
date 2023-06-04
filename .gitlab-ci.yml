@@ -119,7 +119,6 @@ deploy-job:      # This job runs in the deploy stage.
     - composer install
     - npm install
     - npm run build
-    - npm run deploy
   script:
     # create a local .ssh folder in the container
     - mkdir -p ~/.ssh
