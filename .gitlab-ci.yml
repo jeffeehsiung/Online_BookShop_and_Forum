@@ -47,7 +47,6 @@ before-build:
     - composer require symfony/runtime
     - php bin/console cache:pool:clear cache.global_clearer
     - composer require symfony/webpack-encore-bundle:* #^2.0 is the current version
-    - composer require --dev symfony/phpunit-bridge
     - ls
 
 
@@ -116,16 +115,20 @@ code_quality:
   artifacts:
     paths: [gl-code-quality-report.json]
 
+
 # Every job will start a container with a clone from the current repo
 deploy-job:      # This job runs in the deploy stage.
-  image: composer:2.5
+  image: node:latest
   # run this job only when there is a push on the master branch 
   only:
     - main
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
   environment: production
-  script:
+  before_script:
     - composer install
+    - npm install
+    - npm run build
+  script:
     # create a local .ssh folder in the container
     - mkdir -p ~/.ssh
     # start the ssh-agent and add the private key to the system
