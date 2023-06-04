@@ -114,12 +114,12 @@ deploy-job:      # This job runs in the deploy stage.
   # run this job only when there is a push on the master branch 
   only:
     - main
-  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
-  environment: production
+  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully
   before_script:
     - composer install
     - npm install
     - npm run build
+    - npm run deploy
   script:
     # create a local .ssh folder in the container
     - mkdir -p ~/.ssh
