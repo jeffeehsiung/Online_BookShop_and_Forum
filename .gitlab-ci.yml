@@ -67,8 +67,8 @@ test-job:   # This job runs in the test stage.
     - apt-get install -yqq git libpq-dev libcurl4-gnutls-dev libicu-dev libvpx-dev libjpeg-dev libpng-dev libxpm-dev zlib1g-dev libfreetype6-dev libxml2-dev libexpat1-dev libbz2-dev libgmp3-dev libldap2-dev unixodbc-dev libsqlite3-dev libaspell-dev libsnmp-dev libpcre3-dev libtidy-dev libonig-dev libzip-dev
     # Install PHP extensions
     - docker-php-ext-install mbstring pdo_pgsql curl intl gd xml zip bz2 opcache
-    - pecl install xdebug
-    - docker-php-ext-enable xdebug
+#    - pecl install xdebug
+#    - docker-php-ext-enable xdebug
     # Install and run composer
     - curl -sS https://getcomposer.org/installer | php
     - php composer.phar install
@@ -76,24 +76,16 @@ test-job:   # This job runs in the test stage.
   # See http://docs.gitlab.com/ee/ci/services/README.html for examples.
   services:
     - mysql:8
-
   # Set any variables we need
   variables:
     # Configure mysql environment variables (https://hub.docker.com/r/_/mysql/)
     MYSQL_DATABASE: local_bookable
     MYSQL_ROOT_PASSWORD: password
-
   # Run our tests
   # If Xdebug was installed you can generate a coverage report and see code coverage metrics.
   script:
-    - vendor/bin/phpunit --configuration phpunit.xml.dist --coverage-text --colors=never
-#    - echo "Running unit tests"
-#    - php bin/phpunit tests/Unit
-#    - echo "Running integration tests"
-#    - php bin/phpunit tests/Integration
-#    - echo "Running all tests"
-#    - php bin/phpunit
-    - echo "Clearing cache"
+#    - vendor/bin/phpunit --configuration phpunit.xml.dist --coverage-text --colors=never
+    - vendor/bin/phpunit --configuration phpunit.xml.dist --colors=never
     - php bin/console cache:clear
     - php bin/console cache:pool:clear cache.global_clearer
 
@@ -109,7 +101,7 @@ code_quality:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH      # Run code quality job in pipelines on the default branch (but not in other branch pipelines)
     - if: $CI_COMMIT_TAG                               # Run code quality job in pipelines for tags
   services:
-  stage: test
+  stage: review
   tags:
     - cq-sans-dind     # Set this job to only run on our new specialized runner
   artifacts:
