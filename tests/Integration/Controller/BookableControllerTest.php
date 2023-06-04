@@ -150,7 +150,7 @@ class BookableControllerTest extends WebTestCase
      */
     public function testHome()
     {
-        $client = $this->authenticateUser();
+        $client = $this->authenticateUser('hometest@test.com', 'password');
         $crawler = $client->request('GET', '/home');
         $this->assertSelectorTextContains('title', 'Home');
         $this->assertSelectorExists('div.followed-books h3','Based on your followed books');

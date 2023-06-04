@@ -37,8 +37,8 @@
                                         <a href="{{ path("book", {book_id: book.getID()}) }}">
                                             <img src="{{ book.imageUrl }}" alt="book cover" >
                                         </a>
-                                        <h4>{{ book.title() }}</h4>
-                                        <h4>{{ book.author().getAuthorName() }}</h4>
+                                        <h4 class="title">{{ book.title() }}</h4>
+                                        <h4 class="author">{{ book.author().getAuthorName() }}</h4>
                                     </div>
                                     {% set count = count+1 %}
                                 {% endif %}
@@ -47,7 +47,7 @@
                     {% endfor %}
                 </div>
                 </div>
-                <div class="trending">
+                <div class="trending-books">
                 <h3>Trending Books</h3>
                 <div class="book-list">
                     {% for book in popular_books|slice(0,20)%}
@@ -55,8 +55,8 @@
                             <a href="{{ path("book", {book_id: book.getID()}) }}">
                                 <img src="{{ book.imageUrl }}" alt="book cover" >
                             </a>
-                            <h4>{{ book.title() }}</h4>
-                            <h4>{{ book.author().getAuthorName() }}</h4>
+                            <h4 class="title">  {{ book.title() }}</h4>
+                            <h4 class="author">{{ book.author().getAuthorName() }}</h4>
                         </div>
                     {% endfor %}
                 </div>
@@ -73,8 +73,8 @@
                                         <a href="{{ path("book", {book_id: genre_book.getID()}) }}">
                                             <img src="{{ genre_book.imageUrl }}" alt="book cover" >
                                         </a>
-                                        <h4>{{ genre_book.title() }}</h4>
-                                        <h4>{{ genre_book.author().getAuthorName() }}</h4>
+                                        <h4 class="title">{{ genre_book.title() }}</h4>
+                                        <h4 class="author">{{ genre_book.author().getAuthorName() }}</h4>
                                     </div>
                                     {% set count = count + 1 %}
                                 {% endif %}
