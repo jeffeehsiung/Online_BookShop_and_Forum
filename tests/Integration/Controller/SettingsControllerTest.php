@@ -107,18 +107,23 @@ class SettingsControllerTest extends WebTestCase
      */
     public function testEditLikedGenres(): void
     {
+        $genreRepository = static::getContainer()->get(GenreRepository::class);
+        $genre1 = $genreRepository->findOneBy(['id' => 1]);
+        $genre2 = $genreRepository->findOneBy(['id' => 2]);
         // Make a request to the editLikedGenres endpoint
         $this->client->request(
             'POST',
             '/settings/editLikedGenres',
-            ['1', '2'] // IDs of the genres
+            [
+                $genre1->getGenre() => $genre1->getId(),
+                $genre2->getGenre() => $genre2->getId()
+            ] // IDs of the genres
         );
 
         // Assert the response status code
         $this->assertSame(302, $this->client->getResponse()->getStatusCode());
 
         // Assert that the user's liked genres have been updated
-        $genreRepository = static::getContainer()->get(GenreRepository::class);
         $likedGenres = $this->testUser->getLikedGenres();
         $this->assertCount(2, $likedGenres);
         $likedGenreRepository = static::getContainer()->get(LikedGenreRepository::class);
