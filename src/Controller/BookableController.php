@@ -379,7 +379,7 @@ class BookableController extends AbstractController
         // genreRepository is used to get all genres from the database for the filter form
         $bookGenres = $genreRepository->findAll();
         // if a book title is passed in the url, then get all books with that title
-        $bookTitle = $book_title? u(str_replace('-',' ',$book_title))->title(true) : null;
+        $bookTitle = $book_title? u(str_replace(['-','=','%',':',';',',','*','+','"'],' ',$book_title))->title(true) : null;
         // if a book title is null, then get all books will be returned
         $booksPAG = $bookRepository->findAllByTitle($bookTitle, $offset);
 
@@ -449,7 +449,7 @@ class BookableController extends AbstractController
         // genreRepository is used to get all genres from the database for the filter form
         $bookGenres = $genreRepository->findAll();
         // if a book title is passed in the url, then get all books with that title
-        $bookTitle = $book_title? u(str_replace('-',' ',$book_title))->title(true) : null;
+        $bookTitle = $book_title? u(str_replace(['-','=','%',':',';',',','*','+','"'],' ',$book_title))->title(true) : null;
         // if a book title is null, then get all books will be returned
         $booksPAG = $bookRepository->findAllByTitle($bookTitle, $offset);
 
