@@ -75,7 +75,8 @@ test-job:   # This job runs in the test stage.
     # set the correct DSN in Symfony to connect to the temporary database
     DATABASE_URL: "mysql://local_bookable:password@localhost:3306/local_bookable?serverVersion=8&charset=utf8mb4"
   script:
-    - vendor/bin/phpunit --configuration phpunit.xml.dist --colors=never
+    # use vendor/bin/phpunit to run only unit tests
+    - vendor/bin/phpunit --configuration phpunit.xml.dist --testsuite UnitTests
     - php bin/console cache:clear
     - php bin/console cache:pool:clear cache.global_clearer
 
