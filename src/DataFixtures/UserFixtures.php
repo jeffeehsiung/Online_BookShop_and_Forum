@@ -46,7 +46,7 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface
         $manager->flush();
     }
 
-    public function getOrder()
+    public function getOrder():int
     {
         return 2; //smaller means sooner
     }

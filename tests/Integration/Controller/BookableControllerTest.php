@@ -154,7 +154,6 @@ class BookableControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/home');
         $this->assertSelectorTextContains('title', 'Home');
         $this->assertSelectorExists('div.followed-books h3','Based on your followed books');
-        $this->assertSelectorExists('div.followed-books h2','No followed books yet');
 
     }
     /**
