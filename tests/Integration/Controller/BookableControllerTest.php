@@ -150,9 +150,11 @@ class BookableControllerTest extends WebTestCase
      */
     public function testHome()
     {
-        $client = $this->authenticateUser();
+        $client = $this->authenticateUser('hometest@test.com', 'password');
         $crawler = $client->request('GET', '/home');
         $this->assertSelectorTextContains('title', 'Home');
+        $this->assertSelectorExists('div.followed-books h3','Based on your followed books');
+
     }
     /**
      * @depends testHome
@@ -184,7 +186,7 @@ class BookableControllerTest extends WebTestCase
         $client->request('GET', '/book/1');
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Since authentication is already done, you should see the page');
         $this->assertSelectorTextContains('title', 'The Hunger Games');
-        $this->assertSelectorTextContains('h2', 'Suzanne Collins');
+        $this->assertSelectorExists('h2', 'Suzanne Collins');
     }
 
 

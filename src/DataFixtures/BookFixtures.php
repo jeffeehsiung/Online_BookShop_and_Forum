@@ -23,7 +23,8 @@ class BookFixtures extends Fixture implements OrderedFixtureInterface
         $csvFile = 'src/csv_files/books_pt3.csv';
         $this->addToDatabase($csvFile, $manager);
     }
-    public function getOrder(){
+    public function getOrder():int
+    {
         return 3; //smaller means earlier
     }
 
