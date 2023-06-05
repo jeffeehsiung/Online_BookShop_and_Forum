@@ -41,16 +41,15 @@
         <section id="browsing-list">
             {% for book in books %}
                 <div class="browsing-list-item">
-                    <div class = "book-image-container">
+                    <a href="{{ path("book", {'book_id': book.getId()}) }}" class = "book-image-container">
                         <img src="{{ book.getImageUrl() }}" alt={{ book.getSmallImageUrl() }} class="book-list-image" width="200" height="300">
-                    </div>
-                    <div class="book-list-description">
+                    </a>
+                    <a href="{{ path("book", {'book_id': book.getId()}) }}" class="book-list-description">
                         <span class="book-list-title">{{ book.getTitle()}}</span>
                         {% if book.getAuthor() is not null %}
                             <span class="book-list-author">{{ book.getAuthor().getAuthorName() }}</span>
                         {% endif %}
-                        <a href="{{ path("book", {'book_id': book.getId()}) }}" class="home-green-button">Detail</a>
-                    </div>
+                    </a>
                 </div>
             {% endfor %}
         </section>
