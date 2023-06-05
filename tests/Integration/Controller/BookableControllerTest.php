@@ -213,6 +213,8 @@ class BookableControllerTest extends WebTestCase
      */
     public function testVote()
     {
+        // Blabla dumb comment
+
         // Alternative login method
         self::ensureKernelShutdown();
         $client = static::createClient();
@@ -354,6 +356,8 @@ class BookableControllerTest extends WebTestCase
      */
     public function testFollow()
     {
+        // Bla bla dumb comment
+
         // Alternative login method
         //TODO: implement in setUp type function
         self::ensureKernelShutdown();
