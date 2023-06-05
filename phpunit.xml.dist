@@ -26,7 +26,6 @@
         </testsuite>
     </testsuites>
 
-     exclude tests by tag group
     <groups>
         <include>
             <group>include</group>
