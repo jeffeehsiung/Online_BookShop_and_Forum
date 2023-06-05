@@ -31,7 +31,7 @@
                     {%  endif %}
                     {% for book in books%}
                         {% for author in followed_authors %}
-                            {% if count <= 20 %}
+                            {% if count < 20 %}
                                 {% if author == book.getAuthor() %}
                                     <div class="book">
                                         <a href="{{ path("book", {book_id: book.getID()}) }}">
