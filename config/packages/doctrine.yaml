@@ -21,7 +21,7 @@ when@test:
     doctrine:
         dbal:
             # "TEST_TOKEN" is typically set by ParaTest
-            url: 'mysql://local_bookable:password@127.0.0.1:3306/local_bookable?serverVersion=8&charset=utf8mb4'
+            url: 'mysql://local_bookable:password@localhost:3306/local_bookable?serverVersion=8&charset=utf8mb4'
             unix_socket: '/tmp/mysql.sock'
 
 when@prod:

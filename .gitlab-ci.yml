@@ -69,13 +69,12 @@ test-job:   # This job runs in the test stage.
   variables:
     # Configure mysql environment variables (https://hub.docker.com/r/_/mysql/)
     MYSQL_DATABASE: local_bookable
-    MYSQL_USER: local_user
-    MYSQL_ROOT_PASSWORD: password
+    MYSQL_USER: local_bookable
     MYSQL_PASSWORD: password
     # set the correct DSN in Symfony to connect to the temporary database
-    DATABASE_URL: "mysql://local_bookable:password@127.0.0.1:3306/local_bookable?serverVersion=8&charset=utf8mb4"
+    DATABASE_URL: "mysql://local_bookable:password@localhost:3306/local_bookable?serverVersion=8&charset=utf8mb4"
   script:
-    - vendor/bin/phpunit --configuration phpunit.xml.dist --colors=never
+    - vendor/bin/phpunit --configuration phpunit.xml.dist --colors=never --env=test
     - php bin/console cache:clear
     - php bin/console cache:pool:clear cache.global_clearer
 
