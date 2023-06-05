@@ -24,6 +24,8 @@ class SettingsControllerTest extends WebTestCase
      */
     protected function setUp(): void
     {
+        // Bla bla dumb comment
+
         // Create a test client
         self::ensureKernelShutdown();
         $this->client = static::createClient();
