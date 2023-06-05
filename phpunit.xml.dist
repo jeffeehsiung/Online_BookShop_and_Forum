@@ -18,13 +18,23 @@
     </php>
 
     <testsuites>
-        <testsuite name="Unit Tests">
+        <testsuite name="UnitTests">
             <directory>tests/Unit</directory>
         </testsuite>
-        <testsuite name="Int Tests">
+        <testsuite name="IntegrationTests">
             <directory>tests/Integration</directory>
         </testsuite>
     </testsuites>
+
+<!--     exclude tests by tag group -->
+    <groups>
+        <include>
+            <group>include</group>
+        </include>
+        <exclude>
+            <group>exclude</group>
+        </exclude>
+    </groups>
 
     <coverage processUncoveredFiles="true">
         <include>

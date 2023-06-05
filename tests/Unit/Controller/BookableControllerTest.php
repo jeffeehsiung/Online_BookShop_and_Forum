@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 class BookableControllerTest extends TestCase
 {
     /**
-     * @depends testWelcome
+     * @group include
      */
     public function testSettings()
     {
@@ -24,7 +24,7 @@ class BookableControllerTest extends TestCase
     }
 
     /**
-     * @depends testWelcome
+     * @group include
      */
     public function testBook()
     {
@@ -35,7 +35,7 @@ class BookableControllerTest extends TestCase
 //TODO replace dummytests with proper tests
 
     /**
-     * @depends testBook
+     * @group include
      */
     public function testVote()
     {
@@ -44,7 +44,7 @@ class BookableControllerTest extends TestCase
     }
 
     /**
-     * @depends testBook
+     * @group include
      */
     public function testFollow()
     {
@@ -52,6 +52,9 @@ class BookableControllerTest extends TestCase
         self::assertTrue(true);
     }
 
+    /**
+     * @group include
+     */
     public function testWelcome()
     {
         //workflow: given, when, then, arrange, act, assert
@@ -79,7 +82,7 @@ class BookableControllerTest extends TestCase
     }
 
     /**
-     * @depends testWelcome
+     * @group include
      */
     public function testHome()
     {
@@ -88,7 +91,7 @@ class BookableControllerTest extends TestCase
     }
 
     /**
-     * @depends testWelcome
+     * @group include
      */
     public function testProfile()
     {
@@ -97,7 +100,7 @@ class BookableControllerTest extends TestCase
     }
 
     /**
-     * @depends testWelcome
+     * @group include
      */
     public function testAbout()
     {
@@ -105,6 +108,9 @@ class BookableControllerTest extends TestCase
         self::assertTrue(true);
     }
 
+    /**
+     * @group include
+     */
     public function testBrowsing()
     {
         //workflow: given, when, then, arrange, act, assert

@@ -19,6 +19,7 @@ class SettingsControllerTest extends WebTestCase
     private User $testUser;
 
     /**
+     * @group include
      * @throws \Exception
      */
     protected function setUp(): void
@@ -35,6 +36,7 @@ class SettingsControllerTest extends WebTestCase
     }
 
     /**
+     * @group include
      * @throws \Exception
      */
     public function testSettings(): void
@@ -49,6 +51,7 @@ class SettingsControllerTest extends WebTestCase
     }
 
     /**
+     * @group include
      * @throws \Exception
      */
     public function testSetAvatar(): void
@@ -78,6 +81,7 @@ class SettingsControllerTest extends WebTestCase
     }
 
     /**
+     * @group include
      * @throws \Exception
      */
     public function testSetBio(): void
@@ -103,6 +107,7 @@ class SettingsControllerTest extends WebTestCase
     }
 
     /**
+     * @group exclude
      * @throws \Exception
      */
     public function testEditLikedGenres(): void
@@ -145,6 +150,7 @@ class SettingsControllerTest extends WebTestCase
     }
 
     /**
+     * @group include
      * @throws \Exception
      */
     public function testEditPassword(): void

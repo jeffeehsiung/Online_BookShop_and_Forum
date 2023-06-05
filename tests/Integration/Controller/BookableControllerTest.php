@@ -19,6 +19,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class BookableControllerTest extends WebTestCase
 {
 
+    /**
+     * @group include
+     */
     public function authenticateUser($email="test@test.com", $password="password")
     {
         /*
@@ -41,6 +44,10 @@ class BookableControllerTest extends WebTestCase
 
         return $client;
     }
+
+    /**
+     * @group include
+     */
     public function testWelcome()
     {
         /*
@@ -74,6 +81,9 @@ class BookableControllerTest extends WebTestCase
         $this->assertSelectorTextContains('h1', 'Recommended books for you!');
     }
 
+    /**
+     * @group include
+     */
     public function testWelcomeWrongEmail()
     {
         /*
@@ -110,6 +120,9 @@ class BookableControllerTest extends WebTestCase
         $this->assertSelectorTextContains('#error_display', 'Invalid credentials.');
     }
 
+    /**
+     * @group include
+     */
     public function testWelcomeWrongPassword()
     {
         /*
@@ -146,6 +159,7 @@ class BookableControllerTest extends WebTestCase
 
 
     /**
+     * @group include
      * @depends testWelcome
      */
     public function testHome()
@@ -157,6 +171,7 @@ class BookableControllerTest extends WebTestCase
 
     }
     /**
+     * @group include
      * @depends testHome
      */
     public function testSettings()
@@ -178,6 +193,7 @@ class BookableControllerTest extends WebTestCase
     }
 
     /**
+     * @group include
      * @depends testHome
      */
     public function testBook()
@@ -191,6 +207,7 @@ class BookableControllerTest extends WebTestCase
 
 
     /**
+     * @group exclude
      * @depends testBook
      * @throws \Exception
      */
@@ -332,6 +349,7 @@ class BookableControllerTest extends WebTestCase
     }
 
     /**
+     * @group exclude
      * @depends testBook
      */
     public function testFollow()
@@ -393,6 +411,7 @@ class BookableControllerTest extends WebTestCase
 
 
     /**
+     * @group include
      * @depends testHome
      */
     public function testProfile()
@@ -407,6 +426,7 @@ class BookableControllerTest extends WebTestCase
     }
 
     /**
+     * @group include
      * @depends testWelcome
      */
     public function testAbout()
@@ -420,6 +440,7 @@ class BookableControllerTest extends WebTestCase
     }
 
     /**
+     * @group include
      * @depends testWelcome
      */
     public function testBrowsing()
@@ -444,6 +465,7 @@ class BookableControllerTest extends WebTestCase
     }
 
     /**
+     * @group include
      * @depends testBrowsing
      */
     public function testSearching(){

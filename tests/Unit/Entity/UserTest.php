@@ -12,6 +12,9 @@ use App\Entity\DislikedBook;
 
 class UserTest extends TestCase
 {
+    /**
+     * @group include
+     */
     public function testConstruct(): void
     {
         $user = new User();
@@ -23,6 +26,9 @@ class UserTest extends TestCase
         $this->assertEmpty($user->getDislikedBooks());
     }
 
+    /**
+     * @group include
+     */
     public function testGetSetFirstName(): void
     {
         $user = new User();
@@ -33,6 +39,9 @@ class UserTest extends TestCase
         $this->assertEquals($firstName, $user->getFirstName());
     }
 
+    /**
+     * @group include
+     */
     public function testGetSetAvatar(): void
     {
         $user = new User();
@@ -43,6 +52,9 @@ class UserTest extends TestCase
         $this->assertEquals($avatar, $user->getAvatar());
     }
 
+    /**
+     * @group include
+     */
     public function testGetSetFollowedBooks(): void
     {
         $user = new User();
@@ -59,6 +71,9 @@ class UserTest extends TestCase
         $this->assertFalse($user->getFollowedBooks()->contains($followedBook));
     }
 
+    /**
+     * @group include
+     */
     public function testGetSetLikedGenres(): void
     {
         $user = new User();
@@ -75,6 +90,9 @@ class UserTest extends TestCase
         $this->assertFalse($user->getLikedGenres()->contains($likedGenre));
     }
 
+    /**
+     * @group include
+     */
     public function testGetSetLikedBooks(): void
     {
         $user = new User();
@@ -91,6 +109,9 @@ class UserTest extends TestCase
         $this->assertFalse($user->getLikedBooks()->contains($likedBook));
     }
 
+    /**
+     * @group include
+     */
     public function testGetSetDislikedBooks(): void
     {
         $user = new User();

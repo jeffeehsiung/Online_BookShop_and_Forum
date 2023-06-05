@@ -9,6 +9,9 @@ use PHPUnit\Framework\TestCase;
 
 class AvatarTest extends TestCase
 {
+    /**
+     * @group include
+     */
     public function testConstruct(): void
     {
         $avatar = new Avatar();
@@ -17,6 +20,9 @@ class AvatarTest extends TestCase
         $this->assertInstanceOf(ArrayCollection::class, $users);
     }
 
+    /**
+     * @group include
+     */
     public function testGetSetUrl(): void
     {
         $avatar = new Avatar();
@@ -27,6 +33,9 @@ class AvatarTest extends TestCase
         $this->assertEquals($url, $avatar->getUrl());
     }
 
+    /**
+     * @group include
+     */
     public function testGetUsers(): void
     {
         $avatar = new Avatar();
@@ -43,6 +52,9 @@ class AvatarTest extends TestCase
         $this->assertTrue($users->contains($user2));
     }
 
+    /**
+     * @group include
+     */
     public function testAddUser(): void
     {
         $avatar = new Avatar();
@@ -54,6 +66,9 @@ class AvatarTest extends TestCase
         $this->assertSame($avatar, $user->getAvatar());
     }
 
+    /**
+     * @group include
+     */
     public function testRemoveUser(): void
     {
         $avatar = new Avatar();
