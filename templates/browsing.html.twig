@@ -20,11 +20,11 @@
     <!-- define header search-->
     <section id="browsing-search">
         <!-- define search form-->
-        {{ form_start(searchform) }}
-            {{ form_widget(searchform) }}
+        {{ form_start(search_form) }}
+            {{ form_widget(search_form) }}
         <button type="submit" id = "search-btn" class="main-button">Search</button>
         <a href="{{ path("browsing") }}" type="submit" id = "reset-btn" class="main-button">Reset</a>
-        {{ form_end(searchform) }}
+        {{ form_end(search_form) }}
     </section>
     {% for message in app.flashes('search') %}
         <div id = search-alert class="search-alert">
@@ -34,23 +34,22 @@
     <main id="contents">
         <aside id="browsing-filter-container">
             <!-- define filter form-->
-            {{ form_start(filterform) }}
-            {{ form_widget(filterform) }}
-            {{ form_end(filterform) }}
+            {{ form_start(filter_form) }}
+            {{ form_widget(filter_form) }}
+            {{ form_end(filter_form) }}
         </aside>
         <section id="browsing-list">
             {% for book in books %}
                 <div class="browsing-list-item">
-                    <div class = "book-image-container">
+                    <a href="{{ path("book", {'book_id': book.getId()}) }}" class = "book-image-container">
                         <img src="{{ book.getImageUrl() }}" alt={{ book.getSmallImageUrl() }} class="book-list-image" width="200" height="300">
-                    </div>
-                    <div class="book-list-description">
+                    </a>
+                    <a href="{{ path("book", {'book_id': book.getId()}) }}" class="book-list-description">
                         <span class="book-list-title">{{ book.getTitle()}}</span>
                         {% if book.getAuthor() is not null %}
                             <span class="book-list-author">{{ book.getAuthor().getAuthorName() }}</span>
                         {% endif %}
-                        <a href="{{ path("book", {'book_id': book.getId()}) }}" class="home-green-button">Detail</a>
-                    </div>
+                    </a>
                 </div>
             {% endfor %}
         </section>
@@ -60,16 +59,16 @@
     <section class="browsing-pages">
         {% if previous >= 0 %}
             {%  if book_title is not null %}
-                <a href="{{ path("searching", {'book_title': book_title, 'offset': previous}) }}" class="main-button">Previous</a>
+                <a href="{{ path("searching", {'book_title': book_title, 'offset': previous, 'genre_ids': genre_ids}) }}" class="main-button">Previous</a>
             {% else %}
-                <a href="{{ path("browsing", {'offset': previous}) }}" class="main-button">Previous</a>
+                <a href="{{ path("browsing", {'offset': previous, 'genre_ids': genre_ids}) }}" class="main-button">Previous</a>
             {% endif %}
         {% endif %}
         {% if next < books|length %}
             {%  if book_title is not null %}
-                <a href="{{ path("searching", {'book_title': book_title, 'offset': next}) }}" class="main-button">Next</a>
+                <a href="{{ path("searching", {'book_title': book_title, 'offset': next, 'genre_ids': genre_ids}) }}" class="main-button">Next</a>
             {% else %}
-                <a href="{{ path("browsing", {'offset': next}) }}" class="main-button">Next</a>
+                <a href="{{ path("browsing", {'offset': next, 'genre_ids': genre_ids}) }}" class="main-button">Next</a>
             {% endif %}
         {% endif %}
     </section>

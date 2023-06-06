@@ -9,6 +9,9 @@ use PHPUnit\Framework\TestCase;
 
 class LikedGenreTest extends TestCase
 {
+    /**
+     * @group include
+     */
     public function testGetSetGenre(): void
     {
         $likedGenre = new LikedGenre();
@@ -19,6 +22,9 @@ class LikedGenreTest extends TestCase
         $this->assertEquals($genre, $likedGenre->getGenre());
     }
 
+    /**
+     * @group include
+     */
     public function testGetSetUser(): void
     {
         $likedGenre = new LikedGenre();

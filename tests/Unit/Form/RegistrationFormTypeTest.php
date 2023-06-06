@@ -11,6 +11,9 @@ use Symfony\Component\Validator\Validation;
 
 class RegistrationFormTypeTest extends TypeTestCase
 {
+    /**
+     * @group include
+     */
     protected function getExtensions()
     {
         $validator = Validation::createValidator();
@@ -26,7 +29,9 @@ class RegistrationFormTypeTest extends TypeTestCase
         ];
     }
 
-
+    /**
+     * @group include
+     */
     public function testSubmitValidData()
     {
         $formData = [
