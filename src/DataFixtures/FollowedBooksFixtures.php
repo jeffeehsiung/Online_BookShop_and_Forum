@@ -30,6 +30,16 @@ class FollowedBooksFixtures extends Fixture implements OrderedFixtureInterface
         }
         //
         $manager->flush();
+
+        $user2 = $manager->getRepository(User::class)->findOneBy(['email' => 'hometest@test.com']);
+        //add the first 5 uneven books to the database for a specific user
+        for ($i = 0; $i < 10; $i++) {
+            $book = $manager->getRepository(Book::class)->findOneBy(['id' => $i*10+rand(0,9)]);
+            $followedBook = new FollowedBook($user2, $book);
+            $manager->persist($followedBook);
+        }
+        //
+        $manager->flush();
     }
     public function getOrder():int
     {
