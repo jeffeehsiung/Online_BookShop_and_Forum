@@ -421,7 +421,7 @@ class BookableControllerTest extends WebTestCase
     public function testProfile1()
     {
         /* First Profile is a new porfile wiht no liked bookes or profile picture nor correct username*/
-        $client = $this->authenticateUser("test@test.com","password");
+        $client = $this->authenticateUser();
         $client->request('GET', '/profile');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         print_r($client->getResponse()->getContent());
@@ -432,7 +432,7 @@ class BookableControllerTest extends WebTestCase
         $this->assertSelectorTextContains('h1.section-title', 'Followed Books');
 
         //test if profile name is correct: ok
-        $this->assertSelectorTextContains('h1.profilename',  "user 1007");
+        $this->assertSelectorTextContains('h1.profilename',  "test");
 
         //test if  avatar is correct:
         $avatarUrl = $crawler->filter('img#profilepic')->attr('src');
@@ -460,7 +460,7 @@ class BookableControllerTest extends WebTestCase
     }
     public function testProfile2()
     {
-        $client = $this->authenticateUser("MATH@gmail.com","password");
+        $client = $this->authenticateUser("profiletest@test.com","password");
         $client->request('GET', '/profile');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         print_r($client->getResponse()->getContent());
@@ -471,12 +471,12 @@ class BookableControllerTest extends WebTestCase
         $this->assertSelectorTextContains('h1.section-title', 'Followed Books');
 
         //test if profile name is correct: ok
-        $this->assertSelectorTextContains('#First',  "Mathilde");
-        $this->assertSelectorTextContains('#Last',  "Blanc");
+        $this->assertSelectorTextContains('#First',  "profile");
+        $this->assertSelectorTextContains('#Last',  "test");
         //test if  avatar is correct:
         $avatarUrl = $crawler->filter('img#profilepic')->attr('src');
         $expectedAvatarUrl = 'https://api.dicebear.com/6.x/personas/svg?seed=Angel';
-        $this->assertSame($expectedAvatarUrl, $avatarUrl);
+        $this->assertEquals($expectedAvatarUrl, $avatarUrl);
 
 
         // Assert the followed books
