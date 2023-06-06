@@ -10,6 +10,9 @@ use PHPUnit\Framework\TestCase;
 
 class GenreTest extends TestCase
 {
+    /**
+     * @group include
+     */
     public function testConstruct()
     {
         $genre = new Genre();
@@ -23,6 +26,9 @@ class GenreTest extends TestCase
         $this->assertCount(0, $genre->getLikedGenres());
     }
 
+    /**
+     * @group include
+     */
     public function testGetSetGenre()
     {
         $genre = new Genre();
@@ -33,6 +39,9 @@ class GenreTest extends TestCase
         $this->assertEquals($genreName, $genre->getGenre());
     }
 
+    /**
+     * @group include
+     */
     public function testBooksRelationship()
     {
         $genre = new Genre();
@@ -49,6 +58,9 @@ class GenreTest extends TestCase
         $this->assertNull($book->getGenre());
     }
 
+    /**
+     * @group include
+     */
     public function testLikedGenresRelationship()
     {
         $genre = new Genre();
