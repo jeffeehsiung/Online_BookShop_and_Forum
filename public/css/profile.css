@@ -1,7 +1,7 @@
 @import "https://unpkg.com/open-props";
 /*@import "https://unpkg.com/open-props/normalize.min.css";*/
 
-#profilebody{
+#profilebody {
     flex-direction: row;
     display: flex;
     justify-content: center;
@@ -12,8 +12,7 @@
     align-content: center;
 }
 
-#left
-{
+#left {
     flex-direction: column;
     display: flex;
     justify-content: flex-start;
@@ -31,13 +30,11 @@ h1 {
     font-size: 48px;
 }
 
-.profilename
-{
+.profile_name {
     color: white;
     width: fit-content;
 }
-#profilepic
-{
+#profile_pic {
     inline-size: 120%;
     aspect-ratio: 16/ 16;
     width: 250px;
@@ -47,8 +44,7 @@ h1 {
     border-width: medium;
 }
 
-.contactIcons
-{
+.contact_icons {
     flex-direction: row;
     display: flex;
     justify-content: center;
@@ -59,8 +55,7 @@ h1 {
 
 }
 
-#right
-{
+#right {
 
     flex-direction: column;
     display: flex;
@@ -72,7 +67,7 @@ h1 {
     width: 60%;
 }
 
-.media-scroller {
+.media_scroller {
     --_spacer: 3px;
     display: grid;
     gap: var(--_spacer);
@@ -84,7 +79,7 @@ h1 {
     overflow-x: hidden;
     overscroll-behavior-inline: contain;
 }
-.media-scroller:hover {
+.media_scroller:hover {
     overflow-x:scroll;
 
 }
@@ -99,7 +94,7 @@ h1 {
     grid-auto-flow: column;
 }
 
-.media-element {
+.media_element {
     display: grid;
     grid-template-rows: min-content;
     gap: var(--_spacer);
@@ -112,18 +107,18 @@ h1 {
 
 }
 
-.media-element > img {
+.media_element > img {
     inline-size: 90%;
     aspect-ratio: 9/ 12;
     object-fit: cover;
 }
 
-.snaps-inline {
+.snaps_inline {
     scroll-snap-type: inline mandatory;
     scroll-padding-inline: var(--_spacer, 1rem);
 }
 
-.snaps-inline > * {
+.snaps_inline > * {
     scroll-snap-align: start;
 }
 
@@ -139,11 +134,10 @@ h1 {
     gap: 10px;
 }
 
-.title
-{
+.title {
     font-family: Poppins, serif;
 }
-.section-title {
+.section_title {
     padding-inline-start: 10px;
     margin-block: 10px;
     color: white;

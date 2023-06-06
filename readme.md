@@ -43,6 +43,7 @@ Provide a link to the main page of your application. Or if you have multiple par
 * lower camel casing for all variables (lowerCamelCase)
 * snake_case for all key naming (snake_case) used for selection
 * snake_case for all csv files (snake_case)
+* snake_case for all html ids and classes (snake_case)
 * ![img.png](img.png)
 ### indention
 * Allman for functions and classes

@@ -54,6 +54,7 @@ class BookableControllerTest extends WebTestCase
         $form['_username'] = "test@test.com";
         $form['_password'] = "password";
         $client->submit($form);
+        print_r($client->getResponse()->getContent());
         $crawler = $client->followRedirect();
         //make sure we went to Home
         $this->assertEquals(200, $client->getResponse()->getStatusCode());

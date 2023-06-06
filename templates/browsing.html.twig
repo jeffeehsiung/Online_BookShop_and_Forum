@@ -15,41 +15,41 @@
     <!-- https://symfony.com/doc/current/components/browser_kit.html -->
 <section id="browsing">
     <header>
-        <h1 id="browsing-title">Book Browsing & Searching </h1>
+        <h1 id="browsing_title">Book Browsing & Searching </h1>
     </header>
     <!-- define header search-->
-    <section id="browsing-search">
+    <section id="browsing_search">
         <!-- define search form-->
         {{ form_start(searchform) }}
             {{ form_widget(searchform) }}
-        <button type="submit" id = "search-btn" class="main-button">Search</button>
-        <a href="{{ path("browsing") }}" type="submit" id = "reset-btn" class="main-button">Reset</a>
+        <button type="submit" id ="search_btn" class="main_button">Search</button>
+        <a href="{{ path("browsing") }}" type="submit" id ="reset_btn" class="main_button">Reset</a>
         {{ form_end(searchform) }}
     </section>
     {% for message in app.flashes('search') %}
-        <div id = search-alert class="search-alert">
+        <div id = search_alert class="search_alert">
             {{ message }}
         </div>
     {% endfor %}
     <main id="contents">
-        <aside id="browsing-filter-container">
+        <aside id="browsing_filter_container">
             <!-- define filter form-->
             {{ form_start(filterform) }}
             {{ form_widget(filterform) }}
             {{ form_end(filterform) }}
         </aside>
-        <section id="browsing-list">
+        <section id="browsing_list">
             {% for book in books %}
-                <div class="browsing-list-item">
-                    <div class = "book-image-container">
-                        <img src="{{ book.getImageUrl() }}" alt={{ book.getSmallImageUrl() }} class="book-list-image" width="200" height="300">
+                <div class="browsing_list_item">
+                    <div class = "book_image_container">
+                        <img src="{{ book.getImageUrl() }}" alt={{ book.getSmallImageUrl() }} class="book_list_image" width="200" height="300">
                     </div>
-                    <div class="book-list-description">
-                        <span class="book-list-title">{{ book.getTitle()}}</span>
+                    <div class="book_list_description">
+                        <span class="book_list_title">{{ book.getTitle()}}</span>
                         {% if book.getAuthor() is not null %}
-                            <span class="book-list-author">{{ book.getAuthor().getAuthorName() }}</span>
+                            <span class="book_list_author">{{ book.getAuthor().getAuthorName() }}</span>
                         {% endif %}
-                        <a href="{{ path("book", {'book_id': book.getId()}) }}" class="home-green-button">Detail</a>
+                        <a href="{{ path("book", {'book_id': book.getId()}) }}" class="home_green_button">Detail</a>
                     </div>
                 </div>
             {% endfor %}
@@ -57,19 +57,19 @@
     </main>
 
     {#pages buttons#}
-    <section class="browsing-pages">
+    <section class="browsing_pages">
         {% if previous >= 0 %}
             {%  if book_title is not null %}
-                <a href="{{ path("searching", {'book_title': book_title, 'offset': previous}) }}" class="main-button">Previous</a>
+                <a href="{{ path("searching", {'book_title': book_title, 'offset': previous}) }}" class="main_button">Previous</a>
             {% else %}
-                <a href="{{ path("browsing", {'offset': previous}) }}" class="main-button">Previous</a>
+                <a href="{{ path("browsing", {'offset': previous}) }}" class="main_button">Previous</a>
             {% endif %}
         {% endif %}
         {% if next < books|length %}
             {%  if book_title is not null %}
-                <a href="{{ path("searching", {'book_title': book_title, 'offset': next}) }}" class="main-button">Next</a>
+                <a href="{{ path("searching", {'book_title': book_title, 'offset': next}) }}" class="main_button">Next</a>
             {% else %}
-                <a href="{{ path("browsing", {'offset': next}) }}" class="main-button">Next</a>
+                <a href="{{ path("browsing", {'offset': next}) }}" class="main_button">Next</a>
             {% endif %}
         {% endif %}
     </section>

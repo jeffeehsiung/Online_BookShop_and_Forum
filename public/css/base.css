@@ -1,3 +1,4 @@
+/*TODO check if using font here in body makes it redundant everywhere else*/
 .navbar-navbar {
     width: 100%;
     display: flex;
@@ -8,10 +9,7 @@
     align-items: center;
     gap: 20px;
     flex-shrink: 1;
-    padding-top: var(--dl-space-space-twounits);
-    padding-left: var(--dl-space-space-oneandhalfunits);
-    padding-right: var(--dl-space-space-oneandhalfunits);
-    padding-bottom: var(--dl-space-space-fiveunits);
+    padding: var(--dl-space-space-twounits) var(--dl-space-space-oneandhalfunits) var(--dl-space-space-fiveunits);
 }
 .navbar-branding-logo {
     box-sizing: content-box;
@@ -44,7 +42,7 @@
     align-self: auto;
     font-style: normal;
     text-align: left;
-    font-family: Poppins;
+    font-family: Poppins, serif;
     font-weight: 500;
     font-stretch: normal;
     text-decoration: none;
@@ -104,7 +102,7 @@
     align-self: auto;
     font-style: normal;
     text-align: left;
-    font-family: Poppins;
+    font-family: Poppins, serif;
     font-weight: 500;
     font-stretch: normal;
     text-decoration: none;
@@ -168,7 +166,7 @@
 .mark-label {
     color: rgb(255, 255, 255);
     font-style: normal;
-    font-family: Poppins;
+    font-family: Poppins, serif;
     font-weight: 600;
     line-height: 24px;
 }
@@ -210,13 +208,13 @@
     color: rgb(255, 255, 255);
     font-size: 24px;
     font-style: normal;
-    font-family: Poppins;
+    font-family: Poppins, serif;
     font-weight: 600;
     line-height: 36px;
 }
 .card-description {
     color: #C2C6CC;
-    font-family: Poppins;
+    font-family: Poppins, serif;
     line-height: 28px;
 }
 
@@ -262,7 +260,7 @@
     font-size: 18px;
     max-width: 535px;
     font-style: normal;
-    font-family: Poppins;
+    font-family: Poppins, serif;
     font-weight: 600;
     line-height: 27px;
 }
@@ -270,7 +268,7 @@
     color: var(--dl-color-gray-900);
     width: 100%;
     max-width: 535px;
-    font-family: Poppins;
+    font-family: Poppins, serif;
     line-height: 24px;
     user-select: text;
 }
@@ -297,7 +295,7 @@
     font-size: 18px;
     max-width: 535px;
     font-style: normal;
-    font-family: Poppins;
+    font-family: Poppins, serif;
     font-weight: 600;
     line-height: 27px;
 }
@@ -305,7 +303,7 @@
     color: var(--dl-color-gray-900);
     width: 100%;
     max-width: 535px;
-    font-family: Poppins;
+    font-family: Poppins, serif;
     line-height: 24px;
     user-select: text;
 }
@@ -332,7 +330,7 @@
     font-size: 18px;
     max-width: 535px;
     font-style: normal;
-    font-family: Poppins;
+    font-family: Poppins, serif;
     font-weight: 600;
     line-height: 27px;
 }
@@ -340,7 +338,7 @@
     color: var(--dl-color-gray-900);
     width: 100%;
     max-width: 535px;
-    font-family: Poppins;
+    font-family: Poppins, serif;
     line-height: 24px;
     user-select: text;
 }
@@ -377,7 +375,7 @@
 .includes-label {
     color: #C2C6CC;
     font-size: 14px;
-    font-family: Poppins;
+    font-family: Poppins, serif;
     line-height: 25px;
 }
 
@@ -406,7 +404,7 @@
 .excludes-label {
     color: #75797E;
     font-size: 14px;
-    font-family: Poppins;
+    font-family: Poppins, serif;
     line-height: 25px;
 }
 
@@ -468,7 +466,7 @@
 .review-quote {
     color: #CCCCCC;
     font-size: 18px;
-    font-family: Poppins;
+    font-family: Poppins, serif;
     line-height: 25px;
 }
 .review-author {
@@ -2394,7 +2392,7 @@
     outline-style: none;
     background-color: rgba(217, 217, 217, 0);
 }
-.home-green-button {
+.home_green_button {
     display: flex;
     padding: var(--dl-space-space-unit) var(--dl-space-space-oneandhalfunits);
     background-color: #80FF44;

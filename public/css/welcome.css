@@ -6,7 +6,7 @@ main {
 
 
 }
-.welcomeBody{
+.welcomeBody {
     flex-direction: column;
     display: flex;
     justify-content: space-around;
@@ -14,8 +14,7 @@ main {
     align-items: center;
 
 }
-.welcome
-{
+.welcome {
 
     font-weight: 500;
     font-size: 100px;
@@ -63,7 +62,7 @@ main {
     margin-left: 15px;
 
 }
-#login_title{
+#login_title {
     text-align: center;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -82,15 +81,13 @@ main {
     color: white;
     opacity: 100%;
 }
-.cls_btn
-{
+.cls_btn {
     color: #FFFFFF;
    font-size: 150%;
 
 
 }
-.overlay_header
-{
+.overlay_header {
     flex-direction: row;
     display: flex;
     justify-content: flex-end;
@@ -98,16 +95,14 @@ main {
 
 }
 
-.overlay_header #login_title
-{
+.overlay_header #login_title {
     justify-content: center;
     color:white;
     font-size: large;
     text-transform: uppercase;
     padding-bottom: 20px;
 }
-#submit
-{
+#submit {
     display: flex;
     justify-content: center;
     padding-bottom: 1%;
@@ -144,24 +139,21 @@ form {
     padding-top: 100px;
 
 }
-#welcome
-{
+#welcome {
     color:white;
     font-size: 80px;
     text-transform: uppercase;
     padding-bottom: 20px;
 
 }
-.logintext
-{
+.logintext {
     color:white;
     font-size: 20px;
     padding-bottom: 20px;
 }
 
 
-.login_button
-{
+.login_button {
     cursor: pointer;
     box-sizing: border-box;
 
@@ -180,8 +172,7 @@ form {
     font-size: 50px;
     color : #80FF44;
 }
-.register_button
-{
+.register_button {
     cursor: pointer;
     /*box-sizing: border-box;*/
     display: flex;
@@ -207,8 +198,7 @@ form {
 .login_button:hover {
     background-color: #3E3E3E;
 }
-#logo_png
-{
+#logo_png {
     width: 100px;
     height: 100px;
 }

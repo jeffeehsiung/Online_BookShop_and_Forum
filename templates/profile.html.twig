@@ -19,23 +19,23 @@
     <section id = "left">
         {% if   avatar == null %}
 
-        <img id = "profilepic"  src = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png" alt="">
+        <img id = "profile_pic" src = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png" alt="">
         {%else %}
-        <img id = "profilepic"  src = "{{ avatar.getUrl() }}" alt="" >
+        <img id = "profile_pic" src = "{{ avatar.getUrl() }}" alt="" >
         {% endif %}
         {% if  user.getFirstName() == null %}
 
-            <h1 class = "profilename"> user {{ user.getId() }}</h1>
+            <h1 class = "profile_name"> user {{ user.getId() }}</h1>
         {%else %}
-            <h1 class = "profilename">{{ user.getFirstName() }}</h1>
+            <h1 class = "profile_name">{{ user.getFirstName() }}</h1>
         {% endif %}
 
-        <h1 class = "profilename">{{ user.getLastName() }}</h1>
+        <h1 class = "profile_name">{{ user.getLastName() }}</h1>
 
-
-        <div class = "contactIcons">
+{# TODO change classname and style #}
+        <div class = "contact_icons">
             <a href="{{ path('settings') }}" >
-                <i class='fa-solid fa-gear' style='font-size:40px'></i>
+                <i class="fa_solid fa_gear" style='font-size:40px'></i>
             </a>
 
 
@@ -43,17 +43,17 @@
     </section>
 
     <section id = "right">
-        <h1 class = section-title> Followed Books</h1>
+        <h1 class = section_title> Followed Books</h1>
         <div class = booklist>
                 {% if followed_book == null%}
                 <div class="empty">
                     <a >  &emsp; &emsp;  No liked books yet...</a>
                 </div>
                 {% else %}
-            <div class="media-scroller snaps-inline">
+            <div class="media_scroller snaps_inline">
                 {% for book in followed_book %}
 
-                <div class="media-element" >
+                <div class="media_element" >
                     <a href="{{ path("book", {book_id: book.getID()}) }}">
                     <img src = "{{ book.getImageUrl  }}" alt="">
                     <p class="title">{{ book.getTitle }}</p>
@@ -64,7 +64,7 @@
                 {% endif %}
             </div>
 
-        <h1 class = section-title> Liked Books</h1>
+        <h1 class = section_title> Liked Books</h1>
         <div class = booklist>
 
                 {% if liked_list == null%}
@@ -72,9 +72,9 @@
                     <a >   &emsp; &emsp; To read list is empty...</a>
                 </div>
                 {% else %}
-            <div class="media-scroller snaps-inline">
+            <div class="media_scroller snaps_inline">
                 {% for book in liked_list %}
-                    <div class="media-element">
+                    <div class="media_element">
                         <a href="{{ path("book", {book_id: book.getID()}) }}">
                         <img src = "{{ book.getImageUrl  }}" alt="">
                         <p class="title">{{ book.getTitle }}</p>
@@ -84,7 +84,7 @@
             </div>
                 {% endif %}
         </div>
-            <h1 class = section-title> Disliked Books</h1>
+            <h1 class ="section_title"> Disliked Books</h1>
             <div class = booklist>
 
                 {% if disliked_list == null%}
@@ -92,9 +92,9 @@
                         <a >   &emsp; &emsp; Disliked list is empty...</a>
                     </div>
                 {% else %}
-                    <div class="media-scroller snaps-inline">
+                    <div class="media_scroller snaps_inline">
                         {% for book in disliked_list %}
-                            <div class="media-element">
+                            <div class="media_element">
                                 <a href="{{ path("book", {book_id: book.getID()}) }}">
                                     <img src = "{{ book.getImageUrl  }}" alt="">
                                     <p class="title">{{ book.getTitle }}</p>
@@ -114,16 +114,3 @@
 </section>
 
 {% endblock %}
-
-{#
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>_
-
-</body>
-</html>
-#}

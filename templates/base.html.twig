@@ -1,8 +1,7 @@
-{# TODO: integrate all javascript with encore #}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>{%block title%}Book Binder{% endblock %}</title> {# to prepend title in your own page: {% block title %}Title | {{ parent() }}{% endblock %} #}
+    <title>{%block title%}Book Binder{% endblock %}</title>
     <meta charset="UTF-8">
     <meta property="og:title" content="bookbinder" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +12,7 @@
     </style>
     <style data-tag="default-style-sheet">
         html {
-          font-family: Inter, serif; {# TODO: check if serif messed up style #}
+          font-family: Inter, serif;
          font-size: 16px;
        }
 
@@ -63,7 +62,7 @@
   {{ notice }}
 {% endfor %}
 </div>
-  <div>
+<div>
     <link href="{{ asset('css/base.css') }}" rel="stylesheet" type="text/css"/>
   <div class="home-container">
   <header>
@@ -75,7 +74,7 @@
     </a>
 
     <nav class="navbar-nav-content">
-      <ul class="navbar-nav-links"> {# TODO: check if changing div and span to class nav and li+a messes up the css configuration #}
+      <ul class="navbar-nav-links">
 
         <li><a class="nav-link" href="{{ path('about') }}">About us </a></li>
         {% if is_granted('ROLE_USER')==0 %}
@@ -200,6 +199,6 @@
 
   </footer>
   </div>
- </div>
+</div>
 </body>
 </html>

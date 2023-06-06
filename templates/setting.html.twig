@@ -15,41 +15,41 @@
 {% block content %}
 
     <section id="settings">
-        <h1 id="settings-title">Settings</h1>
+        <h1 id="settings_title">Settings</h1>
 
         {% for message in app.flashes('password-success') %}
-            <div id="password-message" style="color: #4CC366">
+            <div id="password_message" style="color: #4CC366">
                 {{ message }}
                 <span id="close" onclick="closeMessage()">x</span>
             </div>
         {% endfor %}
         {% for message in app.flashes('password-fail') %}
-            <div id="password-message" style="color: #A22020">
+            <div id="password_message" style="color: #A22020">
                 {{ message }}
                 <span id="close" onclick="closeMessage()">x</span>
             </div>
         {% endfor %}
 
-        <button type="button" class="settings-submenu" >Profile</button>
-        <div class="settings-menu-content">
+        <button type="button" class="settings_submenu" >Profile</button>
+        <div class="settings_menu_content">
             <h2>Edit you profile: </h2>
 
-            <section id="avatar-settings">
+            <section id="avatar_settings">
                 {% if user.getAvatar() is null %}
                     <p>No avatar is set yet</p>
-                    <button class="button" id="btn-open-avatar-overlay" onclick="overlayOn()">Choose your avatar &#8599;</button>
+                    <button class="button" id="btn_open_avatar_overlay" onclick="overlayOn()">Choose your avatar &#8599;</button>
                 {% else %}
                     <p>This is your current avatar:</p>
-                    <img id="user-avatar" src="{{ user.getAvatar().url }}" alt="user avatar">
-                    <button class="button" id="btn-open-avatar-overlay" onclick="overlayOn()">Update avatar &#8599;</button>
+                    <img id="user_avatar" src="{{ user.getAvatar().url }}" alt="user avatar">
+                    <button class="button" id="btn_open_avatar_overlay" onclick="overlayOn()">Update avatar &#8599;</button>
                 {% endif %}
 
-                <form id="set-avatar" action="{{ path('setAvatar') }}" method="POST">
-                    <div id="avatar-overlay">
+                <form id="set_avatar" action="{{ path('setAvatar') }}" method="POST">
+                    <div id="avatar_overlay">
                         <h1>Choose your avatar below:</h1>
-                        <div id="grid-container">
+                        <div id="grid_container">
                             {% for avatar in avatars %}
-                                <button id="btn-avatar" class="avatar-image" type="submit" name="avatar-id" value="{{ avatar.id }}">
+                                <button id="btn_avatar" class="avatar_image" type="submit" name="avatar_id" value="{{ avatar.id }}">
                                     <img src="{{ avatar.url }}" alt="avatar img {{ avatar.id }}">
                                 </button>
                             {% endfor %}
@@ -59,7 +59,7 @@
             </section>
 
             {# TODO: input safety #}
-            <form id="set-bio" action="{{ path('setBio') }}" method="POST">
+            <form id="set_bio" action="{{ path('setBio') }}" method="POST">
                 <label for="bio">Bio:</label>
                 {% if user.getBio() is null %}
                     <textarea id="bio" name="bio" rows="4" cols="50" placeholder="add a bio to your profile" oninput="onBioChange()" required></textarea>
@@ -67,13 +67,13 @@
                     <textarea id="bio" name="bio" rows="4" cols="50" placeholder="{{ user.getBio() }}" required></textarea>
                 {% endif %}
                 <br>
-                <button id="btn-save-bio" type="submit" class="button">Save bio</button>
+                <button id="btn_save_bio" type="submit" class="button">Save bio</button>
             </form>
         </div>
 
-        <button type="button" class="settings-submenu" >Preferences</button>
-        <div class="settings-menu-content">
-            <form id="form-favourite-genres" action="{{ path('editLikedGenres') }}" method="POST">
+        <button type="button" class="settings_submenu" >Preferences</button>
+        <div class="settings_menu_content">
+            <form id="form_favourite_genres" action="{{ path('editLikedGenres') }}" method="POST">
                 <h2>Add your favourite genres</h2>
                 <label for="genres">Favourite Book Genres:</label><br>
                 <div id="genres">
@@ -93,26 +93,25 @@
             </form>
         </div>
 
-        <button type="button" class="settings-submenu" >Information</button>
-        <div class="settings-menu-content">
-            <form id="form-password" action="{{ path('editPassword') }}" method="POST">
+        <button type="button" class="settings_submenu" >Information</button>
+        <div class="settings_menu_content">
+            <form id="form_password" action="{{ path('editPassword') }}" method="POST">
                 <h2>Edit password</h2>
-                <label for="current-password">Current Password:</label>
-                <input type="password" id="current-password" name="current-password" placeholder="Enter current password"
+                <label for="current_password">Current Password:</label>
+                <input type="password" id="current_password" name="current_password" placeholder="Enter current password"
                        oninput="" required><br>
 
-                <label for="new-password">New Password:</label>
-                <input type="password" id="new-password" name="new-password" placeholder="Enter new password"
+                <label for="new_password">New Password:</label>
+                <input type="password" id="new_password" name="new_password" placeholder="Enter new password"
                        oninput="checkPasswordMatch()" required minlength="8"><br>
 
-                <label for="confirm-password">Confirm New Password:</label>
-                <input type="password" id="confirm-password" name="confirm-password" placeholder="Re-enter new password"
+                <label for="confirm_password">Confirm New Password:</label>
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Re-enter new password"
                        oninput="checkPasswordMatch()" required>
-                <span id="passwordMatchMessage"></span><br>
+                <span id="password_match_message"></span><br>
 
-                <button id="btn-submit-pw" type="submit" class="button" disabled>Save Password</button>
+                <button id="btn_submit_pw" type="submit" class="button" disabled>Save Password</button>
             </form>
-
         </div>
     </section>
 

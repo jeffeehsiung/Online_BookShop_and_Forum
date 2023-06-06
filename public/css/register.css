@@ -5,13 +5,11 @@ main {
 
 
 }
-#registration_layout
-{
+#registration_layout {
     display: flex;
     flex-direction: column;
 }
-#register_title
-{
+#register_title {
     text-align: center;
     font-size: larger;
 }
@@ -25,9 +23,7 @@ main {
     justify-content: flex-start;
 }
 
-.register_text label
-
-{
+.register_text label {
     padding-bottom: 1%;
     font-size: small;
     text-align: start;
@@ -37,8 +33,7 @@ main {
 }
 
 
-#accept
-{
+#accept {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -48,25 +43,19 @@ main {
     gap: 20px;
 }
 
-.register_text input
-
-{
+.register_text input {
 
     border-radius: 10px;
 
 }
-.register_text input #registration_form_agreeTerms
-{
+.register_text input #registration_form_agreeTerms {
     padding: 20px;
 }
-#register_button
-{
+#register_button {
     display: flex;
     justify-content: center;
 }
-.register_submit
-
-{
+.register_submit {
     cursor: not-allowed;
     font-size: 100%;
     opacity: 1;

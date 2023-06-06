@@ -51,7 +51,7 @@ p {
     font-size: small;
 }
 
-.ratingButton {
+.rating_button {
     background: none;
     border: none;
     cursor: pointer;
@@ -59,7 +59,7 @@ p {
 
 }
 
-.btn-img {
+.btn_img {
     display: block;
     height: 30px;
 }

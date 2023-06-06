@@ -40,7 +40,7 @@
 .review-quote {
   color: #CCCCCC;
   font-size: 18px;
-  font-family: Poppins;
+  font-family: Poppins, serif;
   line-height: 25px;
 }
 .review-author {
@@ -67,13 +67,13 @@
   color: rgb(255, 255, 255);
   font-size: 16px;
   font-style: normal;
-  font-family: Poppins;
+  font-family: Poppins, serif;
   font-weight: 600;
 }
 .review-position {
   color: #CCCCCC;
   font-size: 14px;
-  font-family: Poppins;
+  font-family: Poppins, serif;
   line-height: 20px;
 }
 
