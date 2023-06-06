@@ -7,6 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class RegistrationControllerTest extends WebTestCase
 {
+    /**
+     * @group include
+     */
     public function testRegisterCorrect()
     {
         /*
@@ -73,6 +76,9 @@ class RegistrationControllerTest extends WebTestCase
 
     }
 
+    /**
+     * @group include
+     */
     public function testRegisterWrongPassword()
     {
         /*
@@ -115,6 +121,9 @@ class RegistrationControllerTest extends WebTestCase
         $this->assertSelectorTextContains('#register_fields > div > ul > li', 'The password fields must match.');
     }
 
+    /**
+     * @group include
+     */
     public function testRegisterUnacceptedTerms()
     {
         /*
@@ -155,6 +164,9 @@ class RegistrationControllerTest extends WebTestCase
 
     }
 
+    /**
+     * @group include
+     */
     public function testRegisterUnfilledField()
     {
         /*

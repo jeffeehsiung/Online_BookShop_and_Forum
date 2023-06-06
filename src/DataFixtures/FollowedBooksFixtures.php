@@ -16,17 +16,17 @@ class FollowedBooksFixtures extends Fixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        //set user with userID = 1006 == Jens
-        $user = $manager->getRepository(User::class)->findOneBy(['id' => 1006]);
+        $user = $manager->getRepository(User::class)->findOneBy(['email' => 'hometest@test.com']);
         //add the first 100 uneven books to the database for a specific user
-        for ($i = 0; $i < 100; $i++) {
-            $book = $manager->getRepository(Book::class)->findOneBy(['id' => 2*$i+1]);
+        for ($i = 0; $i < 10; $i++) {
+            $book = $manager->getRepository(Book::class)->findOneBy(['id' => 1*($i+1)+rand(0,9)]);
             $followedBook = new FollowedBook($user, $book);
             $manager->persist($followedBook);
         }
         $manager->flush();
     }
-    public function getOrder(){
+    public function getOrder():int
+    {
         return 6;
     }
 }
