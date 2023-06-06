@@ -468,7 +468,7 @@ class BookableControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/profile');
 
         $this->assertSelectorTextContains('title', 'Profile');
-        $this->assertSelectorTextContains('h1.section-title', 'Followed Books');
+
 
         //test if profile name is correct: ok
         $this->assertSelectorTextContains('#First',  "profile");
@@ -478,13 +478,14 @@ class BookableControllerTest extends WebTestCase
         $expectedAvatarUrl = 'https://api.dicebear.com/6.x/personas/svg?seed=Angel';
         $this->assertEquals($expectedAvatarUrl, $avatarUrl);
 
-
+        $this->assertSelectorTextContains('h1.section-title#followTitle', 'Followed Books');
         // Assert the followed books
         $followedBooks = $client->getCrawler()->filter('#followed .media-element');
-        $this->assertCount(2, $followedBooks); // Assuming there are 2 followed books for the first profile
+        $this->assertCount(4, $followedBooks); // Assuming there are 2 followed books for the first profile
 
         // Assert the titles of the followed books
-        $expectedTitles = ['Cinder (The Lunar Chronicles, #1)','Little Bee']; // Assuming the followed books have these titles
+        $expectedTitles = ['The Hunger Games (The Hunger Games, #1)','Twilight (Twilight, #1)','The Great Gatsby','The Hobbit'
+]; // Assuming the followed books have these titles
         $actualTitles = [];
         $followedBooks->each(function ($book) use (&$actualTitles) {
             $actualTitles[] = $book->filter('p.title')->text();
@@ -492,6 +493,43 @@ class BookableControllerTest extends WebTestCase
 
         // Assert the titles of the followed books
         $this->assertSame($expectedTitles, $actualTitles);
+
+
+
+
+        // Assert the section title
+        $this->assertSelectorTextContains('h1.section-title#likeTitle', 'Liked Books');
+
+        // Assert the liked books
+        $likedBooks = $client->getCrawler()->filter('#Liked .media-element');
+        $this->assertCount(4, $likedBooks); // Assuming there are 2 liked books for the first profile
+
+        // Get the actual book titles from the page
+        $actualTitles = [];
+        $likedBooks->each(function ($book) use (&$actualTitles) {
+            $actualTitles[] = $book->filter('p.title')->text();
+        });
+
+        // Assert the titles of the liked books
+        $expectedTitles = ["The Hunger Games (The Hunger Games, #1)", "Harry Potter and the Sorcerer's Stone (Harry Potter, #1)", "Twilight (Twilight, #1)","To Kill a Mockingbird"]; // Adjust with the actual titles in the same order
+        $this->assertSame($expectedTitles, $actualTitles);
+
+        // test Disliked books
+        $this->assertSelectorTextContains('h1.section-title#dislikeTitle', 'Disliked Books');
+
+// Assert the disliked books
+        $dislikedBooks = $client->getCrawler()->filter('#Disliked .media-element');
+        $this->assertCount(4, $dislikedBooks); // Assuming there are 3 disliked books for the first profile
+
+// Get the actual book titles from the page
+        $actualTitles = [];
+        $dislikedBooks->each(function ($book) use (&$actualTitles) {
+            $actualTitles[] = $book->filter('p.title')->text();
+        });
+
+// Assert the titles of the disliked books
+        $expectedTitles = ['Me Talk Pretty One Day', 'Where the Wild Things Are', 'The Count of Monte Cristo', 'The Road']; // Adjust with the actual titles in any order
+        $this->assertEqualsCanonicalizing($expectedTitles, $actualTitles);
 
     }
 

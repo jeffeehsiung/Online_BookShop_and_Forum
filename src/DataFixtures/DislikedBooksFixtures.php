@@ -17,10 +17,10 @@ class DislikedBooksFixtures extends Fixture implements OrderedFixtureInterface
     {
         //set id equal to the one you actually want to use
         $user = $manager->getRepository(User::class)->findOneBy(['id' => 1008]);
-        //add the first 4 books in the database to the likedbooks for a specific user
-        for ($i = 0; $i < 4; $i++) {
+        //add the first 4 books after 101 in the database to the likedbooks for a specific user
+        for ($i = 1; $i < 5; $i++) {
             //make sure that liked and disliked don't overlap!!!!
-            $book = $manager->getRepository(Book::class)->findOneBy(['id' => $i+101]);
+            $book = $manager->getRepository(Book::class)->findOneBy(['id' => $i+100]);
             $dislikedBooks = new DislikedBook();
             $dislikedBooks->setBook($book);
             $dislikedBooks->setUser($user);
@@ -33,3 +33,5 @@ class DislikedBooksFixtures extends Fixture implements OrderedFixtureInterface
         return 6;
     }
 }
+//'Me Talk Pretty One Day', 'Where the Wild Things Are' The Count of Monte Cristo, 'The Road'
+//Allegiant (Divergent, #3)
