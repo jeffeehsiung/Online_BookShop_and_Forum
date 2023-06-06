@@ -16,7 +16,7 @@ class DislikedBooksFixtures extends Fixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         //set id equal to the one you actually want to use
-        $user = $manager->getRepository(User::class)->findOneBy(['id' => 1008]);
+        $user = $manager->getRepository(User::class)->findOneBy(['email' => 'profiletest@test.com']);
         //add the first 4 books in the database to the likedbooks for a specific user
         for ($i = 0; $i < 4; $i++) {
             //make sure that liked and disliked don't overlap!!!!
