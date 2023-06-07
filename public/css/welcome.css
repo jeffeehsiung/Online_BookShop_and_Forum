@@ -1,8 +1,8 @@
 
 main {
 
-    font-size: 30px;
-    color: #FFFFFF;
+    font-size: 300px;
+    color: red;
 
 
 }
@@ -71,7 +71,7 @@ main {
     font-size: large;
 }
 
-#login_username, #login_password, #register_username, #register_password, #email {
+#login_username, #login_password, #email {
     background: #75797E;
     border-radius: 10px;
     margin-bottom: 10px;
@@ -108,7 +108,7 @@ main {
     padding-bottom: 1%;
 }
 
-#login_submit, #register_submit {
+#login_submit {
     cursor: not-allowed;
     font-size: 100%;
     opacity: 1;
