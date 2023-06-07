@@ -319,7 +319,7 @@ class BookableController extends AbstractController
             $disliked_book_id = [];
             foreach ($disliked_id as $disliked){
                 $current_book_id= $disliked->getBook()->getId();
-                $disliked_book_id = $current_book_id;
+                $disliked_book_id[] = $current_book_id;
             }
             $disliked_book = $bookRepository->findBy(['id'=>$disliked_book_id]);
 
