@@ -20,8 +20,18 @@
         <img src="{{ book.imageUrl() }}" alt="Book Cover" width="50%">
         <section id="book-information">
             <h1>{{ bookTitle }}</h1>
-            <h2>{{ book.author().getAuthorName() }}, {{ book.originalPublicationYear() | u.slice(0,4) }}</h2>
-            <h3>Genre: {{ book.genre().getGenre() }}</h3>
+            {% if book.getAuthor() is not null %}
+                {% set authorName = book.getAuthor().getAuthorName() %}
+            {% else %}
+                {% set authorName = "Uknown" %}
+            {% endif %}
+            <h2>{{ authorName }}, {{ book.originalPublicationYear() | u.slice(0,4) }}</h2>
+            {% if book.genre() is not null %}
+                {% set genreName = book.genre().getGenre() %}
+            {% else %}
+                {% set genreName = "General" %}
+            {% endif %}
+            <h3>Genre: {{ genreName }}</h3>
             <form id="like-system" action="{{ path('book_vote', {book_id: book.id}) }}" method="POST">
                 <div class="progress-container">
                     {% if (book.likes + book.dislikes) == 0 %}
@@ -70,7 +80,7 @@
                     <p>bla bla bla...</p>
                 </div>
                 <div id="about-author">
-                    <h2>About {{ book.author().getAuthorName() }}</h2>
+                    <h2>About {{ authorName }}</h2>
                     <p>bla bla bla...</p>
                 </div>
             </section>
