@@ -1,5 +1,3 @@
-/*TODO check if using font here in body makes it redundant everywhere else*/
-
 main {
     font-family: Poppins, serif;
 }
@@ -888,7 +886,7 @@ main {
     flex-direction: row;
 }
 .home-image {
-    left: 0px;
+    left: 0;
     position: absolute;
 }
 .home-image01 {
@@ -907,7 +905,7 @@ main {
 }
 .home-image03 {
     top: 150px;
-    right: 0px;
+    right: 0;
     width: 650px;
     height: 900px;
     margin: auto;
@@ -918,8 +916,8 @@ main {
     justify-content: space-between;
 }
 .home-image04 {
-    top: 0px;
-    right: 0px;
+    top: 0;
+    right: 0;
     width: 100%;
     margin: auto;
     position: absolute;
@@ -1352,7 +1350,7 @@ main {
 }
 .home-cube {
     top: 20px;
-    left: 0px;
+    left: 0;
     width: 120px;
     height: 120px;
     display: flex;
@@ -2124,9 +2122,9 @@ main {
     line-height: 24px;
 }
 .home-image15 {
-    right: 0px;
+    right: 0;
     width: 470px;
-    bottom: 0px;
+    bottom: 0;
     position: absolute;
     object-fit: cover;
 }

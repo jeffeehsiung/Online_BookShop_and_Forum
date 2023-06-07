@@ -23,7 +23,6 @@
   font-size: 18px;
   max-width: 535px;
   font-style: normal;
-  font-family: Poppins;
   font-weight: 600;
   line-height: 27px;
 }
@@ -31,7 +30,6 @@
   color: var(--dl-color-gray-900);
   width: 100%;
   max-width: 535px;
-  font-family: Poppins;
   line-height: 24px;
   user-select: text;
 }
@@ -58,7 +56,6 @@
   font-size: 18px;
   max-width: 535px;
   font-style: normal;
-  font-family: Poppins;
   font-weight: 600;
   line-height: 27px;
 }
@@ -66,7 +63,6 @@
   color: var(--dl-color-gray-900);
   width: 100%;
   max-width: 535px;
-  font-family: Poppins;
   line-height: 24px;
   user-select: text;
 }
@@ -93,7 +89,6 @@
   font-size: 18px;
   max-width: 535px;
   font-style: normal;
-  font-family: Poppins;
   font-weight: 600;
   line-height: 27px;
 }
@@ -101,7 +96,6 @@
   color: var(--dl-color-gray-900);
   width: 100%;
   max-width: 535px;
-  font-family: Poppins;
   line-height: 24px;
   user-select: text;
 }

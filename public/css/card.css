@@ -35,13 +35,11 @@
   color: rgb(255, 255, 255);
   font-size: 24px;
   font-style: normal;
-  font-family: Poppins;
   font-weight: 600;
   line-height: 36px;
 }
 .card-description {
   color: #C2C6CC;
-  font-family: Poppins;
   line-height: 28px;
 }
 

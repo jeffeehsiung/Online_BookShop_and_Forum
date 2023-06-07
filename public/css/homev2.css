@@ -1,6 +1,5 @@
 h1 {
     text-align: left;
-    font-family: Poppins, serif;
     font-weight: 500;
     font-stretch: normal;
     text-decoration: none;
@@ -10,7 +9,6 @@ h1 {
 
 h2 {
     text-align: left;
-    font-family: Poppins, serif;
     font-weight: 250;
     font-stretch: normal;
     text-decoration: none;
@@ -19,7 +17,6 @@ h2 {
 
 h3 {
     text-align: left;
-    font-family: Poppins, serif;
     font-weight: 500;
     font-stretch: normal;
     text-decoration: none;
@@ -113,7 +110,6 @@ h4 {
 #intro {
     color: #B3B3B3;
     text-align: left;
-    font-family: Poppins, serif;
     font-weight: 500;
     font-stretch: normal;
     text-decoration: none;
@@ -123,7 +119,6 @@ h4 {
 #books {
     color: #B3B3B3;
     text-align: left;
-    font-family: Poppins, serif;
     font-weight: 500;
     font-stretch: normal;
     text-decoration: none;
