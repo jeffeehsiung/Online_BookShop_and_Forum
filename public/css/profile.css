@@ -62,7 +62,7 @@ h1 {
     justify-content: flex-start;
     gap: 30px;
     align-content: center;
-    overflow: auto;
+    overflow:  visible;
     color: white;
     width: 60%;
 }

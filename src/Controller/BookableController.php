@@ -39,16 +39,15 @@ class BookableController extends AbstractController
     // make constructor with container builder
     public function __construct() {
         $this->stylesheets[] = 'base.css';
-        // set container builder
-//        $containerBuilder = new ContainerBuilder();
-//        $this->setContainer($containerBuilder);
     }
 //TODO change 'index' to 'base'
+// Why? index is convention
     #[Route('/', name: 'index')]
     public function base(): Response
     {
         return $this->redirectToRoute('welcome');
     }
+
     #[Route('/book/{book_id}', name: 'book')]
     public function book
     (
@@ -121,7 +120,7 @@ class BookableController extends AbstractController
         $book = $bookRepository->findOneBy(['id' => $book_id]);
 
         // Update likes
-        $direction = $request->request->get('direction', 'like-up');
+        $direction = $request->request->get('direction');
         if($direction === 'like-up') {
             // Set as liked book in DB
             $likedBook = new LikedBook();
@@ -145,7 +144,7 @@ class BookableController extends AbstractController
             $entityManager->persist($dislikedBook);
 
             $book->setDislikes($book->getDislikes() + 1);
-        } else {
+        } elseif($direction === 'dislike-down') {
             // Un-dislike book
             $dislikedBook = $dislikedBookRepository->findOneBy([
                 'user' => $user,
@@ -153,6 +152,11 @@ class BookableController extends AbstractController
             ]);
             $entityManager->remove($dislikedBook);
             $book->setDislikes($book->getDislikes() - 1);
+        } else {
+            //In case of malicious data, redirect to book page without voting on book
+            return $this->redirectToRoute('book', [
+                'book_id' => $book_id
+            ]);
         }
 
         $entityManager->flush();
@@ -175,16 +179,21 @@ class BookableController extends AbstractController
         $book = $bookRepository->findOneBy(['id' => $book_id]);
 
         // Update followed books
-        $direction = $request->request->get('follow-direction', 'follow-up');
+        $direction = $request->request->get('follow-direction');
         if($direction === 'follow-up') {
             $followedBook = new FollowedBook($user, $book);
             $entityManager->persist($followedBook);
-        } else {
+        } elseif($direction === 'follow-down') {
             $followedBook = $followedBookRepository->findOneBy([
                 'user' => $user,
                 'book' => $book
             ]);
             $entityManager->remove($followedBook);
+        } else {
+            // In case of malicious data, redirect to book page without following book
+            return $this->redirectToRoute('book', [
+                'book_id' => $book_id
+            ]);
         }
         $entityManager->flush();
         return $this->redirectToRoute('book', [
@@ -337,13 +346,12 @@ class BookableController extends AbstractController
 
     #[Route('/browsing', name: 'browsing') ]
     public function browsing(GenreRepository $genreRepository, BookRepository $bookRepository,
-                             Request         $pageRequest, Request $searchRequest, Request $filterRequest, $book_title = null, $genre_ids = []): Response {
+        Request $pageRequest, Request $searchRequest, Request $filterRequest, $book_title = null, $genre_ids = []): Response {
         // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         $user_id = $user->getId();
 
-        /* TODO: keep php variables: $book_title, $genreIDs, $books, alive for the entire session */
         // create a form to be used to search for books
         $searchForm = $this->createForm(BookSearchFormType::class);
         // handle the request
@@ -367,7 +375,7 @@ class BookableController extends AbstractController
         // genreRepository is used to get all genres from the database for the filter form
         $bookGenres = $genreRepository->findAll();
         // if a book title is passed in the url, then get all books with that title
-        $bookTitle = $book_title? u(str_replace('-',' ',$book_title))->title(true) : null;
+        $bookTitle = $book_title? u(str_replace(['-','=','%',':',';',',','*','+','"'],' ',$book_title))->title(true) : null;
         // if a book title is null, then get all books will be returned
         $booksPAG = $bookRepository->findAllByTitle($bookTitle, $offset);
 
@@ -388,24 +396,35 @@ class BookableController extends AbstractController
                 }
             }
         }
+        // if pageRequest is submitted and valid, get the book_title, offset, and genre_ids from the url
+        if($pageRequest->isMethod('GET') && $pageRequest->query->get('offset') != null) {
+            // check if request has key 'genre_ids'
+            if(array_key_exists('genre_ids', $pageRequest->query->all())) {
+                // get the genre ids from the url
+                $genre_ids = $pageRequest->query->all()['genre_ids'];
+                // for each genre id in the genre ids array, append the genre id to the genre ids array
+                foreach($genre_ids as $genre_id) {
+                    $genre_ids[] = $genre_id;
+                }
+            }
+        }
         // filter the books by the genre ids
         $books = $bookRepository->filterByGenre($booksPAG, $genre_ids, $offset);
         // get the length of the books array
         $booksCount = count($books);
+        $this->addFlash('search', $booksCount . ' books found');
         // declare stylesheets and javascripts to be used in the twig template
         return $this->getRenderedBrowsing($bookGenres, $books, $bookTitle, $genre_ids, $searchForm, $filterForm, $offset, $booksCount);
     }
 
     #[Route('/browsing/{book_title}', name: 'searching') ]
     public function searching(GenreRepository $genreRepository, BookRepository $bookRepository,
-                              Request         $pageRequest, Request $searchRequest, Request $filterRequest, $book_title = null, $genre_ids = []): Response {
+        Request $pageRequest, Request $searchRequest, Request $filterRequest, $book_title = null, $genre_ids = []): Response {
         // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
         $user_id = $user->getId();
 
-
-        /* TODO: keep php variables: $book_title, $genreIDs, $books, alive for the entire session */
         // create a form to be used to search for books
         $searchForm = $this->createForm(BookSearchFormType::class);
         // handle the request
@@ -422,12 +441,11 @@ class BookableController extends AbstractController
         }
         //TODO check if this can be refactored
 
-        // get the page number from the url
         $offset = max(0, $pageRequest->query->getInt('offset', 0));
         // genreRepository is used to get all genres from the database for the filter form
         $bookGenres = $genreRepository->findAll();
         // if a book title is passed in the url, then get all books with that title
-        $bookTitle = $book_title? u(str_replace('-',' ',$book_title))->title(true) : null;
+        $bookTitle = $book_title? u(str_replace(['-','=','%',':',';',',','*','+','"'],' ',$book_title))->title(true) : null;
         // if a book title is null, then get all books will be returned
         $booksPAG = $bookRepository->findAllByTitle($bookTitle, $offset);
 
@@ -445,6 +463,18 @@ class BookableController extends AbstractController
                 foreach($data as $genre) {
                     // append the genre id to the genre ids array
                     $genre_ids[] = $genre->getId();
+                }
+            }
+        }
+        // if pageRequest is submitted and valid, get the book_title, offset, and genre_ids from the url
+        if($pageRequest->isMethod('GET') && $pageRequest->query->get('offset') != null) {
+            // check if request has key 'genre_ids'
+            if(array_key_exists('genre_ids', $pageRequest->query->all())) {
+                // get the genre ids from the url
+                $genre_ids = $pageRequest->query->all()['genre_ids'];
+                // for each genre id in the genre ids array, append the genre id to the genre ids array
+                foreach($genre_ids as $genre_id) {
+                    $genre_ids[] = $genre_id;
                 }
             }
         }
@@ -483,9 +513,12 @@ class BookableController extends AbstractController
             'genreIDs' => $genre_ids,
             'searchForm' => $searchForm->createView(),
             'filterForm' => $filterForm->createView(),
+            'genre_ids' => $genre_ids,
+            'search_form' => $searchForm->createView(),
+            'filter_form' => $filterForm->createView(),
             'previous' => $offset - BookRepository::PAGINATOR_PER_PAGE,
             'next' => min(count($books), $offset + BookRepository::PAGINATOR_PER_PAGE),
-            'bookscount' => $booksCount,
+            'books_count' => $booksCount,
             'javascripts' => $javascripts
         ]);
     }

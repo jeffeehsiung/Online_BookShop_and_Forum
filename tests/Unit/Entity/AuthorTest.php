@@ -9,6 +9,9 @@ use PHPUnit\Framework\TestCase;
 
 class AuthorTest extends TestCase
 {
+    /**
+     * @group include
+     */
     public function testConstruct(): void
     {
         $author = new Author();
@@ -20,6 +23,9 @@ class AuthorTest extends TestCase
         $this->assertCount(0, $author->getBooks());
     }
 
+    /**
+     * @group include
+     */
     public function testGetSetAuthorName(): void
     {
         $author = new Author();
@@ -30,6 +36,9 @@ class AuthorTest extends TestCase
         $this->assertEquals($authorName, $author->getAuthorName());
     }
 
+    /**
+     * @group include
+     */
     public function testGetBooks(): void
     {
         $author = new Author();
@@ -46,6 +55,9 @@ class AuthorTest extends TestCase
         $this->assertTrue($books->contains($book2));
     }
 
+    /**
+     * @group include
+     */
     public function testAddBook(): void
     {
         $author = new Author();
@@ -57,6 +69,9 @@ class AuthorTest extends TestCase
         $this->assertSame($author, $book->getAuthor());
     }
 
+    /**
+     * @group include
+     */
     public function testRemoveBook(): void
     {
         $author = new Author();

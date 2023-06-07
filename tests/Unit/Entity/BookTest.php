@@ -13,6 +13,9 @@ use PHPUnit\Framework\TestCase;
 
 class BookTest extends TestCase
 {
+    /**
+     * @group include
+     */
     public function testConstruct(): void
     {
         $book = new Book();
@@ -22,6 +25,9 @@ class BookTest extends TestCase
         $this->assertInstanceOf(ArrayCollection::class, $book->getFollowedBooks());
     }
 
+    /**
+     * @group include
+     */
     public function testGetSetTitle(): void
     {
         $book = new Book();
@@ -32,6 +38,9 @@ class BookTest extends TestCase
         $this->assertSame($title, $book->getTitle());
     }
 
+    /**
+     * @group include
+     */
     public function testAddLikedBook(): void
     {
         $book = new Book();
@@ -42,6 +51,9 @@ class BookTest extends TestCase
         $this->assertTrue($book->getLikedBooks()->contains($likedBook));
         $this->assertSame($book, $likedBook->getBook());
     }
+    /**
+     * @group include
+     */
     public function testRemoveLikedBook(): void
     {
         $book = new Book();
@@ -54,6 +66,9 @@ class BookTest extends TestCase
         $this->assertNull($likedBook->getBook());
     }
 
+    /**
+     * @group include
+     */
     public function testAddDislikedBook(): void
     {
         $book = new Book();
@@ -65,6 +80,9 @@ class BookTest extends TestCase
         $this->assertSame($book, $dislikedBook->getBook());
     }
 
+    /**
+     * @group include
+     */
     public function testRemoveDislikedBook(): void
     {
         $book = new Book();
@@ -77,6 +95,9 @@ class BookTest extends TestCase
         $this->assertNull($dislikedBook->getBook());
     }
 
+    /**
+     * @group include
+     */
     public function testAddFollowedBook(): void
     {
         $book = new Book();
@@ -89,6 +110,9 @@ class BookTest extends TestCase
         $this->assertSame($book, $followedBook->getBook());
     }
 
+    /**
+     * @group include
+     */
     public function testRemoveFollowedBook(): void
     {
         $book = new Book();
