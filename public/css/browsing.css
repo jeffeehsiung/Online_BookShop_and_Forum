@@ -2,7 +2,6 @@
 body {
     background-color: #1e1e1e;
     color: #fff;
-    font-family: Poppins, ui-sans-serif;
     border-radius: 10px;
     /* center the page in between left and right, set top and bottom margin to 30 pixels */
     margin: 10px auto;
@@ -11,7 +10,6 @@ body {
 #browsing header {
     flex-direction: column;
     align-items: center;
-    font-family: Poppins, serif;
     font-stretch: normal;
     font-weight: bolder;
     margin: 10px;
@@ -20,7 +18,6 @@ body {
 /* Header styles */
 #browsing_title {
     text-align: center;
-    font-family: Poppins, serif;
     font-weight: 500;
     font-stretch: normal;
     text-decoration: none;
@@ -91,7 +88,6 @@ body {
 }
 
 #search_alert {
-    font-family: Poppins, serif;
     color: whitesmoke;
     font-stretch: normal;
     display: flex;
@@ -139,7 +135,6 @@ body {
     flex: 0;
     justify-content: center;
     align-items: center;
-    font-family: Poppins, serif;
     color: whitesmoke;
     font-stretch: normal;
     height: 100px;
@@ -155,7 +150,6 @@ body {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    font-family: Poppins, serif;
     font-weight: bold;;
     color: whitesmoke;
     font-stretch: normal;
@@ -172,7 +166,6 @@ body {
     flex-direction: row;
     align-items: center;
     font-style: italic;
-    font-family: Poppins, serif;
     color: whitesmoke;
     font-stretch: normal;
     height: 20px;

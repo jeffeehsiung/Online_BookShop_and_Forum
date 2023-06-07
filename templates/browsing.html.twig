@@ -20,11 +20,11 @@
     <!-- define header search-->
     <section id="browsing_search">
         <!-- define search form-->
-        {{ form_start(searchform) }}
-            {{ form_widget(searchform) }}
+        {{ form_start(searchForm) }}
+            {{ form_widget(searchForm) }}
         <button type="submit" id ="search_btn" class="main_button">Search</button>
         <a href="{{ path("browsing") }}" type="submit" id ="reset_btn" class="main_button">Reset</a>
-        {{ form_end(searchform) }}
+        {{ form_end(searchForm) }}
     </section>
     {% for message in app.flashes('search') %}
         <div id = search_alert class="search_alert">
@@ -34,9 +34,9 @@
     <main id="contents">
         <aside id="browsing_filter_container">
             <!-- define filter form-->
-            {{ form_start(filterform) }}
-            {{ form_widget(filterform) }}
-            {{ form_end(filterform) }}
+            {{ form_start(filterForm) }}
+            {{ form_widget(filterForm) }}
+            {{ form_end(filterForm) }}
         </aside>
         <section id="browsing_list">
             {% for book in books %}
