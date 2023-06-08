@@ -29,7 +29,7 @@ class SettingsControllerTest extends WebTestCase
         self::ensureKernelShutdown();
         $this->client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
-        $this->testUser = $userRepository->findOneBy(['email' => 'test@test.com']);
+        $this->testUser = $userRepository->findOneBy(['email' => 'settingstest@test.com']);
         $this->client->loginUser($this->testUser);
 
         // Get the necessary services and repositories
