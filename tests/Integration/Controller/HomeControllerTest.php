@@ -159,8 +159,10 @@ class HomeControllerTest extends WebTestCase
         foreach ($displayedBooks as $book){
             //since titles are not unique, multiple occurrences of the same title are possible, so we need to check if one of  them matches
             $book = $bookRepository->findOneBy(['title' => $book]);
-            $author = $book->getAuthor()->getAuthorName();
-            print_r($author);
+            if ($book != null){
+                $author = $book->getAuthor()->getAuthorName();
+                assertContains($author, $followedAuthors);
+            }
 
         }
         $this->assertCount(20, $displayedBooks);

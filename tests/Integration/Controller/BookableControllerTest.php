@@ -174,7 +174,7 @@ class BookableControllerTest extends WebTestCase
         print_r($client->getResponse()->getContent());
         //make some asserts to make sure all got displayed well
         $this->assertSelectorTextContains('title', 'Settings');
-        $this->assertSelectorTextContains('h2', 'Edit you profile:');
+        $this->assertSelectorTextContains('h2', 'Edit your profile:');
 
     }
 
