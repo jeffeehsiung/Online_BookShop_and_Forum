@@ -87,6 +87,7 @@ Provide a link to the main page of your application. Or if you have multiple par
 * ![img_2.png](img_2.png)
 
 ## testing
+* The testing uses a local database that gets run by each member of the team. It has the same structure as the database on the server, but it contains the test data.
 ### fixtures
 * To run the fixtures for the first time, a database has to be created. This can be done by exporting the database structure from bookable. 
 * After this, we have to make sure all primary keys are set, and the auto increment is checked.
