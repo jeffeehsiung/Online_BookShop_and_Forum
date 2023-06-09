@@ -1,6 +1,7 @@
 #about_page
 {
     width: 50vw;
+    overflow-y: auto;
 }
 
 h1 {
