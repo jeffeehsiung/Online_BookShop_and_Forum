@@ -75,8 +75,8 @@ test-job:   # This job runs in the test stage.
     DATABASE_URL: "mysql://root:password@mysql/a22web12_test"
   script:
     - php bin/console --env=test doctrine:database:create
-#    - php bin/console --env=test doctrine:schema:create
-    - php bin/console doctrine:migrations:migrate --env=test --no-interaction
+    - php bin/console --env=test doctrine:schema:create
+    - php bin/console --env=test doctrine:migrations:migrate --no-interaction
     - php bin/console --env=test doctrine:fixtures:load --no-interaction
 #    - php/bin/phpunit
     # use vendor/bin/phpunit to run only unit tests
