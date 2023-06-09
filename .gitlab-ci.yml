@@ -74,9 +74,10 @@ test-job:   # This job runs in the test stage.
     MYSQL_ROOT_PASSWORD: password
     # set the correct DSN in Symfony to connect to the temporary database
 #    DATABASE_URL: "mysql://local_bookable:password@localhost:3306/local_bookable?serverVersion=8&charset=utf8mb4"
-    DATABASE_URL: "mysql://root:password@mysql/local_bookable"
+    DATABASE_URL: "mysql://root:password@mysql/local_bookable_test"
   script:
-    - php bin/console --env=test doctrine:migrations:migrate
+    - php bin/console --env=test doctrine:database:create
+    - php bin/console --env=test doctrine:schema:create
     - php bin/console --env=test doctrine:fixtures:load --no-interaction
     - php/bin/phpunit
     # use vendor/bin/phpunit to run only unit tests
