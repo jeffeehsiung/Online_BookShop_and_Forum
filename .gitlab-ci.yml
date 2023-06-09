@@ -124,5 +124,5 @@ deploy-job:      # This job runs in the deploy stage.
                 --exclude=".env"
                 --delete
                 ./ a22web12@shell.studev.groept.be:/var/www/html
-    # connect to the web server and run the composer install, composer update, chmod a+w -R /var/www/html/var’, export the NVM_DIR variable, load the nvm, run the bash_completion, clear the cache, install the node modules and build the assets, all in one command
-    - ssh -T a22web12@shell.studev.groept.be "cd /var/www/html && composer install && composer update -W && chmod a+w -R /var/www/html/var && export NVM_DIR=\"\$HOME/.nvm\" && [ -s \"\$NVM_DIR/nvm.sh\" ] && \. \"\$NVM_DIR/nvm.sh\" && [ -s \"\$NVM_DIR/bash_completion\" ] && \. \"\$NVM_DIR/bash_completion\" && npm install && npm run build && php bin/console cache:clear && php bin/console cache:pool:clear cache.global_clearer"
+    # connect to the web server and run the composer install, composer update, export the NVM_DIR variable, load the nvm, run the bash_completion, clear the cache, install the node modules and build the assets, all in one command
+    - ssh -T a22web12@shell.studev.groept.be "cd /var/www/html && composer install && composer update -W && export NVM_DIR=\"\$HOME/.nvm\" && [ -s \"\$NVM_DIR/nvm.sh\" ] && \. \"\$NVM_DIR/nvm.sh\" && [ -s \"\$NVM_DIR/bash_completion\" ] && \. \"\$NVM_DIR/bash_completion\" && npm install && npm run build && php bin/console cache:clear && php bin/console cache:pool:clear cache.global_clearer"
