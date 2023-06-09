@@ -64,20 +64,20 @@ test-job:   # This job runs in the test stage.
     - docker-php-ext-install mbstring pdo pdo_mysql pdo_pgsql curl intl gd xml zip bz2 opcache
   services:
     - mysql:8
-  variables:
-#    # Configure mysql environment variables (https://hub.docker.com/r/_/mysql/)
-    MYSQL_DATABASE: local_test
-    MYSQL_USER: local_bookable
-    MYSQL_PASSWORD: password
-    MYSQL_ROOT_PASSWORD: password
-#    DATABASE_URL: "mysql://local_bookable:password@127.0.0.1:3306/local_bookable?serverVersion=8&charset=utf8mb4"
-#    # set the correct DSN in Symfony to connect to the temporary database
-    DATABASE_URL: "mysql://root:password@mysql/local_test"
+#  variables:
+##    # Configure mysql environment variables (https://hub.docker.com/r/_/mysql/)
+#    MYSQL_DATABASE: local_test
+#    MYSQL_USER: local_bookable
+#    MYSQL_PASSWORD: password
+#    MYSQL_ROOT_PASSWORD: password
+##    DATABASE_URL: "mysql://local_bookable:password@127.0.0.1:3306/local_bookable?serverVersion=8&charset=utf8mb4"
+##    # set the correct DSN in Symfony to connect to the temporary database
+#    DATABASE_URL: "mysql://root:password@mysql/local_test"
   script:
-    - php bin/console doctrine:database:create
-    - php bin/console doctrine:schema:create
+#    - php bin/console doctrine:database:create
+#    - php bin/console doctrine:schema:create
 #    - php bin/console doctrine:migrations:migrate
-#    - php bin/console --env=test doctrine:fixtures:load --no-interaction
+    - php bin/console --env=test doctrine:fixtures:load --no-interaction
 #    - php/bin/phpunit
     # use vendor/bin/phpunit to run only unit tests
     - vendor/bin/phpunit --configuration phpunit.xml.dist --testsuite UnitTests
