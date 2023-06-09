@@ -59,9 +59,9 @@
 }
 .list {
   width: 100%;
-  margin: 1em 0px 1em 0px;
+  margin: 1em 0 1em 0;
   display: block;
-  padding: 0px 0px 0px 1.5rem;
+  padding: 0 0 0 1.5rem;
   list-style-type: none;
   list-style-position: outside;
 }
@@ -78,7 +78,6 @@
   font-style: normal;
   text-align: left;
   transition: 0.3s;
-  font-family: Poppins;
   font-weight: 500;
   line-height: normal;
   font-stretch: normal;
@@ -127,7 +126,6 @@
 .section-head {
   color: rgb(128, 255, 68);
   font-style: normal;
-  font-family: Poppins;
   font-weight: 500;
   line-height: 24px;
   letter-spacing: 2px;
@@ -137,7 +135,6 @@
   color: rgb(255, 255, 255);
   font-size: 40px;
   font-style: normal;
-  font-family: Poppins;
   font-weight: 600;
   line-height: 48px;
 }
@@ -145,7 +142,6 @@
   color: rgb(204, 204, 204);
   width: 100%;
   max-width: 600px;
-  font-family: Poppins;
   line-height: 28px;
 }
 .accordion-element {
@@ -206,14 +202,12 @@
   width: 100%;
   font-size: 20px;
   font-style: normal;
-  font-family: Poppins;
   font-weight: 500;
   line-height: 30px;
 }
 .footer-link {
   color: rgb(204, 204, 204);
   font-size: 14px;
-  font-family: Poppins;
   line-height: 21px;
 }
 .form {
@@ -229,7 +223,6 @@
 }
 .Heading {
   font-size: 32px;
-  font-family: Inter;
   font-weight: 700;
   line-height: 1.15;
   text-transform: none;
@@ -237,7 +230,6 @@
 }
 .Content {
   font-size: 16px;
-  font-family: Inter;
   font-weight: 400;
   line-height: 1.15;
   text-transform: none;
