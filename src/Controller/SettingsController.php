@@ -25,6 +25,7 @@ class SettingsController extends AbstractController
         $user = $this->getUser();
 
         $bookGenres = $genreRepository->findAll();
+
         $avatars = $avatarRepository->findAll();
 
         // build genres array from likedgenres of user

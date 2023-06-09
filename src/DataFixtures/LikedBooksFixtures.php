@@ -31,3 +31,4 @@ class LikedBooksFixtures extends Fixture implements OrderedFixtureInterface
         return 6;
     }
 }
+//"The Hunger Games (The Hunger Games, #1)", "Harry Potter and the Sorcerer's Stone (Harry Potter, #1)", "Twilight (Twilight, #1)","To Kill a Mockingbird"

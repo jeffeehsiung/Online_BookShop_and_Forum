@@ -56,7 +56,12 @@
                                 <img src="{{ book.imageUrl }}" alt="book cover" >
                             </a>
                             <h4 class="title">  {{ book.title() }}</h4>
-                            <h4 class="author">{{ book.author().getAuthorName() }}</h4>
+                            {%  if book.getAuthor() is not null %}
+                                {% set authorName = book.getAuthor().getAuthorName() %}
+                            {% else %}
+                                {% set authorName = "Unknown" %}
+                            {% endif %}
+                            <h4 class="author">{{ authorName }}</h4>
                         </div>
                     {% endfor %}
                 </div>
@@ -74,7 +79,12 @@
                                             <img src="{{ genre_book.imageUrl }}" alt="book cover" >
                                         </a>
                                         <h4 class="title">{{ genre_book.title() }}</h4>
-                                        <h4 class="author">{{ genre_book.author().getAuthorName() }}</h4>
+                                        {%  if genre_book.author() is not null %}
+                                            {% set authorName = genre_book.author().getAuthorName() %}
+                                        {% else %}
+                                            {% set authorName = "Unknown" %}
+                                        {% endif %}
+                                        <h4 class="author">{{ authorName }}</h4>
                                     </div>
                                     {% set count = count + 1 %}
                                 {% endif %}

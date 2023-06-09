@@ -29,13 +29,6 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface
             $user->setEmail($row['email']);
             $avatar = $manager->getRepository(Avatar::class)->findOneBy(['id' => $row['avatar_id']]);
             $user->setAvatar($avatar);
-            $user->setLocation($row['location']);
-//            $library = $manager->getRepository(Library::class)->findOneBy(['id' => $row['library_id']]);
-//            $user->setLibrary($library);
-            $user->setPhoneNumber($row['phone_number']);
-            $user->setShareLocation($row['share_location']);
-            $user->setSharePhoneNumber($row['share_phone_number']);
-            $user->setVisibilityProfile($row['visibility_profile']);
             $user->setBio($row['bio']);
             $rolesArray = str_getcsv($row['roles']);
             $user->setRoles($rolesArray);

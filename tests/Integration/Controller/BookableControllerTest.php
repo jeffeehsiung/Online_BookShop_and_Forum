@@ -19,9 +19,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class BookableControllerTest extends WebTestCase
 {
 
-    /**
-     * @group include
-     */
     public function authenticateUser($email="test@test.com", $password="password")
     {
         /*
@@ -45,9 +42,6 @@ class BookableControllerTest extends WebTestCase
         return $client;
     }
 
-    /**
-     * @group include
-     */
     public function testWelcome()
     {
         /*
@@ -82,9 +76,6 @@ class BookableControllerTest extends WebTestCase
         $this->assertSelectorTextContains('h1', 'Recommended books for you!');
     }
 
-    /**
-     * @group include
-     */
     public function testWelcomeWrongEmail()
     {
         /*
@@ -121,9 +112,6 @@ class BookableControllerTest extends WebTestCase
         $this->assertSelectorTextContains('#error_display', 'Invalid credentials.');
     }
 
-    /**
-     * @group include
-     */
     public function testWelcomeWrongPassword()
     {
         /*
@@ -160,7 +148,6 @@ class BookableControllerTest extends WebTestCase
 
 
     /**
-     * @group include
      * @depends testWelcome
      */
     public function testHome()
@@ -172,8 +159,7 @@ class BookableControllerTest extends WebTestCase
 
     }
     /**
-     * @group include
-     * @depends testHome
+     * @depends testWelcome
      */
     public function testSettings()
     {
@@ -189,13 +175,12 @@ class BookableControllerTest extends WebTestCase
         print_r($client->getResponse()->getContent());
         //make some asserts to make sure all got displayed well
         $this->assertSelectorTextContains('title', 'Settings');
-        $this->assertSelectorTextContains('h2', 'Edit you profile:');
+        $this->assertSelectorTextContains('h2', 'Edit your profile:');
 
     }
 
     /**
-     * @group include
-     * @depends testHome
+     * @depends testWelcome
      */
     public function testBook()
     {
@@ -208,7 +193,6 @@ class BookableControllerTest extends WebTestCase
 
 
     /**
-     * @group exclude
      * @depends testBook
      * @throws \Exception
      */
@@ -220,7 +204,7 @@ class BookableControllerTest extends WebTestCase
         self::ensureKernelShutdown();
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
-        $testUser = $userRepository->findOneBy(['email' => 'test@test.com']);
+        $testUser = $userRepository->findOneBy(['email' => 'booktest@test.com']);
         $client->loginUser($testUser);
 
         // get a book and the amount of initial likes to be tested
@@ -352,7 +336,6 @@ class BookableControllerTest extends WebTestCase
     }
 
     /**
-     * @group exclude
      * @depends testBook
      */
     public function testFollow()
@@ -364,7 +347,7 @@ class BookableControllerTest extends WebTestCase
         self::ensureKernelShutdown();
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
-        $testUser = $userRepository->findOneBy(['email' => 'test@test.com']);
+        $testUser = $userRepository->findOneBy(['email' => 'booktest@test.com']);
         $client->loginUser($testUser);
 
         // get a book to be tested
@@ -416,8 +399,7 @@ class BookableControllerTest extends WebTestCase
 
 
     /**
-     * @group include
-     * @depends testHome
+     * @depends testWelcome
      */
     public function testProfile1()
     {
@@ -459,6 +441,10 @@ class BookableControllerTest extends WebTestCase
 
 
     }
+
+    /**
+     * @depends testWelcome
+     */
     public function testProfile2()
     {
         $client = $this->authenticateUser("profiletest@test.com","password");
@@ -469,7 +455,7 @@ class BookableControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/profile');
 
         $this->assertSelectorTextContains('title', 'Profile');
-        $this->assertSelectorTextContains('h1.section-title', 'Followed Books');
+
 
         //test if profile name is correct: ok
         $this->assertSelectorTextContains('#First',  "profile");
@@ -479,13 +465,14 @@ class BookableControllerTest extends WebTestCase
         $expectedAvatarUrl = 'https://api.dicebear.com/6.x/personas/svg?seed=Angel';
         $this->assertEquals($expectedAvatarUrl, $avatarUrl);
 
-
+        $this->assertSelectorTextContains('h1.section-title#followTitle', 'Followed Books');
         // Assert the followed books
         $followedBooks = $client->getCrawler()->filter('#followed .media-element');
-        $this->assertCount(2, $followedBooks); // Assuming there are 2 followed books for the first profile
+        $this->assertCount(4, $followedBooks); // Assuming there are 2 followed books for the first profile
 
         // Assert the titles of the followed books
-        $expectedTitles = ['Cinder (The Lunar Chronicles, #1)','Little Bee']; // Assuming the followed books have these titles
+        $expectedTitles = ['The Hunger Games (The Hunger Games, #1)','Twilight (Twilight, #1)','The Great Gatsby','The Hobbit'
+]; // Assuming the followed books have these titles
         $actualTitles = [];
         $followedBooks->each(function ($book) use (&$actualTitles) {
             $actualTitles[] = $book->filter('p.title')->text();
@@ -494,10 +481,46 @@ class BookableControllerTest extends WebTestCase
         // Assert the titles of the followed books
         $this->assertSame($expectedTitles, $actualTitles);
 
+
+
+
+        // Assert the section title
+        $this->assertSelectorTextContains('h1.section-title#likeTitle', 'Liked Books');
+
+        // Assert the liked books
+        $likedBooks = $client->getCrawler()->filter('#Liked .media-element');
+        $this->assertCount(4, $likedBooks); // Assuming there are 2 liked books for the first profile
+
+        // Get the actual book titles from the page
+        $actualTitles = [];
+        $likedBooks->each(function ($book) use (&$actualTitles) {
+            $actualTitles[] = $book->filter('p.title')->text();
+        });
+
+        // Assert the titles of the liked books
+        $expectedTitles = ["The Hunger Games (The Hunger Games, #1)", "Harry Potter and the Sorcerer's Stone (Harry Potter, #1)", "Twilight (Twilight, #1)","To Kill a Mockingbird"]; // Adjust with the actual titles in the same order
+        $this->assertSame($expectedTitles, $actualTitles);
+
+        // test Disliked books
+        $this->assertSelectorTextContains('h1.section-title#dislikeTitle', 'Disliked Books');
+
+// Assert the disliked books
+        $dislikedBooks = $client->getCrawler()->filter('#Disliked .media-element');
+        $this->assertCount(4, $dislikedBooks); // Assuming there are 3 disliked books for the first profile
+
+// Get the actual book titles from the page
+        $actualTitles = [];
+        $dislikedBooks->each(function ($book) use (&$actualTitles) {
+            $actualTitles[] = $book->filter('p.title')->text();
+        });
+
+// Assert the titles of the disliked books
+        $expectedTitles = ['Me Talk Pretty One Day', 'Where the Wild Things Are', 'The Count of Monte Cristo', 'The Road']; // Adjust with the actual titles in any order
+        $this->assertEqualsCanonicalizing($expectedTitles, $actualTitles);
+
     }
 
     /**
-     * @group include
      * @depends testWelcome
      */
     public function testAbout()
@@ -511,7 +534,6 @@ class BookableControllerTest extends WebTestCase
     }
 
     /**
-     * @group include
      * @depends testWelcome
      */
     public function testBrowsing()
@@ -536,7 +558,6 @@ class BookableControllerTest extends WebTestCase
     }
 
     /**
-     * @group include
      * @depends testBrowsing
      */
     public function testSearching(){

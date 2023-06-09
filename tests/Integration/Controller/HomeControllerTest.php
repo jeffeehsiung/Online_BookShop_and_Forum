@@ -16,9 +16,6 @@ use function PHPUnit\Framework\assertContains;
 
 class HomeControllerTest extends WebTestCase
 {
-    /**
-     * @group include
-     */
     public function authenticateUser($email="test@test.com", $password="password"):KernelBrowser
     {
         /*
@@ -42,9 +39,6 @@ class HomeControllerTest extends WebTestCase
         return $client;
     }
 
-    /**
-     * @group exclude
-     */
     public function testLoadingHomePage():void
     {
         $client = $this->authenticateUser('hometest@test.com', 'password');
@@ -58,7 +52,6 @@ class HomeControllerTest extends WebTestCase
         $this->assertSelectorTextContains('div.Science.Fiction h3','Books in the category Science Fiction');
     }
     /**
-     * @group exclude
      * @depends testLoadingHomePage
      */
     public function testTrendingBooks():void
@@ -80,7 +73,6 @@ class HomeControllerTest extends WebTestCase
     }
 
     /**
-     * @group exclude
      * @depends testLoadingHomePage
      */
     public function testGenres():void
@@ -147,9 +139,6 @@ class HomeControllerTest extends WebTestCase
 
     }
 
-    /**
-     * @group exclude
-     */
     public function testFollowed():void
     {
         $client = $this->authenticateUser('hometest@test.com', 'password');
@@ -170,8 +159,10 @@ class HomeControllerTest extends WebTestCase
         foreach ($displayedBooks as $book){
             //since titles are not unique, multiple occurrences of the same title are possible, so we need to check if one of  them matches
             $book = $bookRepository->findOneBy(['title' => $book]);
-            $author = $book->getAuthor()->getAuthorName();
-            print_r($author);
+            if ($book != null){
+                $author = $book->getAuthor()->getAuthorName();
+                assertContains($author, $followedAuthors);
+            }
 
         }
         $this->assertCount(20, $displayedBooks);

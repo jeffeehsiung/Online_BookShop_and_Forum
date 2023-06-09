@@ -25,6 +25,7 @@ Provide a link to the main page of your application. Or if you have multiple par
 ### General ###
 * About Us page
 * Bookable logo to home page
+* Navigation bar which updates based on user's login status
 
 ### User Log in & Register ###
 * user authentication
@@ -37,10 +38,9 @@ Provide a link to the main page of your application. Or if you have multiple par
 * confirm password
 
 ### User Home ###
-* display the recommended books based on user's followed books
+* display the recommended books based on user's followed books, based on the author of the book
 * display the trending books based on the number of likes
-* display the new books based on each liked genre
-* display the books based on each of user's followed genre
+* display random books based on each of user's followed genre
 * link to the book page
 
 ### User Settings ###
