@@ -19,8 +19,8 @@ framework:
         routing:
             # commented out because the default without route is sync
             # Symfony\Component\Mailer\Messenger\SendEmailMessage: async
-            Symfony\Component\Notifier\Message\ChatMessage: async
-            Symfony\Component\Notifier\Message\SmsMessage: async
+            # Symfony\Component\Notifier\Message\ChatMessage: async
+            # Symfony\Component\Notifier\Message\SmsMessage: async
 
             # Route your messages to the transports
             # 'App\Message\YourMessage': async

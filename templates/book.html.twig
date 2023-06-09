@@ -67,7 +67,7 @@
             <br>
             <form id="follow" action="{{ path('book_follow', {'book_id': book.id}) }}" method="POST">
                 {% if isFollowed %}
-                    <button type="submit" class="button" name="follow-direction" value="follow-down">Unfollow -</button>
+                    <button type="submit" class="button" name="follow_direction" value="follow-down">Unfollow -</button>
                     <h3>You are already following this book</h3>
                 {% else %}
                     <button type="submit" class="button" name="follow_direction" value="follow-up">Follow +</button>
