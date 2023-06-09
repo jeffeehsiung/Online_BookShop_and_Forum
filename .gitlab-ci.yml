@@ -126,14 +126,5 @@ deploy-job:      # This job runs in the deploy stage.
                 --exclude=".env"
                 --delete
                 ./ a22web12@shell.studev.groept.be:/var/www/html
-    # connect to the web server and run the composer install, composer update, export the NVM_DIR variable, load the nvm, run the bash_completion, install npm and run the build
-    - ssh -T a22web12@shell.studev.groept.be "cd /var/www/html && composer install && composer update && export NVM_DIR=\"\$HOME/.nvm\" && [ -s \"\$NVM_DIR/nvm.sh\" ] && \. \"\$NVM_DIR/nvm.sh\" && [ -s \"\$NVM_DIR/bash_completion\" ] && \. \"\$NVM_DIR/bash_completion\" && nvm install node && npm install && npm run build"
-## build again but now
-#build-deploy:
-# image: node:latest
-# only:
-#    - main
-# stage: deploy
-#  script:
-#    - npm install
-#    - npm run build
+    # connect to the web server and run the composer install, composer update, chmod a+w -R /var/www/html/var’, export the NVM_DIR variable, load the nvm, run the bash_completion, install npm and run the build then close connection
+    - ssh -T a22web12@shell.studev.groept.be "cd/var/www/html && composer install && composer update && chmod a+w -R /var/www/html/var && export NVM_DIR=\"$HOME/.nvm\" && [ -s \"$NVM_DIR/nvm.sh\" ] && \. \"$NVM_DIR/nvm.sh\" && [ -s \"$NVM_DIR/bash_completion\" ] && \. \"$NVM_DIR/bash_completion\" && npm install && npm run build"
