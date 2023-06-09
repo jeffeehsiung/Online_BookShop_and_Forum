@@ -2,28 +2,19 @@
 main {
 
     font-size: 30px;
-    color: #FFFFFF;
+    color: white;
 
-
-}
-.welcomeBody{
-    flex-direction: column;
-    display: flex;
-    justify-content: space-around;
-    align-content: center;
-    align-items: center;
+    background: #0C100C;
 
 }
-.welcome
-{
+
+.welcome {
 
     font-weight: 500;
     font-size: 100px;
     text-transform: uppercase;
     color:#3b82f6;
 }
-
-
 
 .overlay {
     height: 100vh;
@@ -44,14 +35,12 @@ main {
 .overlay section {
 
     position: absolute;
-    font-family: Poppins, serif;
     top: 30vh;
     left: 34%;
     right: 34%;
     border: 1px solid #666; /*a nice looking border for the overlay*/
-    background: #2e3136; /*black background so that you can't see the welcome text underneath*/
+    background: #2e3136; /*black-gray background so that you can't see the welcome text underneath*/
     border-radius:20px;
-    color: #FFF;
     width:32%;
     height: 40%;
     opacity: 100%;
@@ -59,38 +48,33 @@ main {
 
 .login_text {
     font-size: medium;
-    color: white;
     margin-left: 15px;
 
 }
-#login_title{
+#login_title {
     text-align: center;
     margin-top: 10px;
     margin-bottom: 10px;
-    color: #FFFFFF;
     text-transform: uppercase;
     font-size: large;
 }
 
-#login_username, #login_password, #register_username, #register_password, #email {
+#login_username, #login_password, #email {
     background: #75797E;
     border-radius: 10px;
     margin-bottom: 10px;
     margin-left: 10px;
     margin-right: 10px;
     font-size: 30px;
-    color: white;
     opacity: 100%;
 }
-.cls_btn
-{
-    color: #FFFFFF;
-   font-size: 150%;
-
+.cls_btn {
+    font-size: 150%;
+    color: white;
+    cursor: pointer;
 
 }
-.overlay_header
-{
+.overlay_header {
     flex-direction: row;
     display: flex;
     justify-content: flex-end;
@@ -98,22 +82,19 @@ main {
 
 }
 
-.overlay_header #login_title
-{
+.overlay_header #login_title {
     justify-content: center;
-    color:white;
     font-size: large;
     text-transform: uppercase;
     padding-bottom: 20px;
 }
-#submit
-{
+#submit {
     display: flex;
     justify-content: center;
     padding-bottom: 1%;
 }
 
-#login_submit, #register_submit {
+#login_submit {
     cursor: not-allowed;
     font-size: 100%;
     opacity: 1;
@@ -144,24 +125,19 @@ form {
     padding-top: 100px;
 
 }
-#welcome
-{
-    color:white;
+#welcome {
     font-size: 80px;
     text-transform: uppercase;
     padding-bottom: 20px;
 
 }
-.logintext
-{
-    color:white;
+.logintext {
     font-size: 20px;
     padding-bottom: 20px;
 }
 
 
-.login_button
-{
+.login_button {
     cursor: pointer;
     box-sizing: border-box;
 
@@ -174,14 +150,13 @@ form {
     height: 80px;
 
 
-    background: #0C100C;
+
     /**box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);**/
     border-radius: 50px;
     font-size: 50px;
     color : #80FF44;
 }
-.register_button
-{
+.register_button {
     cursor: pointer;
     /*box-sizing: border-box;*/
     display: flex;
@@ -194,7 +169,7 @@ form {
     height: 80px;
     justify-content: center;
 
-    background: #0C100C;
+
     /**box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);**/
     border-radius: 50px;
     font-size: 30px;
@@ -207,8 +182,7 @@ form {
 .login_button:hover {
     background-color: #3E3E3E;
 }
-#logo_png
-{
+#logo_png {
     width: 100px;
     height: 100px;
 }

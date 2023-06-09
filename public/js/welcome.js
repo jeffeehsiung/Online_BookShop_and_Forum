@@ -18,9 +18,9 @@ function loginFilledIn(){
 
 function loginOn() {
     //toggleForm(true);
-    document.getElementById("Login").style.display = "flex";
+    document.getElementById("login").style.display = "flex";
 }
 
 function loginOff() {
-    document.getElementById("Login").style.display = "none";
+    document.getElementById("login").style.display = "none";
 }

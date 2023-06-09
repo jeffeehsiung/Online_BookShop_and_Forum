@@ -2,7 +2,6 @@
 body {
     background-color: #1e1e1e;
     color: #fff;
-    font-family: Poppins, ui-sans-serif;
     border-radius: 10px;
     /* center the page in between left and right, set top and bottom margin to 30 pixels */
     margin: 10px auto;
@@ -11,16 +10,14 @@ body {
 #browsing header {
     flex-direction: column;
     align-items: center;
-    font-family: Poppins, serif;
     font-stretch: normal;
     font-weight: bolder;
     margin: 10px;
 }
 
 /* Header styles */
-#browsing-title {
+#browsing_title {
     text-align: center;
-    font-family: Poppins, serif;
     font-weight: 500;
     font-stretch: normal;
     text-decoration: none;
@@ -43,7 +40,7 @@ body {
 }
 
 /* Filter styles */
-#browsing-filter-container{
+#browsing_filter_container {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -51,30 +48,30 @@ body {
     flex: 0 0 auto;
 }
 
-#browsing-filter-container .genre-header {
+#browsing_filter_container .genre-header {
     color: #fff;
     font-weight: bold;
 }
 
-#browsing-filter-container input[type="checkbox"],
-#browsing-filter-container label {
+#browsing_filter_container input[type="checkbox"],
+#browsing_filter_container label {
     color: #fff;
     margin: 7px;
 }
 
-#browsing-filter-container label:hover {
+#browsing_filter_container label:hover {
     color: gold;
 }
 
 /* Search form styles */
-#browsing-search{
+#browsing_search {
     display: flex;
     flex-direction: row;
     justify-content: center;
     margin: 15px;
 }
 
-#browsing-search form{
+#browsing_search form {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -82,7 +79,7 @@ body {
     margin: 15px;
 }
 
-#browsing-search input[type="text"] {
+#browsing_search input[type="text"] {
     background-color: white;
     color: darkslategray;
     border: none;
@@ -90,8 +87,7 @@ body {
     border-radius: 5px;
 }
 
-#search-alert {
-    font-family: Poppins, serif;
+#search_alert {
     color: whitesmoke;
     font-stretch: normal;
     display: flex;
@@ -103,7 +99,7 @@ body {
 }
 
 /* Book listing styles */
-#browsing-list {
+#browsing_list {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -114,7 +110,7 @@ body {
     background-color: #171717;
 }
 
-.browsing-list-item{
+.browsing_list_item {
     display: flex;
     flex-direction: column;
     border-radius: 20px;
@@ -126,7 +122,7 @@ body {
     justify-content: center;
     align-items: center;
 }
-.book-image-container {
+.book_image_container {
     margin: 10px;
 }
 .book-list-image {
@@ -134,13 +130,12 @@ body {
     height: 200px;
     border-radius: 5px;
 }
-.book-list-description{
+.book_list_description {
     display: flex;
     flex-direction: column;
     flex: 0;
     justify-content: center;
     align-items: center;
-    font-family: Poppins, serif;
     color: whitesmoke;
     font-stretch: normal;
     height: 100px;
@@ -151,12 +146,11 @@ body {
     border-top-right-radius: 10px;
 }
 
-.book-list-title{
+.book_list_title {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    font-family: Poppins, serif;
     font-weight: bold;;
     color: whitesmoke;
     font-stretch: normal;
@@ -168,12 +162,11 @@ body {
     border-top-right-radius: 5px;
 }
 
-.book-list-author{
+.book_list_author {
     display: flex;
     flex-direction: row;
     align-items: center;
     font-style: italic;
-    font-family: Poppins, serif;
     color: whitesmoke;
     font-stretch: normal;
     height: 20px;
@@ -184,7 +177,7 @@ body {
     border-top-right-radius: 5px;
 }
 
-.browsing-list-item a{
+.browsing_list_item a {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -197,20 +190,20 @@ body {
 
 /* Pagination styles */
 
-.browsing-pages{
+.browsing_pages {
     display: flex;
     flex-direction: row;
     justify-content: center;
     margin: 50px;
 }
 
-.main-button:hover,
-.browsing-pages button:hover {
+.main_button:hover,
+.browsing_pages button:hover {
     background-color: #626e31;
     color: white;
 }
 
-.main-button {
+.main_button {
     display: flex;
     flex-direction: column;
     justify-content: center;
