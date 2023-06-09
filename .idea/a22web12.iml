@@ -164,6 +164,5 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="dangerous-html" level="application" />
   </component>
 </module>
