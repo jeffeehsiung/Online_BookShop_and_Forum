@@ -493,10 +493,7 @@ main {
 
 @media(max-width: 991px) {
     .review-card {
-        padding-top: var(--dl-space-space-twounits);
-        padding-left: var(--dl-space-space-oneandhalfunits);
-        padding-right: var(--dl-space-space-oneandhalfunits);
-        padding-bottom: var(--dl-space-space-twounits);
+        padding: var(--dl-space-space-twounits) var(--dl-space-space-oneandhalfunits);
     }
 }
 
@@ -931,11 +928,8 @@ main {
     width: 100%;
     display: flex;
     align-items: center;
-    padding-top: 120px;
-    padding-left: var(--dl-space-space-oneandhalfunits);
-    padding-right: var(--dl-space-space-oneandhalfunits);
     flex-direction: column;
-    padding-bottom: 120px;
+    padding: 120px var(--dl-space-space-oneandhalfunits);
     justify-content: center;
 }
 .home-text02 {
@@ -1056,11 +1050,8 @@ main {
     width: 100%;
     display: flex;
     align-items: center;
-    padding-top: var(--dl-space-space-twounits);
-    padding-left: var(--dl-space-space-oneandhalfunits);
-    padding-right: var(--dl-space-space-oneandhalfunits);
     flex-direction: column;
-    padding-bottom: 120px;
+    padding: var(--dl-space-space-twounits) var(--dl-space-space-oneandhalfunits) 120px;
     justify-content: center;
 }
 .home-header01 {
@@ -1228,12 +1219,9 @@ main {
     width: 100%;
     display: flex;
     align-items: center;
-    padding-top: 120px;
     border-color: #51515A;
-    padding-left: var(--dl-space-space-oneandhalfunits);
-    padding-right: var(--dl-space-space-oneandhalfunits);
     flex-direction: column;
-    padding-bottom: 120px;
+    padding: 120px var(--dl-space-space-oneandhalfunits);
     justify-content: center;
     border-top-width: 1px;
 }
@@ -1663,12 +1651,9 @@ main {
     flex: 1;
     display: flex;
     align-items: flex-start;
-    padding-top: var(--dl-space-space-fiveunits);
-    padding-left: var(--dl-space-space-twounits);
     border-radius: 20px;
-    padding-right: var(--dl-space-space-twounits);
     flex-direction: column;
-    padding-bottom: var(--dl-space-space-fiveunits);
+    padding: var(--dl-space-space-fiveunits) var(--dl-space-space-twounits);
     justify-content: flex-start;
     background-color: #292929;
 }
@@ -1758,12 +1743,9 @@ main {
     flex: 1;
     display: flex;
     align-items: flex-start;
-    padding-top: var(--dl-space-space-fiveunits);
-    padding-left: var(--dl-space-space-twounits);
     border-radius: 20px;
-    padding-right: var(--dl-space-space-twounits);
     flex-direction: column;
-    padding-bottom: var(--dl-space-space-fiveunits);
+    padding: var(--dl-space-space-fiveunits) var(--dl-space-space-twounits);
     justify-content: flex-start;
     background-color: #292929;
 }
@@ -1886,12 +1868,9 @@ main {
     width: 100%;
     display: flex;
     align-items: center;
-    padding-top: 120px;
     border-color: #51515A;
-    padding-left: var(--dl-space-space-oneandhalfunits);
-    padding-right: var(--dl-space-space-oneandhalfunits);
     flex-direction: column;
-    padding-bottom: 120px;
+    padding: 120px var(--dl-space-space-oneandhalfunits);
     justify-content: center;
     border-top-width: 1px;
 }
@@ -2015,12 +1994,9 @@ main {
     width: 100%;
     display: flex;
     align-items: center;
-    padding-top: 120px;
     border-color: #51515A;
-    padding-left: var(--dl-space-space-oneandhalfunits);
-    padding-right: var(--dl-space-space-oneandhalfunits);
     flex-direction: column;
-    padding-bottom: 120px;
+    padding: 120px var(--dl-space-space-oneandhalfunits);
     justify-content: center;
     border-top-width: 1px;
 }
@@ -2134,11 +2110,8 @@ main {
     width: 100%;
     display: flex;
     align-items: center;
-    padding-top: 120px;
-    padding-left: var(--dl-space-space-oneandhalfunits);
-    padding-right: var(--dl-space-space-oneandhalfunits);
     flex-direction: column;
-    padding-bottom: var(--dl-space-space-threeunits);
+    padding: 120px var(--dl-space-space-oneandhalfunits) var(--dl-space-space-threeunits);
     justify-content: center;
 }
 .home-content6 {
