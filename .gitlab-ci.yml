@@ -73,8 +73,12 @@ test-job:   # This job runs in the test stage.
     MYSQL_PASSWORD: password
     MYSQL_ROOT_PASSWORD: password
     # set the correct DSN in Symfony to connect to the temporary database
-    DATABASE_URL: "mysql://local_bookable:password@localhost:3306/local_bookable?serverVersion=8&charset=utf8mb4"
+#    DATABASE_URL: "mysql://local_bookable:password@localhost:3306/local_bookable?serverVersion=8&charset=utf8mb4"
+    DATABASE_URL: "mysql://root:password@mysql/local_bookable"
   script:
+#    - php bin/console doctrine:migrations:migrate --env=test
+#    - php bin/console doctrine:fixtures:load --env=test --no-interaction
+#    - php/bin/phpunit --configuration phpunit.xml.dist --testsuite UnitTests
     # use vendor/bin/phpunit to run only unit tests
     - vendor/bin/phpunit --configuration phpunit.xml.dist --testsuite UnitTests
     - php bin/console cache:clear
@@ -96,15 +100,6 @@ code_quality:
     - cq-sans-dind     # Set this job to only run on our new specialized runner
   artifacts:
     paths: [gl-code-quality-report.json]
-
-# build again but now
-before-deploy:
-  image: node:latest
-  stage: deploy
-  before_script:
-    - npm install
-  script:
-    - npm run build
 
 # Every job will start a container with a clone from the current repo
 deploy-job:      # This job runs in the deploy stage.
@@ -132,3 +127,5 @@ deploy-job:      # This job runs in the deploy stage.
                 --exclude=".env"
                 --delete
                 ./ a22web12@shell.studev.groept.be:/var/www/html
+    # connect to the web server and run the composer install, composer update, chmod a+w -R /var/www/html/var’, export the NVM_DIR variable, load the nvm, run the bash_completion, install npm and run the build then close connection
+    - ssh -T a22web12@shell.studev.groept.be "cd /var/www/html && composer install && composer update && chmod a+w -R /var/www/html/var && export NVM_DIR=\"$HOME/.nvm\" && [ -s \"$NVM_DIR/nvm.sh\" ] && \. \"$NVM_DIR/nvm.sh\" && [ -s \"$NVM_DIR/bash_completion\" ] && \. \"$NVM_DIR/bash_completion\" && npm install && npm run build && exit
