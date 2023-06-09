@@ -74,8 +74,8 @@ test-job:   # This job runs in the test stage.
 #    # set the correct DSN in Symfony to connect to the temporary database
     DATABASE_URL: "mysql://root:password@mysql/local_test"
   script:
-##    - php bin/console --env=test doctrine:database:create
-##    - php bin/console --env=test doctrine:schema:create
+    - php bin/console doctrine:database:create
+    - php bin/console doctrine:schema:create
 #    - php bin/console doctrine:migrations:migrate
 #    - php bin/console --env=test doctrine:fixtures:load --no-interaction
 #    - php/bin/phpunit
