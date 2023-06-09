@@ -66,15 +66,15 @@ test-job:   # This job runs in the test stage.
     - mysql:8
   variables:
 ##    # Configure mysql environment variables (https://hub.docker.com/r/_/mysql/)
-    MYSQL_DATABASE: local_test
-    MYSQL_USER: local_test
-    MYSQL_PASSWORD: password
-    MYSQL_ROOT_PASSWORD: password
-#    # set the correct DSN in Symfony to connect to the temporary database
-    DATABASE_URL: "mysql://root:password@mysql/local_test"
+#    MYSQL_DATABASE: local_test
+#    MYSQL_USER: local_test
+#    MYSQL_PASSWORD: password
+#    MYSQL_ROOT_PASSWORD: password
+##    # set the correct DSN in Symfony to connect to the temporary database
+#    DATABASE_URL: "mysql://root:password@mysql/local_test"
   script:
-    - php bin/console doctrine:migrations:migrate --env=test --no-interaction
-    - php bin/console doctrine:fixtures:load -n --env=test
+#    - php bin/console doctrine:migrations:migrate --env=test --no-interaction
+#    - php bin/console doctrine:fixtures:load -n --env=test
 #    - php/bin/phpunit
     # use vendor/bin/phpunit to run only unit tests
     - vendor/bin/phpunit --configuration phpunit.xml.dist --testsuite UnitTests
