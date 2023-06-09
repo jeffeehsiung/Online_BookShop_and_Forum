@@ -133,7 +133,7 @@ deploy-job:      # This job runs in the deploy stage.
                 --delete
                 ./ a22web12@shell.studev.groept.be:/var/www/html
     # connect to the web server and run the composer install there
-    - ssh -t a22web12@shell.studev.groept.be "cd /var/www/html && ls"
+    - ssh -T a22web12@shell.studev.groept.be "cd /var/www/html && ls"
 
 #    # go to the web server and first export the NVM_DIR variable, load the nvm,and run the bash_completion
 #    - ssh -t a22web12@shell.studev.groept.be "export NVM_DIR=\"$HOME/.nvm\" && [ -s \"$NVM_DIR/nvm.sh\" ] && \. \"$NVM_DIR/nvm.sh\" && [ -s \"$NVM_DIR/bash_completion\" ] && \. \"$NVM_DIR/bash_completion\""
