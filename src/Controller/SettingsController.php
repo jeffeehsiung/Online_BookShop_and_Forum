@@ -59,7 +59,7 @@ class SettingsController extends AbstractController
         $user = $this->getUser();
 
         // get avatar from form
-        $avatar_id = $request->request->get('avatar-id', 0);
+        $avatar_id = $request->request->get('avatar_id', 0);
 
         // push to database if avatar was found
         if($avatar_id) {
@@ -138,17 +138,17 @@ class SettingsController extends AbstractController
         $user = $this->getUser();
 
         // update password if valid, pass error message if not and redirect to settings page
-        $currentUnHashedPassword = $request->request->get('current-password');
+        $currentUnHashedPassword = $request->request->get('current_password');
         if($passwordHasher->isPasswordValid($user, $currentUnHashedPassword)) {
             $newHashedPassword = $passwordHasher->hashPassword(
                 $user,
-                $request->request->get('new-password')
+                $request->request->get('new_password')
             );
             $user->setPassword($newHashedPassword);
-            $this->addFlash('password-success', 'password was edited succesfully');
+            $this->addFlash('password_success', 'password was edited succesfully');
         } else {
             $this->addFlash(
-                'password-fail',
+                'password_fail',
                 "changing password failed because 'current password' field was filled in wrong, retry"
             );
         }

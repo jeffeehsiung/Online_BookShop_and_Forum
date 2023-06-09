@@ -17,28 +17,23 @@
     <section id="settings">
         <h1 id="settings_title">Settings</h1>
 
-        {% for message in app.flashes('password-success') %}
+        {% for message in app.flashes('password_success') %}
             <div id="password_message" style="color: #4CC366">
                 {{ message }}
                 <span id="close" onclick="closeMessage()">x</span>
             </div>
         {% endfor %}
-        {% for message in app.flashes('password-fail') %}
+        {% for message in app.flashes('password_fail') %}
             <div id="password_message" style="color: #A22020">
                 {{ message }}
                 <span id="close" onclick="closeMessage()">x</span>
             </div>
         {% endfor %}
 
-<<<<<<< templates/setting.html.twig
         <button type="button" class="settings_submenu" >Profile</button>
         <div class="settings_menu_content">
             <h2>Edit your profile: </h2>
-=======
-        <button type="button" class="settings-submenu" >Profile</button>
-        <div class="settings-menu-content">
-            <h2>Edit your profile: </h2>
->>>>>>> templates/setting.html.twig
+
 
             <section id="avatar_settings">
                 {% if user.getAvatar() is null %}
