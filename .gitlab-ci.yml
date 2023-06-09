@@ -72,7 +72,7 @@ test-job:   # This job runs in the test stage.
     MYSQL_ROOT_PASSWORD: password
 #    DATABASE_URL: "mysql://local_bookable:password@127.0.0.1:3306/local_bookable?serverVersion=8&charset=utf8mb4"
 #    # set the correct DSN in Symfony to connect to the temporary database
-    DATABASE_URL: "mysql://root:password@mysql/a22web12"
+    DATABASE_URL: "mysql://root:password@mysql/a22web12_test"
   script:
     - php bin/console --env=test doctrine:database:create
     - php bin/console --env=test doctrine:schema:create
