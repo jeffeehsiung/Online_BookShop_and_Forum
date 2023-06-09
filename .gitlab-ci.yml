@@ -74,11 +74,12 @@ test-job:   # This job runs in the test stage.
     MYSQL_ROOT_PASSWORD: password
     # set the correct DSN in Symfony to connect to the temporary database
 #    DATABASE_URL: "mysql://local_bookable:password@localhost:3306/local_bookable?serverVersion=8&charset=utf8mb4"
-    DATABASE_URL: "mysql://root:password@mysql/a22web12"
+    DATABASE_URL: "mysql://root:password@mysql/local_bookable"
   script:
+    - php bin/console doctrine:database:create --env=test
+    - php bin/console doctrine:schema:update --force --env=test
+    - php bin/console doctrine:fixtures:load --env=test --no-interaction
     # use vendor/bin/phpunit to run only unit tests
-#    - php bin/console doctrine:database:create --env=test
-#    - php bin/console doctrine:fixtures:load --env=test --no-interaction
     - vendor/bin/phpunit --configuration phpunit.xml.dist --testsuite UnitTests
     - php bin/console cache:clear
     - php bin/console cache:pool:clear cache.global_clearer
@@ -127,4 +128,4 @@ deploy-job:      # This job runs in the deploy stage.
                 --delete
                 ./ a22web12@shell.studev.groept.be:/var/www/html
     # connect to the web server and run the composer install, composer update, chmod a+w -R /var/www/html/var’, export the NVM_DIR variable, load the nvm, run the bash_completion, install npm and run the build then close connection
-    - ssh -T a22web12@shell.studev.groept.be "cd/var/www/html && composer install && composer update && chmod a+w -R /var/www/html/var && export NVM_DIR=\"$HOME/.nvm\" && [ -s \"$NVM_DIR/nvm.sh\" ] && \. \"$NVM_DIR/nvm.sh\" && [ -s \"$NVM_DIR/bash_completion\" ] && \. \"$NVM_DIR/bash_completion\" && npm install && npm run build"
+    - ssh -T a22web12@shell.studev.groept.be "cd /var/www/html && composer install && composer update && chmod a+w -R /var/www/html/var && export NVM_DIR=\"$HOME/.nvm\" && [ -s \"$NVM_DIR/nvm.sh\" ] && \. \"$NVM_DIR/nvm.sh\" && [ -s \"$NVM_DIR/bash_completion\" ] && \. \"$NVM_DIR/bash_completion\" && npm install && npm run build"
