@@ -127,7 +127,7 @@ deploy-job:      # This job runs in the deploy stage.
     # connect to the web server and run the composer install there
     - ssh -T a22web12@shell.studev.groept.be "cd /var/www/html && composer install"
 #    # go to the web server and first export the NVM_DIR variable, load the nvm,and run the bash_completion
-    - ssh -T a22web12@shell.studev.groept.be "export NVM_DIR=\"$HOME/.nvm\" && [ -s \"$NVM_DIR/nvm.sh\" ] && \. \"$NVM_DIR/nvm.sh\" && [ -s \"$NVM_DIR/bash_completion\" ] && \. \"$NVM_DIR/bash_completion\""
+    - ssh -T a22web12@shell.studev.groept.be "cd /var/www/html && export NVM_DIR=\"$HOME/.nvm\" && [ -s \"$NVM_DIR/nvm.sh\" ] && \. \"$NVM_DIR/nvm.sh\" && [ -s \"$NVM_DIR/bash_completion\" ] && \. \"$NVM_DIR/bash_completion\""
 #    # go to the web server and build the production assets there
     - ssh -T a22web12@shell.studev.groept.be "cd /var/www/html && npm install && npm run build"
 ## build again but now
