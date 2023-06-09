@@ -90,14 +90,7 @@ class BookableController extends AbstractController
             ]));
 
             // Beautify title
-            // check if getTitle() is not null
-            $bookTitle = $book->getTitle();
-            if($bookTitle) {
-//                $bookTitle = u($bookTitle)->replace('_', ' ')->title(true);
-                $bookTitle = u(preg_replace('/\([^)]+\)/', '', $book->getTitle()))->title(true);
-            } else {
-                $bookTitle = 'Book';
-            }
+            $bookTitle = u(preg_replace('/\([^)]+\)/', '', $book->getTitle()))->title(true);
             return $this->render('book.html.twig', [
                 'bookTitle' => $bookTitle,
                 'stylesheets' => $stylesheets,
