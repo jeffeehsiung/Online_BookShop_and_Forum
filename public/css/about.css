@@ -1,11 +1,10 @@
-#about-page
+#about_page
 {
     width: 50vw;
 }
 
 h1 {
     text-align: left;
-    font-family: Poppins, serif;
     font-weight: 500;
     font-stretch: normal;
     text-decoration: none;
@@ -14,7 +13,6 @@ h1 {
 }
 h2 {
     text-align: left;
-    font-family: Poppins, serif;
     font-weight: 250;
     font-stretch: normal;
     text-decoration: none;
@@ -24,7 +22,6 @@ h2 {
 
 h3 {
     text-align: left;
-    font-family: Poppins, serif;
     font-weight: 500;
     font-size: 24px;
     font-stretch: normal;

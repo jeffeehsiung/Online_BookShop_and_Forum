@@ -68,6 +68,7 @@ class BookableControllerTest extends WebTestCase
         $form['_username'] = "test@test.com";
         $form['_password'] = "password";
         $client->submit($form);
+        print_r($client->getResponse()->getContent());
         $crawler = $client->followRedirect();
         //make sure we went to Home
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -203,7 +204,7 @@ class BookableControllerTest extends WebTestCase
         self::ensureKernelShutdown();
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
-        $testUser = $userRepository->findOneBy(['email' => 'test@test.com']);
+        $testUser = $userRepository->findOneBy(['email' => 'booktest@test.com']);
         $client->loginUser($testUser);
 
         // get a book and the amount of initial likes to be tested
@@ -346,7 +347,7 @@ class BookableControllerTest extends WebTestCase
         self::ensureKernelShutdown();
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
-        $testUser = $userRepository->findOneBy(['email' => 'test@test.com']);
+        $testUser = $userRepository->findOneBy(['email' => 'booktest@test.com']);
         $client->loginUser($testUser);
 
         // get a book to be tested
