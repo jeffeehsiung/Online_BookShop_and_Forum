@@ -1,6 +1,5 @@
 h1 {
     text-align: left;
-    font-family: Poppins, serif;
     font-weight: 500;
     font-stretch: normal;
     text-decoration: none;
@@ -10,7 +9,6 @@ h1 {
 
 h2 {
     text-align: left;
-    font-family: Poppins, serif;
     font-weight: 250;
     font-stretch: normal;
     text-decoration: none;
@@ -19,7 +17,6 @@ h2 {
 
 h3 {
     text-align: left;
-    font-family: Poppins, serif;
     font-weight: 500;
     font-stretch: normal;
     text-decoration: none;
@@ -32,14 +29,14 @@ h3 {
     border-top-right-radius: 10px;
 
 }
-h4{
+h4 {
     height: 64px;
 }
-.book img{
+.book img {
     width: 240px;
     height:360px;
 }
-.book{
+.book {
     display: flex;
     flex-direction: column;
     margin-left: auto;
@@ -49,7 +46,7 @@ h4{
     color: #B3B3B3;
 }
 
-.book-list{
+.book_list {
     width: 65vw;
     display: flex;
     flex-direction: row;
@@ -67,21 +64,21 @@ h4{
 
 
 
-.book-list p{
+.book_list p {
     padding-left: 5px;
     padding-right: 5px;
 }
 
-.book-list a:hover{
+.book_list a:hover {
     background-color: #626e31;
     color: white;
 }
-.book-list p{
+.book_list p {
     padding-left: 5px;
     padding-right: 5px;
 }
 
-#home-page{
+#home-page {
     display: flex;
     flex-direction: column;
     column-gap: 10px;
@@ -110,20 +107,18 @@ h4{
 ::-webkit-scrollbar-thumb:hover {
     background: #626e31;
 }
-#intro{
+#intro {
     color: #B3B3B3;
     text-align: left;
-    font-family: Poppins, serif;
     font-weight: 500;
     font-stretch: normal;
     text-decoration: none;
     padding-bottom: 20px;
 }
 
-#books{
+#books {
     color: #B3B3B3;
     text-align: left;
-    font-family: Poppins, serif;
     font-weight: 500;
     font-stretch: normal;
     text-decoration: none;

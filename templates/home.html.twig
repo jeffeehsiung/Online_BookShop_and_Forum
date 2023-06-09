@@ -24,7 +24,7 @@
             <div class="container">
                 <div class="followed-books">
                 <h3>Based on your followed books</h3>
-                <div class="book-list">
+                <div class="book_list">
                     {% set count = 0 %}
                     {% if books==null %}
                     <h2>No followed books yet</h2>
@@ -49,7 +49,7 @@
                 </div>
                 <div class="trending-books">
                 <h3>Trending Books</h3>
-                <div class="book-list">
+                <div class="book_list">
                     {% for book in popular_books|slice(0,20)%}
                         <div class="book">
                             <a href="{{ path("book", {book_id: book.getID()}) }}">
@@ -69,7 +69,7 @@
                 {% for genre in genres %}
                     <div class="{{ genre.getGenre() }}">
                     <h3>Books in the category {{ genre.getGenre() }}</h3>
-                    <div class="book-list">
+                    <div class="book_list">
                         {% set count = 0 %}
                         {% for genre_book in genre_books %}
                             {% if genre_book.getGenre() == genre %}

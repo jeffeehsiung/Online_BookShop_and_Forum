@@ -90,11 +90,7 @@ class BookableController extends AbstractController
             ]));
 
             // Beautify title
-            try {
-                $bookTitle = u(preg_replace('/\([^)]+\)/', '', $book->getTitle()))->title(true);
-            } catch (PcreException $e) {
-                $bookTitle = $e;
-            }
+            $bookTitle = u(preg_replace('/\([^)]+\)/', '', $book->getTitle()))->title(true);
             return $this->render('book.html.twig', [
                 'bookTitle' => $bookTitle,
                 'stylesheets' => $stylesheets,
@@ -357,13 +353,13 @@ class BookableController extends AbstractController
         $user_id = $user->getId();
 
         // create a form to be used to search for books
-        $searchform = $this->createForm(BookSearchFormType::class);
+        $searchForm = $this->createForm(BookSearchFormType::class);
         // handle the request
-        $searchform->handleRequest($searchRequest);
+        $searchForm->handleRequest($searchRequest);
         // if the form is submitted and valid
-        if($searchform->isSubmitted() && $searchform->isValid()) {
+        if($searchForm->isSubmitted() && $searchForm->isValid()) {
             // get the data from the form
-            $data = $searchform->getData();
+            $data = $searchForm->getData();
             // get the value from the data
             $book_title = $data->getTitle();
             // if the book title is not null
@@ -418,7 +414,7 @@ class BookableController extends AbstractController
         $booksCount = count($books);
         $this->addFlash('search', $booksCount . ' books found');
         // declare stylesheets and javascripts to be used in the twig template
-        return $this->getRenderedBrowsing($bookGenres, $books, $bookTitle, $genre_ids, $searchform, $filterForm, $offset, $booksCount);
+        return $this->getRenderedBrowsing($bookGenres, $books, $bookTitle, $genre_ids, $searchForm, $filterForm, $offset, $booksCount);
     }
 
     #[Route('/browsing/{book_title}', name: 'searching') ]
@@ -514,9 +510,9 @@ class BookableController extends AbstractController
             'genres' => $bookGenres,
             'books' => $books,
             'book_title' => $bookTitle,
+            'searchForm' => $searchForm->createView(),
+            'filterForm' => $filterForm->createView(),
             'genre_ids' => $genre_ids,
-            'search_form' => $searchForm->createView(),
-            'filter_form' => $filterForm->createView(),
             'previous' => $offset - BookRepository::PAGINATOR_PER_PAGE,
             'next' => min(count($books), $offset + BookRepository::PAGINATOR_PER_PAGE),
             'books_count' => $booksCount,
