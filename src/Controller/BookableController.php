@@ -90,7 +90,14 @@ class BookableController extends AbstractController
             ]));
 
             // Beautify title
-            $bookTitle = u(preg_replace('/\([^)]+\)/', '', $book->getTitle()))->title(true);
+            // check if getTitle() is not null
+            $bookTitle = $book->getTitle();
+            if($bookTitle) {
+//                $bookTitle = u($bookTitle)->replace('_', ' ')->title(true);
+                $bookTitle = u(preg_replace('/\([^)]+\)/', '', $book->getTitle()))->title(true);
+            } else {
+                $bookTitle = 'Book';
+            }
             return $this->render('book.html.twig', [
                 'bookTitle' => $bookTitle,
                 'stylesheets' => $stylesheets,
@@ -179,7 +186,7 @@ class BookableController extends AbstractController
         $book = $bookRepository->findOneBy(['id' => $book_id]);
 
         // Update followed books
-        $direction = $request->request->get('follow-direction');
+        $direction = $request->request->get('follow_direction');
         if($direction === 'follow-up') {
             $followedBook = new FollowedBook($user, $book);
             $entityManager->persist($followedBook);
