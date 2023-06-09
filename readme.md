@@ -86,5 +86,13 @@ Provide a link to the main page of your application. Or if you have multiple par
 * ![img_1.png](img_1.png)
 * ![img_2.png](img_2.png)
 
-
-
+## testing
+* The testing uses a local database that gets run by each member of the team. It has the same structure as the database on the server, but it contains the test data.
+### fixtures
+* To run the fixtures for the first time, a database has to be created. This can be done by exporting the database structure from bookable. 
+* After this, we have to make sure all primary keys are set, and the auto increment is checked.
+* Before we can check start running the fixtures, we have to make sure that the memory_limit is set to 256M. This can be done by changing the php.ini file.
+* These changes only have to be set up once, then we can start running the fixtures.
+* First of all, the database has to be cleared, and the auto increment values should be reset. The exact SQL code can be found in the folder DataFixtures/setup for fixtures.
+* After this, we can start running the fixtures. This can be done by running the command "php bin/console --env=test doctrine:fixtures:load" in the terminal.
+* after this the test data should be loaded in the database, and we can start testing.
