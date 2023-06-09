@@ -36,6 +36,7 @@ Provide a link to the main page of your application. Or if you have multiple par
 * set up email
 * set up password
 * confirm password
+* authentication mail (check your spam)
 
 ### User Home ###
 * display the recommended books based on user's followed books, based on the author of the book
