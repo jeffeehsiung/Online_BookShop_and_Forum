@@ -77,7 +77,7 @@ test-job:   # This job runs in the test stage.
 #    - php bin/console doctrine:database:create
 #    - php bin/console doctrine:schema:create
 #    - php bin/console doctrine:migrations:migrate
-    - php bin/console --env=test doctrine:fixtures:load --no-interaction
+#    - php bin/console --env=test doctrine:fixtures:load --no-interaction
 #    - php/bin/phpunit
     # use vendor/bin/phpunit to run only unit tests
     - vendor/bin/phpunit --configuration phpunit.xml.dist --testsuite UnitTests
