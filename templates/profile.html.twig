@@ -35,7 +35,9 @@
         {% if user.getBio() is null %}
 
         {% else %}
-            <text id="user_bio">{{ user.getBio() }}</text>
+            <div class="bio_container">
+            <p id="user_bio">{{ user.getBio() }}</p>
+            </div>
         {% endif %}
 
     </section>
