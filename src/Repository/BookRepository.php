@@ -83,17 +83,6 @@ class BookRepository extends ServiceEntityRepository
      * find all book objects by title
      * @return Book[] Returns an array of Book objects
      */
-    public function findAllByTitleOld($book_title, $booksPerPage): array
-    {
-        $queryBuilder = $this->createQueryBuilder('books')
-            ->orderBy('books.id', 'DESC');
-        if($book_title){
-            $queryBuilder->andWhere('books.title LIKE :val')
-                ->setParameter('val', '%'.$book_title.'%');
-        }
-        return $queryBuilder->setMaxResults($booksPerPage)->getQuery()->getResult();
-    }
-
 
     public function findAllByTitle($book_title, int $offset): QueryBuilder
     {
