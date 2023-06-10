@@ -360,7 +360,7 @@ class BookableController extends AbstractController
         if($searchForm->isSubmitted() && $searchForm->isValid()) {
             // get the data from the form
             $data = $searchForm->getData();
-            // get the value from the data
+            // get the value of the data
             $book_title = $data->getTitle();
             // if the book title is not null
             if($book_title) {
