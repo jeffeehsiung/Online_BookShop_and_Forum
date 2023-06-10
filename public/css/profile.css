@@ -42,7 +42,12 @@ h1 {
     border-width: medium;
 }
 
-
+#user_bio
+{
+    color: #FFFFFF;
+    width: fit-content;
+    height: fit-content;
+}
 #right {
 
     flex-direction: column;
