@@ -98,6 +98,6 @@ Provide a link to the main page of your application. Or if you have multiple par
 #### Run data fixtures to populate your database tables
 * Before we can start running the fixtures, we have to make sure that the memory_limit is set to 256M. This can be done by changing the php.ini file.
 * These changes only have to be set up once, then we can start running the fixtures.
-* Run the SQL queries listed in 'src/DataFixtures/setup for fixtures.txt', the clear the database and reset auto increment values.
+* Run the SQL queries listed in 'src/DataFixtures/setup for fixtures.txt', they clear the database and reset auto increment values.
 * Execute the data fixtures by running the following command from your project root folder: php bin/console --env=test doctrine:fixtures:load
 * After this the test data should be loaded in the database, and we can start testing.
