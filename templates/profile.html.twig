@@ -37,7 +37,7 @@
 
     <section id = "right">
 
-        <div class = booklist >
+        <div class="booklist" , id="followed" >
             <h1 class = section-title id="followTitle"> Followed Books</h1>
                 {% if followed_book == null%}
                 <div class="empty">
@@ -60,7 +60,7 @@
 
 
 
-        <div class = booklist >
+        <div class = booklist id="liked" >
             <h1 class = section-title id="likeTitle"> Liked Books</h1>
                 {% if liked_list == null%}
                 <div class="empty">
@@ -81,7 +81,7 @@
                 {% endif %}
         </div>
 
-            <div class = booklist>
+            <div class = booklist, id="disliked">
                 <h1 class = section-title id="dislikeTitle"> Disliked Books</h1>
                 {% if disliked_list == null%}
                     <div class="empty">

@@ -430,12 +430,12 @@ class BookableControllerTest extends WebTestCase
 
         //Testing Liked Books
         // Assert that no liked books are displayed
-        $this->assertSelectorTextContains('#Liked div.empty', 'No liked books yet...');
+        $this->assertSelectorTextContains('#liked div.empty', 'No liked books yet...');
 
 
         //Testing Disliked books
         // Assert that no disliked books are displayed
-        $this->assertSelectorTextContains('#Disliked div.empty', 'No disliked books yet...');
+        $this->assertSelectorTextContains('#disliked div.empty', 'No disliked books yet...');
 
 
 
@@ -488,7 +488,7 @@ class BookableControllerTest extends WebTestCase
         $this->assertSelectorTextContains('h1.section-title#likeTitle', 'Liked Books');
 
         // Assert the liked books
-        $likedBooks = $client->getCrawler()->filter('#Liked .media_element');
+        $likedBooks = $client->getCrawler()->filter('#liked .media_element');
         $this->assertCount(4, $likedBooks); // Assuming there are 2 liked books for the first profile
 
         // Get the actual book titles from the page
@@ -505,7 +505,7 @@ class BookableControllerTest extends WebTestCase
         $this->assertSelectorTextContains('h1.section-title#dislikeTitle', 'Disliked Books');
 
 // Assert the disliked books
-        $dislikedBooks = $client->getCrawler()->filter('#Disliked .media_element');
+        $dislikedBooks = $client->getCrawler()->filter('#disliked .media_element');
         $this->assertCount(4, $dislikedBooks); // Assuming there are 3 disliked books for the first profile
 
 // Get the actual book titles from the page
