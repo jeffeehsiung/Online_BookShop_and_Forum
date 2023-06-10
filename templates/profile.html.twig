@@ -32,6 +32,12 @@
 
         <h1 class = "profile_name">{{ user.getLastName() }}</h1>
 
+        {% if user.getBio() is null %}
+
+        {% else %}
+            <text id="user_bio">{{ user.getBio() }}</text>
+        {% endif %}
+
     </section>
 
     <section id = "right">
