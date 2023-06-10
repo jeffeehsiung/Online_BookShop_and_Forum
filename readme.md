@@ -13,8 +13,8 @@ Provide a link to the main page of your application. Or if you have multiple par
 
 ## Website credentials
 ### Regular user
-- login : 
-- password : password
+- login : zomaarivde@hotmail.com
+- password : secret
 ### Admin / Library manager / ...
 - login : test@test.com
 - password : password
