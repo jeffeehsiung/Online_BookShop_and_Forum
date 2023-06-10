@@ -55,7 +55,6 @@ main {
     justify-content: center;
 }
 .register_submit {
-    cursor: not-allowed;
     font-size: 100%;
     opacity: 1;
     color: #3E3E3E;
