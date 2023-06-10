@@ -25,12 +25,13 @@
         {% endif %}
         {% if  user.getFirstName() == null %}
 
-            <h1 class = "profile_name"> user {{ user.getId() }}</h1>
+            <h1 class = "profile_name" id="first"> user {{ user.getId() }}</h1>
         {%else %}
-            <h1 class = "profile_name">{{ user.getFirstName() }}</h1>
+            <h1 class = "profile_name" id="first">{{ user.getFirstName() }}</h1>
+            <h1 class = "profile_name" id="last">{{ user.getLastName() }}</h1>
         {% endif %}
 
-        <h1 class = "profile_name">{{ user.getLastName() }}</h1>
+
 
 {# TODO change classname and style #}
         <div class = "contact_icons">
@@ -47,7 +48,7 @@
         <div class = booklist id="followed">
                 {% if followed_book == null%}
                 <div class="empty">
-                    <a >  &emsp; &emsp;  No liked books yet...</a>
+                    <a >  &emsp; &emsp;  No followed books yet...</a>
                 </div>
                 {% else %}
             <div class="media_scroller snaps_inline">
@@ -69,7 +70,7 @@
 
                 {% if liked_list == null%}
                 <div class="empty">
-                    <a >   &emsp; &emsp; To read list is empty...</a>
+                    <a >   &emsp; &emsp; No liked books yet...</a>
                 </div>
                 {% else %}
             <div class="media_scroller snaps_inline">
@@ -89,7 +90,7 @@
 
                 {% if disliked_list == null%}
                     <div class="empty">
-                        <a >   &emsp; &emsp; Disliked list is empty...</a>
+                        <a >   &emsp; &emsp; No disliked books yet...</a>
                     </div>
                 {% else %}
                     <div class="media_scroller snaps_inline">

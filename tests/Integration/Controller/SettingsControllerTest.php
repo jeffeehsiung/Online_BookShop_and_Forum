@@ -65,7 +65,7 @@ class SettingsControllerTest extends WebTestCase
         $this->client->request(
             'POST',
             '/settings/setAvatar',
-            ['avatar-id' => $avatar->getId()]
+            ['avatar_id' => $avatar->getId()]
         );
 
         // Assert the response status code
@@ -160,8 +160,8 @@ class SettingsControllerTest extends WebTestCase
             'POST',
             '/settings/editPassword',
             [
-                'current-password' => 'password',
-                'new-password' => $newPassword
+                'current_password' => 'password',
+                'new_password' => $newPassword
             ]
         );
 
