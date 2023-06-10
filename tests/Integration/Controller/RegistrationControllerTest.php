@@ -3,17 +3,21 @@
 namespace App\Tests\Integration\Controller;
 
 use App\Entity\User;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class RegistrationControllerTest extends WebTestCase
 {
+    /**
+     * @throws Exception
+     */
     public function testRegisterCorrect()
     {
         /*
           * test registration
           */
         $client = static::createClient();
-        $crawler = $client->request('GET', '/home');
+        $client->request('GET', '/home');
         //we should be automatically redirected to the welcome page (status code 302)
         $this->assertEquals(302, $client->getResponse()->getStatusCode(), 'you should have been redirected to the welcome page');
         //follow the redirect
@@ -32,8 +36,6 @@ class RegistrationControllerTest extends WebTestCase
 
         //fill in the form
         $form = $crawler->filter('form[name="registration_form"]')->form();
-        $fields = $form->all();
-        $fieldNames = array_keys($fields);
         $form['registration_form[first_name]'] = "testname";
         $form['registration_form[last_name]'] = "testname";
         $form['registration_form[username]'] = "testname";
@@ -42,7 +44,7 @@ class RegistrationControllerTest extends WebTestCase
         $form['registration_form[plainPassword][second]'] = "password";
         $form["registration_form[agree_terms]"] = true;
         $client->submit($form);
-        $crawler = $client->followRedirect(); //2 redirections because it counts the "going to welcome" as a seperate redirect
+        $client->followRedirect(); //2 redirections because it counts the "going to welcome" as a seperate redirect
         $crawler = $client->followRedirect();
         //make sure we got to the welcome page
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -60,7 +62,7 @@ class RegistrationControllerTest extends WebTestCase
         $form['_username'] = "testregister@test.com";
         $form['_password'] = "password";
         $client->submit($form);
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
         //make sure we went to Home
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertSelectorTextContains('title', 'Home');
@@ -81,7 +83,7 @@ class RegistrationControllerTest extends WebTestCase
          */
 
         $client = static::createClient();
-        $crawler = $client->request('GET', '/home');
+        $client->request('GET', '/home');
         //we should be automatically redirected to the welcome page (status code 302)
         $this->assertEquals(302, $client->getResponse()->getStatusCode(), 'you should have been redirected to the welcome page');
         //follow the redirect
@@ -99,8 +101,6 @@ class RegistrationControllerTest extends WebTestCase
 
         //fill in the form
         $form = $crawler->filter('form[name="registration_form"]')->form();
-        $fields = $form->all();
-        $fieldNames = array_keys($fields);
         $form['registration_form[first_name]'] = "testname";
         $form['registration_form[last_name]'] = "testname";
         $form['registration_form[username]'] = "testname";
@@ -123,7 +123,7 @@ class RegistrationControllerTest extends WebTestCase
          */
 
         $client = static::createClient();
-        $crawler = $client->request('GET', '/home');
+        $client->request('GET', '/home');
         //we should be automatically redirected to the welcome page (status code 302)
         $this->assertEquals(302, $client->getResponse()->getStatusCode(), 'you should have been redirected to the welcome page');
         //follow the redirect
@@ -141,8 +141,6 @@ class RegistrationControllerTest extends WebTestCase
 
         //fill in the form
         $form = $crawler->filter('form[name="registration_form"]')->form();
-        $fields = $form->all();
-        $fieldNames = array_keys($fields);
         $form['registration_form[first_name]'] = "testname";
         $form['registration_form[last_name]'] = "testname";
         $form['registration_form[username]'] = "testname";
@@ -164,7 +162,7 @@ class RegistrationControllerTest extends WebTestCase
          */
 
         $client = static::createClient();
-        $crawler = $client->request('GET', '/home');
+        $client->request('GET', '/home');
         //we should be automatically redirected to the welcome page (status code 302)
         $this->assertEquals(302, $client->getResponse()->getStatusCode(), 'you should have been redirected to the welcome page');
         //follow the redirect
@@ -182,8 +180,6 @@ class RegistrationControllerTest extends WebTestCase
 
         //fill in the form
         $form = $crawler->filter('form[name="registration_form"]')->form();
-        $fields = $form->all();
-        $fieldNames = array_keys($fields);
         $form['registration_form[first_name]'] = "";
         $form['registration_form[last_name]'] = "testname";
         $form['registration_form[username]'] = "testname";

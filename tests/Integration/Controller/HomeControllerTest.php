@@ -2,14 +2,10 @@
 
 namespace App\Tests\Integration\Controller;
 
-use App\Entity\User;
-use App\Repository\AvatarRepository;
 use App\Repository\BookRepository;
 use App\Repository\FollowedBookRepository;
-use App\Repository\GenreRepository;
-use App\Repository\LikedGenreRepository;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use function PHPUnit\Framework\assertContains;
@@ -23,7 +19,7 @@ class HomeControllerTest extends WebTestCase
          */
         self::ensureKernelShutdown();
         $client = static::createClient();
-        $crawler = $client->request('GET', '/home');
+        $client->request('GET', '/home');
         $crawler = $client->followRedirect();
         //make sure we are on welcome page
         $login_button = $crawler->selectLink('Login')->link();
@@ -34,14 +30,14 @@ class HomeControllerTest extends WebTestCase
         $form['_username'] = $email;
         $form['_password'] = $password;
         $client->submit($form);
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
 
         return $client;
     }
 
     public function testLoadingHomePage():void
     {
-        $client = $this->authenticateUser('hometest@test.com', 'password');
+        $this->authenticateUser('hometest@test.com');
         $this->assertSelectorTextContains('title', 'Home');
         $this->assertSelectorTextContains('div.followed-books h3','Based on your followed books');
         $this->assertSelectorTextContains('div.trending-books h3','Trending Books');
@@ -51,12 +47,14 @@ class HomeControllerTest extends WebTestCase
         $this->assertSelectorTextContains('div.Romance h3','Books in the category Romance');
         $this->assertSelectorTextContains('div.Science.Fiction h3','Books in the category Science Fiction');
     }
+
     /**
      * @depends testLoadingHomePage
+     * @throws Exception
      */
     public function testTrendingBooks():void
     {
-        $client = $this->authenticateUser('hometest@test.com', 'password');
+        $client = $this->authenticateUser('hometest@test.com');
         $bookRepository = static::getContainer()->get(BookRepository::class);
         $popularBooks = $bookRepository->findPopular();
         //make sure that the first element is the most liked book
@@ -74,10 +72,11 @@ class HomeControllerTest extends WebTestCase
 
     /**
      * @depends testLoadingHomePage
+     * @throws Exception
      */
     public function testGenres():void
     {
-        $client = $this->authenticateUser('hometest@test.com', 'password');
+        $client = $this->authenticateUser('hometest@test.com');
         $bookRepository = static::getContainer()->get(BookRepository::class);
         $books = $client->getCrawler()->filter('div.Romance h4.title')->each(function($node){
             return $node->text();
@@ -139,9 +138,12 @@ class HomeControllerTest extends WebTestCase
 
     }
 
+    /**
+     * @throws Exception
+     */
     public function testFollowed():void
     {
-        $client = $this->authenticateUser('hometest@test.com', 'password');
+        $client = $this->authenticateUser('hometest@test.com');
         $bookRepository = static::getContainer()->get(BookRepository::class);
         $displayedBooks = $client->getCrawler()->filter('div.followed-books h4.title')->each(function($node){
             return $node->text();
