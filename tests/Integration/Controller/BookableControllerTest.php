@@ -452,14 +452,14 @@ class BookableControllerTest extends WebTestCase
         $this->assertSelectorTextContains('title', 'Profile');
 
 
-        //test if profile name is correct: ok
+    //test if profile name is correct: ok
         $this->assertSelectorTextContains('#first',  "profile");
         $this->assertSelectorTextContains('#last',  "test");
         //test if  avatar is correct:
         $avatarUrl = $crawler->filter('img#profile_pic')->attr('src');
         $expectedAvatarUrl = 'https://api.dicebear.com/6.x/personas/svg?seed=Angel';
         $this->assertEquals($expectedAvatarUrl, $avatarUrl);
-        $this->assertSelectorTextContains('#user_bio', "hi, I like books");
+        $this->assertSelectorTextContains('#user_bio', "hi,I like books");
         $this->assertSelectorTextContains('h1.section-title#followTitle', 'Followed Books');
         // Assert the followed books
         $followedBooks = $client->getCrawler()->filter('#followed .media_element');
