@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\LikedGenre;
+use App\Entity\User;
 use App\Repository\AvatarRepository;
 use App\Repository\GenreRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,6 +23,7 @@ class SettingsController extends AbstractController
     {
         // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        /** @var User $user */
         $user = $this->getUser();
 
         $bookGenres = $genreRepository->findAll();
@@ -32,7 +34,7 @@ class SettingsController extends AbstractController
         $likedGenres = $user->getLikedGenres();
         $favouriteGenresInitial = array();
         foreach ($likedGenres as $genre) {
-            array_push($favouriteGenresInitial, $genre->getGenre());
+            $favouriteGenresInitial[] = $genre->getGenre();
         }
 
         // TODO: split twig templates into file format 'controllername/methodname.html.twig' -> example: 'bookable/settings.html.twig'
@@ -56,6 +58,7 @@ class SettingsController extends AbstractController
     {
         // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        /** @var User $user */
         $user = $this->getUser();
 
         // get avatar from form
@@ -80,6 +83,7 @@ class SettingsController extends AbstractController
     {
         // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        /** @var User $user */
         $user = $this->getUser();
 
         // get bio from form
@@ -102,6 +106,7 @@ class SettingsController extends AbstractController
     {
         // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        /** @var User $user */
         $user = $this->getUser();
 
         $newLikedGenreIDs = array_values($request->request->all());
@@ -135,6 +140,7 @@ class SettingsController extends AbstractController
     {
         // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        /** @var User $user */
         $user = $this->getUser();
 
         // update password if valid, pass error message if not and redirect to settings page
