@@ -86,7 +86,7 @@ Provide a link to the main page of your application. Or if you have multiple par
 * ![img_1.png](img_1.png)
 * ![img_2.png](img_2.png)
 
-## testing
+## Testing
 * The testing uses a local database that gets run by each member of the team. It has the same structure as the database on the server, but it contains the test data.
 ### Setting up the test database
 #### Preliminary
