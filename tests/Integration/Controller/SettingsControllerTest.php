@@ -8,6 +8,7 @@ use App\Repository\GenreRepository;
 use App\Repository\LikedGenreRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -19,7 +20,7 @@ class SettingsControllerTest extends WebTestCase
     private User $testUser;
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     protected function setUp(): void
     {
@@ -37,7 +38,7 @@ class SettingsControllerTest extends WebTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSettings(): void
     {
@@ -51,7 +52,7 @@ class SettingsControllerTest extends WebTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSetAvatar(): void
     {
@@ -80,7 +81,7 @@ class SettingsControllerTest extends WebTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSetBio(): void
     {
@@ -105,7 +106,7 @@ class SettingsControllerTest extends WebTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testEditLikedGenres(): void
     {
@@ -147,7 +148,7 @@ class SettingsControllerTest extends WebTestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testEditPassword(): void
     {

@@ -14,7 +14,7 @@ class LikedBookTest extends TestCase
      */
     public function testGetSetUser(): void
     {
-        $followedBook = new LikedBook(null, null);
+        $followedBook = new LikedBook();
         $user = new User();
 
         $followedBook->setUser($user);
@@ -27,7 +27,7 @@ class LikedBookTest extends TestCase
      */
     public function testGetSetBook(): void
     {
-        $followedBook = new LikedBook(null, null);
+        $followedBook = new LikedBook();
         $book = new Book();
 
         $followedBook->setBook($book);
