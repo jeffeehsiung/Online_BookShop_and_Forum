@@ -231,7 +231,7 @@ class BookableController extends AbstractController
         // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user_id = $this->getUser()->getId();
-        $stylesheets = ['homev2.css'];
+        $stylesheets = ['home.css'];
         if ($user_id) {
             $user = $userRepository->findOneBy(['id' => $user_id]);
 //            $books = $bookRepository->findAll();
@@ -287,6 +287,7 @@ class BookableController extends AbstractController
     #[Route('/profile', name: 'profile')]
     public function profile(AvatarRepository $avatarRepository, ReadBooksRepository $readBookRepository, BookRepository $bookRepository, FollowedBookRepository $followedBookRepository, UserRepository $userRepository, LikedBookRepository $likedBookRepository, DislikedBookRepository $dislikedBookRepository, $userID = null): Response {
         $stylesheets = ['profile.css'];
+
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $userID = $this->getUser()->getId();
 
@@ -336,10 +337,8 @@ class BookableController extends AbstractController
     public function about(): Response
     {
         $stylesheets = ['about.css'];
-        $javascripts = ['about.js'];
         return$this->render('about.html.twig', [
-            'stylesheets'=> $stylesheets,
-            'javascripts'=>$javascripts
+            'stylesheets'=> $stylesheets
         ]);
         }
 

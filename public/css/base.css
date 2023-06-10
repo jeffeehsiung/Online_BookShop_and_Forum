@@ -287,13 +287,6 @@ main {
     flex-direction: column;
     justify-content: center;
 }
-.home-footer-images {
-    gap: var(--dl-space-space-oneandhalfunits);
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-}
 
 .home-footer-links {
     gap: var(--dl-space-space-threeunits);

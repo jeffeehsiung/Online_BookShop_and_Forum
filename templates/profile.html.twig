@@ -15,7 +15,7 @@
 {% block content %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
 <section id="profilebody">
-    <script src="https://kit.fontawesome.com/56afcbf775.js" crossorigin="anonymous"></script>
+
     <section id = "left">
         {% if   avatar == null %}
 
@@ -25,29 +25,23 @@
         {% endif %}
         {% if  user.getFirstName() == null %}
 
-            <h1 class = "profile_name"> user {{ user.getId() }}</h1>
+            <h1 class = "profile_name" id="first"> user {{ user.getId() }}</h1>
         {%else %}
-            <h1 class = "profile_name">{{ user.getFirstName() }}</h1>
+            <h1 class = "profile_name" id="first">{{ user.getFirstName() }}</h1>
+            <h1 class = "profile_name" id="last">{{ user.getLastName() }}</h1>
         {% endif %}
 
-        <h1 class = "profile_name">{{ user.getLastName() }}</h1>
-
-{# TODO change classname and style #}
-        <div class = "contact_icons">
-            <a href="{{ path('settings') }}" >
-                <i class="fa_solid fa_gear" style='font-size:40px'></i>
-            </a>
 
 
-        </div>
     </section>
 
     <section id = "right">
-        <h1 class = section-title id="followTitle"> Followed Books</h1>
-        <div class = booklist id="followed">
+
+        <div class="booklist"  id="followed" >
+            <h1 class = section-title id="followTitle"> Followed Books</h1>
                 {% if followed_book == null%}
                 <div class="empty">
-                    <a >  &emsp; &emsp;  No liked books yet...</a>
+                    <a >  &emsp; &emsp;  No followed books yet...</a>
                 </div>
                 {% else %}
             <div class="media_scroller snaps_inline">
@@ -64,17 +58,19 @@
                 {% endif %}
             </div>
 
-        <h1 class = section-title id="likeTitle"> Liked Books</h1>
-        <div class = booklist id="Liked">
 
+
+        <div class = booklist id="liked" >
+            <h1 class = section-title id="likeTitle"> Liked Books</h1>
                 {% if liked_list == null%}
                 <div class="empty">
-                    <a >   &emsp; &emsp; To read list is empty...</a>
+                    <a >   &emsp; &emsp; No liked books yet...</a>
                 </div>
                 {% else %}
             <div class="media_scroller snaps_inline">
                 {% for book in liked_list %}
                     <div class="media_element">
+
                         <a href="{{ path("book", {book_id: book.getID()}) }}">
                         <img src = "{{ book.getImageUrl  }}" alt="">
                         <p class="title">{{ book.getTitle }}</p>
@@ -84,12 +80,12 @@
             </div>
                 {% endif %}
         </div>
-            <h1 class = section-title id="dislikeTitle"> Disliked Books</h1>
-            <div class = booklist id="Disliked">
 
+            <div class = booklist, id="disliked">
+                <h1 class = section-title id="dislikeTitle"> Disliked Books</h1>
                 {% if disliked_list == null%}
                     <div class="empty">
-                        <a >   &emsp; &emsp; Disliked list is empty...</a>
+                        <a >   &emsp; &emsp; No disliked books yet...</a>
                     </div>
                 {% else %}
                     <div class="media_scroller snaps_inline">

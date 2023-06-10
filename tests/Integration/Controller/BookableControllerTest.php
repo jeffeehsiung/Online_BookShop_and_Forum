@@ -2,31 +2,29 @@
 
 namespace App\Tests\Integration\Controller;
 
-use App\Entity\Book;
 use App\Entity\DislikedBook;
 use App\Entity\FollowedBook;
 use App\Entity\LikedBook;
-use App\Entity\User;
 use App\Repository\BookRepository;
 use App\Repository\DislikedBookRepository;
 use App\Repository\FollowedBookRepository;
 use App\Repository\LikedBookRepository;
 use App\Repository\UserRepository;
-use Doctrine\ORM\Tools\DebugUnitOfWorkListener;
-use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class BookableControllerTest extends WebTestCase
 {
 
-    public function authenticateUser($email="test@test.com", $password="password")
+    public function authenticateUser($email="test@test.com", $password="password"): KernelBrowser
     {
         /*
          * Functionality gets tested in the testWelcome, since authentication happens there
          */
         self::ensureKernelShutdown();
         $client = static::createClient();
-        $crawler = $client->request('GET', '/home');
+        $client->request('GET', '/home');
         $crawler = $client->followRedirect();
         //make sure we are on welcome page
         $login_button = $crawler->selectLink('Login')->link();
@@ -37,8 +35,7 @@ class BookableControllerTest extends WebTestCase
         $form['_username'] = $email;
         $form['_password'] = $password;
         $client->submit($form);
-        $crawler = $client->followRedirect();
-
+        $client->followRedirect();
         return $client;
     }
 
@@ -49,7 +46,7 @@ class BookableControllerTest extends WebTestCase
           */
         self::ensureKernelShutdown();
         $client = static::createClient();
-        $crawler = $client->request('GET', '/home');
+        $client->request('GET', '/home');
         //we should be automatically redirected to the welcome page (status code 302)
         $this->assertEquals(302, $client->getResponse()->getStatusCode(), 'you should have been redirected to the welcome page');
         //follow the redirect
@@ -69,7 +66,7 @@ class BookableControllerTest extends WebTestCase
         $form['_password'] = "password";
         $client->submit($form);
         print_r($client->getResponse()->getContent());
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
         //make sure we went to Home
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertSelectorTextContains('title', 'Home');
@@ -83,7 +80,7 @@ class BookableControllerTest extends WebTestCase
          */
         self::ensureKernelShutdown();
         $client = static::createClient();
-        $crawler = $client->request('GET', '/home');
+        $client->request('GET', '/home');
         //we should be automatically redirected to the welcome page (status code 302)
         $this->assertEquals(302, $client->getResponse()->getStatusCode(), 'you should have been redirected to the welcome page');
         //follow the redirect
@@ -103,7 +100,7 @@ class BookableControllerTest extends WebTestCase
         $form['_password'] = "password";
         $client->submit($form);
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
         //make sure we remained on welcome
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertSelectorTextContains('title', 'Welcome');
@@ -119,7 +116,7 @@ class BookableControllerTest extends WebTestCase
          */
         self::ensureKernelShutdown();
         $client = static::createClient();
-        $crawler = $client->request('GET', '/home');
+        $client->request('GET', '/home');
         //we should be automatically redirected to the welcome page (status code 302)
         $this->assertEquals(302, $client->getResponse()->getStatusCode(), 'you should have been redirected to the welcome page');
         //follow the redirect
@@ -139,7 +136,7 @@ class BookableControllerTest extends WebTestCase
         $form['_password'] = "wrongPassword";
         $client->submit($form);
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $crawler = $client->followRedirect();
+        $client->followRedirect();
         //make sure we remained on welcome
         //$this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertSelectorTextContains('title', 'Welcome');
@@ -152,8 +149,8 @@ class BookableControllerTest extends WebTestCase
      */
     public function testHome()
     {
-        $client = $this->authenticateUser('hometest@test.com', 'password');
-        $crawler = $client->request('GET', '/home');
+        $client = $this->authenticateUser('hometest@test.com');
+        $client->request('GET', '/home');
         $this->assertSelectorTextContains('title', 'Home');
         $this->assertSelectorExists('div.followed-books h3','Based on your followed books');
 
@@ -170,7 +167,7 @@ class BookableControllerTest extends WebTestCase
         //based on position in the list, will change if we change the order of the elements in the list
         $linkPosition = 2;
         $link = $crawler->filter('a.nav-link')->eq($linkPosition);
-        $crawler = $client->click($link->link());
+        $client->click($link->link());
         //check what got returned
         print_r($client->getResponse()->getContent());
         //make some asserts to make sure all got displayed well
@@ -194,7 +191,7 @@ class BookableControllerTest extends WebTestCase
 
     /**
      * @depends testBook
-     * @throws \Exception
+     * @throws Exception
      */
     public function testVote()
     {
@@ -233,10 +230,6 @@ class BookableControllerTest extends WebTestCase
 
         // Assert that the book's likes count has been incremented
         $this->assertSame($initialLikes + 1, $book->getLikes());
-
-        // Clean up the database
-        $this->entityManager = $client->getContainer()->get('doctrine')->getManager();
-
 
         /*
          *  Correct data test 2: unlike
@@ -301,9 +294,9 @@ class BookableControllerTest extends WebTestCase
         // Re-fetch book
         $book = $bookRepository->findOneBy(['id' => 1]);
 
-        // Assert that the book was unliked by the user
+        // Assert that the book was un disliked by the user
         $disLikedBook = $disLikedBookRepository->findOneBy(['user' => $testUser, 'book' => $book]);
-        $this->assertNull($likedBook);
+        $this->assertNull($disLikedBook);
 
         // Assert that the book's likes count has been restored
         $this->assertSame($initialDisLikes, $book->getDislikes());
@@ -337,6 +330,7 @@ class BookableControllerTest extends WebTestCase
 
     /**
      * @depends testBook
+     * @throws Exception
      */
     public function testFollow()
     {
@@ -361,7 +355,7 @@ class BookableControllerTest extends WebTestCase
         $client->request(
             'POST',
             '/book/' . $book->getId() . '/follow',
-            ['follow-direction' => 'follow-up']
+            ['follow_direction' => 'follow-up']
         );
 
         // Assert the response status code
@@ -374,9 +368,9 @@ class BookableControllerTest extends WebTestCase
         $this->assertInstanceOf(FollowedBook::class, $followedBook);
 
         // Clean up the database
-        $this->entityManager = $client->getContainer()->get('doctrine')->getManager();
-        $this->entityManager->remove($followedBook);
-        $this->entityManager->flush();
+        $entityManager = $client->getContainer()->get('doctrine')->getManager();
+        $entityManager->remove($followedBook);
+        $entityManager->flush();
 
         /*
          * Malicious data test
@@ -415,10 +409,10 @@ class BookableControllerTest extends WebTestCase
         $this->assertSelectorTextContains('h1.section-title', 'Followed Books');
 
         //test if profile name is correct: ok
-        $this->assertSelectorTextContains('h1.profilename',  "test");
+        $this->assertSelectorTextContains('h1.profile_name',  "test");
 
         //test if  avatar is correct:
-        $avatarUrl = $crawler->filter('img#profilepic')->attr('src');
+        $avatarUrl = $crawler->filter('img#profile_pic')->attr('src');
         $expectedAvatarUrl = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png';
         $this->assertSame($expectedAvatarUrl, $avatarUrl);
 
@@ -430,12 +424,12 @@ class BookableControllerTest extends WebTestCase
 
         //Testing Liked Books
         // Assert that no liked books are displayed
-        $this->assertSelectorTextContains('#Liked div.empty', 'No liked books yet...');
+        $this->assertSelectorTextContains('#liked div.empty', 'No liked books yet...');
 
 
         //Testing Disliked books
         // Assert that no disliked books are displayed
-        $this->assertSelectorTextContains('#Disliked div.empty', 'No disliked books yet...');
+        $this->assertSelectorTextContains('#disliked div.empty', 'No disliked books yet...');
 
 
 
@@ -447,7 +441,7 @@ class BookableControllerTest extends WebTestCase
      */
     public function testProfile2()
     {
-        $client = $this->authenticateUser("profiletest@test.com","password");
+        $client = $this->authenticateUser("profiletest@test.com");
         $client->request('GET', '/profile');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         print_r($client->getResponse()->getContent());
@@ -458,16 +452,16 @@ class BookableControllerTest extends WebTestCase
 
 
         //test if profile name is correct: ok
-        $this->assertSelectorTextContains('#First',  "profile");
-        $this->assertSelectorTextContains('#Last',  "test");
+        $this->assertSelectorTextContains('#first',  "profile");
+        $this->assertSelectorTextContains('#last',  "test");
         //test if  avatar is correct:
-        $avatarUrl = $crawler->filter('img#profilepic')->attr('src');
+        $avatarUrl = $crawler->filter('img#profile_pic')->attr('src');
         $expectedAvatarUrl = 'https://api.dicebear.com/6.x/personas/svg?seed=Angel';
         $this->assertEquals($expectedAvatarUrl, $avatarUrl);
 
         $this->assertSelectorTextContains('h1.section-title#followTitle', 'Followed Books');
         // Assert the followed books
-        $followedBooks = $client->getCrawler()->filter('#followed .media-element');
+        $followedBooks = $client->getCrawler()->filter('#followed .media_element');
         $this->assertCount(4, $followedBooks); // Assuming there are 2 followed books for the first profile
 
         // Assert the titles of the followed books
@@ -488,7 +482,7 @@ class BookableControllerTest extends WebTestCase
         $this->assertSelectorTextContains('h1.section-title#likeTitle', 'Liked Books');
 
         // Assert the liked books
-        $likedBooks = $client->getCrawler()->filter('#Liked .media-element');
+        $likedBooks = $client->getCrawler()->filter('#liked .media_element');
         $this->assertCount(4, $likedBooks); // Assuming there are 2 liked books for the first profile
 
         // Get the actual book titles from the page
@@ -505,7 +499,7 @@ class BookableControllerTest extends WebTestCase
         $this->assertSelectorTextContains('h1.section-title#dislikeTitle', 'Disliked Books');
 
 // Assert the disliked books
-        $dislikedBooks = $client->getCrawler()->filter('#Disliked .media-element');
+        $dislikedBooks = $client->getCrawler()->filter('#disliked .media_element');
         $this->assertCount(4, $dislikedBooks); // Assuming there are 3 disliked books for the first profile
 
 // Get the actual book titles from the page
@@ -547,14 +541,14 @@ class BookableControllerTest extends WebTestCase
         $this->assertSelectorTextContains('title', 'Browsing', 'The title of the page should be "Browsing"');
 
         // Check if there is at least one browsing-list-item
-        $this->assertGreaterThan(0, $crawler->filter('div.browsing-list-item')->count(), 'There should be at least one browsing-list-item');
+        $this->assertGreaterThan(0, $crawler->filter('div.browsing_list_item')->count(), 'There should be at least one browsing-list-item');
 
         // check if there is a form with id search form
         $this->assertGreaterThan(0, $crawler->filter('#book_search_form_title')->count(), 'There should be a form with id search_form');
         // check if there is a form with id genre_filter_form
         $this->assertGreaterThan(0, $crawler->filter('#book_filter_form_genre')->count(), 'There should be a form with id genre_filter_form');
         //chekc if there are three buttons with class main-button: search, reset, next
-        $this->assertEquals(3, $crawler->filter('.main-button')->count(), 'There should be three buttons with class main-button');
+        $this->assertEquals(3, $crawler->filter('.main_button')->count(), 'There should be three buttons with class main-button');
     }
 
     /**
@@ -570,12 +564,12 @@ class BookableControllerTest extends WebTestCase
         // set the value of the input with id book_search_form_title to "Hunger"
         $form['book_search_form[title]'] = 'Harry';
         // submit the form
-        $crawler = $client->submit($form);
+        $client->submit($form);
         // follow the redirect
         $crawler = $client->followRedirect();
         // check if the page is redirected to the browsing page with a flash message containing the searched book title
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Since form is submitted, you should see the search page');
-        $this->assertSelectorTextContains('div.search-alert', 'Harry', 'The flash message should contain the searched book title');
+        $this->assertSelectorTextContains('div.search_alert', 'Harry', 'The flash message should contain the searched book title');
         $filter_form = $crawler->filter('aside')->filter('form')->form();
         // get the input checkbox type with value 17
         $genre_form = $crawler->filter('aside')->filter('form')->form()['book_filter_form[genre]'];
@@ -595,11 +589,11 @@ class BookableControllerTest extends WebTestCase
         // submit the form
         $crawler = $client->submit($filter_form);
         // check the flash message
-        $this->assertSelectorTextContains('div.search-alert', 'Harry', 'The flash message should contain the searched book title');
+        $this->assertSelectorTextContains('div.search_alert', 'Harry', 'The flash message should contain the searched book title');
         // test the reset button
-        $reset_btn = $crawler->filter('#reset-btn')->link();
+        $reset_btn = $crawler->filter('#reset_btn')->link();
         // click the reset button
-        $crawler = $client->click($reset_btn);
+        $client->click($reset_btn);
         // check the redirect status code
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Since reset button is clicked, you should see the search page');
     }

@@ -70,11 +70,6 @@
       </ul>
     <nav id="mobile-menu" class="navbar-mobile-menu">
       <div class="navbar-branding">
-        <img
-          alt="image"
-          src="{{ asset('images/planical7012-ttpb.svg') }}"
-          class="navbar-image1"
-        />
         <div id="close-mobile-menu" class="navbar-container">
           <svg viewBox="0 0 1024 1024" class="navbar-icon">
             <path
@@ -84,9 +79,7 @@
         </div>
       </div>
       <ul class="navbar-nav-links1">
-
         <li><a class="nav-link">About us</a></li>
-
         {% if is_granted('ROLE_USER') %}
           <li><a class="nav-link" href="{{ path('browsing') }}">Browse a book</a></li>
           <li><a class="nav-link">Community</a></li>
@@ -108,46 +101,6 @@
     <div class="home-footer-content">
       <div class="home-footer-main">
         <div class="home-footer-links">
-          <div class="home-footer-images">
-            <div class="home-socials">
-              <a
-                      href="https://example.com"
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      class="home-link"
-              >
-                <img
-                        alt="image"
-                        src="{{ asset('images/linkedin.png') }}"
-                        class="social"
-                />
-              </a>
-              <a
-                      href="https://example.com"
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      class="home-link1"
-              >
-                <img
-                        alt="image"
-                        src="{{ asset('images/instagram.png') }}"
-                        class="social"
-                />
-              </a>
-              <a
-                      href="https://example.com"
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      class="home-link2"
-              >
-                <img
-                        alt="image"
-                        src="{{ asset('images/twitter-200h.png') }}"
-                        class="social"
-                />
-              </a>
-            </div>
-          </div>
           <div class="home-categories">
             <div class="home-category">
             <div class="home-category1">
