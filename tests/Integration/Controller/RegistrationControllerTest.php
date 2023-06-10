@@ -25,6 +25,7 @@ class RegistrationControllerTest extends WebTestCase
         $linkPosition = 4;
         $link = $crawler->filter('a')->eq($linkPosition); //of all the links, register is the fourth one
         $crawler = $client->click($link->link());
+        print_r($client->getResponse()->getContent());
         //make sure we are on the register page
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertSelectorTextContains('title', 'Register');

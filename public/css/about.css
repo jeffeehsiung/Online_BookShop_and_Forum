@@ -3,7 +3,7 @@
     width: 50vw;
 }
 
-h1 {
+#about_page h1 {
     text-align: left;
     font-weight: 500;
     font-stretch: normal;
@@ -11,7 +11,7 @@ h1 {
     color: white;
     font-size: 48px;
 }
-h2 {
+#about_page h2 {
     text-align: left;
     font-weight: 250;
     font-stretch: normal;
@@ -20,7 +20,7 @@ h2 {
     font-size: 48px;
 }
 
-h3 {
+#about_page h3 {
     text-align: left;
     font-weight: 500;
     font-size: 24px;
@@ -35,8 +35,7 @@ h3 {
     border-top-right-radius: 10px;
 
 }
-p {
-
+#about_page p {
     background-color: #171717;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
@@ -46,24 +45,4 @@ p {
     font-size: 22px;
     padding: 15px;
     color: white;
-}
-::-webkit-scrollbar {
-    width: 10px;
-    margin: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-    background: #171717;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background-color: #c9e265;
-    border-radius: 10px;
-    margin: 10px;
-    scroll-padding: 20px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: #626e31;
 }

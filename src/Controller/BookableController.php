@@ -179,7 +179,7 @@ class BookableController extends AbstractController
         $book = $bookRepository->findOneBy(['id' => $book_id]);
 
         // Update followed books
-        $direction = $request->request->get('follow-direction');
+        $direction = $request->request->get('follow_direction');
         if($direction === 'follow-up') {
             $followedBook = new FollowedBook($user, $book);
             $entityManager->persist($followedBook);
@@ -231,7 +231,7 @@ class BookableController extends AbstractController
         // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user_id = $this->getUser()->getId();
-        $stylesheets = ['homev2.css'];
+        $stylesheets = ['home.css'];
         if ($user_id) {
             $user = $userRepository->findOneBy(['id' => $user_id]);
 //            $books = $bookRepository->findAll();

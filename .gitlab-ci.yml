@@ -41,12 +41,10 @@ stages:
 before-build:
   stage: build
   script:
-    - pwd
     - composer update -W
     - composer install
     - composer require symfony/runtime
     - php bin/console cache:pool:clear cache.global_clearer
-    - ls
 
 build-job:       # This job runs in the build stage, which runs first.
   image: node:latest
@@ -67,14 +65,17 @@ test-job:   # This job runs in the test stage.
   services:
     - mysql:8
   variables:
-    # Configure mysql environment variables (https://hub.docker.com/r/_/mysql/)
-    MYSQL_DATABASE: local_bookable
-    MYSQL_USER: local_bookable
-    MYSQL_PASSWORD: password
-    MYSQL_ROOT_PASSWORD: password
-    # set the correct DSN in Symfony to connect to the temporary database
-    DATABASE_URL: "mysql://local_bookable:password@localhost:3306/local_bookable?serverVersion=8&charset=utf8mb4"
+#    # Configure mysql environment variables (https://hub.docker.com/r/_/mysql/)
+#    MYSQL_DATABASE: local_test
+#    MYSQL_USER: local_test
+#    MYSQL_PASSWORD: password
+#    MYSQL_ROOT_PASSWORD: password
+##    # set the correct DSN in Symfony to connect to the temporary database
+#    DATABASE_URL: "mysql://root:password@mysql/local_test"
   script:
+#    - php bin/console doctrine:migrations:migrate
+#    - php bin/console doctrine:fixtures:load -n
+#    - php/bin/phpunit
     # use vendor/bin/phpunit to run only unit tests
     - vendor/bin/phpunit --configuration phpunit.xml.dist --testsuite UnitTests
     - php bin/console cache:clear
@@ -96,15 +97,6 @@ code_quality:
     - cq-sans-dind     # Set this job to only run on our new specialized runner
   artifacts:
     paths: [gl-code-quality-report.json]
-
-# build again but now
-before-deploy:
-  image: node:latest
-  stage: deploy
-  before_script:
-    - npm install
-  script:
-    - npm run build
 
 # Every job will start a container with a clone from the current repo
 deploy-job:      # This job runs in the deploy stage.
@@ -132,3 +124,5 @@ deploy-job:      # This job runs in the deploy stage.
                 --exclude=".env"
                 --delete
                 ./ a22web12@shell.studev.groept.be:/var/www/html
+    # connect to the web server and run the composer install, composer update, export the NVM_DIR variable, load the nvm, run the bash_completion, clear the cache, install the node modules and build the assets, all in one command
+    - ssh -T a22web12@shell.studev.groept.be "cd /var/www/html && composer install && composer update -W && export NVM_DIR=\"\$HOME/.nvm\" && [ -s \"\$NVM_DIR/nvm.sh\" ] && \. \"\$NVM_DIR/nvm.sh\" && [ -s \"\$NVM_DIR/bash_completion\" ] && \. \"\$NVM_DIR/bash_completion\" && npm install && npm run build && php bin/console cache:clear && php bin/console cache:pool:clear cache.global_clearer"

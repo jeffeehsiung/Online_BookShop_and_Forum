@@ -1,6 +1,8 @@
 <h1>Hi! Please confirm your email!</h1>
 
 <p>
+    To authenticate your account you should first log in.<br>
+    After that you can click the link below to complete the authentication.<br>
     Please confirm your email address by clicking the following link: <br><br>
     <a href="{{ signedUrl|raw }}">Confirm my Email</a>.
     This link will expire in {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
@@ -8,4 +10,5 @@
 
 <p>
     welcome to Bookable!
+    we hope you enjoy the experience.
 </p>

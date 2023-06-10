@@ -1,4 +1,4 @@
-h1 {
+#home_page h1 {
     text-align: left;
     font-weight: 500;
     font-stretch: normal;
@@ -7,7 +7,7 @@ h1 {
     font-size: 48px;
 }
 
-h2 {
+#home_page h2 {
     text-align: left;
     font-weight: 250;
     font-stretch: normal;
@@ -15,7 +15,7 @@ h2 {
     color: white;
 }
 
-h3 {
+#home_page h3 {
     text-align: left;
     font-weight: 500;
     font-stretch: normal;
@@ -29,7 +29,7 @@ h3 {
     border-top-right-radius: 10px;
 
 }
-h4 {
+#home_page h4 {
     height: 64px;
 }
 .book img {
@@ -78,35 +78,13 @@ h4 {
     padding-right: 5px;
 }
 
-#home-page {
+#home_page {
     display: flex;
     flex-direction: column;
     column-gap: 10px;
 }
 
-::-webkit-scrollbar {
-    width: 10px;
-    margin: 10px;
-}
 
-/* Track */
-::-webkit-scrollbar-track {
-    background: #171717;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: #c9e265;
-    border-radius: 10px;
-    margin: 10px;
-    scroll-padding: 20px;
-
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: #626e31;
-}
 #intro {
     color: #B3B3B3;
     text-align: left;
