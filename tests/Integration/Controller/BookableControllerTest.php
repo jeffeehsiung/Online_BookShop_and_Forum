@@ -459,16 +459,16 @@ class BookableControllerTest extends WebTestCase
 
 
         //test if profile name is correct: ok
-        $this->assertSelectorTextContains('#First',  "profile");
-        $this->assertSelectorTextContains('#Last',  "test");
+        $this->assertSelectorTextContains('#first',  "profile");
+        $this->assertSelectorTextContains('#last',  "test");
         //test if  avatar is correct:
-        $avatarUrl = $crawler->filter('img#profilepic')->attr('src');
+        $avatarUrl = $crawler->filter('img#profile_pic')->attr('src');
         $expectedAvatarUrl = 'https://api.dicebear.com/6.x/personas/svg?seed=Angel';
         $this->assertEquals($expectedAvatarUrl, $avatarUrl);
 
         $this->assertSelectorTextContains('h1.section-title#followTitle', 'Followed Books');
         // Assert the followed books
-        $followedBooks = $client->getCrawler()->filter('#followed .media-element');
+        $followedBooks = $client->getCrawler()->filter('#followed .media_element');
         $this->assertCount(4, $followedBooks); // Assuming there are 2 followed books for the first profile
 
         // Assert the titles of the followed books
@@ -489,7 +489,7 @@ class BookableControllerTest extends WebTestCase
         $this->assertSelectorTextContains('h1.section-title#likeTitle', 'Liked Books');
 
         // Assert the liked books
-        $likedBooks = $client->getCrawler()->filter('#Liked .media-element');
+        $likedBooks = $client->getCrawler()->filter('#liked .media_element');
         $this->assertCount(4, $likedBooks); // Assuming there are 2 liked books for the first profile
 
         // Get the actual book titles from the page
@@ -506,7 +506,7 @@ class BookableControllerTest extends WebTestCase
         $this->assertSelectorTextContains('h1.section-title#dislikeTitle', 'Disliked Books');
 
 // Assert the disliked books
-        $dislikedBooks = $client->getCrawler()->filter('#Disliked .media-element');
+        $dislikedBooks = $client->getCrawler()->filter('#disliked .media_element');
         $this->assertCount(4, $dislikedBooks); // Assuming there are 3 disliked books for the first profile
 
 // Get the actual book titles from the page
@@ -548,14 +548,14 @@ class BookableControllerTest extends WebTestCase
         $this->assertSelectorTextContains('title', 'Browsing', 'The title of the page should be "Browsing"');
 
         // Check if there is at least one browsing-list-item
-        $this->assertGreaterThan(0, $crawler->filter('div.browsing-list-item')->count(), 'There should be at least one browsing-list-item');
+        $this->assertGreaterThan(0, $crawler->filter('div.browsing_list_item')->count(), 'There should be at least one browsing-list-item');
 
         // check if there is a form with id search form
         $this->assertGreaterThan(0, $crawler->filter('#book_search_form_title')->count(), 'There should be a form with id search_form');
         // check if there is a form with id genre_filter_form
         $this->assertGreaterThan(0, $crawler->filter('#book_filter_form_genre')->count(), 'There should be a form with id genre_filter_form');
         //chekc if there are three buttons with class main-button: search, reset, next
-        $this->assertEquals(3, $crawler->filter('.main-button')->count(), 'There should be three buttons with class main-button');
+        $this->assertEquals(3, $crawler->filter('.main_button')->count(), 'There should be three buttons with class main-button');
     }
 
     /**
