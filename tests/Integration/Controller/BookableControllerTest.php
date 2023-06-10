@@ -576,7 +576,7 @@ class BookableControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
         // check if the page is redirected to the browsing page with a flash message containing the searched book title
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Since form is submitted, you should see the search page');
-        $this->assertSelectorTextContains('div.search-alert', 'Harry', 'The flash message should contain the searched book title');
+        $this->assertSelectorTextContains('div.search_alert', 'Harry', 'The flash message should contain the searched book title');
         $filter_form = $crawler->filter('aside')->filter('form')->form();
         // get the input checkbox type with value 17
         $genre_form = $crawler->filter('aside')->filter('form')->form()['book_filter_form[genre]'];
@@ -596,9 +596,9 @@ class BookableControllerTest extends WebTestCase
         // submit the form
         $crawler = $client->submit($filter_form);
         // check the flash message
-        $this->assertSelectorTextContains('div.search-alert', 'Harry', 'The flash message should contain the searched book title');
+        $this->assertSelectorTextContains('div.search_alert', 'Harry', 'The flash message should contain the searched book title');
         // test the reset button
-        $reset_btn = $crawler->filter('#reset-btn')->link();
+        $reset_btn = $crawler->filter('#reset_btn')->link();
         // click the reset button
         $crawler = $client->click($reset_btn);
         // check the redirect status code
