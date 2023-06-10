@@ -414,14 +414,16 @@ class BookableControllerTest extends WebTestCase
         $this->assertSelectorTextContains('title', 'Profile');
         $this->assertSelectorTextContains('h1.section-title', 'Followed Books');
 
-        //test if profile name is correct: ok
-        $this->assertSelectorTextContains('h1.profilename',  "test");
 
+        //test if profile name is correct: ok
+        $this->assertSelectorTextContains('h1.profile_name#first',  "test");
+        $this->assertSelectorTextContains('h1.profile_name#last',  "test");
         //test if  avatar is correct:
-        $avatarUrl = $crawler->filter('img#profilepic')->attr('src');
+        $avatarUrl = $crawler->filter('img#profile_pic')->attr('src');
         $expectedAvatarUrl = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png';
         $this->assertSame($expectedAvatarUrl, $avatarUrl);
-
+        //testing bio
+        $this->assertSelectorNotExists('div.bio_container');
 
         //Testing Followed Books
         // Assert that no folllowed books are displayed
@@ -458,14 +460,20 @@ class BookableControllerTest extends WebTestCase
 
 
         //test if profile name is correct: ok
-        $this->assertSelectorTextContains('#First',  "profile");
-        $this->assertSelectorTextContains('#Last',  "test");
+        $this->assertSelectorTextContains('h1.profile_name#first',  "profile");
+        $this->assertSelectorTextContains('h1.profile_name#last',  "test");
+
         //test if  avatar is correct:
-        $avatarUrl = $crawler->filter('img#profilepic')->attr('src');
+        $avatarUrl = $crawler->filter('img#profile_pic')->attr('src');
         $expectedAvatarUrl = 'https://api.dicebear.com/6.x/personas/svg?seed=Angel';
         $this->assertEquals($expectedAvatarUrl, $avatarUrl);
 
+        $this->assertSelectorTextContains('bio_container#user_bio', 'hi, I like books');
+
         $this->assertSelectorTextContains('h1.section-title#followTitle', 'Followed Books');
+
+
+
         // Assert the followed books
         $followedBooks = $client->getCrawler()->filter('#followed .media-element');
         $this->assertCount(4, $followedBooks); // Assuming there are 2 followed books for the first profile
