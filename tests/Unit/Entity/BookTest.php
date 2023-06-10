@@ -3,7 +3,6 @@
 namespace App\Tests\Unit\Entity;
 
 use App\Entity\Book;
-use App\Entity\Author;
 use App\Entity\LikedBook;
 use App\Entity\DislikedBook;
 use App\Entity\FollowedBook;
