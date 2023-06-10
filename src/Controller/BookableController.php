@@ -337,10 +337,8 @@ class BookableController extends AbstractController
     public function about(): Response
     {
         $stylesheets = ['about.css'];
-        $javascripts = ['about.js'];
         return$this->render('about.html.twig', [
-            'stylesheets'=> $stylesheets,
-            'javascripts'=>$javascripts
+            'stylesheets'=> $stylesheets
         ]);
         }
 
