@@ -13,10 +13,8 @@ use App\Repository\BookRepository;
 use App\Repository\DislikedBookRepository;
 use App\Repository\FollowedBookRepository;
 use App\Repository\GenreRepository;
-use App\Repository\LibraryRepository;
 use App\Repository\LikedBookRepository;
 use App\Repository\LikedGenreRepository;
-use App\Repository\ReadBooksRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -285,7 +283,7 @@ class BookableController extends AbstractController
     }
 
     #[Route('/profile', name: 'profile')]
-    public function profile(AvatarRepository $avatarRepository, ReadBooksRepository $readBookRepository, BookRepository $bookRepository, FollowedBookRepository $followedBookRepository, UserRepository $userRepository, LikedBookRepository $likedBookRepository, DislikedBookRepository $dislikedBookRepository, $userID = null): Response {
+    public function profile(AvatarRepository $avatarRepository, BookRepository $bookRepository, FollowedBookRepository $followedBookRepository, UserRepository $userRepository, LikedBookRepository $likedBookRepository, DislikedBookRepository $dislikedBookRepository, $userID = null): Response {
         $stylesheets = ['profile.css'];
 
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
