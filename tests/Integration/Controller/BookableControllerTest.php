@@ -415,7 +415,8 @@ class BookableControllerTest extends WebTestCase
         $avatarUrl = $crawler->filter('img#profile_pic')->attr('src');
         $expectedAvatarUrl = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png';
         $this->assertSame($expectedAvatarUrl, $avatarUrl);
-
+        //testing bio
+        $this->assertSelectorNotExists('div.bio_container');
 
         //Testing Followed Books
         // Assert that no folllowed books are displayed
@@ -458,7 +459,7 @@ class BookableControllerTest extends WebTestCase
         $avatarUrl = $crawler->filter('img#profile_pic')->attr('src');
         $expectedAvatarUrl = 'https://api.dicebear.com/6.x/personas/svg?seed=Angel';
         $this->assertEquals($expectedAvatarUrl, $avatarUrl);
-
+        $this->assertSelectorTextContains('#user_bio', "hi, I like books");
         $this->assertSelectorTextContains('h1.section-title#followTitle', 'Followed Books');
         // Assert the followed books
         $followedBooks = $client->getCrawler()->filter('#followed .media_element');
