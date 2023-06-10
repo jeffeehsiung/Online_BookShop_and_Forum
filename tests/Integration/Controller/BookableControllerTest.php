@@ -421,7 +421,8 @@ class BookableControllerTest extends WebTestCase
         $avatarUrl = $crawler->filter('img#profile_pic')->attr('src');
         $expectedAvatarUrl = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png';
         $this->assertSame($expectedAvatarUrl, $avatarUrl);
-
+        //testing bio
+        $this->assertSelectorNotExists('div.bio_container');
 
         //Testing Followed Books
         // Assert that no folllowed books are displayed
@@ -458,16 +459,16 @@ class BookableControllerTest extends WebTestCase
 
 
         //test if profile name is correct: ok
-        $this->assertSelectorTextContains('#first',  "profile");
-        $this->assertSelectorTextContains('#last',  "test");
+        $this->assertSelectorTextContains('#First',  "profile");
+        $this->assertSelectorTextContains('#Last',  "test");
         //test if  avatar is correct:
-        $avatarUrl = $crawler->filter('img#profile_pic')->attr('src');
+        $avatarUrl = $crawler->filter('img#profilepic')->attr('src');
         $expectedAvatarUrl = 'https://api.dicebear.com/6.x/personas/svg?seed=Angel';
         $this->assertEquals($expectedAvatarUrl, $avatarUrl);
 
         $this->assertSelectorTextContains('h1.section-title#followTitle', 'Followed Books');
         // Assert the followed books
-        $followedBooks = $client->getCrawler()->filter('#followed .media_element');
+        $followedBooks = $client->getCrawler()->filter('#followed .media-element');
         $this->assertCount(4, $followedBooks); // Assuming there are 2 followed books for the first profile
 
         // Assert the titles of the followed books
@@ -488,7 +489,7 @@ class BookableControllerTest extends WebTestCase
         $this->assertSelectorTextContains('h1.section-title#likeTitle', 'Liked Books');
 
         // Assert the liked books
-        $likedBooks = $client->getCrawler()->filter('#liked .media_element');
+        $likedBooks = $client->getCrawler()->filter('#Liked .media-element');
         $this->assertCount(4, $likedBooks); // Assuming there are 2 liked books for the first profile
 
         // Get the actual book titles from the page
@@ -505,7 +506,7 @@ class BookableControllerTest extends WebTestCase
         $this->assertSelectorTextContains('h1.section-title#dislikeTitle', 'Disliked Books');
 
 // Assert the disliked books
-        $dislikedBooks = $client->getCrawler()->filter('#disliked .media_element');
+        $dislikedBooks = $client->getCrawler()->filter('#Disliked .media-element');
         $this->assertCount(4, $dislikedBooks); // Assuming there are 3 disliked books for the first profile
 
 // Get the actual book titles from the page
@@ -547,14 +548,14 @@ class BookableControllerTest extends WebTestCase
         $this->assertSelectorTextContains('title', 'Browsing', 'The title of the page should be "Browsing"');
 
         // Check if there is at least one browsing-list-item
-        $this->assertGreaterThan(0, $crawler->filter('div.browsing_list_item')->count(), 'There should be at least one browsing-list-item');
+        $this->assertGreaterThan(0, $crawler->filter('div.browsing-list-item')->count(), 'There should be at least one browsing-list-item');
 
         // check if there is a form with id search form
         $this->assertGreaterThan(0, $crawler->filter('#book_search_form_title')->count(), 'There should be a form with id search_form');
         // check if there is a form with id genre_filter_form
         $this->assertGreaterThan(0, $crawler->filter('#book_filter_form_genre')->count(), 'There should be a form with id genre_filter_form');
         //chekc if there are three buttons with class main-button: search, reset, next
-        $this->assertEquals(3, $crawler->filter('.main_button')->count(), 'There should be three buttons with class main-button');
+        $this->assertEquals(3, $crawler->filter('.main-button')->count(), 'There should be three buttons with class main-button');
     }
 
     /**
@@ -575,7 +576,7 @@ class BookableControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
         // check if the page is redirected to the browsing page with a flash message containing the searched book title
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Since form is submitted, you should see the search page');
-        $this->assertSelectorTextContains('div.search_alert', 'Harry', 'The flash message should contain the searched book title');
+        $this->assertSelectorTextContains('div.search-alert', 'Harry', 'The flash message should contain the searched book title');
         $filter_form = $crawler->filter('aside')->filter('form')->form();
         // get the input checkbox type with value 17
         $genre_form = $crawler->filter('aside')->filter('form')->form()['book_filter_form[genre]'];
@@ -595,9 +596,9 @@ class BookableControllerTest extends WebTestCase
         // submit the form
         $crawler = $client->submit($filter_form);
         // check the flash message
-        $this->assertSelectorTextContains('div.search_alert', 'Harry', 'The flash message should contain the searched book title');
+        $this->assertSelectorTextContains('div.search-alert', 'Harry', 'The flash message should contain the searched book title');
         // test the reset button
-        $reset_btn = $crawler->filter('#reset_btn')->link();
+        $reset_btn = $crawler->filter('#reset-btn')->link();
         // click the reset button
         $crawler = $client->click($reset_btn);
         // check the redirect status code
