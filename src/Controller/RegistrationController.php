@@ -34,6 +34,7 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
         $stylesheets = ['register.css'];
 
+
         if ($form->isSubmitted() && $form->isValid()) {
 
             // encode the plain password
@@ -63,6 +64,7 @@ class RegistrationController extends AbstractController
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
             'stylesheets' => $stylesheets,
+
         ]);
 
     }
