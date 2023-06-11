@@ -33,11 +33,11 @@
             {% endif %}
             <h3>Genre: {{ genreName }}</h3>
             <form id="like-system" action="{{ path('book_vote', {book_id: book.id}) }}" method="POST">
-                <div class="progress-container">
+                <div class="progress_container">
                     {% if (book.likes + book.dislikes) == 0 %}
-                        <div class="progress-bar" id="progress-bar" style="width: 50%"></div>
+                        <div class="progress_bar" id="progress_bar" style="width: 50%"></div>
                     {% else %}
-                        <div class="progress-bar" id="progress-bar" style="width: {{ (book.likes()/(book.likes() + book.dislikes())) * 100 }}%"></div>
+                        <div class="progress_bar" id="progress_bar" style="width: {{ (book.likes()/(book.likes() + book.dislikes())) * 100 }}%"></div>
                     {% endif %}
                 </div>
                 {% if isLiked %}

@@ -59,7 +59,6 @@ p {
     height: 30px;
 }
 
-/* TODO: copied from settings.css, refactor somehow */
 .button {
     color: black;
     background-color: #c9e265;
@@ -69,7 +68,7 @@ p {
     padding: 15px;
 }
 
-.progress-container {
+.progress_container {
     width: 50%;
     background-color: black;
     border-radius: 15px;
@@ -79,7 +78,7 @@ p {
     margin: 30px auto 0;
 }
 
-.progress-bar {
+.progress_bar {
     width: 50%;
     height: 5px;
     background-color: #c9e265;
@@ -89,7 +88,7 @@ p {
     color: white;
 }
 
-#book-options {
+#book_options {
     display: flex;
     column-gap: 20px;
     padding-bottom: 30px;

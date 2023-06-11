@@ -39,8 +39,8 @@ class HomeControllerTest extends WebTestCase
     {
         $this->authenticateUser('hometest@test.com');
         $this->assertSelectorTextContains('title', 'Home');
-        $this->assertSelectorTextContains('div.followed-books h3','Based on your followed books');
-        $this->assertSelectorTextContains('div.trending-books h3','Trending Books');
+        $this->assertSelectorTextContains('div.followed_books h3','Based on your followed books');
+        $this->assertSelectorTextContains('div.trending_books h3','Trending Books');
         //these genres are loaded in through a fixture
         $this->assertSelectorTextContains('div.Fiction h3','Books in the category Fiction');
         $this->assertSelectorTextContains('div.Mystery h3','Books in the category Mystery');
@@ -58,15 +58,15 @@ class HomeControllerTest extends WebTestCase
         $bookRepository = static::getContainer()->get(BookRepository::class);
         $popularBooks = $bookRepository->findPopular();
         //make sure that the first element is the most liked book
-        $this->assertSelectorTextContains('div.trending-books h4', $popularBooks[0]->getTitle());
+        $this->assertSelectorTextContains('div.trending_books h4', $popularBooks[0]->getTitle());
         //make sure that all books are loaded in correctly
         foreach ($popularBooks as $popularBook)
         {
-            $this->assertSelectorExists('div.trending-books h4', $popularBook->getTitle());
+            $this->assertSelectorExists('div.trending_books h4', $popularBook->getTitle());
             print_r($popularBook->getTitle());
-            $this->assertSelectorExists('div.trending-books h4', $popularBook->getAuthor()->getAuthorName());
+            $this->assertSelectorExists('div.trending_books h4', $popularBook->getAuthor()->getAuthorName());
         }
-        $trendingDisplayed = $client->getCrawler()->filter('div.trending-books div.book');
+        $trendingDisplayed = $client->getCrawler()->filter('div.trending_books div.book');
         $this->assertCount(20, $trendingDisplayed);
     }
 
@@ -145,7 +145,7 @@ class HomeControllerTest extends WebTestCase
     {
         $client = $this->authenticateUser('hometest@test.com');
         $bookRepository = static::getContainer()->get(BookRepository::class);
-        $displayedBooks = $client->getCrawler()->filter('div.followed-books h4.title')->each(function($node){
+        $displayedBooks = $client->getCrawler()->filter('div.followed_books h4.title')->each(function($node){
             return $node->text();
         });
         $followedBooksRepository = static::getContainer()->get(FollowedBookRepository::class);

@@ -59,7 +59,6 @@
                 </form>
             </section>
 
-            {# TODO: input safety #}
             <form id="set_bio" action="{{ path('setBio') }}" method="POST">
                 <label for="bio">Bio:</label>
                 {% if user.getBio() is null %}

@@ -150,7 +150,7 @@ class BookableControllerTest extends WebTestCase
         $client = $this->authenticateUser('hometest@test.com');
         $client->request('GET', '/home');
         $this->assertSelectorTextContains('title', 'Home');
-        $this->assertSelectorExists('div.followed-books h3','Based on your followed books');
+        $this->assertSelectorExists('div.followed_books h3','Based on your followed books');
 
     }
     /**
@@ -403,7 +403,7 @@ class BookableControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/profile');
 
         $this->assertSelectorTextContains('title', 'Profile');
-        $this->assertSelectorTextContains('h1.section-title', 'Followed Books');
+        $this->assertSelectorTextContains('h1.section_title', 'Followed Books');
 
         //test if profile name is correct: ok
         $this->assertSelectorTextContains('h1.profile_name',  "test");
@@ -456,7 +456,7 @@ class BookableControllerTest extends WebTestCase
         $expectedAvatarUrl = 'https://api.dicebear.com/6.x/personas/svg?seed=Angel';
         $this->assertEquals($expectedAvatarUrl, $avatarUrl);
         $this->assertSelectorTextContains('#user_bio', "hi,I like books");
-        $this->assertSelectorTextContains('h1.section-title#followTitle', 'Followed Books');
+        $this->assertSelectorTextContains('h1.section_title#follow_title', 'Followed Books');
         // Assert the followed books
         $followedBooks = $client->getCrawler()->filter('#followed .media_element');
         $this->assertCount(4, $followedBooks); // Assuming there are 2 followed books for the first profile
@@ -476,7 +476,7 @@ class BookableControllerTest extends WebTestCase
 
 
         // Assert the section title
-        $this->assertSelectorTextContains('h1.section-title#likeTitle', 'Liked Books');
+        $this->assertSelectorTextContains('h1.section_title#like_title', 'Liked Books');
 
         // Assert the liked books
         $likedBooks = $client->getCrawler()->filter('#liked .media_element');
@@ -493,7 +493,7 @@ class BookableControllerTest extends WebTestCase
         $this->assertSame($expectedTitles, $actualTitles);
 
         // test Disliked books
-        $this->assertSelectorTextContains('h1.section-title#dislikeTitle', 'Disliked Books');
+        $this->assertSelectorTextContains('h1.section_title#dislike_title', 'Disliked Books');
 
 // Assert the disliked books
         $dislikedBooks = $client->getCrawler()->filter('#disliked .media_element');
