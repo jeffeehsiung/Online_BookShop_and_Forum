@@ -43,48 +43,48 @@
 </div>
 <div>
     <link href="{{ asset('css/base.css') }}" rel="stylesheet" type="text/css"/>
-  <div class="home-container">
+  <div class="home_container">
   <header>
-  <nav class="navbar-navbar navbar-root-class-name" id="navbar">
+  <nav class="navbar_navbar navbar_root_class_name" id="navbar">
     <a href="{{ path('home') }}">
       <div id="logo" >
         <img id = "logo_png" src="https://www.linkpicture.com/q/Bookable-removebg-preview-2.png" alt="BOOKABLE">
       </div>
     </a>
 
-    <nav class="navbar-nav-content">
-      <ul class="navbar-nav-links">
+    <nav class="navbar_nav_content">
+      <ul class="navbar_nav_links">
 
-        <li><a class="nav-link" href="{{ path('about') }}">About us </a></li>
+        <li><a class="nav_link" href="{{ path('about') }}">About us </a></li>
         {% if is_granted('ROLE_USER')==0 %}
-          <li><a class="nav-link" href="{{ path('welcome') }}">Login </a></li>
+          <li><a class="nav_link" href="{{ path('welcome') }}">Login </a></li>
         {% endif %}
         {% if is_granted('ROLE_USER') %}
-          <li><a class="nav-link" href="{{ path('browsing') }}">Browse a book</a></li>
-          <li><a class="nav-link"  href="{{ path('settings') }}" >Settings</a></li>
-          <li><a class="nav-link" href="{{ path('profile') }}">Profile</a></li>
-          <li><a class="nav-link" href="{{ path('app_logout') }}">Log out</a></li>
+          <li><a class="nav_link" href="{{ path('browsing') }}">Browse a book</a></li>
+          <li><a class="nav_link" href="{{ path('settings') }}" >Settings</a></li>
+          <li><a class="nav_link" href="{{ path('profile') }}">Profile</a></li>
+          <li><a class="nav_link" href="{{ path('app_logout') }}">Log out</a></li>
         {% endif %}
 
 
       </ul>
-    <nav id="mobile-menu" class="navbar-mobile-menu">
-      <div class="navbar-branding">
-        <div id="close-mobile-menu" class="navbar-container">
-          <svg viewBox="0 0 1024 1024" class="navbar-icon">
+    <nav id="mobile_menu" class="navbar_mobile_menu">
+      <div class="navbar_branding">
+        <div id="close_mobile_menu" class="navbar_container">
+          <svg viewBox="0 0 1024 1024" class="navbar_icon">
             <path
               d="M225.835 286.165l225.835 225.835-225.835 225.835c-16.683 16.683-16.683 43.691 0 60.331s43.691 16.683 60.331 0l225.835-225.835 225.835 225.835c16.683 16.683 43.691 16.683 60.331 0s16.683-43.691 0-60.331l-225.835-225.835 225.835-225.835c16.683-16.683 16.683-43.691 0-60.331s-43.691-16.683-60.331 0l-225.835 225.835-225.835-225.835c-16.683-16.683-43.691-16.683-60.331 0s-16.683 43.691 0 60.331z"
             ></path>
           </svg>
         </div>
       </div>
-      <ul class="navbar-nav-links1">
-        <li><a class="nav-link">About us</a></li>
+      <ul class="navbar_nav_links1">
+        <li><a class="nav_link">About us</a></li>
         {% if is_granted('ROLE_USER') %}
-          <li><a class="nav-link" href="{{ path('browsing') }}">Browse a book</a></li>
-          <li><a class="nav-link">Community</a></li>
-          <li><a class="nav-link" href="{{ path('settings') }}">Settings</a></li>
-          <li><a class="nav-link" href="{{ path('app_logout') }}">Log out</a></li>
+          <li><a class="nav_link" href="{{ path('browsing') }}">Browse a book</a></li>
+          <li><a class="nav_link">Community</a></li>
+          <li><a class="nav_link" href="{{ path('settings') }}">Settings</a></li>
+          <li><a class="nav_link" href="{{ path('app_logout') }}">Log out</a></li>
         {% endif %}
       </ul>
     </nav>
@@ -97,33 +97,33 @@
   </main>
 
 
-  <footer class="home-footer">
-    <div class="home-footer-content">
-      <div class="home-footer-main">
-        <div class="home-footer-links">
-          <div class="home-categories">
-            <div class="home-category">
-            <div class="home-category1">
-              <div class="home-footer-header">
-                <span class="footer-header">Company</span>
+  <footer class="home_footer">
+    <div class="home_footer_content">
+      <div class="home_footer_main">
+        <div class="home_footer_links">
+          <div class="home_categories">
+            <div class="home_category">
+            <div class="home_category1">
+              <div class="home_footer_header">
+                <span class="footer_header">Company</span>
               </div>
-              <div class="home-links-narrow">
-                <a href="{{ 'about' }}"> <span class="footer-link" >About</span></a>
-                <span class="footer-link">Team</span>
-                <span class="footer-link">News</span>
+              <div class="home_links_narrow">
+                <a href="{{ 'about' }}"> <span class="footer_link" >About</span></a>
+                <span class="footer_link">Team</span>
+                <span class="footer_link">News</span>
               </div>
             </div>
             </div>
           </div>
         </div>
-        <section class="home-copyright">
-          <span class="home-footer-copyright">
+        <section class="home_copyright">
+          <span class="home_footer_copyright">
             © 2023 a22web12.
           </span>
         </section>
       </div>
-      <div class="home-mobile-copyright">
-        <span class="home-footer-copyright">
+      <div class="home_mobile_copyright">
+        <span class="home_footer_copyright">
           © 2022 a22web12.
         </span>
       </div>

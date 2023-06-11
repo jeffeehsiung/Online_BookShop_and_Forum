@@ -1,10 +1,10 @@
-#book-page {
+#book_page {
     display: flex;
     column-gap: 30px;
     justify-content: center;
 }
 
-#book-information {
+#book_information {
     width: 100%;
 }
 

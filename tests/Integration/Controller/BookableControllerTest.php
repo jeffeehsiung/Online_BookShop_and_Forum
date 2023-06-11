@@ -65,7 +65,6 @@ class BookableControllerTest extends WebTestCase
         $form['_username'] = "test@test.com";
         $form['_password'] = "password";
         $client->submit($form);
-        print_r($client->getResponse()->getContent());
         $client->followRedirect();
         //make sure we went to Home
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -104,7 +103,6 @@ class BookableControllerTest extends WebTestCase
         //make sure we remained on welcome
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertSelectorTextContains('title', 'Welcome');
-        print_r($client->getResponse()->getContent());
 
         $this->assertSelectorTextContains('#error_display', 'Invalid credentials.');
     }
@@ -166,10 +164,10 @@ class BookableControllerTest extends WebTestCase
 
         //based on position in the list, will change if we change the order of the elements in the list
         $linkPosition = 2;
-        $link = $crawler->filter('a.nav-link')->eq($linkPosition);
+        $link = $crawler->filter('a.nav_link')->eq($linkPosition);
         $client->click($link->link());
         //check what got returned
-        print_r($client->getResponse()->getContent());
+        //print_r($client->getResponse()->getContent());
         //make some asserts to make sure all got displayed well
         $this->assertSelectorTextContains('title', 'Settings');
         $this->assertSelectorTextContains('h2', 'Edit your profile:');
@@ -401,7 +399,6 @@ class BookableControllerTest extends WebTestCase
         $client = $this->authenticateUser();
         $client->request('GET', '/profile');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        print_r($client->getResponse()->getContent());
 
         $crawler = $client->request('GET', '/profile');
 
@@ -445,7 +442,6 @@ class BookableControllerTest extends WebTestCase
         $client = $this->authenticateUser("profiletest@test.com");
         $client->request('GET', '/profile');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        print_r($client->getResponse()->getContent());
 
         $crawler = $client->request('GET', '/profile');
 

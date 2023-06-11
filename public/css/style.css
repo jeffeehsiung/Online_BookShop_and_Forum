@@ -72,7 +72,7 @@
   display: flex !important;
   transform: none !important;
 }
-.nav-link {
+.nav_link {
   color: #fff;
   font-size: 16px;
   font-style: normal;
@@ -83,7 +83,7 @@
   font-stretch: normal;
   text-decoration: none;
 }
-.nav-link:hover {
+.nav_link:hover {
   opacity: 0.5;
 }
 .get-started {
@@ -191,7 +191,7 @@
 .social:hover {
   opacity: 0.5;
 }
-.footer-header {
+.footer_header {
   color: rgb(255, 255, 255);
   width: 100%;
   font-size: 20px;
@@ -199,7 +199,7 @@
   font-weight: 500;
   line-height: 30px;
 }
-.footer-link {
+.footer_link {
   color: rgb(204, 204, 204);
   font-size: 14px;
   line-height: 21px;
@@ -231,7 +231,7 @@
 }
 
 @media(max-width: 767px) {
-  .nav-link {
+  .nav_link {
     color: black;
   }
   .accordion-element {

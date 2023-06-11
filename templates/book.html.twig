@@ -16,9 +16,9 @@
 {% endblock %}
 
 {% block content%}
-    <section id="book-page">
+    <section id="book_page">
         <img src="{{ book.imageUrl() }}" alt="Book Cover" width="50%">
-        <section id="book-information">
+        <section id="book_information">
             <h1>{{ bookTitle }}</h1>
             {% if book.getAuthor() is not null %}
                 {% set authorName = book.getAuthor().getAuthorName() %}
