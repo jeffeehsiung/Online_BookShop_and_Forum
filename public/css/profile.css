@@ -5,7 +5,7 @@
     flex-direction: row;
     display: flex;
     justify-content: center;
-
+    gap:30px;
     color: white;
     width: 40vw;
     align-content: center;
@@ -77,7 +77,7 @@
 .media_element img {
     width:120px;
 }
-
+/*
 .snaps_inline {
     scroll-snap-type: inline mandatory;
     scroll-padding-inline: var(--_spacer, 1rem);
@@ -92,7 +92,7 @@
     inline-size: min(100% - 4rem, 70rem);
     margin-inline: auto;
 }
-
+*/
 .flow {
     display: grid;
     gap: 10px;
