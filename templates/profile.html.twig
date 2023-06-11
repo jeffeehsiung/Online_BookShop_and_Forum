@@ -14,7 +14,7 @@
 
 {% block content %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
-<section id="profilebody">
+<section id="profile_body">
 
     <section id = "left">
         {% if   avatar == null %}
@@ -25,10 +25,10 @@
         {% endif %}
         {% if  user.getFirstName() == null %}
 
-            <h1 class = "profile_name" id="first"> user {{ user.getId() }}</h1>
+            <h2 class = "profile_name" id="first"> user {{ user.getId() }}</h2>
         {%else %}
-            <h1 class = "profile_name" id="first">{{ user.getFirstName() }}</h1>
-            <h1 class = "profile_name" id="last">{{ user.getLastName() }}</h1>
+            <h2 class = "profile_name" id="first">{{ user.getFirstName() }}</h2>
+            <h2 class = "profile_name" id="last">{{ user.getLastName() }}</h2>
         {% endif %}
 
 
@@ -45,15 +45,16 @@
     </section>
 
     <section id = "right">
+        <div class="container" >
+            <h1 class = section-title id="followtitle">Followed Books</h1>
+            <div class="book_list" id="followed" >
 
-        <div class="booklist"  id="followed" >
-            <h1 class = section-title id="followTitle"> Followed Books</h1>
                 {% if followed_book == null%}
                 <div class="empty">
                     <a >  &emsp; &emsp;  No followed books yet...</a>
                 </div>
                 {% else %}
-            <div class="media_scroller snaps_inline">
+
                 {% for book in followed_book %}
 
                 <div class="media_element" >
@@ -63,20 +64,21 @@
                     </a>
                 </div>
                 {% endfor %}
-            </div>
+
                 {% endif %}
             </div>
 
 
 
-        <div class = "booklist" id="liked" >
-            <h1 class = section-title id="likeTitle"> Liked Books</h1>
+        <h1 class = section-title id="likeTitle">Liked Books</h1>
+        <div class = book_list id="liked" >
+
                 {% if liked_list == null%}
                 <div class="empty">
                     <a >   &emsp; &emsp; No liked books yet...</a>
                 </div>
                 {% else %}
-            <div class="media_scroller snaps_inline">
+
                 {% for book in liked_list %}
                     <div class="media_element">
 
@@ -86,18 +88,22 @@
                         </a>
                     </div>
                 {% endfor %}
-            </div>
+
                 {% endif %}
+
         </div>
 
-            <div class = "booklist" id="disliked">
-                <h1 class = section-title id="dislikeTitle"> Disliked Books</h1>
+
+
+        <h1 class = section-title id="dislikeTitle">Disliked Books</h1>
+            <div class = "book_list" id="disliked">
+
                 {% if disliked_list == null%}
                     <div class="empty">
                         <a >   &emsp; &emsp; No disliked books yet...</a>
                     </div>
                 {% else %}
-                    <div class="media_scroller snaps_inline">
+
                         {% for book in disliked_list %}
                             <div class="media_element">
                                 <a href="{{ path("book", {book_id: book.getID()}) }}">
@@ -106,14 +112,12 @@
                                 </a>
                             </div>
                         {% endfor %}
-                    </div>
+
                 {% endif %}
 
             </div>
 
-
-
-
+        </div>
     </section>
 
 </section>
