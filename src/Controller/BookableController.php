@@ -5,23 +5,17 @@ use App\Entity\DislikedBook;
 use App\Entity\FollowedBook;
 use App\Entity\LikedBook;
 use App\Entity\User;
-use App\Entity\Book;
 use App\Form\BookFilterFormType;
 use App\Form\BookSearchFormType;
-use App\Repository\AvatarRepository;
 use App\Repository\BookRepository;
 use App\Repository\DislikedBookRepository;
 use App\Repository\FollowedBookRepository;
 use App\Repository\GenreRepository;
-use App\Repository\LibraryRepository;
 use App\Repository\LikedBookRepository;
 use App\Repository\LikedGenreRepository;
-use App\Repository\ReadBooksRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Safe\Exceptions\PcreException;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,14 +28,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class BookableController extends AbstractController
 {
-    // dependency injection
-    private array $stylesheets;
-    // make constructor with container builder
-    public function __construct() {
-        $this->stylesheets[] = 'base.css';
-    }
-//TODO change 'index' to 'base'
-// Why? index is convention
     #[Route('/', name: 'index')]
     public function base(): Response
     {
@@ -226,11 +212,13 @@ class BookableController extends AbstractController
     #[Route('/home', name: 'home')]
     public function home(LikedGenreRepository   $likedGenreRepository,
                          UserRepository         $userRepository, GenreRepository $genreRepository, BookRepository $bookRepository,
-                         FollowedBookRepository $followedBookRepository, $user_id = null): Response
+                         FollowedBookRepository $followedBookRepository): Response
     {
         // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $user_id = $this->getUser()->getId();
+        /** @var User $user*/
+        $user = $this->getUser();
+        $user_id = $user->getId();
         $stylesheets = ['home.css'];
         if ($user_id) {
             $user = $userRepository->findOneBy(['id' => $user_id]);
@@ -285,11 +273,13 @@ class BookableController extends AbstractController
     }
 
     #[Route('/profile', name: 'profile')]
-    public function profile(AvatarRepository $avatarRepository, ReadBooksRepository $readBookRepository, BookRepository $bookRepository, FollowedBookRepository $followedBookRepository, UserRepository $userRepository, LikedBookRepository $likedBookRepository, DislikedBookRepository $dislikedBookRepository, $userID = null): Response {
+    public function profile(BookRepository $bookRepository, FollowedBookRepository $followedBookRepository, UserRepository $userRepository, LikedBookRepository $likedBookRepository, DislikedBookRepository $dislikedBookRepository): Response {
         $stylesheets = ['profile.css'];
 
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $userID = $this->getUser()->getId();
+        /** @var User $user*/
+        $user = $this->getUser();
+        $userID = $user->getId();
 
         if($userID) {
             $user = $userRepository->findOneBy(['id' => $userID]);
@@ -346,10 +336,8 @@ class BookableController extends AbstractController
     #[Route('/browsing', name: 'browsing') ]
     public function browsing(GenreRepository $genreRepository, BookRepository $bookRepository,
         Request $pageRequest, Request $searchRequest, Request $filterRequest, $book_title = null, $genre_ids = []): Response {
-        // Fetch user
+        // Check privileges
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $user = $this->getUser();
-        $user_id = $user->getId();
 
         // create a form to be used to search for books
         $searchForm = $this->createForm(BookSearchFormType::class);
@@ -370,7 +358,7 @@ class BookableController extends AbstractController
             }
         }
         // get the page number from the url
-        $offset = max(0, $pageRequest->query->getInt('offset', 0));
+        $offset = max(0, $pageRequest->query->getInt('offset'));
         // genreRepository is used to get all genres from the database for the filter form
         $bookGenres = $genreRepository->findAll();
         // if a book title is passed in the url, then get all books with that title
@@ -419,10 +407,8 @@ class BookableController extends AbstractController
     #[Route('/browsing/{book_title}', name: 'searching') ]
     public function searching(GenreRepository $genreRepository, BookRepository $bookRepository,
         Request $pageRequest, Request $searchRequest, Request $filterRequest, $book_title = null, $genre_ids = []): Response {
-        // Fetch user
+        // Check privileges
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $user = $this->getUser();
-        $user_id = $user->getId();
 
         // create a form to be used to search for books
         $searchForm = $this->createForm(BookSearchFormType::class);
@@ -440,7 +426,7 @@ class BookableController extends AbstractController
         }
         //TODO check if this can be refactored
 
-        $offset = max(0, $pageRequest->query->getInt('offset', 0));
+        $offset = max(0, $pageRequest->query->getInt('offset'));
         // genreRepository is used to get all genres from the database for the filter form
         $bookGenres = $genreRepository->findAll();
         // if a book title is passed in the url, then get all books with that title

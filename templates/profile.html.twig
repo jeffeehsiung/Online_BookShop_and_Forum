@@ -33,6 +33,15 @@
 
 
 
+        {% if user.getBio() == null %}
+
+
+        {% else %}
+            <div class="bio_container">
+            <p id="user_bio">{{ user.getBio() }}</p>
+            </div>
+        {% endif %}
+
     </section>
 
     <section id = "right">
