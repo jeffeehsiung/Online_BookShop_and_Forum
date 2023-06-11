@@ -9,6 +9,7 @@ main {
 {
     display: flex;
     flex-direction: column;
+    /*width: 100%;*/
 }
 #register_title
 {
@@ -24,7 +25,12 @@ main {
 
     justify-content: flex-start;
 }
-
+#email_text
+{
+    font-size: small;
+    word-wrap: normal;
+    font-style: italic;
+}
 .register_text label
 
 {
