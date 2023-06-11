@@ -46,7 +46,6 @@ class BookableController extends AbstractController
 
         // Render page
         $stylesheets = ['book.css'];
-        $javascripts = ['book.js'];
         if($book_id) {
             $book = $bookRepository->findOneBy(['id' => $book_id]);
 
@@ -79,7 +78,6 @@ class BookableController extends AbstractController
             return $this->render('book.html.twig', [
                 'bookTitle' => $bookTitle,
                 'stylesheets' => $stylesheets,
-                'javascripts' => $javascripts,
                 'book' => $book,
                 'isLiked' => $isLiked,
                 'isDisliked' => $isDisliked,

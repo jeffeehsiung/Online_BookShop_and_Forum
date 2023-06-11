@@ -1,13 +1,9 @@
 let coll = document.getElementsByClassName("settings_submenu");
-let settings = document.getElementById("settings");
 let avatarOverlay = document.getElementById("avatar_overlay");
 let newPasswordInput = document.getElementById("new_password");
 let confirmPasswordInput = document.getElementById("confirm_password");
 let passwordMatchMessage = document.getElementById("password_match_message");
 let btnSubmitPassword = document.getElementById("btn_submit_pw");
-
-// Limit width to width of header
-settings.style.width = document.getElementById("navbar").offsetWidth.toString() + "px";
 
 for (let i = 0; i < coll.length; i++) {
     coll[i].addEventListener("click", function() {

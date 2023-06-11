@@ -2,6 +2,7 @@
     display: flex;
     column-gap: 30px;
     justify-content: center;
+    width:40vw;
 }
 
 #book-information {
