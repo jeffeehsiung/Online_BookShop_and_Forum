@@ -9,6 +9,9 @@ use PHPUnit\Framework\TestCase;
 
 class FollowedBookTest extends TestCase
 {
+    /**
+     * @group include
+     */
     public function testConstruct(): void
     {
         $user = new User();
@@ -19,6 +22,9 @@ class FollowedBookTest extends TestCase
         $this->assertInstanceOf(User::class, $followedBook->getUser());
     }
 
+    /**
+     * @group include
+     */
     public function testGetSetUser(): void
     {
         $followedBook = new FollowedBook(null, null);
@@ -29,6 +35,9 @@ class FollowedBookTest extends TestCase
         $this->assertEquals($user, $followedBook->getUser());
     }
 
+    /**
+     * @group include
+     */
     public function testGetSetBook(): void
     {
         $followedBook = new FollowedBook(null, null);

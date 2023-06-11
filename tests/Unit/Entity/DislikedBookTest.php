@@ -9,6 +9,9 @@ use App\Entity\Book;
 
 class DislikedBookTest extends TestCase
 {
+    /**
+     * @group include
+     */
     public function testGetSetUser(): void
     {
         $dislikedBook = new DislikedBook();
@@ -19,6 +22,9 @@ class DislikedBookTest extends TestCase
         $this->assertEquals($user, $dislikedBook->getUser());
     }
 
+    /**
+     * @group include
+     */
     public function testGetSetBook(): void
     {
         $dislikedBook = new DislikedBook();

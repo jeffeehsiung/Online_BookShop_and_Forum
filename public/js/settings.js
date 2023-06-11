@@ -1,10 +1,10 @@
-let coll = document.getElementsByClassName("settings-submenu");
+let coll = document.getElementsByClassName("settings_submenu");
 let settings = document.getElementById("settings");
-let avatarOverlay = document.getElementById("avatar-overlay");
-let newPasswordInput = document.getElementById("new-password");
-let confirmPasswordInput = document.getElementById("confirm-password");
-let passwordMatchMessage = document.getElementById("passwordMatchMessage");
-let btnSubmitPassword = document.getElementById("btn-submit-pw");
+let avatarOverlay = document.getElementById("avatar_overlay");
+let newPasswordInput = document.getElementById("new_password");
+let confirmPasswordInput = document.getElementById("confirm_password");
+let passwordMatchMessage = document.getElementById("password_match_message");
+let btnSubmitPassword = document.getElementById("btn_submit_pw");
 
 // Limit width to width of header
 settings.style.width = document.getElementById("navbar").offsetWidth.toString() + "px";
@@ -20,14 +20,9 @@ for (let i = 0; i < coll.length; i++) {
         }
     });
 }
-/*
-document.getElementById("btn-open-avatar-overlay").addEventListener('click', function(){
-    avatarOverlay.style.display = 'flex';
-})
-*/
 
 avatarOverlay.addEventListener('click', function(e) {
-    if(e.target.id === 'avatar-overlay') {
+    if(e.target.id === 'avatar_overlay') {
         avatarOverlay.style.display = 'none';
     }
 })
@@ -37,7 +32,7 @@ function overlayOn() {
 }
 
 function onBioChange() {
-    document.getElementById("btn-save-bio").disabled = false;
+    document.getElementById("btn_save_bio").disabled = false;
 }
 
 function checkPasswordMatch() {
@@ -53,5 +48,5 @@ function checkPasswordMatch() {
 }
 
 function closeMessage() {
-    document.getElementById("password-message").remove();
+    document.getElementById("password_message").remove();
 }

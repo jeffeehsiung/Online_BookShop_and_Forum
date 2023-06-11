@@ -1,24 +1,23 @@
 //run this script before running the fixtures, otherwise links to foreign keys is not correct (depends on id), also clears the database
 
 SET SQL_SAFE_UPDATES = 0;
-DELETE FROM users WHERE 1;
-DELETE FROM authors WHERE 1;
-DELETE FROM avatars WHERE 1;
-DELETE FROM books WHERE 1;
 DELETE FROM disliked_books WHERE 1;
 DELETE FROM followed_books WHERE 1;
-DELETE FROM genres WHERE 1;
 DELETE FROM liked_books WHERE 1;
 DELETE FROM liked_genre WHERE 1;
-DELETE FROM read_books WHERE 1;
 DELETE FROM users WHERE 1;
-DELETE FROM libraries WHERE 1;
+DELETE FROM books WHERE 1;
+DELETE FROM authors WHERE 1;
+DELETE FROM genres WHERE 1;
+DELETE FROM avatars WHERE 1;
 SET SQL_SAFE_UPDATES = 1;
-ALTER TABLE authors AUTO_INCREMENT = 2023;
+ALTER TABLE authors AUTO_INCREMENT = 2303;
 ALTER TABLE avatars AUTO_INCREMENT = 1;
 ALTER TABLE books AUTO_INCREMENT = 1;
 ALTER TABLE genres AUTO_INCREMENT = 1;
-ALTER TABLE libraries AUTO_INCREMENT = 1;
 ALTER TABLE users AUTO_INCREMENT=1;
 
-
+// statements with deleted tables not in use anymore
+DELETE FROM read_books WHERE 1;
+DELETE FROM libraries WHERE 1;
+ALTER TABLE libraries AUTO_INCREMENT = 1;

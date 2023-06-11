@@ -11,8 +11,8 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: 'local_bookable.users')]
-//#[ORM\Table(name: 'a22web12.users')]
+//#[ORM\Table(name: 'local_bookable.users')]
+#[ORM\Table(name: 'users')]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 //TODO: check if user needs to implement both interfaces
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -36,22 +36,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Avatar $avatar = null;
-
-    #[ORM\Column(length: 64, nullable: true)]
-    private ?string $location = null;
-
-    #[ORM\Column(length: 20, nullable: true)]
-    private ?string $phone_number = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $share_location = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $share_phone_number = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $visibility_profile = null;
-
     #[ORM\Column(length: 512, nullable: true)]
     private ?string $bio = null;
 
@@ -205,66 +189,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAvatar(?Avatar $avatar): self
     {
         $this->avatar = $avatar;
-
-        return $this;
-    }
-
-    public function getLocation(): ?string
-    {
-        return $this->location;
-    }
-
-    public function setLocation(?string $location): self
-    {
-        $this->location = $location;
-
-        return $this;
-    }
-
-    public function getPhoneNumber(): ?string
-    {
-        return $this->phone_number;
-    }
-
-    public function setPhoneNumber(?string $phone_number): self
-    {
-        $this->phone_number = $phone_number;
-
-        return $this;
-    }
-
-    public function getShareLocation(): ?int
-    {
-        return $this->share_location;
-    }
-
-    public function setShareLocation(?int $share_location): self
-    {
-        $this->share_location = $share_location;
-
-        return $this;
-    }
-
-    public function getSharePhoneNumber(): ?int
-    {
-        return $this->share_phone_number;
-    }
-
-    public function setSharePhoneNumber(?int $share_phone_number): self
-    {
-        $this->share_phone_number = $share_phone_number;
-
-        return $this;
-    }
-
-    public function getVisibilityProfile(): ?int
-    {
-        return $this->visibility_profile;
-    }
-
-    public function setVisibilityProfile(?int $visibility_profile): self
-    {
-        $this->visibility_profile = $visibility_profile;
 
         return $this;
     }

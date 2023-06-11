@@ -1,29 +1,28 @@
 @import "https://unpkg.com/open-props";
 /*@import "https://unpkg.com/open-props/normalize.min.css";*/
 
-#profilebody{
+#profilebody {
     flex-direction: row;
     display: flex;
     justify-content: center;
-    gap : 50px;
+    gap : 0px;
     color: white;
-    font-family: Poppins, serif;
-    width: 1200px;
+    padding-left: 20%;
+    padding-right: 20%;
+    /**width: 1200px;*/
     align-content: center;
 }
 
-#left
-{
+#left {
     flex-direction: column;
     display: flex;
     justify-content: flex-start;
     align-content: center;
-    width: fit-content;
+   width: 40%;
 }
 
 h1 {
     text-align: left;
-    font-family: Poppins, serif;
     font-weight: 500;
     font-stretch: normal;
     text-decoration: none;
@@ -31,13 +30,11 @@ h1 {
     font-size: 48px;
 }
 
-.profilename
-{
+.profile_name {
     color: white;
     width: fit-content;
 }
-#profilepic
-{
+#profile_pic {
     inline-size: 120%;
     aspect-ratio: 16/ 16;
     width: 250px;
@@ -46,48 +43,46 @@ h1 {
     border-color: #2e3136;
     border-width: medium;
 }
-
-.contactIcons
+.bio_container
 {
-    flex-direction: row;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+    padding-top: 5%;
+    width: 60%;
+}
+.bio_container #user_bio
+{
     color: #FFFFFF;
-    padding: 20px;
-
+    overflow-wrap: normal;
 
 }
-
-#right
-{
+#right {
 
     flex-direction: column;
     display: flex;
     justify-content: flex-start;
     gap: 30px;
     align-content: center;
-    overflow: auto;
+    overflow:  visible;
     color: white;
-    width: 60%;
+   width: 60%;
 }
 
-.media-scroller {
+.media_scroller {
     --_spacer: 3px;
     display: grid;
     gap: var(--_spacer);
     grid-auto-flow: column;
     grid-auto-columns: 21%;
 
-    padding: 0 var(--_spacer) var(--_spacer);
 
-    overflow-x: hidden;
+    padding: 10 var(--_spacer) var(--_spacer);
+
+    overflow-x:auto;
+
     overscroll-behavior-inline: contain;
-}
-.media-scroller:hover {
-    overflow-x:scroll;
+
 
 }
+
 
 .media-scroller--with-groups {
     grid-auto-columns: 80%;
@@ -99,31 +94,32 @@ h1 {
     grid-auto-flow: column;
 }
 
-.media-element {
-    display: grid;
+.media_element {
+    display: flex;
+    flex-direction: column;
+
     grid-template-rows: min-content;
     gap: var(--_spacer);
     padding: var(--_spacer);
 
-    border-radius: 20px;
-    box-shadow: #3E3E3E;
-}
-.empty {
+    align-content: center;
+
 
 }
 
-.media-element > img {
+
+.media_element > img {
     inline-size: 90%;
     aspect-ratio: 9/ 12;
     object-fit: cover;
 }
 
-.snaps-inline {
+.snaps_inline {
     scroll-snap-type: inline mandatory;
     scroll-padding-inline: var(--_spacer, 1rem);
 }
 
-.snaps-inline > * {
+.snaps_inline > * {
     scroll-snap-align: start;
 }
 
@@ -139,25 +135,23 @@ h1 {
     gap: 10px;
 }
 
-.title
-{
-    font-family: Poppins, serif;
-}
-.section-title {
+.section_title {
     padding-inline-start: 10px;
     margin-block: 10px;
     color: white;
-    font-family: Poppins, serif;
+    padding: 10px;
 }
 
 ::-webkit-scrollbar {
     width: 5px;
     height: 5px;
-
+    color: #0C100C;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
+    background: #0C100C;
+    color: #0C100C;
 
 }
 
@@ -165,6 +159,17 @@ h1 {
 ::-webkit-scrollbar-thumb {
     background: #c9e265;
     border-radius: 20px;
+
 }
 
 /* Handle on hover */
+.booklist
+{
+    display: flex;
+    flex-direction: column;
+   margin-inside: 10px;
+    background: #2A2A2A;
+    border-radius: 20px;
+
+
+}

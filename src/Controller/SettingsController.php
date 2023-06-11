@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\LikedGenre;
+use App\Entity\User;
 use App\Repository\AvatarRepository;
 use App\Repository\GenreRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,16 +23,18 @@ class SettingsController extends AbstractController
     {
         // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        /** @var User $user */
         $user = $this->getUser();
 
         $bookGenres = $genreRepository->findAll();
+
         $avatars = $avatarRepository->findAll();
 
         // build genres array from likedgenres of user
         $likedGenres = $user->getLikedGenres();
         $favouriteGenresInitial = array();
         foreach ($likedGenres as $genre) {
-            array_push($favouriteGenresInitial, $genre->getGenre());
+            $favouriteGenresInitial[] = $genre->getGenre();
         }
 
         // TODO: split twig templates into file format 'controllername/methodname.html.twig' -> example: 'bookable/settings.html.twig'
@@ -55,14 +58,15 @@ class SettingsController extends AbstractController
     {
         // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        /** @var User $user */
         $user = $this->getUser();
 
         // get avatar from form
-        $avatarID = $request->request->get('avatar-id', 0);
+        $avatar_id = $request->request->get('avatar_id', 0);
 
         // push to database if avatar was found
-        if($avatarID) {
-            $avatar = $avatarRepository->findOneBy(['id' => $avatarID]);
+        if($avatar_id) {
+            $avatar = $avatarRepository->findOneBy(['id' => $avatar_id]);
             $user->setAvatar($avatar);
             $entityManager->persist($user);
             $entityManager->flush();
@@ -79,6 +83,7 @@ class SettingsController extends AbstractController
     {
         // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        /** @var User $user */
         $user = $this->getUser();
 
         // get bio from form
@@ -101,6 +106,7 @@ class SettingsController extends AbstractController
     {
         // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        /** @var User $user */
         $user = $this->getUser();
 
         $newLikedGenreIDs = array_values($request->request->all());
@@ -134,20 +140,21 @@ class SettingsController extends AbstractController
     {
         // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        /** @var User $user */
         $user = $this->getUser();
 
         // update password if valid, pass error message if not and redirect to settings page
-        $currentUnHashedPassword = $request->request->get('current-password');
+        $currentUnHashedPassword = $request->request->get('current_password');
         if($passwordHasher->isPasswordValid($user, $currentUnHashedPassword)) {
             $newHashedPassword = $passwordHasher->hashPassword(
                 $user,
-                $request->request->get('new-password')
+                $request->request->get('new_password')
             );
             $user->setPassword($newHashedPassword);
-            $this->addFlash('password-success', 'password was edited succesfully');
+            $this->addFlash('password_success', 'password was edited succesfully');
         } else {
             $this->addFlash(
-                'password-fail',
+                'password_fail',
                 "changing password failed because 'current password' field was filled in wrong, retry"
             );
         }

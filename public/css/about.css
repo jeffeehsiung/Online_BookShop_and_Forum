@@ -1,20 +1,18 @@
-#about-page
+#about_page
 {
     width: 50vw;
 }
 
-h1 {
+#about_page h1 {
     text-align: left;
-    font-family: Poppins, serif;
     font-weight: 500;
     font-stretch: normal;
     text-decoration: none;
     color: white;
     font-size: 48px;
 }
-h2 {
+#about_page h2 {
     text-align: left;
-    font-family: Poppins, serif;
     font-weight: 250;
     font-stretch: normal;
     text-decoration: none;
@@ -22,15 +20,14 @@ h2 {
     font-size: 48px;
 }
 
-h3 {
+#about_page h3 {
     text-align: left;
-    font-family: Poppins, serif;
     font-weight: 500;
     font-size: 24px;
     font-stretch: normal;
     text-decoration: none;
     color: #2A2A2A;
-    background-color: #b7e8c5;
+    background-color: #c9e265;
     width: fit-content;
     margin-top: 25px;
     padding: 5px;
@@ -38,8 +35,7 @@ h3 {
     border-top-right-radius: 10px;
 
 }
-p {
-
+#about_page p {
     background-color: #171717;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
@@ -49,24 +45,4 @@ p {
     font-size: 22px;
     padding: 15px;
     color: white;
-}
-::-webkit-scrollbar {
-    width: 10px;
-    margin: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-    background: #171717;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: #b7e8c5;
-    border-radius: 10px;
-    margin: 10px;
-    scroll-padding: 20px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: #698670;
 }

@@ -20,8 +20,18 @@
         <img src="{{ book.imageUrl() }}" alt="Book Cover" width="50%">
         <section id="book-information">
             <h1>{{ bookTitle }}</h1>
-            <h2>{{ book.author().getAuthorName() }}, {{ book.originalPublicationYear() | u.slice(0,4) }}</h2>
-            <h3>Genre: {{ book.genre().getGenre() }}</h3>
+            {% if book.getAuthor() is not null %}
+                {% set authorName = book.getAuthor().getAuthorName() %}
+            {% else %}
+                {% set authorName = "Uknown" %}
+            {% endif %}
+            <h2>{{ authorName }}, {{ book.originalPublicationYear() | u.slice(0,4) }}</h2>
+            {% if book.genre() is not null %}
+                {% set genreName = book.genre().getGenre() %}
+            {% else %}
+                {% set genreName = "General" %}
+            {% endif %}
+            <h3>Genre: {{ genreName }}</h3>
             <form id="like-system" action="{{ path('book_vote', {book_id: book.id}) }}" method="POST">
                 <div class="progress-container">
                     {% if (book.likes + book.dislikes) == 0 %}
@@ -31,46 +41,46 @@
                     {% endif %}
                 </div>
                 {% if isLiked %}
-                    <button id="btn-like" class="ratingButton like" type="submit" name="direction" value="like-down">
-                        <img id="btn-like" class="btn-img" src="{{ asset('images/thumbs-up-fill.png') }}" alt="Image Button">
+                    <button id="btn_like" class="rating_button like" type="submit" name="direction" value="like-down">
+                        <img id="btn_like" class="btn_img" src="{{ asset('images/thumbs-up-fill.png') }}" alt="Image Button">
                     </button>
-                    <button id="btn-dislike" class="ratingButton dislike" type="submit" name="direction" value="dislike-up" disabled>
-                        <img class="btn-img" src="{{ asset('images/thumbs-down.png') }}" alt="Image Button">
+                    <button id="btn_dislike" class="rating_button dislike" type="submit" name="direction" value="dislike-up" disabled>
+                        <img class="btn_img" src="{{ asset('images/thumbs-down.png') }}" alt="Image Button">
                     </button><br />
                 {% elseif isDisliked%}
-                    <button id="btn-like" class="ratingButton like" type="submit" name="direction" value="like-up" disabled>
-                        <img id="btn-like" class="btn-img" src="{{ asset('images/thumbs-up.png') }}" alt="Image Button">
+                    <button id="btn_like" class="rating_button like" type="submit" name="direction" value="like-up" disabled>
+                        <img id="btn_like" class="btn_img" src="{{ asset('images/thumbs-up.png') }}" alt="Image Button">
                     </button>
-                    <button id="btn-dislike" class="ratingButton dislike" type="submit" name="direction" value="dislike-down">
-                        <img class="btn-img" src="{{ asset('images/thumbs-down-fill.png') }}" alt="Image Button">
+                    <button id="btn_dislike" class="rating_button dislike" type="submit" name="direction" value="dislike-down">
+                        <img class="btn_img" src="{{ asset('images/thumbs-down-fill.png') }}" alt="Image Button">
                     </button><br />
                 {% else %}
-                    <button id="btn-like" class="ratingButton like" type="submit" name="direction" value="like-up">
-                        <img id="btn-like" class="btn-img" src="{{ asset('images/thumbs-up.png') }}" alt="Image Button">
+                    <button id="btn_like" class="rating_button like" type="submit" name="direction" value="like-up">
+                        <img id="btn_like" class="btn_img" src="{{ asset('images/thumbs-up.png') }}" alt="Image Button">
                     </button>
-                    <button id="btn-dislike" class="ratingButton dislike" type="submit" name="direction" value="dislike-up">
-                        <img class="btn-img" src="{{ asset('images/thumbs-down.png') }}" alt="Image Button">
+                    <button id="btn_dislike" class="rating_button dislike" type="submit" name="direction" value="dislike-up">
+                        <img class="btn_img" src="{{ asset('images/thumbs-down.png') }}" alt="Image Button">
                     </button><br />
                 {% endif %}
-                <i class="subscript" id="like-counter">likes/dislikes: {{ book.likes }}/{{ book.dislikes }}</i>
+                <i class="subscript" id="like_counter">likes/dislikes: {{ book.likes }}/{{ book.dislikes }}</i>
             </form>
             <br>
             <form id="follow" action="{{ path('book_follow', {'book_id': book.id}) }}" method="POST">
                 {% if isFollowed %}
-                    <button type="submit" class="button" name="follow-direction" value="follow-down">Unfollow -</button>
+                    <button type="submit" class="button" name="follow_direction" value="follow-down">Unfollow -</button>
                     <h3>You are already following this book</h3>
                 {% else %}
-                    <button type="submit" class="button" name="follow-direction" value="follow-up">Follow +</button>
+                    <button type="submit" class="button" name="follow_direction" value="follow-up">Follow +</button>
                     <i class="subscript">Follow this book to get updates and improved recommendations!</i>
                 {% endif %}
             </form><br>
             <section class="about">
-                <div id="about-book">
+                <div id="about_book">
                     <h2>About {{ bookTitle }}</h2>
                     <p>bla bla bla...</p>
                 </div>
                 <div id="about-author">
-                    <h2>About {{ book.author().getAuthorName() }}</h2>
+                    <h2>About {{ authorName }}</h2>
                     <p>bla bla bla...</p>
                 </div>
             </section>

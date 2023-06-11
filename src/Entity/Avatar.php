@@ -8,8 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AvatarRepository::class)]
-#[ORM\Table(name: 'local_bookable.avatars')]
-//#[ORM\Table(name: 'a22web12.avatars')]
+//#[ORM\Table(name: 'local_bookable.avatars')]
+#[ORM\Table(name: 'avatars')]
 class Avatar
 {
     #[ORM\Id]
@@ -31,6 +31,13 @@ class Avatar
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId($id): self
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getUrl(): ?string

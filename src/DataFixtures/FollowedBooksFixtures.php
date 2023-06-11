@@ -16,17 +16,34 @@ class FollowedBooksFixtures extends Fixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        //set user with userID = 1006 == Jens
-        $user = $manager->getRepository(User::class)->findOneBy(['id' => 1006]);
-        //add the first 100 uneven books to the database for a specific user
-        for ($i = 0; $i < 100; $i++) {
-            $book = $manager->getRepository(Book::class)->findOneBy(['id' => 2*$i+1]);
-            $followedBook = new FollowedBook($user, $book);
+        $user = $manager->getRepository(User::class)->findOneBy(['email' => 'profiletest@test.com']);
+        //add the first 5 uneven books to the database for a specific user
+        for ($i = 1; $i < 8; $i++) {
+           // $book = $manager->getRepository(Book::class)->findOneBy(['id' => 1*($i+1)+rand(0,9)]);
+            if($i%2!=0)
+            {
+                $book = $manager->getRepository(Book::class)->findOneBy(['id' => $i]);
+                $followedBook = new FollowedBook($user, $book);
+                $manager->persist($followedBook);
+            }
+
+        }
+        //
+        $manager->flush();
+
+        $user2 = $manager->getRepository(User::class)->findOneBy(['email' => 'hometest@test.com']);
+        //add the first 5 uneven books to the database for a specific user
+        for ($i = 0; $i < 10; $i++) {
+            $book = $manager->getRepository(Book::class)->findOneBy(['id' => $i*10+rand(0,9)]);
+            $followedBook = new FollowedBook($user2, $book);
             $manager->persist($followedBook);
         }
+        //
         $manager->flush();
     }
-    public function getOrder(){
+    public function getOrder():int
+    {
         return 6;
     }
 }
+//"The Hunger Games (The Hunger Games, #1)","Twilight (Twilight, #1)","The Great Gatsby","The Hobbit"

@@ -1,18 +1,14 @@
 main {
     font-size: 30px;
     color: #FFFFFF;
-    font-family: Poppins, serif;
 
 
 }
-#registration_layout
-{
+#registration_layout {
     display: flex;
     flex-direction: column;
-    /*width: 100%;*/
 }
-#register_title
-{
+#register_title {
     text-align: center;
     font-size: larger;
 }
@@ -34,6 +30,8 @@ main {
 .register_text label
 
 {
+
+.register_text label {
     padding-bottom: 1%;
     font-size: small;
     text-align: start;
@@ -43,8 +41,7 @@ main {
 }
 
 
-#accept
-{
+#accept {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -54,30 +51,23 @@ main {
     gap: 20px;
 }
 
-.register_text input
-
-{
+.register_text input {
 
     border-radius: 10px;
 
 }
-.register_text input #registration_form_agreeTerms
-{
+.register_text input #registration_form_agreeTerms {
     padding: 20px;
 }
-#register_button
-{
+#register_button {
     display: flex;
     justify-content: center;
 }
-.register_submit
-
-{
-    cursor: not-allowed;
+.register_submit {
     font-size: 100%;
     opacity: 1;
     color: #3E3E3E;
-    background: #80FF44;
+    background: #c9e265;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
     border-radius: 20px;
     margin-top: 20px;
