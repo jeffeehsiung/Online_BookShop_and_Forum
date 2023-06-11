@@ -221,7 +221,6 @@ class BookableControllerTest extends WebTestCase
         $this->assertSame(302, $client->getResponse()->getStatusCode());
 
         // Assert that the book was liked by the user
-        //TODO: refactor likedBookRepository in setup
         $likedBookRepository = static::getContainer()->get(LikedBookRepository::class);
         $likedBook = $likedBookRepository->findOneBy(['user' => $testUser, 'book' => $book]);
         $this->assertInstanceOf(LikedBook::class, $likedBook);
@@ -268,7 +267,6 @@ class BookableControllerTest extends WebTestCase
         $this->assertSame(302, $client->getResponse()->getStatusCode());
 
         // Assert that the book was disliked by the user
-        //TODO: refactor disLikedBookRepository in setup
         $disLikedBookRepository = static::getContainer()->get(DisLikedBookRepository::class);
         $disLikedBook = $disLikedBookRepository->findOneBy(['user' => $testUser, 'book' => $book]);
         $this->assertInstanceOf(DislikedBook::class, $disLikedBook);
@@ -335,7 +333,6 @@ class BookableControllerTest extends WebTestCase
         // Bla bla dumb comment
 
         // Alternative login method
-        //TODO: implement in setUp type function
         self::ensureKernelShutdown();
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
@@ -360,7 +357,6 @@ class BookableControllerTest extends WebTestCase
         $this->assertSame(302, $client->getResponse()->getStatusCode());
 
         // Assert that the book is followed by the user
-        //TODO: refactor followedBookRepository in setup
         $followedBookRepository = static::getContainer()->get(FollowedBookRepository::class);
         $followedBook = $followedBookRepository->findOneBy(['user' => $testUser, 'book' => $book]);
         $this->assertInstanceOf(FollowedBook::class, $followedBook);
@@ -384,7 +380,6 @@ class BookableControllerTest extends WebTestCase
         $this->assertSame(302, $client->getResponse()->getStatusCode());
 
         // Assert that the book is not followed by the user
-        //TODO: refactor followedBookRepository in setup
         $followedBook = $followedBookRepository->findOneBy(['user' => $testUser, 'book' => $book]);
         $this->assertNull($followedBook);
     }
@@ -406,7 +401,7 @@ class BookableControllerTest extends WebTestCase
         $this->assertSelectorTextContains('h1.section_title', 'Followed Books');
 
         //test if profile name is correct: ok
-        $this->assertSelectorTextContains('h1.profile_name',  "test");
+        $this->assertSelectorTextContains('h2.profile_name',  "test");
 
         //test if  avatar is correct:
         $avatarUrl = $crawler->filter('img#profile_pic')->attr('src');
