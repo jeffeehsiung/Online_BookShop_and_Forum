@@ -60,19 +60,20 @@
     <section class="browsing_pages">
         {% if previous >= 0 %}
             {%  if book_title is not null %}
-                <a href="{{ path("searching", {'book_title': book_title, 'offset': previous}) }}" class="main_button">Previous</a>
+                <a href="{{ path("searching", {'book_title': book_title, 'offset': previous, 'genre_ids': genre_ids, 'genre_genres': genre_genres}) }}" class="main_button">Previous</a>
             {% else %}
-                <a href="{{ path("browsing", {'offset': previous}) }}" class="main_button">Previous</a>
+                <a href="{{ path("browsing", {'offset': previous, 'genre_ids': genre_ids, 'genre_genres': genre_genres}) }}" class="main_button">Previous</a>
             {% endif %}
         {% endif %}
         {% if next < books|length %}
             {%  if book_title is not null %}
-                <a href="{{ path("searching", {'book_title': book_title, 'offset': next}) }}" class="main_button">Next</a>
+                <a href="{{ path("searching", {'book_title': book_title, 'offset': next, 'genre_ids': genre_ids, 'genre_genres': genre_genres}) }}" class="main_button">Next</a>
             {% else %}
-                <a href="{{ path("browsing", {'offset': next}) }}" class="main_button">Next</a>
+                <a href="{{ path("browsing", {'offset': next, 'genre_ids': genre_ids, 'genre_genres': genre_genres}) }}" class="main_button">Next</a>
             {% endif %}
         {% endif %}
     </section>
+
 </section>
 {% endblock %}
 

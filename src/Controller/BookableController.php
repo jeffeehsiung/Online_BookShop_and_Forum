@@ -15,7 +15,6 @@ use App\Repository\LikedBookRepository;
 use App\Repository\LikedGenreRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -335,83 +334,45 @@ class BookableController extends AbstractController
 
     #[Route('/browsing', name: 'browsing') ]
     public function browsing(GenreRepository $genreRepository, BookRepository $bookRepository,
-        Request $pageRequest, Request $searchRequest, Request $filterRequest, $book_title = null, $genre_ids = []): Response {
-        // Check privileges
+        Request $pageRequest, Request $searchRequest, Request $filterRequest, $book_title = null): Response {
+        // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         // create a form to be used to search for books
         $searchForm = $this->createForm(BookSearchFormType::class);
-        // handle the request
-        $searchForm->handleRequest($searchRequest);
-        // if the form is submitted and valid
-        if($searchForm->isSubmitted() && $searchForm->isValid()) {
-            // get the data from the form
-            $data = $searchForm->getData();
-            // get the value of the data
-            $book_title = $data->getTitle();
-            // if the book title is not null
-            if($book_title) {
-                // redirect to the book title page
-                return $this->redirectToRoute('searching', [
-                    'book_title'=>$book_title
-                ]);
-            }
+        // handle the search form request by calling function handleSearchFormRequest
+        $bookTitle = $this->handleSearchFormRequest($searchForm, $searchRequest, $book_title);
+        // if the book title is not null, then redirect to searching page
+        if ($bookTitle) {
+            return $this->redirectToRoute('searching', ['book_title' => $bookTitle]);
         }
-        // get the page number from the url
-        $offset = max(0, $pageRequest->query->getInt('offset'));
-        // genreRepository is used to get all genres from the database for the filter form
-        $bookGenres = $genreRepository->findAll();
-        // if a book title is passed in the url, then get all books with that title
-        $bookTitle = $book_title? u(str_replace(['-','=','%',':',';',',','*','+','"'],' ',$book_title))->title(true) : null;
-        // if a book title is null, then get all books will be returned
-        $booksPAG = $bookRepository->findAllByTitle($bookTitle, $offset);
 
-        // create a form to be used to filter books
-        $filterForm = $this->createForm(BookFilterFormType::class);
-        // handle the request
-        $filterForm->handleRequest($filterRequest);
-        // if the form is submitted and valid
-        if($filterForm->isSubmitted() && $filterForm->isValid()) {
-            // get the selected choices from the form
-            $data = $filterForm->get('genre')->getData();
-            // if the genre ids is not null
-            if($data) {
-                // loop through each genre object in the data array
-                foreach($data as $genre) {
-                    // append the genre id to the genre ids array
-                    $genre_ids[] = $genre->getId();
-                }
-            }
-        }
-        // if pageRequest is submitted and valid, get the book_title, offset, and genre_ids from the url
-        if($pageRequest->isMethod('GET') && $pageRequest->query->get('offset') != null) {
-            // check if request has key 'genre_ids'
-            if(array_key_exists('genre_ids', $pageRequest->query->all())) {
-                // get the genre ids from the url
-                $genre_ids = $pageRequest->query->all()['genre_ids'];
-                // for each genre id in the genre ids array, append the genre id to the genre ids array
-                foreach($genre_ids as $genre_id) {
-                    $genre_ids[] = $genre_id;
-                }
-            }
-        }
-        // filter the books by the genre ids
-        $books = $bookRepository->filterByGenre($booksPAG, $genre_ids, $offset);
-        // get the length of the books array
-        $booksCount = count($books);
-        $this->addFlash('search', $booksCount . ' books found');
-        // declare stylesheets and javascripts to be used in the twig template
-        return $this->getRenderedBrowsing($bookGenres, $books, $bookTitle, $genre_ids, $searchForm, $filterForm, $offset, $booksCount);
+        return $this->getRenderedBrowsing($genreRepository, $bookRepository, $pageRequest, $filterRequest, $searchForm, $bookTitle) ;
     }
 
     #[Route('/browsing/{book_title}', name: 'searching') ]
     public function searching(GenreRepository $genreRepository, BookRepository $bookRepository,
-        Request $pageRequest, Request $searchRequest, Request $filterRequest, $book_title = null, $genre_ids = []): Response {
-        // Check privileges
+        Request $pageRequest, Request $searchRequest, Request $filterRequest, $book_title = null): Response {
+        // Fetch user
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         // create a form to be used to search for books
         $searchForm = $this->createForm(BookSearchFormType::class);
+        // handle the request
+        $bookTitle = $this->handleSearchFormRequest($searchForm, $searchRequest, $book_title);
+
+        // declare stylesheets and javascripts to be used in the twig template
+        return $this->getRenderedBrowsing($genreRepository, $bookRepository, $pageRequest, $filterRequest, $searchForm, $bookTitle);
+    }
+
+    /**
+     * @param FormInterface $searchForm
+     * @param Request $searchRequest
+     * @param mixed $book_title
+     * @return AbstractString|UnicodeString|null
+     */
+    private function handleSearchFormRequest(FormInterface $searchForm, Request $searchRequest, mixed $book_title): AbstractString|UnicodeString|null
+    {
         // handle the request
         $searchForm->handleRequest($searchRequest);
         // if the form is submitted and valid
@@ -421,21 +382,20 @@ class BookableController extends AbstractController
             // get the value from the data
             $book_title = $data->getTitle();
         }
-        if ($book_title == null){
-            $book_title = $pageRequest->query->get('book_title');
-        }
-        //TODO check if this can be refactored
-
-        $offset = max(0, $pageRequest->query->getInt('offset'));
-        // genreRepository is used to get all genres from the database for the filter form
-        $bookGenres = $genreRepository->findAll();
         // if a book title is passed in the url, then get all books with that title
-        $bookTitle = $book_title? u(str_replace(['-','=','%',':',';',',','*','+','"'],' ',$book_title))->title(true) : null;
-        // if a book title is null, then get all books will be returned
-        $booksPAG = $bookRepository->findAllByTitle($bookTitle, $offset);
+        return $book_title? u(str_replace(['-','=','%',':',';',',','*','+','"'],' ',$book_title))->title(true) : null;
+    }
 
-        // create a form to be used to filter books
-        $filterForm = $this->createForm(BookFilterFormType::class);
+
+    /**
+     * @param FormInterface $filterForm
+     * @param Request $filterRequest
+     * @param mixed $genre_ids
+     * @param mixed $genre_genres
+     * @return array
+     */
+    private function handleFilterFormRequest(FormInterface $filterForm, Request $filterRequest, mixed $genre_ids, mixed $genre_genres): array
+    {
         // handle the request
         $filterForm->handleRequest($filterRequest);
         // if the form is submitted and valid
@@ -448,47 +408,92 @@ class BookableController extends AbstractController
                 foreach($data as $genre) {
                     // append the genre id to the genre ids array
                     $genre_ids[] = $genre->getId();
+                    // append the genre name to the genre genres array
+                    $genre_genres[] = $genre->getGenre();
                 }
             }
         }
+        return [$genre_ids, $genre_genres];
+    }
+
+    /**
+     * @param Request $pageRequest
+     * @param mixed $book_title
+     * @param mixed $genre_ids
+     * @param mixed $genre_genres
+     * @return array
+     */
+    private function handelPageRequest(Request $pageRequest, mixed $book_title, mixed $genre_ids, mixed $genre_genres): array
+    {
         // if pageRequest is submitted and valid, get the book_title, offset, and genre_ids from the url
         if($pageRequest->isMethod('GET') && $pageRequest->query->get('offset') != null) {
+            // check if request has key 'book_title'
+            if(array_key_exists('book_title', $pageRequest->query->all())) {
+                // get the book title from the url
+                $book_title = $pageRequest->query->get('book_title');
+            }
             // check if request has key 'genre_ids'
             if(array_key_exists('genre_ids', $pageRequest->query->all())) {
                 // get the genre ids from the url
                 $genre_ids = $pageRequest->query->all()['genre_ids'];
-                // for each genre id in the genre ids array, append the genre id to the genre ids array
-                foreach($genre_ids as $genre_id) {
-                    $genre_ids[] = $genre_id;
-                }
+                $genre_genres = $pageRequest->query->all()['genre_genres'];
             }
         }
+        return [$book_title, $genre_ids, $genre_genres];
+    }
+
+    /**
+     * @param GenreRepository $genreRepository
+     * @param BookRepository $bookRepository
+     * @param Request $pageRequest
+     * @param Request $filterRequest
+     * @param FormInterface $searchForm
+     * @param AbstractString|UnicodeString|null $bookTitle
+     * @return Response
+     */
+    private function getRenderedBrowsing(GenreRepository $genreRepository, BookRepository $bookRepository, Request $pageRequest, Request $filterRequest, FormInterface $searchForm, AbstractString|UnicodeString|null $bookTitle): Response
+    {
+        $offset = max(0, $pageRequest->query->getInt('offset'));
+        // genreRepository is used to get all genres from the database for the filter form
+        $bookGenres = $genreRepository->findAll();
+        // if a book title is null, then get all books will be returned
+        $booksPAG = $bookRepository->findAllByTitle($bookTitle, $offset);
+
+        $genre_ids = [];
+        $genre_genres = [];
+        // create a form to be used to filter books
+        $filterForm = $this->createForm(BookFilterFormType::class);
+        // handle the request
+        [$genre_ids, $genre_genres] = $this->handleFilterFormRequest($filterForm, $filterRequest, $genre_ids, $genre_genres);
+
+        // if there is page request, then get the book title, offset, and genre ids from the url
+        [$bookTitle, $genre_ids, $genre_genres] = $this->handelPageRequest($pageRequest, $bookTitle, $genre_ids, $genre_genres);
+
         // filter the books by the genre ids
         $books = $bookRepository->filterByGenre($booksPAG, $genre_ids, $offset);
         // get the length of the books array
         $booksCount = count($books);
-        // add search flash message: number of results for the search book title
-        $this->addFlash('search', $booksCount . ' results for ' . $bookTitle);
 
-        // declare stylesheets and javascripts to be used in the twig template
-        return $this->getRenderedBrowsing($bookGenres, $books, $bookTitle, $genre_ids, $searchForm, $filterForm, $offset, $booksCount);
-    }
-
-    /**
-     * @param array $bookGenres
-     * @param Paginator $books
-     * @param AbstractString|UnicodeString|null $bookTitle
-     * @param mixed $genre_ids
-     * @param FormInterface $searchForm
-     * @param FormInterface $filterForm
-     * @param mixed $offset
-     * @param int $booksCount
-     * @return Response
-     */
-    public function getRenderedBrowsing(array $bookGenres, Paginator $books, AbstractString|UnicodeString|null $bookTitle, mixed $genre_ids, FormInterface $searchForm, FormInterface $filterForm, mixed $offset, int $booksCount): Response
-    {
         $stylesheets = ['browsing.css'];
         $javascripts = ['browsing.js'];
+
+        // add flash message based on if the book title is null or not
+        if($bookTitle) {
+            // if genre ids is not empty, then add flash message with the book title and genre ids
+            if(!empty($genre_ids)) {
+                $this->addFlash('search', $booksCount . ' results for ' . $bookTitle . ' and genre(s) ' . implode(', ', $genre_genres));
+            } else {
+                $this->addFlash('search', $booksCount . ' results for ' . $bookTitle);
+            }
+        } else {
+            // if genre ids is not empty, then add flash message with the book title and genre ids
+            if(!empty($genre_ids)) {
+                $this->addFlash('search', $booksCount . ' results for genre(s) ' . implode(', ', $genre_genres));
+            } else {
+                $this->addFlash('search', $booksCount . ' results for all books');
+            }
+        }
+
         return $this->render('browsing.html.twig', [
             'title' => 'Browser',
             'stylesheets' => $stylesheets,
@@ -498,12 +503,16 @@ class BookableController extends AbstractController
             'searchForm' => $searchForm->createView(),
             'filterForm' => $filterForm->createView(),
             'genre_ids' => $genre_ids,
+            'genre_genres' => $genre_genres,
             'previous' => $offset - BookRepository::PAGINATOR_PER_PAGE,
             'next' => min(count($books), $offset + BookRepository::PAGINATOR_PER_PAGE),
             'books_count' => $booksCount,
             'javascripts' => $javascripts
         ]);
+
     }
+
+
 
 
 }

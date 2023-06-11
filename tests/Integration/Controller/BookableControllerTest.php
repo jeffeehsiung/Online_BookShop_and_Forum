@@ -597,5 +597,15 @@ class BookableControllerTest extends WebTestCase
         $client->click($reset_btn);
         // check the redirect status code
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Since reset button is clicked, you should see the search page');
+        // test the search bar with SQL injection
+        $form['book_search_form[title]'] = 'Harry\' OR 1=1';
+        // submit the form
+        $client->submit($form);
+        // follow the redirect
+        $crawler = $client->followRedirect();
+        // check if the page is redirected to the browsing page with a flash message containing the searched book title
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), 'Since form is submitted, you should see the search page');
+        $this->assertSelectorTextContains('div.search_alert', 'Harry\' OR', 'The flash message should contain the searched book title');
+
     }
 }
