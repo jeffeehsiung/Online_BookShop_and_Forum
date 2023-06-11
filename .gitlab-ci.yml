@@ -102,7 +102,7 @@ code_quality:
 deploy-job:      # This job runs in the deploy stage.
   # run this job only when there is a push on the master branch 
   only:
-    - main
+    - master
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully
   script:
     - composer install
