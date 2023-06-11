@@ -1,12 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-Welcome
+    Welcome | {{ parent() }}
+{% endblock %}
+
+{% block bodyAttributes %}
+    onload="LoginFilledIn()"
 {% endblock %}
 
 {% block content %}
     {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        <div id="error_display">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
     <section class="welcome_text">
@@ -26,11 +30,11 @@ Welcome
             <button onclick="loginOff()" class="cls_btn">&times;</button>
             </div>
             <p  id="login_title">Log into your account</p>
-            <form action="{{ path('welcome') }}" method="post">
+            <form id="login_form" action="{{ path('welcome') }}" method="post">
                 <label for="login_username" class="login_text">Email:</label>
-                <input type="text" id="login_username" name="_username" value="{{ last_username }}" onkeyup="LoginFilledIn()" required><br>
+                <input type="text" id="login_username" name="_username" value="{{ last_username }}" oninput="LoginFilledIn()" required><br>
                 <label for="login_password" class="login_text">Password:</label>
-                <input type="password" id="login_password" name="_password" onkeyup="LoginFilledIn()" required><br>
+                <input type="password" id="login_password" name="_password" oninput="LoginFilledIn()" required><br>
                 <div id = "submit">
                 <input type="submit" name="Submit" id="login_submit" value="Submit" onclick="loginOff()"/>
                 </div>
