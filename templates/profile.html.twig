@@ -45,8 +45,8 @@
     </section>
 
     <section id = "right">
-        <div class="container">
-            <h1 class = section-title id="followtitle"> Followed Books</h1>
+        <div class="container" >
+            <h1 class = section-title id="followtitle">Followed Books</h1>
             <div class="book_list" id="followed" >
 
                 {% if followed_book == null%}
@@ -66,12 +66,11 @@
                 {% endfor %}
                 </div>
                 {% endif %}
-            <div class="media_scroller snaps_inline">
-            </div>
+
         </div>
 
-        <div class="container">
-        <h1 class = section-title id="likeTitle"> Liked Books</h1>
+
+        <h1 class = section-title id="likeTitle">Liked Books</h1>
         <div class = book_list id="liked" >
 
                 {% if liked_list == null%}
@@ -95,7 +94,7 @@
         </div>
         </div>
         <div class="container">
-        <h1 class = section-title id="dislikeTitle"> Disliked Books</h1>
+        <h1 class = section-title id="dislikeTitle">Disliked Books</h1>
             <div class = "book_list" id="disliked">
 
                 {% if disliked_list == null%}
@@ -112,15 +111,14 @@
                                 </a>
                             </div>
                         {% endfor %}
-                    <div class="media_scroller snaps_inline">
-                    </div>
+
                 {% endif %}
 
             </div>
 
         </div>
 
-
+        <div class="container">
     </section>
 
 </section>

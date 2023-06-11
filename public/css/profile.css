@@ -16,8 +16,6 @@
     display: flex;
     justify-content: flex-start;
     align-content: center;
-
-
 }
 
 #profile_body h2 {
@@ -60,38 +58,9 @@
     display: flex;
     justify-content: flex-start;
     gap: 30px;
-
     align-content: center;
-
     color: white;
 
-}
-
-.media_scroller {
-    --_spacer: 3px;
-    display: grid;
-    gap: var(--_spacer);
-    grid-auto-flow: column;
-    grid-auto-columns: 21%;
-
-
-    padding: 10 var(--_spacer) var(--_spacer);
-
-    overflow-x:auto;
-
-    overscroll-behavior-inline: contain;
-
-
-}
-
-.media-scroller--with-groups {
-    grid-auto-columns: 80%;
-}
-
-.media-group {
-    display: grid;
-    gap: var(--_spacer);
-    grid-auto-flow: column;
 }
 
 
@@ -118,7 +87,6 @@
     scroll-snap-align: start;
 }
 
-/* general styling */
 
 .container {
     inline-size: min(100% - 4rem, 70rem);
@@ -143,35 +111,8 @@
     padding: 5px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    /*
-       padding-inline-start: 10px;
-       margin-block: 10px;
-       color: white;
-       padding: 10px;
-       */
 }
 
-::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-    color: #0C100C;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-    background: #0C100C;
-    color: #0C100C;
-
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: #c9e265;
-    border-radius: 20px;
-
-}
-
-/* Handle on hover */
 .book_list
 {
     display: flex;
@@ -195,3 +136,14 @@
 
 
 }
+
+.book_list .empty
+{
+   padding-top: 30px;
+}
+
+#profile_body .container
+{
+    justify-content: flex-start;
+}
+
