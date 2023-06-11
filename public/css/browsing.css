@@ -68,6 +68,7 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: baseline;
     margin: 15px;
 }
 
@@ -75,7 +76,15 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: baseline;
+    align-items: start;
+    margin: 15px;
+}
+
+#book_search_form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     margin: 15px;
 }
 
@@ -85,7 +94,10 @@ body {
     border: none;
     padding: 5px 10px;
     border-radius: 5px;
+    justify-content: center;
+    align-items: baseline;
 }
+
 
 #search_alert {
     color: whitesmoke;
